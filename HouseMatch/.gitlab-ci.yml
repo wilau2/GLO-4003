@@ -1,5 +1,6 @@
 before_script:
-  - mvn install
+  script:
+    - mvn install
 
 code_verify:
   script:
