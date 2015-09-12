@@ -1,4 +1,4 @@
-package housematch;
+package ca.ulaval.glo4003.b7.housematch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

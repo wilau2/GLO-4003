@@ -1,4 +1,4 @@
-package housematch.controllers;
+package ca.ulaval.glo4003.b7.housematch.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
