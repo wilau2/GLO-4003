@@ -3,3 +3,4 @@
 .classpath
 .checkstyle
 .springBeans
+/target/
