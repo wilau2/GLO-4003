@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -16,25 +16,19 @@
 
     <body>
 
-        <div class="header">
-            <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-                <a class="pure-menu-heading" href="${entryUrl}/">House Match</a>
-                <ul class="pure-menu-list">
-                    <li class="pure-menu-item"><a href="${entryUrl}/login" class="pure-menu-link">Log In</a></li>
-                    <li class="pure-menu-item pure-menu-selected"><a href="${entryUrl}/signup" class="pure-menu-link">Sign Up</a></li>
-                </ul>
-            </div>
-        </div>
+        <jsp:include page="_menu.jsp" />
 
         <div class="splash">
             <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
-                <form class="pure-form pure-form-stacked">
+            
+                <form:form method="post" modelAttribute="entry" class="pure-form pure-form-stacked">
+                
                     <fieldset>
-                        <input id="name" type="text" placeholder="Email">
-                        <input id="password" type="password" placeholder="Password">
+                        <form:input id="name" type="text" placeholder="Email" path="email"/>
+                        <form:input id="password" type="password" placeholder="Password" path="password"/>
                         <button type="submit" class="pure-button">Sign Up</button>
                     </fieldset>
-                </form>
+                </form:form>
             </div>
         </div>
     </body>
