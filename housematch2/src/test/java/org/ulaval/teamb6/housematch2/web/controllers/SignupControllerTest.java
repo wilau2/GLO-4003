@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,6 +31,9 @@ public class SignupControllerTest {
   @Mock
   private SignupUserConverter converter;
 
+  @Mock
+  private HttpServletRequest request;
+
   @InjectMocks
   public SignupController controller;
 
@@ -51,21 +56,21 @@ public class SignupControllerTest {
   @Test
   public void postRequestSignupReturnsTheIndexView() {
     model = new BindingAwareModelMap();
-    String view = controller.signup(signupNewUser);
+    String view = controller.signup(request, signupNewUser);
 
     assertEquals("index", view);
   }
 
   @Test
   public void postRequestSignupShouldUseTheConverter() {
-    controller.signup(signupNewUser);
+    controller.signup(request, signupNewUser);
 
     verify(converter).convert(signupNewUser);
   }
 
   @Test
   public void postRequestSignupShouldUseTheRepository() {
-    controller.signup(signupNewUser);
+    controller.signup(request, signupNewUser);
 
     verify(userRepository).add(user);
   }

@@ -1,5 +1,7 @@
 package org.ulaval.teamb6.housematch2.web.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,9 +27,10 @@ public class SignupController {
   }
 
   @RequestMapping(value = "/signup", method = RequestMethod.POST)
-  public String signup(SignupUserModel viewModel) {
+  public String signup(HttpServletRequest request, SignupUserModel viewModel) {
     User user = converter.convert(viewModel);
     repository.add(user);
+    request.setAttribute("loggedInUser", user.getEmail());
     return "index";
   }
 

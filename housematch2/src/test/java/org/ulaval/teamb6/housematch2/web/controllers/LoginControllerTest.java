@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,6 +31,9 @@ public class LoginControllerTest {
   @Mock
   private LoginUserConverter converter;
 
+  @Mock
+  private HttpServletRequest request;
+
   @InjectMocks
   public LoginController controller;
 
@@ -52,21 +57,22 @@ public class LoginControllerTest {
   @Test
   public void postRequestLoginReturnsTheIndexView() {
     model = new BindingAwareModelMap();
-    String view = controller.login(loginExistingUser);
+
+    String view = controller.login(request, loginExistingUser);
 
     assertEquals("index", view);
   }
 
   @Test
   public void postRequestLoginShouldUseTheConverter() {
-    controller.login(loginExistingUser);
+    controller.login(request, loginExistingUser);
 
     verify(converter).convert(loginExistingUser);
   }
 
   @Test
   public void postRequestLoginShouldUseTheRepository() {
-    controller.login(loginExistingUser);
+    controller.login(request, loginExistingUser);
 
     verify(userRepository).getByEmail(user);
   }
