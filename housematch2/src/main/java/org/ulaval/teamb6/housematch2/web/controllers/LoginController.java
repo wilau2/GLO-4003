@@ -5,20 +5,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.ulaval.teamb6.housematch2.dao.UserRepository;
-import org.ulaval.teamb6.housematch2.model.User;
+import org.ulaval.teamb6.housematch2.domain.User;
+import org.ulaval.teamb6.housematch2.repository.InMemoryUserRepository;
+import org.ulaval.teamb6.housematch2.service.LoginUserViewModel;
 import org.ulaval.teamb6.housematch2.web.converters.LoginUserConverter;
-import org.ulaval.teamb6.housematch2.web.viewmodels.LoginUserViewModel;
 
 @Controller
 public class LoginController {
 
-  private UserRepository repository;
+  private InMemoryUserRepository repository;
 
   private LoginUserConverter converter;
 
   @Autowired
-  public LoginController(UserRepository repository, LoginUserConverter converter) {
+  public LoginController(InMemoryUserRepository repository, LoginUserConverter converter) {
     this.repository = repository;
     this.converter = converter;
   }

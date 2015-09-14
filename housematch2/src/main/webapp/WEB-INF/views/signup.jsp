@@ -22,7 +22,6 @@
             <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
             
                 <form:form method="post" modelAttribute="user" class="pure-form pure-form-stacked">
-                
                     <fieldset>
                         <form:input id="name" type="text" placeholder="Email" path="email"/>
                         <form:input id="password" type="password" placeholder="Password" path="password"/>

@@ -1,6 +1,6 @@
-package org.ulaval.teamb6.housematch2.web.viewmodels;
+package org.ulaval.teamb6.housematch2.domain;
 
-public class SignupUserViewModel {
+public class User {
 
    public String email;
 

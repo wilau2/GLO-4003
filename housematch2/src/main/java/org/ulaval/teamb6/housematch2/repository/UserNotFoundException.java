@@ -1,4 +1,4 @@
-package org.ulaval.teamb6.housematch2.dao;
+package org.ulaval.teamb6.housematch2.repository;
 
 public class UserNotFoundException extends RuntimeException {
 

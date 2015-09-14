@@ -1,8 +1,8 @@
 package org.ulaval.teamb6.housematch2.web.converters;
 
 import org.springframework.stereotype.Component;
-import org.ulaval.teamb6.housematch2.model.User;
-import org.ulaval.teamb6.housematch2.web.viewmodels.LoginUserViewModel;
+import org.ulaval.teamb6.housematch2.domain.User;
+import org.ulaval.teamb6.housematch2.service.LoginUserViewModel;
 
 @Component
 public class LoginUserConverter {
