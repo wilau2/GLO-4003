@@ -1,7 +1,5 @@
 package org.ulaval.teamb6.housematch2.web.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.ulaval.teamb6.housematch2.domain.User;
 import org.ulaval.teamb6.housematch2.repository.InMemoryUserRepository;
 import org.ulaval.teamb6.housematch2.repository.UserRepository;
-import org.ulaval.teamb6.housematch2.service.LoginExistingUser;
 import org.ulaval.teamb6.housematch2.web.converters.LoginUserConverter;
+import org.ulaval.teamb6.housematch2.web.viewModel.LoginUserModel;
 
 @Controller
 public class LoginController {
@@ -28,20 +26,19 @@ public class LoginController {
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.POST)
-  public ModelAndView login(HttpServletRequest request, LoginExistingUser viewModel) {
+  public String login(LoginUserModel viewModel) {
     ModelAndView model = null;
     User user = converter.convert(viewModel);
     User loggedUser = repository.getByEmail(user);
-    request.setAttribute("loggedInUser", loggedUser.getEmail());
+    // request.setAttribute("loggedInUser", loggedUser.getEmail());
     model = new ModelAndView("welcome");
-    return model;
+    return "index";
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String login(Model model) {
-    model.addAttribute("user", new LoginExistingUser());
+    model.addAttribute("user", new LoginUserModel());
     return "login";
 
   }
-
 }
