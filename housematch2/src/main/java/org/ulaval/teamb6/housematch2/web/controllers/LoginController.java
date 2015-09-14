@@ -1,10 +1,13 @@
 package org.ulaval.teamb6.housematch2.web.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.ulaval.teamb6.housematch2.domain.User;
 import org.ulaval.teamb6.housematch2.repository.InMemoryUserRepository;
 import org.ulaval.teamb6.housematch2.repository.UserRepository;
@@ -25,10 +28,13 @@ public class LoginController {
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.POST)
-  public String login(LoginExistingUser viewModel) {
+  public ModelAndView login(HttpServletRequest request, LoginExistingUser viewModel) {
+    ModelAndView model = null;
     User user = converter.convert(viewModel);
-    repository.getByEmail(user);
-    return "index";
+    User loggedUser = repository.getByEmail(user);
+    request.setAttribute("loggedInUser", loggedUser.getEmail());
+    model = new ModelAndView("welcome");
+    return model;
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)
