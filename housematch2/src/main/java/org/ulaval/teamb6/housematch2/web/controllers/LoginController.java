@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.ulaval.teamb6.housematch2.domain.User;
 import org.ulaval.teamb6.housematch2.repository.InMemoryUserRepository;
 import org.ulaval.teamb6.housematch2.repository.UserRepository;
-import org.ulaval.teamb6.housematch2.service.LoginExistingUser;
 import org.ulaval.teamb6.housematch2.web.converters.LoginUserConverter;
+import org.ulaval.teamb6.housematch2.web.viewModel.LoginUserModel;
 
 @Controller
 public class LoginController {
@@ -25,7 +25,7 @@ public class LoginController {
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.POST)
-  public String login(LoginExistingUser viewModel) {
+  public String login(LoginUserModel viewModel) {
     User user = converter.convert(viewModel);
     repository.getByEmail(user);
     return "index";
@@ -33,9 +33,8 @@ public class LoginController {
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String login(Model model) {
-    model.addAttribute("user", new LoginExistingUser());
+    model.addAttribute("user", new LoginUserModel());
     return "login";
 
   }
-
 }
