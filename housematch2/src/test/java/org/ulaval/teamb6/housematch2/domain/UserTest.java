@@ -1,24 +1,46 @@
 package org.ulaval.teamb6.housematch2.domain;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import org.junit.Test;
+
 public class UserTest {
 
-   public String email;
+  private User user;
 
-   public String password;
+  @Test
+  public void newUserHasNoEmail() {
+    user = new User();
 
-   public String getEmail() {
-      return email;
-   }
+    assertNull(user.getEmail());
+  }
 
-   public void setEmail(String email) {
-      this.email = email;
-   }
+  @Test
+  public void newUserHasNoPassword() {
+    user = new User();
 
-   public String getPassword() {
-      return password;
-   }
+    assertNull(user.getPassword());
+  }
 
-   public void setPassword(String password) {
-      this.password = password;
-   }
+  @Test
+  public void emailSetterAndGetter() {
+    user = new User();
+    String testEmail = "anEmail";
+
+    user.setEmail(testEmail);
+
+    assertEquals(testEmail, user.getEmail());
+  }
+
+  @Test
+  public void passwordSetterAndGetter() {
+    user = new User();
+    String testPassword = "a password";
+
+    user.setPassword(testPassword);
+
+    assertEquals(testPassword, user.getPassword());
+  }
+
 }

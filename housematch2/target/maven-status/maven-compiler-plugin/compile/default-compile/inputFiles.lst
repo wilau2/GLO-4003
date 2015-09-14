@@ -1,13 +1,11 @@
 /home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/web/controllers/SignupController.java
+/home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/service/LoginExistingUser.java
 /home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/domain/User.java
 /home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/web/controllers/LoginController.java
-/home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/service/LoginUserViewModel.java
 /home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/repository/InMemoryUserRepository.java
-/home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/service/SignupUserViewModel.java
-/home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/service/InMemoryUserManager.java
-/home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/repository/UserNotFoundException.java
-/home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/service/UserManager.java
 /home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/web/converters/SignupUserConverter.java
+/home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/repository/UserNotFoundException.java
 /home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/web/converters/LoginUserConverter.java
+/home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/service/SignupNewUser.java
 /home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/repository/UserRepository.java
 /home/carki/git/GLO-4003/housematch2/src/main/java/org/ulaval/teamb6/housematch2/web/controllers/HomeController.java
