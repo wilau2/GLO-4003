@@ -7,17 +7,17 @@ import org.ulaval.teamb6.housematch2.web.viewmodels.LoginUserViewModel;
 @Component
 public class LoginUserConverter {
 
-  public LoginUserViewModel convert(User entry) {
+  public LoginUserViewModel convert(User user) {
     LoginUserViewModel viewModel = new LoginUserViewModel();
-    viewModel.email = entry.getEmail();
-    viewModel.password = entry.getPassword();
+    viewModel.email = user.getEmail();
+    viewModel.password = user.getPassword();
     return viewModel;
   }
 
   public User convert(LoginUserViewModel viewModel) {
-    User entry = new User();
-    entry.setEmail(viewModel.email);
-    entry.setPassword(viewModel.password);
-    return entry;
+    User user = new User();
+    user.setEmail(viewModel.email);
+    user.setPassword(viewModel.password);
+    return user;
   }
 }

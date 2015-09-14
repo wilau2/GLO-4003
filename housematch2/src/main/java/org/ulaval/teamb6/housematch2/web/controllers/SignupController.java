@@ -13,27 +13,27 @@ import org.ulaval.teamb6.housematch2.web.viewmodels.SignupUserViewModel;
 @Controller
 public class SignupController {
 
-   private UserRepository repository;
+  private UserRepository repository;
 
-   private SignupUserConverter converter;
+  private SignupUserConverter converter;
 
-   @Autowired
-   public SignupController(UserRepository repository, SignupUserConverter converter) {
-      this.repository = repository;
-      this.converter = converter;
-   }
+  @Autowired
+  public SignupController(UserRepository repository, SignupUserConverter converter) {
+    this.repository = repository;
+    this.converter = converter;
+  }
 
-   @RequestMapping(value = "/signup", method = RequestMethod.POST)
-   public String signup(SignupUserViewModel viewModel) {
-      User entry = converter.convert(viewModel);
-      repository.add(entry);
-      return "index";
-   }
+  @RequestMapping(value = "/signup", method = RequestMethod.POST)
+  public String signup(SignupUserViewModel viewModel) {
+    User user = converter.convert(viewModel);
+    repository.add(user);
+    return "index";
+  }
 
-   @RequestMapping(value = "/signup", method = RequestMethod.GET)
-   public String signup(Model model) {
-      model.addAttribute("entry", new SignupUserViewModel());
-      return "signup";
-   }
+  @RequestMapping(value = "/signup", method = RequestMethod.GET)
+  public String signup(Model model) {
+    model.addAttribute("user", new SignupUserViewModel());
+    return "signup";
+  }
 
 }

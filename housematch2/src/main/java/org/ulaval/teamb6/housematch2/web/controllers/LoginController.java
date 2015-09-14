@@ -25,14 +25,14 @@ public class LoginController {
 
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   public String login(LoginUserViewModel viewModel) {
-    User entry = converter.convert(viewModel);
-    repository.getByEmail(entry);
+    User user = converter.convert(viewModel);
+    repository.getByEmail(user);
     return "index";
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)
   public String login(Model model) {
-    model.addAttribute("entry", new LoginUserViewModel());
+    model.addAttribute("user", new LoginUserViewModel());
     return "login";
 
   }
