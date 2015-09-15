@@ -7,26 +7,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ca.ulaval.glo4003.b7.housematch.repository.InMemoryUserRepository;
-import ca.ulaval.glo4003.b7.housematch.repository.UserRepository;
-import ca.ulaval.glo4003.b7.housematch.web.converters.LoginUserConverter;
-
 @Controller
 public class LogoutController {
 
-  private UserRepository repository;
-
-  private LoginUserConverter converter;
-
   @Autowired
-  public LogoutController(InMemoryUserRepository repository, LoginUserConverter converter) {
-    this.repository = repository;
-    this.converter = converter;
+  public LogoutController() {
+
   }
 
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
-  public String login(HttpServletRequest request) {
+  public String logout(HttpServletRequest request) {
     request.setAttribute("loggedInUser", null);
     return "index";
   }
+
 }

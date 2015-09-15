@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.b7.housematch.domain.User;
+import ca.ulaval.glo4003.b7.housematch.user.model.User;
 import ca.ulaval.glo4003.b7.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b7.housematch.web.viewModel.SignupUserModel;
 

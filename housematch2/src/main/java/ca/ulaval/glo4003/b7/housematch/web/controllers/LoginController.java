@@ -8,9 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ca.ulaval.glo4003.b7.housematch.domain.User;
-import ca.ulaval.glo4003.b7.housematch.repository.InMemoryUserRepository;
-import ca.ulaval.glo4003.b7.housematch.repository.UserRepository;
+import ca.ulaval.glo4003.b7.housematch.user.model.User;
+import ca.ulaval.glo4003.b7.housematch.user.repository.InMemoryUserRepository;
+import ca.ulaval.glo4003.b7.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b7.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b7.housematch.web.viewModel.LoginUserModel;
 

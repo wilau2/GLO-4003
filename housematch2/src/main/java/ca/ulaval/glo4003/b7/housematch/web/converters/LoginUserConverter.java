@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.b7.housematch.web.converters;
 
 import org.springframework.stereotype.Component;
 
-import ca.ulaval.glo4003.b7.housematch.domain.User;
+import ca.ulaval.glo4003.b7.housematch.user.model.User;
 import ca.ulaval.glo4003.b7.housematch.web.viewModel.LoginUserModel;
 
 @Component
