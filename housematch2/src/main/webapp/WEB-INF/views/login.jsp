@@ -15,7 +15,6 @@
     </head>
 
     <body>
-
         <jsp:include page="_menu.jsp" />
 
         <div class="splash">

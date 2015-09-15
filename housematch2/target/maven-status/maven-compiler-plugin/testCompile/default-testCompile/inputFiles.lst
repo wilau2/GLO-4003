@@ -1,4 +1,10 @@
 /home/carki/git/GLO-4003/housematch2/src/test/java/org/ulaval/teamb6/housematch2/web/controllers/LoginControllerTest.java
+/home/carki/git/GLO-4003/housematch2/src/test/java/org/ulaval/teamb6/housematch2/web/converters/LoginUserConverterTest.java
+/home/carki/git/GLO-4003/housematch2/src/test/java/org/ulaval/teamb6/housematch2/repository/InMemoryUserRepositoryTest.java
+/home/carki/git/GLO-4003/housematch2/src/test/java/org/ulaval/teamb6/housematch2/web/viewModel/LoginUserModelTest.java
+/home/carki/git/GLO-4003/housematch2/src/test/java/org/ulaval/teamb6/housematch2/web/viewModel/SignupUserModelTest.java
 /home/carki/git/GLO-4003/housematch2/src/test/java/org/ulaval/teamb6/housematch2/domain/UserTest.java
 /home/carki/git/GLO-4003/housematch2/src/test/java/org/ulaval/teamb6/housematch2/web/controllers/HomeControllerTest.java
+/home/carki/git/GLO-4003/housematch2/src/test/java/org/ulaval/teamb6/housematch2/web/converters/SignupUserConverterTest.java
+/home/carki/git/GLO-4003/housematch2/src/test/java/org/ulaval/teamb6/housematch2/repository/XMLUserRepositoryTest.java
 /home/carki/git/GLO-4003/housematch2/src/test/java/org/ulaval/teamb6/housematch2/web/controllers/SignupControllerTest.java
