@@ -1,7 +1,8 @@
-package org.ulaval.teamb6.housematch2.repository;
+package ca.ulaval.glo4003.b7.housematch.user.repository;
 
 import org.junit.Test;
-import org.ulaval.teamb6.housematch2.domain.User;
+
+import ca.ulaval.glo4003.b7.housematch.user.model.User;
 
 public class XMLUserRepositoryTest {
 

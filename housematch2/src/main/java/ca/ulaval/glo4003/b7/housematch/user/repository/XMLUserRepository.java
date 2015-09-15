@@ -1,4 +1,4 @@
-package org.ulaval.teamb6.housematch2.repository;
+package ca.ulaval.glo4003.b7.housematch.user.repository;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -12,7 +12,9 @@ import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-import org.ulaval.teamb6.housematch2.domain.User;
+
+import ca.ulaval.glo4003.b7.housematch.user.model.User;
+import ca.ulaval.glo4003.b7.housematch.user.repository.exception.UserNotFoundException;
 
 public class XMLUserRepository implements UserRepository {
 
