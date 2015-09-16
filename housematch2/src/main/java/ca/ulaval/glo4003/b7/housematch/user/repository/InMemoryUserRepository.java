@@ -16,9 +16,9 @@ public class InMemoryUserRepository implements UserRepository {
 
   private Map<String, User> users = new HashMap<String, User>();
 
-  public User getByEmail(User user) {
-    if (users.containsKey(user.email)) {
-      return users.get(user.email);
+  public User findByEmail(String email) {
+    if (users.containsKey(email)) {
+      return users.get(email);
     }
     throw new UserNotFoundException();
   }

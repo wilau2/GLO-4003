@@ -17,19 +17,30 @@ import org.dom4j.io.XMLWriter;
 import org.springframework.stereotype.Repository;
 
 import ca.ulaval.glo4003.b7.housematch.user.model.User;
+import ca.ulaval.glo4003.b7.housematch.user.repository.exception.UserNotFoundException;
 
 @Repository
 @Singleton
 public class XMLUserRepository implements UserRepository {
 
   @Override
-  public User getByEmail(User user) {
+  public User findByEmail(String email) throws UserNotFoundException {
+    User user = new User();
     try {
       Document usersXML = readUsersXML();
+      List<Node> list = usersXML.selectNodes("users/user");
+      for (Node node : list) {
+        if (node.selectSingleNode("email").getStringValue().equals(email)) {
+          user.email = node.selectSingleNode("email").getStringValue();
+          user.password = node.selectSingleNode("password").getStringValue();
+        }
+      }
+
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new UserNotFoundException();
     }
     return user;
+
   }
 
   @Override

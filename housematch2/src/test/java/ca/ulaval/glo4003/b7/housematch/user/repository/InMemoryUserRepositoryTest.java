@@ -26,14 +26,14 @@ public class InMemoryUserRepositoryTest {
 
   @Test(expected = UserNotFoundException.class)
   public void givenAUnknownUserShouldReturnException() {
-    repository.getByEmail(user);
+    repository.findByEmail(user);
   }
 
   @Test
   public void shouldBeAbleToAddANewUserAndGetByEmail() {
     repository.add(user);
 
-    assertEquals(user, repository.getByEmail(user));
+    assertEquals(user, repository.findByEmail(user));
   }
 
 }
