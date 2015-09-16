@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <html lang="en">
     <head>
@@ -20,13 +21,19 @@
 
         <div class="splash">
             <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
-                <form:form method="post" modelAttribute="user" class="pure-form pure-form-stacked">
-                    <fieldset>
-                        <form:input id="name" type="text" placeholder="Email" path="email"/>
-                        <form:input id="password" type="password" placeholder="Password" path="password"/>
-                        <button type="submit" class="pure-button">Log In</button>
-                    </fieldset>
-                </form:form>
+            	<c:if test="${loggedInUser == null}">
+	                <form:form method="post" modelAttribute="user" class="pure-form pure-form-stacked">
+	                    <fieldset>
+	                        <form:input id="name" type="text" placeholder="Email" path="email"/>
+	                        <form:input id="password" type="password" placeholder="Password" path="password"/>
+	                        <button type="submit" class="pure-button">Log In</button>
+	                    </fieldset>
+	                </form:form>
+                </c:if>
+     			<c:if test="${loggedInUser != null}">
+     				<p>You are all ready logged in as ${loggedInUser}</p>
+     				<a href="${entryUrl}/logout" class="pure-button">Log out</a>
+     			</c:if>
             </div>
         </div>
     </body>

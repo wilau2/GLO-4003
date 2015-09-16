@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.validation.support.BindingAwareModelMap;
 
 import ca.ulaval.glo4003.b7.housematch.user.model.User;
-import ca.ulaval.glo4003.b7.housematch.user.repository.InMemoryUserRepository;
+import ca.ulaval.glo4003.b7.housematch.user.repository.XMLUserRepository;
 import ca.ulaval.glo4003.b7.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b7.housematch.web.viewModel.LoginUserModel;
 
@@ -27,7 +27,7 @@ public class LoginControllerTest {
   private LoginUserModel loginExistingUser;
 
   @Mock
-  private InMemoryUserRepository userRepository;
+  private XMLUserRepository userRepository;
 
   @Mock
   private LoginUserConverter converter;
@@ -61,7 +61,7 @@ public class LoginControllerTest {
 
     String view = controller.login(request, loginExistingUser);
 
-    assertEquals("index", view);
+    assertEquals("redirect:/", view);
   }
 
   @Test
@@ -81,7 +81,6 @@ public class LoginControllerTest {
   @Test
   public void postRequestLoginShouldSetALoggedUser() {
     controller.login(request, loginExistingUser);
-
     assertEquals(loginExistingUser.email, request.getAttribute("loggedInUser"));
   }
 

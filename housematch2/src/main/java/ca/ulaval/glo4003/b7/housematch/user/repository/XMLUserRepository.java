@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Singleton;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -12,19 +14,18 @@ import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.springframework.stereotype.Repository;
 
 import ca.ulaval.glo4003.b7.housematch.user.model.User;
-import ca.ulaval.glo4003.b7.housematch.user.repository.exception.UserNotFoundException;
 
+@Repository
+@Singleton
 public class XMLUserRepository implements UserRepository {
 
   @Override
   public User getByEmail(User user) {
     try {
       Document usersXML = readUsersXML();
-      if (userAlreadyExists(usersXML, user.getEmail())) {
-        throw new UserNotFoundException();
-      }
     } catch (Exception e) {
       e.printStackTrace();
     }

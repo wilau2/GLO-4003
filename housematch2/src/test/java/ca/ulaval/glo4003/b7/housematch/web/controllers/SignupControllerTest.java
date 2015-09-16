@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.validation.support.BindingAwareModelMap;
 
 import ca.ulaval.glo4003.b7.housematch.user.model.User;
-import ca.ulaval.glo4003.b7.housematch.user.repository.InMemoryUserRepository;
+import ca.ulaval.glo4003.b7.housematch.user.repository.XMLUserRepository;
 import ca.ulaval.glo4003.b7.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b7.housematch.web.viewModel.SignupUserModel;
 
@@ -27,7 +27,7 @@ public class SignupControllerTest {
   private SignupUserModel signupNewUser;
 
   @Mock
-  private InMemoryUserRepository userRepository;
+  private XMLUserRepository userRepository;
 
   @Mock
   private SignupUserConverter converter;

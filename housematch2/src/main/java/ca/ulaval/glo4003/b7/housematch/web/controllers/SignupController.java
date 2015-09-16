@@ -7,10 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b7.housematch.user.model.User;
-import ca.ulaval.glo4003.b7.housematch.user.repository.InMemoryUserRepository;
 import ca.ulaval.glo4003.b7.housematch.user.repository.UserRepository;
+import ca.ulaval.glo4003.b7.housematch.user.repository.XMLUserRepository;
 import ca.ulaval.glo4003.b7.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b7.housematch.web.viewModel.SignupUserModel;
 
@@ -22,17 +23,17 @@ public class SignupController {
   private SignupUserConverter converter;
 
   @Autowired
-  public SignupController(InMemoryUserRepository repository, SignupUserConverter converter) {
+  public SignupController(XMLUserRepository repository, SignupUserConverter converter) {
     this.repository = repository;
     this.converter = converter;
   }
 
   @RequestMapping(value = "/signup", method = RequestMethod.POST)
-  public String signup(HttpServletRequest request, SignupUserModel viewModel) {
+  public ModelAndView signup(HttpServletRequest request, SignupUserModel viewModel) {
     User user = converter.convert(viewModel);
     repository.add(user);
-    request.setAttribute("loggedInUser", user.getEmail());
-    return "index";
+    request.getSession().setAttribute("loggedInUser", user.getEmail());
+    return new ModelAndView("index");
   }
 
   @RequestMapping(value = "/signup", method = RequestMethod.GET)

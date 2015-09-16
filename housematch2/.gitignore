@@ -3,3 +3,4 @@
 .checkstyle
 .springBeans
 /target/*
+/target/

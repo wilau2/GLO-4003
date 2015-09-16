@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ca.ulaval.glo4003.b7.housematch.user.model.User;
-import ca.ulaval.glo4003.b7.housematch.user.repository.InMemoryUserRepository;
 import ca.ulaval.glo4003.b7.housematch.user.repository.UserRepository;
+import ca.ulaval.glo4003.b7.housematch.user.repository.XMLUserRepository;
 import ca.ulaval.glo4003.b7.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b7.housematch.web.viewModel.LoginUserModel;
 
@@ -22,17 +22,16 @@ public class LoginController {
   private LoginUserConverter converter;
 
   @Autowired
-  public LoginController(InMemoryUserRepository repository, LoginUserConverter converter) {
+  public LoginController(XMLUserRepository repository, LoginUserConverter converter) {
     this.repository = repository;
     this.converter = converter;
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   public String login(HttpServletRequest request, LoginUserModel viewModel) {
-    User user = converter.convert(viewModel);
-    User loggedUser = repository.getByEmail(user);
-    request.setAttribute("loggedInUser", loggedUser.getEmail());
-    return "index";
+    User user = repository.getByEmail(converter.convert(viewModel));
+    request.getSession().setAttribute("loggedInUser", user.email);
+    return "redirect:/";
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.GET)
