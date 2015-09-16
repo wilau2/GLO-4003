@@ -1,0 +1,8 @@
+before_script:
+  script:
+    - mvn install
+
+code_verify:
+  script:
+	- cd HouseMatch/
+    - mvn package findbugs:findbugs cobertura:cobertura
