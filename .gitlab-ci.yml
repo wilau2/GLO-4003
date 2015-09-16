@@ -1,6 +1,3 @@
-before_script:
-    - mvn install
-
 code_verify:
   script:
 	- cd HouseMatch/
