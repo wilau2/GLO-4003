@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,9 @@ import ca.ulaval.glo4003.b7.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b7.housematch.web.viewModel.SignupUserModel;
 
 public class SignupControllerTest {
+
+  @Mock
+  private HttpSession session;
 
   @Mock
   private User user;
@@ -44,6 +48,7 @@ public class SignupControllerTest {
   public void setup() {
     MockitoAnnotations.initMocks(this);
     configureConverter();
+    configureRequest();
   }
 
   @Test
@@ -58,7 +63,6 @@ public class SignupControllerTest {
   public void postRequestSignupReturnsTheIndexView() {
     model = new BindingAwareModelMap();
     String view = controller.signup(request, signupNewUser);
-
     assertEquals("index", view);
   }
 
@@ -85,5 +89,9 @@ public class SignupControllerTest {
 
   private void configureConverter() {
     given(converter.convert(signupNewUser)).willReturn(user);
+  }
+
+  private void configureRequest() {
+    given(request.getSession()).willReturn(session);
   }
 }

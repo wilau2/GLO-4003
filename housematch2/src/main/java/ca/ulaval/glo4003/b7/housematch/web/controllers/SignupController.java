@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b7.housematch.user.model.User;
 import ca.ulaval.glo4003.b7.housematch.user.repository.UserRepository;
@@ -29,11 +28,11 @@ public class SignupController {
   }
 
   @RequestMapping(value = "/signup", method = RequestMethod.POST)
-  public ModelAndView signup(HttpServletRequest request, SignupUserModel viewModel) {
+  public String signup(HttpServletRequest request, SignupUserModel viewModel) {
     User user = converter.convert(viewModel);
     repository.add(user);
     request.getSession().setAttribute("loggedInUser", user.getEmail());
-    return new ModelAndView("index");
+    return "index";
   }
 
   @RequestMapping(value = "/signup", method = RequestMethod.GET)

@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,9 @@ import ca.ulaval.glo4003.b7.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b7.housematch.web.viewModel.LoginUserModel;
 
 public class LoginControllerTest {
+
+  @Mock
+  private HttpSession session;
 
   @Mock
   private User user;
@@ -45,6 +49,7 @@ public class LoginControllerTest {
     MockitoAnnotations.initMocks(this);
     configureConverter();
     configureRepository();
+    configureRequest();
   }
 
   @Test
@@ -90,5 +95,9 @@ public class LoginControllerTest {
 
   private void configureRepository() {
     given(userRepository.getByEmail(user)).willReturn(user);
+  }
+
+  private void configureRequest() {
+    given(request.getSession()).willReturn(session);
   }
 }
