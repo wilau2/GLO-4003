@@ -17,6 +17,9 @@ import org.dom4j.io.XMLWriter;
 import org.springframework.stereotype.Repository;
 
 import ca.ulaval.glo4003.b7.housematch.user.model.User;
+import ca.ulaval.glo4003.b7.housematch.user.repository.exception.CouldNotRegisterUserException;
+import ca.ulaval.glo4003.b7.housematch.user.repository.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.b7.housematch.user.repository.exception.UserNotFoundException;
 
 @Repository
 @Singleton
@@ -26,8 +29,11 @@ public class XMLUserRepository implements UserRepository {
   public User getByEmail(User user) {
     try {
       Document usersXML = readUsersXML();
-    } catch (Exception e) {
-      e.printStackTrace();
+      if (userAlreadyExists(usersXML, user.getEmail())) {
+        throw new UserNotFoundException();
+      }
+    } catch (DocumentException documentException) {
+      documentException.printStackTrace();
     }
     return user;
   }
@@ -39,9 +45,15 @@ public class XMLUserRepository implements UserRepository {
       if (!userAlreadyExists(usersXML, newUser.getEmail())) {
         addNewUserToDocument(usersXML, newUser);
         formatAndWriteDocument(usersXML);
+      } else {
+        throw new UserAlreadyExistsException();
       }
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (DocumentException documentException) {
+      documentException.printStackTrace();
+      throw new CouldNotRegisterUserException();
+    } catch (IOException iOexception) {
+      iOexception.printStackTrace();
+      throw new CouldNotRegisterUserException();
     }
   }
 

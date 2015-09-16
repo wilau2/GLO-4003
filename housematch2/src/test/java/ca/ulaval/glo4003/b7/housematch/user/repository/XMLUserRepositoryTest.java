@@ -12,10 +12,5 @@ public class XMLUserRepositoryTest {
 
   @Test
   public void simpleTest() {
-    user = new User();
-    repository = new XMLUserRepository();
-    user.setEmail("an email adress");
-    user.setPassword("a password");
-    repository.add(user);
   }
 }
