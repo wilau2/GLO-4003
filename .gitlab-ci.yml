@@ -1,4 +1,4 @@
-code_verify:
-  script:
-	- cd HouseMatch/
-    - mvn package findbugs:findbugs cobertura:cobertura
+code_coverage: 
+  script: 
+    - "cd HouseMatch"
+    - "mvn package"
