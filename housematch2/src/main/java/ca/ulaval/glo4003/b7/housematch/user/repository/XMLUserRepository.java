@@ -26,16 +26,26 @@ import ca.ulaval.glo4003.b7.housematch.user.repository.exception.UserNotFoundExc
 public class XMLUserRepository implements UserRepository {
 
   @Override
-  public User getByEmail(User user) {
+  public User findByEmail(String email) throws UserNotFoundException {
+    User user = new User();
     try {
       Document usersXML = readUsersXML();
       if (userAlreadyExists(usersXML, user.getEmail())) {
         throw new UserNotFoundException();
+      } 
+      List<Node> list = usersXML.selectNodes("users/user");
+      for (Node node : list) {
+        if (node.selectSingleNode("email").getStringValue().equals(email)) {
+          user.email = node.selectSingleNode("email").getStringValue();
+          user.password = node.selectSingleNode("password").getStringValue();
+        }
       }
-    } catch (DocumentException documentException) {
-      documentException.printStackTrace();
+
+    } catch (Exception e) {
+      throw new UserNotFoundException();
     }
     return user;
+
   }
 
   @Override

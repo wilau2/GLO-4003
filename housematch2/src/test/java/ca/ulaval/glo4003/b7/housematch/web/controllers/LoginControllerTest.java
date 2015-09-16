@@ -80,7 +80,7 @@ public class LoginControllerTest {
   public void postRequestLoginShouldUseTheRepository() {
     controller.login(request, loginExistingUser);
 
-    verify(userRepository).getByEmail(user);
+    verify(userRepository).findByEmail(user);
   }
 
   @Test
@@ -94,7 +94,7 @@ public class LoginControllerTest {
   }
 
   private void configureRepository() {
-    given(userRepository.getByEmail(user)).willReturn(user);
+    given(userRepository.findByEmail(user)).willReturn(user);
   }
 
   private void configureRequest() {

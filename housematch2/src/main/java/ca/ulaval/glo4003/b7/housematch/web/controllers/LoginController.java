@@ -29,7 +29,7 @@ public class LoginController {
 
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   public String login(HttpServletRequest request, LoginUserModel viewModel) {
-    User user = repository.getByEmail(converter.convert(viewModel));
+    User user = repository.findByEmail(converter.convert(viewModel).getEmail());
     request.getSession().setAttribute("loggedInUser", user.email);
     return "redirect:/";
   }
