@@ -1,6 +1,0 @@
-.settings
-.classpath
-.checkstyle
-.springBeans
-/target/*
-/target/
