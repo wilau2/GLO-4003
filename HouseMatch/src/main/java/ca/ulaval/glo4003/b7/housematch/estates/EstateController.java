@@ -1,16 +1,16 @@
 package ca.ulaval.glo4003.b7.housematch.estates;
 
 import ca.ulaval.glo4003.b7.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b7.housematch.repository.RepositoryInterface;
+import ca.ulaval.glo4003.b7.housematch.repository.EstateRepository;
 
 public class EstateController {
 	
 	private EstateFactory estateFactory;
-	private RepositoryInterface repositoryInterface;
+	private EstateRepository estateRepository;
 	
-	public EstateController(EstateFactory estateFactory, RepositoryInterface repositoryInterface) {
+	public EstateController(EstateFactory estateFactory, EstateRepository estateRepository) {
 		this.estateFactory = estateFactory;
-		this.repositoryInterface = repositoryInterface;
+		this.estateRepository = estateRepository;
 	}
 	
 	public EstateController() {
@@ -21,7 +21,7 @@ public class EstateController {
 	}
 
 	public void saveEstate(Estate estate) {
-		repositoryInterface.persistEstate(estate);
+	    estateRepository.saveEstate(estate);
 		
 	}
 

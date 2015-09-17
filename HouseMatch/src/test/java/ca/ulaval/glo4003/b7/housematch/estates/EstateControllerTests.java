@@ -1,15 +1,15 @@
 package ca.ulaval.glo4003.b7.housematch.estates;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.BDDMockito.*;
-
 import ca.ulaval.glo4003.b7.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b7.housematch.repository.RepositoryInterface;
+import ca.ulaval.glo4003.b7.housematch.repository.EstateRepository;
 
 public class EstateControllerTests {
 
@@ -23,14 +23,14 @@ public class EstateControllerTests {
 	Estate estate;
 	
 	@Mock 
-	RepositoryInterface repositoryInterface;
+	EstateRepository estateRepository;
 	
 	private EstateController estateController;
 	
 	@Before
 	public void setUp(){
 		MockitoAnnotations.initMocks(this);
-		estateController = new EstateController(estateFactory, repositoryInterface);
+		estateController = new EstateController(estateFactory, estateRepository);
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class EstateControllerTests {
 		//when
 		estateController.saveEstate(estate);
 		//then
-		verify(repositoryInterface).persistEstate(estate);
+		verify(estateRepository).saveEstate(estate);
 		
 	}
 
