@@ -31,7 +31,7 @@ public class SignupController {
   public String signup(HttpServletRequest request, SignupUserModel viewModel) {
     User user = converter.convert(viewModel);
     repository.add(user);
-    request.getSession().setAttribute("loggedInUser", user.getEmail());
+    request.getSession().setAttribute("loggedInUserEmail", user.getEmail());
     return "index";
   }
 

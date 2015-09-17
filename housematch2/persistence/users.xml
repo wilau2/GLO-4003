@@ -9,12 +9,4 @@
     <email>123</email>  
     <password>123</password> 
   </user>  
-  <user> 
-    <password>a passworddd</password>  
-    <email>an email adressss</email> 
-  </user>  
-  <user>
-    <password>qwerty</password>
-    <email>helloMister</email>
-  </user>
 </users>

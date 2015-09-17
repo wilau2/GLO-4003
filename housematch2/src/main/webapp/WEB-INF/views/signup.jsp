@@ -21,8 +21,9 @@
         <jsp:include page="_menu.jsp" />
 
         <div class="splash">
-            <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
-                <c:if test="${loggedInUser == null}">
+            
+            <c:if test="${loggedInUserEmail == null}">
+	            <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
 	                <form:form method="post" modelAttribute="user" class="pure-form pure-form-stacked">
 	                    <fieldset>
 	                        <form:input id="name" type="text" placeholder="Email" path="email"/>
@@ -30,13 +31,12 @@
 	                        <button type="submit" class="pure-button">Sign Up</button>
 	                    </fieldset>
 	                </form:form>
-                </c:if>
-     			<c:if test="${loggedInUser != null}">
-     				<p>You are all ready logged in as ${loggedInUser}</p>
-     				<a href="${entryUrl}/logout" class="pure-button">Log out</a>
-     			</c:if>
-     			
-            </div>
+	            </div>
+            </c:if>
+ 			<c:if test="${loggedInUserEmail != null}">
+ 				<jsp:include page="_welcome.jsp" />
+ 				<a href="${entryUrl}/logout" class="pure-button">Log out</a>
+ 			</c:if>
         </div>
     </body>
 
