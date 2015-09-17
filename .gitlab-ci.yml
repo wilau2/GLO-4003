@@ -2,4 +2,4 @@ code_coverage:
   script: 
     - "cd HouseMatch"
     - "mvn package"
-	- "mvn verify"
+    - mvn verify
