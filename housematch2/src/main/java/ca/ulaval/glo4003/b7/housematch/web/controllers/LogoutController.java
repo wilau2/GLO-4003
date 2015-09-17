@@ -11,7 +11,8 @@ public class LogoutController {
 
   @RequestMapping(value = "/logout", method = RequestMethod.GET)
   public String logout(HttpServletRequest request) {
-    request.getSession().setAttribute("loggedInUser", null);
+    request.getSession().setAttribute("loggedInUserEmail", null);
+    request.getSession().setAttribute("loggedInUserRole", null);
     return "redirect:/";
   }
 

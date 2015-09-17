@@ -5,8 +5,12 @@
     <email>an email adress</email>  
     <password>a password</password> 
   </user>  
+  <user> 
+    <email>123</email>  
+    <password>123</password> 
+  </user>  
   <user>
-    <email>123</email>
+    <email>1234</email>
     <password>123</password>
   </user>
 </users>
