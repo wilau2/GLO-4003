@@ -2,11 +2,19 @@
 
 <users> 
   <user> 
-    <email>an email adress</email>  
+    <email>an email adress2</email>  
     <password>a password</password> 
   </user>  
+  <user> 
+    <email>123</email>  
+    <password>123</password> 
+  </user>  
+  <user> 
+    <password>a passworddd</password>  
+    <email>an email adressss</email> 
+  </user>  
   <user>
-    <email>123</email>
-    <password>123</password>
+    <password>qwerty</password>
+    <email>helloMister</email>
   </user>
 </users>

@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.b7.housematch.user.model.User;
-import ca.ulaval.glo4003.b7.housematch.user.repository.InMemoryUserRepository;
 import ca.ulaval.glo4003.b7.housematch.user.repository.exception.UserNotFoundException;
 
 public class InMemoryUserRepositoryTest {
@@ -26,14 +25,14 @@ public class InMemoryUserRepositoryTest {
 
   @Test(expected = UserNotFoundException.class)
   public void givenAUnknownUserShouldReturnException() {
-    repository.findByEmail(user);
+    repository.findByEmail("Random Email");
   }
 
   @Test
   public void shouldBeAbleToAddANewUserAndGetByEmail() {
     repository.add(user);
 
-    assertEquals(user, repository.findByEmail(user));
+    assertEquals(user, repository.findByEmail("An email"));
   }
 
 }

@@ -1,23 +1,16 @@
 package ca.ulaval.glo4003.b7.housematch.user.repository;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.inject.Singleton;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.Node;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
 import org.springframework.stereotype.Repository;
 
 import ca.ulaval.glo4003.b7.housematch.user.model.User;
-import ca.ulaval.glo4003.b7.housematch.user.repository.exception.CouldNotRegisterUserException;
+import ca.ulaval.glo4003.b7.housematch.user.repository.exception.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b7.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b7.housematch.user.repository.exception.UserNotFoundException;
 
@@ -25,78 +18,83 @@ import ca.ulaval.glo4003.b7.housematch.user.repository.exception.UserNotFoundExc
 @Singleton
 public class XMLUserRepository implements UserRepository {
 
+  private XMLFileEditor fileEditor;
+
+  private String pathToXML = "persistence/users.xml"; // TODO Could easily be injected by spring
+
+  private String pathToEmailValue = "users/user/email";
+
+  public XMLUserRepository() {
+    this.fileEditor = new XMLFileEditor();// TODO Here too of course, to tired to fix bug
+  }
+
   @Override
-  public User findByEmail(String email) throws UserNotFoundException {
-    User user = new User();
+  public User findByEmail(String email) throws UserNotFoundException, CouldNotAccessDataException {
     try {
       Document usersXML = readUsersXML();
-      if (userAlreadyExists(usersXML, user.getEmail())) {
+      if (!emailAlreadyExists(usersXML, email)) {
         throw new UserNotFoundException();
-      } 
-      List<Node> list = usersXML.selectNodes("users/user");
-      for (Node node : list) {
-        if (node.selectSingleNode("email").getStringValue().equals(email)) {
-          user.email = node.selectSingleNode("email").getStringValue();
-          user.password = node.selectSingleNode("password").getStringValue();
-        }
       }
+      return returnUserWithGivenEmail(usersXML, email);
 
-    } catch (Exception e) {
-      throw new UserNotFoundException();
+    } catch (UserNotFoundException userNotFoundException) {
+      throw userNotFoundException;
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      throw new CouldNotAccessDataException();
     }
-    return user;
-
   }
 
   @Override
-  public void add(User newUser) {
+  public void add(User newUser) throws UserAlreadyExistsException, CouldNotAccessDataException {
     try {
       Document usersXML = readUsersXML();
-      if (!userAlreadyExists(usersXML, newUser.getEmail())) {
-        addNewUserToDocument(usersXML, newUser);
-        formatAndWriteDocument(usersXML);
-      } else {
+      if (emailAlreadyExists(usersXML, newUser.getEmail())) {
         throw new UserAlreadyExistsException();
+      } else {
+        addNewUserToDocument(usersXML, newUser);
+        saveFile(usersXML);
       }
-    } catch (DocumentException documentException) {
-      documentException.printStackTrace();
-      throw new CouldNotRegisterUserException();
-    } catch (IOException iOexception) {
-      iOexception.printStackTrace();
-      throw new CouldNotRegisterUserException();
+    } catch (UserAlreadyExistsException userExists) {
+      throw userExists;
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      throw new CouldNotAccessDataException();
     }
-  }
-
-  private boolean userAlreadyExists(Document existingDocument, String email)
-      throws DocumentException {
-    List<Node> list = existingDocument.selectNodes("users/user");
-    for (Node node : list) {
-      if (node.selectSingleNode("email").getStringValue().equals(email))
-        return true;
-    }
-    return false;
-  }
-
-  private Document readUsersXML() throws DocumentException {
-    File xml = new File("persistence/users.xml");
-
-    SAXReader reader = new SAXReader();
-    return reader.read(xml);
   }
 
   private void addNewUserToDocument(Document existingDocument, User newUser) {
-    Element usersElement = existingDocument.getRootElement();
+    String elementName = "user";
 
-    Element userElement = usersElement.addElement("user");
-    userElement.addElement("email").addText(newUser.getEmail());
-    userElement.addElement("password").addText(newUser.getPassword());
+    HashMap<String, String> attributes = new HashMap<String, String>();
+
+    attributes.put("email", newUser.getEmail());
+    attributes.put("password", newUser.getPassword());
+
+    fileEditor.addNewElementToDocument(existingDocument, elementName, attributes);
   }
 
-  private void formatAndWriteDocument(Document existingDocument) throws IOException {
-    OutputFormat format = OutputFormat.createPrettyPrint();
+  private User returnUserWithGivenEmail(Document existingDocument, String email) {
+    User user = new User();
+    HashMap<String, String> attributes = fileEditor
+        .returnAttributesOfElementWithCorrespondingValue(existingDocument, pathToEmailValue, email);
 
-    XMLWriter writer = new XMLWriter(new FileWriter("persistence/users.xml"), format);
-    writer.write(existingDocument);
-    writer.close();
+    user.setEmail(attributes.get("email"));
+    user.setPassword(attributes.get("password"));
+
+    return user;
+  }
+
+  private void saveFile(Document usersXML) throws IOException {
+    fileEditor.formatAndWriteDocument(usersXML, pathToXML);
+  }
+
+  private boolean emailAlreadyExists(Document existingDocument, String email) {
+    return fileEditor.elementWithCorrespondingValuesExists(existingDocument, pathToEmailValue,
+        email);
+  }
+
+  private Document readUsersXML() throws DocumentException {
+    return fileEditor.readXMLFile(pathToXML);
   }
 }
