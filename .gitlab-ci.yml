@@ -1,5 +1,5 @@
 code_coverage: 
   script: 
     - "cd HouseMatch"
-    - mvn verify findbugs:findbugs cobertura:cobertura
+    - "mvn verify findbugs:findbugs cobertura:cobertura"
     - "mvn package"
