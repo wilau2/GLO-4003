@@ -211,17 +211,15 @@
                     <version>2.7</version>
                     <configuration>
                         <instrumentation>
-                            <ignores>
-                                <ignore>ca.ulaval.glo4003.b6.housematch.**.repostory.*</ignore>
-                            </ignores>
+                            <ignoreTrivial>true</ignoreTrivial> 
                             <excludes>
-                                <ignore>ca/ulaval/glo4003/b6/housematch/**/repostory/*.class</ignore>
+                                <exclude>ca/ulaval/glo4003/b6/housematch/**/persistences/*.class</exclude>
+                                <exclude>ca/ulaval/glo4003/b6/housematch/**/dto/*.class</exclude>
                             </excludes>
                         </instrumentation> 
                         <check>
                             <haltOnFailure>true</haltOnFailure>
-                            <totalBranchRate>
-                            85</totalBranchRate>
+                            <totalBranchRate>85</totalBranchRate>
                             <totalLineRate>85</totalLineRate>
                         </check>
                     </configuration>
