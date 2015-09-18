@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundExc
 
 public interface UserRepository {
 
-  public User findByEmail(String email) throws UserNotFoundException, CouldNotAccessDataException;
+   public User findByEmail(String email) throws UserNotFoundException, CouldNotAccessDataException;
 
-  public void add(User user) throws UserAlreadyExistsException, CouldNotAccessDataException;
+   public void add(User user) throws UserAlreadyExistsException, CouldNotAccessDataException;
 }
