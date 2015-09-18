@@ -19,36 +19,36 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserModel;
 @Controller
 public class LoginController {
 
-  private UserRepository userRepository;
+   private UserRepository userRepository;
 
-  private AdminRepository adminRepository;
+   private AdminRepository adminRepository;
 
-  private LoginUserConverter converter;
+   private LoginUserConverter converter;
 
-  @Autowired
-  public LoginController(XMLUserRepository xmlUserRepository, XMLAdminRepository xmlAminRepository,
-      LoginUserConverter converter) {
-    this.userRepository = xmlUserRepository;
-    this.adminRepository = xmlAminRepository;
-    this.converter = converter;
-  }
+   @Autowired
+   public LoginController(XMLUserRepository xmlUserRepository, XMLAdminRepository xmlAminRepository,
+         LoginUserConverter converter) {
+      this.userRepository = xmlUserRepository;
+      this.adminRepository = xmlAminRepository;
+      this.converter = converter;
+   }
 
-  @RequestMapping(value = "/login", method = RequestMethod.POST)
-  public String login(HttpServletRequest request, LoginUserModel viewModel) {
-    String loggedEmail = converter.convert(viewModel).getEmail();
-    User user = userRepository.findByEmail(loggedEmail);
-    request.getSession().setAttribute("loggedInUserRole", "user");
-    if (adminRepository.isAdmin(loggedEmail)) {
-      request.getSession().setAttribute("loggedInUserRole", "admin");
-    }
-    request.getSession().setAttribute("loggedInUserEmail", user.email);
-    return "redirect:/";
-  }
+   @RequestMapping(value = "/login", method = RequestMethod.POST)
+   public String login(HttpServletRequest request, LoginUserModel viewModel) {
+      String loggedEmail = converter.convert(viewModel).getEmail();
+      User user = userRepository.findByEmail(loggedEmail);
+      request.getSession().setAttribute("loggedInUserRole", "user");
+      if (adminRepository.isAdmin(loggedEmail)) {
+         request.getSession().setAttribute("loggedInUserRole", "admin");
+      }
+      request.getSession().setAttribute("loggedInUserEmail", user.email);
+      return "redirect:/";
+   }
 
-  @RequestMapping(value = "/login", method = RequestMethod.GET)
-  public String login(Model model) {
-    model.addAttribute("user", new LoginUserModel());
-    return "login";
+   @RequestMapping(value = "/login", method = RequestMethod.GET)
+   public String login(Model model) {
+      model.addAttribute("user", new LoginUserModel());
+      return "login";
 
-  }
+   }
 }

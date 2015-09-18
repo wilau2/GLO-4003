@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.assembler;
+package ca.ulaval.glo4003.b6.housematch.estates.assembler;
 
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
