@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.estates.repository;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import ca.ulaval.glo4003.b6.housematch.estates.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 
 public class InMemoryEstateRepository implements EstateRepository {
 
@@ -14,13 +14,14 @@ public class InMemoryEstateRepository implements EstateRepository {
    }
 
    @Override
-   public void saveEstate(Estate estate) {
-      estateList.add(estate);
+   public Collection<Estate> getAllEstate() {
+      return estateList;
    }
 
    @Override
-   public Collection<Estate> getAllEstate() {
-      return estateList;
+   public void addEstate(Estate estate) {
+      // TODO Auto-generated method stub
+
    }
 
 }

@@ -1,62 +1,80 @@
 package ca.ulaval.glo4003.b6.housematch.estates.services;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
-import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
-
-import org.mockito.Mock;
-
-import static org.mockito.Mockito.verify;
+import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 
 public class EstatesServiceTest {
 
-   private String VALID_TYPE_ESTATE = "CONDO";
+   private static final String VALID_TYPE_ESTATE = "CONDO";
 
-   private String INVALID_TYPE_ESTATE = "invalid";
+   private static final String INVALID_TYPE_ESTATE = "invalid";
 
-   private String VALID_ADDRESS = "2-128 rue untel, Quebec";
+   private static final String VALID_ADDRESS = "2-128 rue untel, Quebec";
 
-   private Integer VALID_PRICE = 125000;
+   private static final Integer VALID_PRICE = 125000;
+
+   @InjectMocks
+   private EstatesService estatesService;
 
    @Mock
    private EstateValidator estateValidator;
 
-   private EstatesService estatesService;
+   @Mock
+   private EstateDto estateDto;
+
+   @Mock
+   private EstateRepository estateRepository;
+
+   @Mock
+   private Estate estate;
+
+   @Mock
+   private EstateAssemblerFactory estateAssemblerFactory;
+
+   @Mock
+   private EstateAssembler estateAssembler;
 
    @Before
    public void setUp() {
       MockitoAnnotations.initMocks(this);
-      estatesService = new EstatesService(estateValidator);
+
+      when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
+      when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
    }
 
    @Test
-   public void addingAnEstateForSellingWhenEstateIsValidShouldNotThrowException() throws InvalidEstateException {
+   public void addingAnEstateWhenEstateIsValidShouldNotThrowException() {
       // Given no changes
 
       // When
-      estatesService.addEstate(VALID_TYPE_ESTATE, INVALID_TYPE_ESTATE, VALID_PRICE);
-
-      // Then no exception is thrown
-   }
-
-   @Test
-   public void addingAnEstateShouldCallTheFunctionValidateOnValidator() throws InvalidEstateException {
-      // Given
-
-      // When
-      estatesService.addEstate(INVALID_TYPE_ESTATE, VALID_ADDRESS, VALID_PRICE);
+      estatesService.addEstate(estateDto);
 
       // Then
-      verify(estateValidator).validate(INVALID_TYPE_ESTATE, VALID_ADDRESS, VALID_PRICE);
+      verify(estateRepository, times(1)).addEstate(estate);
    }
 
-   @Ignore
    @Test
-   public void addingAnEstateShouldCallTheEstateControllerAddEstateFunction() {
+   public void whenAddingAnEstateShouldCallGetAssemblerFromAssemblerFactory() {
+      // Given no changes
 
+      // When
+      estatesService.addEstate(estateDto);
+
+      // Then
+      verify(estateAssemblerFactory, times(1)).createEstateAssembler();
    }
 }

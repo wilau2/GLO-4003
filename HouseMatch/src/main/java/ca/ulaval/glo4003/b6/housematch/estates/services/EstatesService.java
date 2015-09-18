@@ -1,34 +1,38 @@
 package ca.ulaval.glo4003.b6.housematch.estates.services;
 
-import ca.ulaval.glo4003.b6.housematch.estates.EstateController;
-import ca.ulaval.glo4003.b6.housematch.estates.assembler.EstateAssembler;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 
 public class EstatesService {
 
    EstateValidator estateValidator;
 
-   public EstatesService(EstateValidator estateValidator) {
+   private EstateRepository estateRepository;
+
+   private EstateAssemblerFactory estateAssemblerFactory;
+
+   @Autowired
+   public EstatesService(EstateValidator estateValidator, EstateAssemblerFactory estateAssemblerFactory,
+         EstateRepository estateRepository) {
+
       this.estateValidator = estateValidator;
-   }
+      this.estateAssemblerFactory = estateAssemblerFactory;
+      this.estateRepository = estateRepository;
 
-   public void addEstate(String type, String address, Integer price) {
-
-      EstateController estateController = new EstateController();
-
-      EstateAssembler estateAssembler = new EstateAssembler(estateValidator);
-      EstateDto estateDto;
-      try {
-         estateDto = estateAssembler.createDTO(type, address, price);
-         estateController.addEstate(estateDto);
-      } catch (Exception e) {
-
-      }
    }
 
    public void addEstate(EstateDto estateDto) {
+      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
+      Estate estate = estateAssembler.assembleEstate(estateDto);
+
+      estateRepository.addEstate(estate);
    }
 
 }
