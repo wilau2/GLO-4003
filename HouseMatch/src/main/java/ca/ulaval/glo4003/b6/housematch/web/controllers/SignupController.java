@@ -35,7 +35,7 @@ public class SignupController {
    public String signup(HttpServletRequest request, SignupUserModel viewModel) {
       UserDto user = converter.convert(viewModel);
       // TODO FIX THAT WITH ASSEMBLER
-      User user1 = new User(null, null, null, null);
+      User user1 = new User(null, null, null, null, null, null);
       userRepository.add(user1);
       request.getSession().setAttribute("loggedInUserEmail", user.getEmail());
       return "index";

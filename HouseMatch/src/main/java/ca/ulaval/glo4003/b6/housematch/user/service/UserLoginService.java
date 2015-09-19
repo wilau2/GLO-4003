@@ -35,7 +35,7 @@ public class UserLoginService {
       if (adminRepository.isAdmin(user.getEmail())) {
          request.getSession().setAttribute("loggedInUserRole", "admin");
       }
-      request.getSession().setAttribute("loggedInUserEmail", user.email);
+      request.getSession().setAttribute("loggedInUserEmail", user.getEmail());
       return user;
    }
 

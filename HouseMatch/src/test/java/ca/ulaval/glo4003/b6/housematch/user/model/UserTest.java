@@ -1,48 +1,59 @@
 package ca.ulaval.glo4003.b6.housematch.user.model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
+import org.junit.Before;
 import org.junit.Test;
-
-import ca.ulaval.glo4003.b6.housematch.user.model.User;
 
 public class UserTest {
 
-  private User user;
+   private User user;
 
-  @Test
-  public void newUserHasNoEmail() {
-    user = new User();
+   private String username = "username";
 
-    assertNull(user.getEmail());
-  }
+   private String firstName = "firsname";
 
-  @Test
-  public void newUserHasNoPassword() {
-    user = new User();
+   private String lastName = "lastname";
 
-    assertNull(user.getPassword());
-  }
+   private String phoneNumber = "phoneNumber";
 
-  @Test
-  public void emailSetterAndGetter() {
-    user = new User();
-    String testEmail = "anEmail";
+   private String email = "email";
 
-    user.setEmail(testEmail);
+   private String password = "password";
 
-    assertEquals(testEmail, user.getEmail());
-  }
+   @Before
+   public void setup() {
+      user = new User(username, firstName, lastName, phoneNumber, email, password);
+   }
 
-  @Test
-  public void passwordSetterAndGetter() {
-    user = new User();
-    String testPassword = "a password";
+   @Test
+   public void canGetTheCorrectUsername() {
+      assertEquals(username, user.getUsername());
+   }
 
-    user.setPassword(testPassword);
+   @Test
+   public void canGetTheCorrectFirstName() {
+      assertEquals(firstName, user.getFirstName());
+   }
 
-    assertEquals(testPassword, user.getPassword());
-  }
+   @Test
+   public void canGetTheCorrectLastName() {
+      assertEquals(lastName, user.getLastName());
+   }
+
+   @Test
+   public void canGetTheCorrectPhoneNumber() {
+      assertEquals(phoneNumber, user.getPhoneNumber());
+   }
+
+   @Test
+   public void canGetTheCorrectEmail() {
+      assertEquals(email, user.getEmail());
+   }
+
+   @Test
+   public void canGetTheCorrectPassword() {
+      assertEquals(password, user.getPassword());
+   }
 
 }

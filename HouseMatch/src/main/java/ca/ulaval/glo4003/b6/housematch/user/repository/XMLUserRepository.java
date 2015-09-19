@@ -68,6 +68,10 @@ public class XMLUserRepository implements UserRepository {
 
       HashMap<String, String> attributes = new HashMap<String, String>();
 
+      attributes.put("username", newUser.getUsername());
+      attributes.put("firstName", newUser.getFirstName());
+      attributes.put("lastName", newUser.getLastName());
+      attributes.put("phoneNumber", newUser.getPhoneNumber());
       attributes.put("email", newUser.getEmail());
       attributes.put("password", newUser.getPassword());
 
@@ -75,12 +79,12 @@ public class XMLUserRepository implements UserRepository {
    }
 
    private User returnUserWithGivenEmail(Document existingDocument, String email) {
-      User user = new User();
+
       HashMap<String, String> attributes = fileEditor.returnAttributesOfElementWithCorrespondingValue(existingDocument,
             pathToEmailValue, email);
 
-      user.setEmail(attributes.get("email"));
-      user.setPassword(attributes.get("password"));
+      User user = new User(attributes.get("username"), attributes.get("firstName"), attributes.get("lastName"),
+            attributes.get("phoneNumber"), attributes.get("email"), attributes.get("password"));
 
       return user;
    }
