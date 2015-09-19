@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,17 +15,17 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.validation.support.BindingAwareModelMap;
 
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
-import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
-import ca.ulaval.glo4003.b6.housematch.user.service.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 public class LoginControllerTest {
 
    @Mock
-   private UserLoginService userLoginService;
+   private UserCorruptionVerificator userCorruptionVerificatior;
 
    @Mock
    private HttpSession session;
@@ -37,9 +38,6 @@ public class LoginControllerTest {
 
    @Mock
    private LoginUserViewModel loginExistingUser;
-
-   @Mock
-   private XMLUserRepository userRepository;
 
    @Mock
    private LoginUserConverter converter;
@@ -56,7 +54,6 @@ public class LoginControllerTest {
    public void setup() {
       MockitoAnnotations.initMocks(this);
       configureConverter();
-      configureRepository();
       configureRequest();
    }
 
@@ -73,40 +70,57 @@ public class LoginControllerTest {
    }
 
    @Test
-   public void postRequestLoginReturnsTheIndexView() {
+   public void postRequestLoginReturnsTheIndexView() throws InvalidUserLoginFieldException {
+      // Given
       model = new BindingAwareModelMap();
 
+      // When
       String view = controller.login(request, loginExistingUser);
 
+      // Then
       assertEquals("redirect:/", view);
    }
 
    @Test
-   public void postRequestLoginShouldUseTheConverter() {
+   public void postRequestLoginShouldUseTheConverter() throws InvalidUserLoginFieldException {
+      // When
       controller.login(request, loginExistingUser);
 
+      // Then
       verify(converter).convertToDto(loginExistingUser);
    }
 
    @Test
-   public void postRequestLoginShouldUseTheUserLoginService() {
+   public void postRequestLoginShouldUseTheUserCorruptioonVerificator() throws InvalidUserLoginFieldException {
+      // When
       controller.login(request, loginExistingUser);
 
-      verify(userLoginService).serviceMethod(request, userDto);
+      // Then
+      verify(userCorruptionVerificatior).login(request, userDto);
    }
 
    @Test
-   public void postRequestLoginShouldSetALoggedUser() {
+   public void postRequestLoginShouldSetALoggedUser() throws InvalidUserLoginFieldException {
+      // When
       controller.login(request, loginExistingUser);
+
+      // Then
       assertEquals(loginExistingUser.getUsername(), request.getAttribute("loggedInUser"));
+   }
+
+   @Test(expected = InvalidUserLoginFieldException.class)
+   public void givenInvalidUserLoginViewModelpostRequestLogingShouldThrowException()
+         throws InvalidUserLoginFieldException {
+
+      doThrow(new InvalidUserLoginFieldException()).when(userCorruptionVerificatior).login(request, userDto);
+      // When
+      controller.login(request, loginExistingUser);
+
+      // Then an InvalidUserLoginFieldException is thrown
    }
 
    private void configureConverter() {
       given(converter.convertToDto(loginExistingUser)).willReturn(userDto);
-   }
-
-   private void configureRepository() {
-      given(userRepository.findByEmail(userDto.getEmail())).willReturn(user);
    }
 
    private void configureRequest() {
