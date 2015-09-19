@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
 
 public class EstateCorruptionVerificatorTest {
@@ -48,7 +49,7 @@ public class EstateCorruptionVerificatorTest {
 
    @Test
    public void verificatingEstateCorruptionWhenEstateHasNoCorruptionShouldCallAddEstateFromService()
-         throws InvalidEstateFieldException {
+         throws InvalidEstateFieldException, InvalidEstateException {
       // Given no changes
 
       // When

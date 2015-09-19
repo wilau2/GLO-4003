@@ -15,6 +15,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 
 public class EstatesServiceTest {
@@ -26,9 +27,6 @@ public class EstatesServiceTest {
    private static final String VALID_ADDRESS = "2-128 rue untel, Quebec";
 
    private static final Integer VALID_PRICE = 125000;
-
-   @InjectMocks
-   private EstatesService estatesService;
 
    @Mock
    private EstateValidator estateValidator;
@@ -48,6 +46,9 @@ public class EstatesServiceTest {
    @Mock
    private EstateAssembler estateAssembler;
 
+   @InjectMocks
+   private EstatesService estatesService;
+
    @Before
    public void setUp() {
       MockitoAnnotations.initMocks(this);
@@ -57,7 +58,7 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void addingAnEstateWhenEstateIsValidShouldNotThrowException() {
+   public void addingAnEstateWhenEstateIsValidShouldCallAddEstateAtRepository() throws InvalidEstateException {
       // Given no changes
 
       // When
@@ -68,7 +69,7 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenAddingAnEstateShouldCallGetAssemblerFromAssemblerFactory() {
+   public void whenAddingAnEstateShouldCallGetAssemblerFromAssemblerFactory() throws InvalidEstateException {
       // Given no changes
 
       // When

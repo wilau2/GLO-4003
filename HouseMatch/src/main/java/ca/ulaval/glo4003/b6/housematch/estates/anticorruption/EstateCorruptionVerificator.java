@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.estates.anticorruption;
 
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
 
 public class EstateCorruptionVerificator {
@@ -15,7 +16,12 @@ public class EstateCorruptionVerificator {
    public void addEstate(EstateDto estateDto) throws InvalidEstateFieldException {
       validateEstateCorruption(estateDto);
 
-      estateService.addEstate(estateDto);
+      try {
+         estateService.addEstate(estateDto);
+      } catch (InvalidEstateException e) {
+         throw new InvalidEstateFieldException(e.getMessage(), e);
+
+      }
    }
 
    private void validateEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {

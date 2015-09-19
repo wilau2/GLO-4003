@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 
 public class EstatesService {
@@ -27,7 +28,9 @@ public class EstatesService {
 
    }
 
-   public void addEstate(EstateDto estateDto) {
+   public void addEstate(EstateDto estateDto) throws InvalidEstateException {
+      estateValidator.validate(estateDto);
+
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
       Estate estate = estateAssembler.assembleEstate(estateDto);
