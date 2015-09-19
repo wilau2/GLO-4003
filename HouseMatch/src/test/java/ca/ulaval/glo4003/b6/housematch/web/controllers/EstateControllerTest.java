@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.ui.Model;
 
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
@@ -42,6 +43,9 @@ public class EstateControllerTest {
 
    @Mock
    private EstateCorruptionVerificator estateCorruptionVerificator;
+
+   @Mock
+   private Model model;
 
    @Before
    public void setup() {
@@ -83,5 +87,16 @@ public class EstateControllerTest {
       estateController.addEstate(request, estateModel);
 
       // Then an InvalidEstateFieldException is thrown
+   }
+
+   @Test
+   public void whenGettingSellerPageShouldLinkToCorrectPage() {
+      // Given
+
+      // When
+      String redirectLink = estateController.getSellEstatePage(model);
+
+      // Then
+      assertEquals("sell_estate", redirectLink);
    }
 }

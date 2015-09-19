@@ -17,6 +17,9 @@
 	            <c:if test="${loggedInUserRole == 'admin'}">
 	              <li class="pure-menu-item"><a href="${entryUrl}/" class="pure-menu-link">ADMIN</a></li>
 	            </c:if>
+<%-- 	            <c:if test="${loggedInUserRole == 'vendor'}"> --%>
+	              <li class="pure-menu-item"><a href="${entryUrl}/sell" class="pure-menu-link">Sell an estate</a></li>
+<%-- 	            </c:if> --%>
 	            <li class="pure-menu-item"><a href="${entryUrl}/" class="pure-menu-link">${loggedInUserEmail}</a></li>
 	            <li class="pure-menu-item"><a href="${entryUrl}/logout" class="pure-menu-link">Log out</a></li>
 	        </ul>
