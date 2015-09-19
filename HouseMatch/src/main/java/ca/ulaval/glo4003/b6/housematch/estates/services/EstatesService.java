@@ -13,7 +13,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 
 public class EstatesService {
 
-   EstateValidatorFactory estateValidatorFactory;
+   private EstateValidatorFactory estateValidatorFactory;
 
    private EstateRepository estateRepository;
 
