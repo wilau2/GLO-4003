@@ -8,53 +8,44 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ca.ulaval.glo4003.b6.housematch.admin.repository.AdminRepository;
-import ca.ulaval.glo4003.b6.housematch.user.model.User;
-import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
+import ca.ulaval.glo4003.b6.housematch.user.service.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 @Controller
 public class LoginController {
 
-   private UserRepository userRepository;
-
-   private AdminRepository adminRepository;
-
-   public void setUserRepository(UserRepository userRepository) {
-      this.userRepository = userRepository;
-   }
-
-   public void setAdminRepository(AdminRepository adminRepository) {
-      this.adminRepository = adminRepository;
-   }
+   private UserLoginService userLoginService;
 
    private LoginUserConverter converter;
 
+   public void setUserLoginService(UserLoginService userLoginService) {
+      this.userLoginService = userLoginService;
+   }
+
+   public void setConverter(LoginUserConverter converter) {
+      this.converter = converter;
+   }
+
    @Autowired
-   public LoginController(UserRepository userRepository, AdminRepository adminRepository,
-         LoginUserConverter converter) {
-      this.userRepository = userRepository;
-      this.adminRepository = adminRepository;
+   public LoginController(UserLoginService userLoginService, LoginUserConverter converter) {
+      this.userLoginService = userLoginService;
       this.converter = converter;
    }
 
    @RequestMapping(value = "/login", method = RequestMethod.POST)
-   public String login(HttpServletRequest request, LoginUserModel viewModel) {
-      String loggedEmail = converter.convert(viewModel).getEmail();
-      User user = userRepository.findByEmail(loggedEmail);
-      request.getSession().setAttribute("loggedInUserRole", "user");
-      if (adminRepository.isAdmin(loggedEmail)) {
-         request.getSession().setAttribute("loggedInUserRole", "admin");
-      }
-      request.getSession().setAttribute("loggedInUserEmail", user.email);
+   public String login(HttpServletRequest request, LoginUserViewModel viewModel) {
+      UserDto user = converter.convertToDto(viewModel);
+      userLoginService.serviceMethod(request, user);
       return "redirect:/";
    }
 
    @RequestMapping(value = "/login", method = RequestMethod.GET)
    public String login(Model model) {
-      model.addAttribute("user", new LoginUserModel());
+      model.addAttribute("user", new LoginUserViewModel());
       return "login";
 
    }
+
 }

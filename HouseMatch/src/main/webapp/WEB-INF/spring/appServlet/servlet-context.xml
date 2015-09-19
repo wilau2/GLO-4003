@@ -15,12 +15,17 @@
 		<beans:bean id="loggedUser"    class="ca.ulaval.glo4003.b6.housematch.user.model.User" scope="session">        
 	  		<aop:scoped-proxy/>
 	  	</beans:bean>
+	  	
 	  	<beans:bean id="userRepository" class="ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository"/>
 	  	<beans:bean id="adminRepository" class="ca.ulaval.glo4003.b6.housematch.admin.repository.XMLAdminRepository"/>
 	  	
+	  	<beans:bean id="userLoginService" class="ca.ulaval.glo4003.b6.housematch.user.service.UserLoginService">
+	  		<beans:property name="userRepository" ref="userRepository" />
+	  		<beans:property name="adminRepository" ref="adminRepository" />
+	  	</beans:bean>
+	  	
 	  	<beans:bean id="loginController" class="ca.ulaval.glo4003.b6.housematch.web.controllers.LoginController">
-	    	<beans:property name="userRepository" ref="userRepository" />
-	    	<beans:property name="adminRepository" ref="adminRepository" />
+	    	<beans:property name="userLoginService" ref="userLoginService" />
 	    </beans:bean>
 	    
 	    <beans:bean id="signupController" class="ca.ulaval.glo4003.b6.housematch.web.controllers.SignupController">

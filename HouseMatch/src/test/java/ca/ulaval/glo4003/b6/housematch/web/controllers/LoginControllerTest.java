@@ -17,7 +17,7 @@ import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
 import ca.ulaval.glo4003.b6.housematch.web.controllers.LoginController;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 public class LoginControllerTest {
 
@@ -28,7 +28,7 @@ public class LoginControllerTest {
   private User user;
 
   @Mock
-  private LoginUserModel loginExistingUser;
+  private LoginUserViewModel loginExistingUser;
 
   @Mock
   private XMLUserRepository userRepository;
@@ -90,7 +90,7 @@ public class LoginControllerTest {
   }
 
   private void configureConverter() {
-    given(converter.convert(loginExistingUser)).willReturn(user);
+    given(converter.convertToDto(loginExistingUser)).willReturn(user);
   }
 
   private void configureRepository() {
