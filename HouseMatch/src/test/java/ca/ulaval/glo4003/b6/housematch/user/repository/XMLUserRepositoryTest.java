@@ -54,7 +54,6 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenFindingByEmailShouldReadTheCorrectFile() throws DocumentException {
       // Given
-      verify(editor).readXMLFile(correctPathToFile);
 
       // When
       repository.findByEmail(existingEmail);
