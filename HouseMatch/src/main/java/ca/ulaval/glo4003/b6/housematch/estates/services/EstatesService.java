@@ -1,30 +1,43 @@
 package ca.ulaval.glo4003.b6.housematch.estates.services;
 
-import ca.ulaval.glo4003.b6.housematch.assembler.EstateAssembler;
-import ca.ulaval.glo4003.b6.housematch.estates.EstateController;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
+import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 
 public class EstatesService {
 
-  EstateValidator estateValidator;
+   EstateValidatorFactory estateValidatorFactory;
 
-  public EstatesService(EstateValidator estateValidator) {
-    this.estateValidator = estateValidator;
-  }
+   private EstateRepository estateRepository;
 
-  public void addEstate(String type, String address, Integer price) {
+   private EstateAssemblerFactory estateAssemblerFactory;
 
-    EstateController estateController = new EstateController();
+   @Autowired
+   public EstatesService(EstateValidatorFactory estateValidatorFactory, EstateAssemblerFactory estateAssemblerFactory,
+         EstateRepository estateRepository) {
 
-    EstateAssembler estateAssembler = new EstateAssembler(estateValidator);
-    EstateDto estateDto;
-    try {
-      estateDto = estateAssembler.createDTO(type, address, price);
-      estateController.addEstate(estateDto);
-    } catch (Exception e) {
+      this.estateValidatorFactory = estateValidatorFactory;
+      this.estateAssemblerFactory = estateAssemblerFactory;
+      this.estateRepository = estateRepository;
 
-    }
-  }
+   }
+
+   public void addEstate(EstateDto estateDto) throws InvalidEstateException {
+      EstateValidator estateValidator = estateValidatorFactory.getValidator();
+      estateValidator.validate(estateDto);
+
+      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
+
+      Estate estate = estateAssembler.assembleEstate(estateDto);
+
+      estateRepository.addEstate(estate);
+   }
 
 }

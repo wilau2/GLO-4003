@@ -45,7 +45,6 @@ public class LoginController {
    public String login(Model model) {
       model.addAttribute("user", new LoginUserViewModel());
       return "login";
-
    }
 
 }
