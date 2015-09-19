@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.admin.repository.AdminRepository;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
+import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 
@@ -14,6 +16,8 @@ public class UserLoginService {
    private UserRepository userRepository;
 
    private AdminRepository adminRepository;
+
+   private UserValidatorFactory userValidatorFactory;
 
    public void setUserRepository(UserRepository userRepository) {
       this.userRepository = userRepository;
@@ -29,12 +33,15 @@ public class UserLoginService {
       this.adminRepository = adminRepository;
    }
 
-   public User serviceMethod(HttpServletRequest request, UserDto userDto) {
+   public User login(HttpServletRequest request, UserDto userDto) {
+      UserValidator userValidator = userValidatorFactory.getValidator();
+      userValidator.validate(userDto);
+
       User user = userRepository.findByEmail(userDto.getEmail());
       request.getSession().setAttribute("loggedInUserRole", "user");
-      if (adminRepository.isAdmin(user.getEmail())) {
-         request.getSession().setAttribute("loggedInUserRole", "admin");
-      }
+      // if (adminRepository.isAdmin(user.getEmail())) {
+      // request.getSession().setAttribute("loggedInUserRole", "admin");
+      // }
       request.getSession().setAttribute("loggedInUserEmail", user.email);
       return user;
    }

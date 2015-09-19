@@ -8,36 +8,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.user.service.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 @Controller
 public class LoginController {
 
-   private UserLoginService userLoginService;
+   private LoginUserConverter loginUserConverter;
 
-   private LoginUserConverter converter;
-
-   public void setUserLoginService(UserLoginService userLoginService) {
-      this.userLoginService = userLoginService;
-   }
-
-   public void setConverter(LoginUserConverter converter) {
-      this.converter = converter;
-   }
+   private UserCorruptionVerificator userCorruptionVerificator;
 
    @Autowired
-   public LoginController(UserLoginService userLoginService, LoginUserConverter converter) {
-      this.userLoginService = userLoginService;
-      this.converter = converter;
+   public LoginController(LoginUserConverter loginUserConverter, UserCorruptionVerificator userCorruptionVerificator) {
+      this.loginUserConverter = loginUserConverter;
+      this.userCorruptionVerificator = userCorruptionVerificator;
    }
 
    @RequestMapping(value = "/login", method = RequestMethod.POST)
-   public String login(HttpServletRequest request, LoginUserViewModel viewModel) {
-      UserDto userDto = converter.convertToDto(viewModel);
-      userLoginService.serviceMethod(request, userDto);
+   public String login(HttpServletRequest request, LoginUserViewModel viewModel) throws InvalidUserLoginFieldException {
+      UserDto userDto = loginUserConverter.convertToDto(viewModel);
+      userCorruptionVerificator.login(request, userDto);
       return "redirect:/";
    }
 
