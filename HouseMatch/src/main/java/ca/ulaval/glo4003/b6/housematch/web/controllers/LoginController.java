@@ -36,8 +36,8 @@ public class LoginController {
 
    @RequestMapping(value = "/login", method = RequestMethod.POST)
    public String login(HttpServletRequest request, LoginUserViewModel viewModel) {
-      UserDto user = converter.convertToDto(viewModel);
-      userLoginService.serviceMethod(request, user);
+      UserDto userDto = converter.convertToDto(viewModel);
+      userLoginService.serviceMethod(request, userDto);
       return "redirect:/";
    }
 
