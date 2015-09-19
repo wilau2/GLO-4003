@@ -22,6 +22,7 @@ public class EstateCorruptionVerificator {
       try {
          estateService.addEstate(estateDto);
       } catch (InvalidEstateException e) {
+         System.out.println(e.getMessage());
          throw new InvalidEstateFieldException(e.getMessage(), e);
 
       }
@@ -30,15 +31,15 @@ public class EstateCorruptionVerificator {
    private void validateEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {
       String address = estateDto.getAddress();
       if (address == null || address.isEmpty()) {
-         throw new InvalidEstateFieldException();
+         throw new InvalidEstateFieldException("The entered address is null");
       }
       String type = estateDto.getType();
       if (type == null || type.isEmpty()) {
-         throw new InvalidEstateFieldException();
+         throw new InvalidEstateFieldException("The selected type is null");
       }
       int price = estateDto.getPrice();
       if (price < 0) {
-         throw new InvalidEstateFieldException();
+         throw new InvalidEstateFieldException("The price was negative");
       }
    }
 

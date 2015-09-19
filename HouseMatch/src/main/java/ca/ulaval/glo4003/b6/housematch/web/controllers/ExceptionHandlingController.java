@@ -16,6 +16,5 @@ public class ExceptionHandlingController {
       ModelAndView modelAndView = new ModelAndView("exception");
       modelAndView.addObject("errorMessage", exception.getMessage());
       return modelAndView;
-
    }
 }

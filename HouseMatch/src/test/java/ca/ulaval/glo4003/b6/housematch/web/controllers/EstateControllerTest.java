@@ -81,7 +81,7 @@ public class EstateControllerTest {
    @Test(expected = InvalidEstateFieldException.class)
    public void addingEstateWhenEstateIsInvalidAddressShouldThrowException() throws InvalidEstateFieldException {
       // Given
-      doThrow(new InvalidEstateFieldException()).when(estateCorruptionVerificator).addEstate(estateDto);
+      doThrow(new InvalidEstateFieldException("")).when(estateCorruptionVerificator).addEstate(estateDto);
 
       // When
       estateController.addEstate(request, estateModel);

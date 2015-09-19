@@ -28,7 +28,6 @@
 <body>
 	<jsp:include page="_menu.jsp" />
 	<div class="splash">
-		<div modelAttribute="exception"><p>{$exception.message}</p></div>
 		<form:form method="post" modelAttribute="estate"
 			class="pure-form pure-form-aligned">
 			<fieldset>
