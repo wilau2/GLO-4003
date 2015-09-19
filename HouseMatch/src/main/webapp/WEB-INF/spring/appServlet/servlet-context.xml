@@ -10,43 +10,6 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop
-<<<<<<< HEAD
-    	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
-		<context:component-scan base-package="ca.ulaval.glo4003.b6.housematch" />
-	
-		<beans:bean id="loggedUser"    class="ca.ulaval.glo4003.b6.housematch.user.model.User" scope="session">        
-	  		<aop:scoped-proxy/>
-	  	</beans:bean>
-	  	
-	  	<beans:bean id="userRepository" class="ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository"/>
-	  	<beans:bean id="adminRepository" class="ca.ulaval.glo4003.b6.housematch.admin.repository.XMLAdminRepository"/>
-	  	
-	  	<beans:bean id="userLoginService" class="ca.ulaval.glo4003.b6.housematch.user.service.UserLoginService">
-	  		<beans:property name="userRepository" ref="userRepository" />
-	  		<beans:property name="adminRepository" ref="adminRepository" />
-	  	</beans:bean>
-	  	
-	  	<beans:bean id="loginController" class="ca.ulaval.glo4003.b6.housematch.web.controllers.LoginController">
-	    	<beans:property name="userLoginService" ref="userLoginService" />
-	    </beans:bean>
-	    
-	    <beans:bean id="signupController" class="ca.ulaval.glo4003.b6.housematch.web.controllers.SignupController">
-	    	<beans:property name="userRepository" ref="userRepository" />
-	    </beans:bean>
-    
-	<annotation-driven />
-
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->
-	<resources mapping="/resources/**" location="/resources/" />
-
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-        <beans:bean id="estateAssemblerFactory" class="ca.ulaval.glo4003.b6.housematch.estates.assembler.factory.EstateAssemblerFactory"/>
-	</beans:bean>
-	
-=======
     	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
 >
 
@@ -135,18 +98,46 @@
     <beans:bean
         id="adminRepository"
         class="ca.ulaval.glo4003.b6.housematch.admin.repository.XMLAdminRepository" />
-
-
+    <beans:bean
+        id="userValidatorFactory"
+        class="ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidatorFactory" />
+    <beans:bean
+        id="loginUserConverter"
+        class="ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter" />
+    <beans:bean
+        id="loginUserService"
+        class="ca.ulaval.glo4003.b6.housematch.user.service.UserLoginService"
+    >
+    	<beans:constructor-arg
+	        name="userRepository"
+	        ref="userRepository" />
+	    <beans:constructor-arg
+	        name="adminRepository"
+	        ref="adminRepository" />
+	    <beans:constructor-arg
+	        name="userValidatorFactory"
+	        ref="userValidatorFactory" />
+    </beans:bean>
+    
+    <beans:bean
+        id="userCorruptionVerificator"
+        class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator"
+    >
+    	<beans:constructor-arg
+	        name="loginUserService"
+	        ref="loginUserService" />
+    </beans:bean>
+ 
     <beans:bean
         id="loginController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.LoginController"
     >
         <beans:constructor-arg
-            name="userRepository"
-            ref="userRepository" />
+            name="loginUserConverter"
+            ref="loginUserConverter" />
         <beans:constructor-arg
-            name="adminRepository"
-            ref="adminRepository" />
+            name="userCorruptionVerificator"
+            ref="userCorruptionVerificator" />
     </beans:bean>
 
     <beans:bean
@@ -158,6 +149,4 @@
             ref="userRepository" />
     </beans:bean>
 
-
->>>>>>> origin/create_estates_from_service
 </beans:beans>

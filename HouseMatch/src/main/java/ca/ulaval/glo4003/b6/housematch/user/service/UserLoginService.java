@@ -28,9 +28,11 @@ public class UserLoginService {
    }
 
    @Autowired
-   public UserLoginService(UserRepository userRepository, AdminRepository adminRepository) {
+   public UserLoginService(UserRepository userRepository, AdminRepository adminRepository,
+         UserValidatorFactory userValidatorFactory) {
       this.userRepository = userRepository;
       this.adminRepository = adminRepository;
+      this.userValidatorFactory = userValidatorFactory;
    }
 
    public User login(HttpServletRequest request, UserLoginDto userLoginDto) {
