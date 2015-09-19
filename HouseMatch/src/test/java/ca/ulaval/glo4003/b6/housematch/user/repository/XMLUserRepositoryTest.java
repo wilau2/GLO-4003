@@ -16,157 +16,131 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
-import ca.ulaval.glo4003.b6.housematch.user.repository.XMLFileEditor;
-import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
 public class XMLUserRepositoryTest {
 
-  private String existingEmail = "an existing Email";
+   private String existingEmail = "an existing Email";
 
-  private String correctPassword = "the corresponding password";
+   private String correctPassword = "the corresponding password";
 
-  private String newEmail = "a new Email";
+   private String newEmail = "a new Email";
 
-  private String correctPathToFile = "persistence/users.xml";
+   private String correctPathToFile = "persistence/users.xml";
 
-  private String correctPathToEmailValue = "users/user/email";
+   private String correctPathToEmailValue = "users/user/email";
 
-  @Mock
-  private XMLFileEditor editor;
+   @Mock
+   private XMLFileEditor editor;
 
-  @Mock
-  private Document usedDocument;
+   @Mock
+   private Document usedDocument;
 
-  @InjectMocks
-  public XMLUserRepository repository;
+   @InjectMocks
+   public XMLUserRepository repository;
 
-  @Before
-  public void setup() throws DocumentException {
-    MockitoAnnotations.initMocks(this);
-    configureEditor();
-  }
+   @Before
+   public void setup() throws DocumentException {
+      MockitoAnnotations.initMocks(this);
+      configureEditor();
+   }
 
-  @Test
-  public void whenFindingByEmailShouldReadTheCorrectFile() throws DocumentException {
-    repository.findByEmail(existingEmail);
+   @Test
+   public void whenFindingByEmailShouldReadTheCorrectFile() throws DocumentException {
+      repository.findByEmail(existingEmail);
 
-    verify(editor).readXMLFile(correctPathToFile);
-  }
+      verify(editor).readXMLFile(correctPathToFile);
+   }
 
-  @Test
-  public void whenFindingByEmailShouldLookIfUsersExists() {
-    repository.findByEmail(existingEmail);
+   @Test
+   public void whenFindingByEmailShouldLookIfUsersExists() {
+      repository.findByEmail(existingEmail);
 
-    verify(editor).elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue,
-        existingEmail);
-  }
+      verify(editor).elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue, existingEmail);
+   }
 
-  @Test(expected = UserNotFoundException.class)
-  public void whenFindingByEmailShouldReturnExceptionIfEmailDoesNotExist() {
-    repository.findByEmail(newEmail);
-  }
+   @Test
+   public void whenFindingByEmailShouldReturnAUserWithTheCorrectEmail() {
+      User returnedUser = repository.findByEmail(existingEmail);
 
-  @Test
-  public void whenFindingByEmailShouldReturnAUserWithTheCorrectEmail() {
-    User returnedUser = repository.findByEmail(existingEmail);
+      assertEquals(returnedUser.getEmail(), existingEmail);
+   }
 
-    assertEquals(returnedUser.getEmail(), existingEmail);
-  }
+   @Test
+   public void whenFindingByEmailShouldReturnAUserWithTheCorrectPassword() {
+      User returnedUser = repository.findByEmail(existingEmail);
 
-  @Test
-  public void whenFindingByEmailShouldReturnAUserWithTheCorrectPassword() {
-    User returnedUser = repository.findByEmail(existingEmail);
+      assertEquals(returnedUser.getPassword(), correctPassword);
+   }
 
-    assertEquals(returnedUser.getPassword(), correctPassword);
-  }
+   @Test
+   public void whenAddingUserShouldReadTheCorrectFile() throws DocumentException {
+      User user = new User();
 
-  @Test(expected = CouldNotAccessDataException.class)
-  public void whenFindingByEmailShouldThrowExceptionIfTheFileCantBeAccessed()
-      throws DocumentException {
-    configureEditorToThrowError();
+      repository.add(user);
 
-    repository.findByEmail(existingEmail);
-  }
+      verify(editor).readXMLFile(correctPathToFile);
+   }
 
-  @Test
-  public void whenAddingUserShouldReadTheCorrectFile() throws DocumentException {
-    User user = new User();
+   @Test
+   public void whenAddingUserShouldLookIfUsersExists() {
+      User user = new User();
+      user.setEmail(newEmail);
 
-    repository.add(user);
+      repository.add(user);
 
-    verify(editor).readXMLFile(correctPathToFile);
-  }
+      verify(editor).elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue, newEmail);
+   }
 
-  @Test
-  public void whenAddingUserShouldShouldLookIfUsersExists() {
-    User user = new User();
-    user.setEmail(newEmail);
+   @Test
+   public void whenAddingUserShouldAddNewUserToXMLWithCorrespondingMap() {
+      User user = new User();
+      user.setEmail(newEmail);
+      user.setPassword("a password");
 
-    repository.add(user);
+      repository.add(user);
 
-    verify(editor).elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue,
-        newEmail);
-  }
+      HashMap<String, String> rightMap = new HashMap<String, String>();
+      rightMap.put("email", newEmail);
+      rightMap.put("password", "a password");
 
-  @Test(expected = UserAlreadyExistsException.class)
-  public void whenAddingUserShouldReturnExceptionIfEmailExist() {
-    User user = new User();
-    user.setEmail(existingEmail);
+      verify(editor).addNewElementToDocument(usedDocument, "user", rightMap);
+   }
 
-    repository.add(user);
-  }
+   @Test
+   public void whenAddingUserShouldWriteToTheRightFile() throws IOException {
+      User user = new User();
+      user.setEmail(newEmail);
 
-  @Test
-  public void whenAddingUserShouldAddNewUserToXMLWithCorrespondingMap() {
-    User user = new User();
-    user.setEmail(newEmail);
-    user.setPassword("a password");
+      repository.add(user);
 
-    repository.add(user);
+      verify(editor).formatAndWriteDocument(usedDocument, correctPathToFile);
+   }
 
-    HashMap<String, String> rightMap = new HashMap<String, String>();
-    rightMap.put("email", newEmail);
-    rightMap.put("password", "a password");
+   @Test(expected = UserNotFoundException.class)
+   public void whenFindingByEmailShouldReturnExceptionIfEmailDoesNotExist() {
+      repository.findByEmail(newEmail);
+   }
 
-    verify(editor).addNewElementToDocument(usedDocument, "user", rightMap);
-  }
+   @Test(expected = UserAlreadyExistsException.class)
+   public void whenAddingUserShouldReturnExceptionIfEmailExist() {
+      User user = new User();
+      user.setEmail(existingEmail);
 
-  @Test
-  public void whenAddingUserShouldWriteToTheRightFile() throws IOException {
-    User user = new User();
-    user.setEmail(newEmail);
+      repository.add(user);
+   }
 
-    repository.add(user);
+   private void configureEditor() throws DocumentException {
+      given(editor.readXMLFile(correctPathToFile)).willReturn(usedDocument);
+      given(editor.elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue, existingEmail))
+            .willReturn(true);
 
-    verify(editor).formatAndWriteDocument(usedDocument, correctPathToFile);
-  }
+      HashMap<String, String> mapWithUserData = new HashMap<String, String>();
+      mapWithUserData.put("email", existingEmail);
+      mapWithUserData.put("password", correctPassword);
 
-  @Test(expected = CouldNotAccessDataException.class)
-  public void whenAddingUserShouldThrowExceptionIfTheFileCantBeAccessed() throws DocumentException {
-    User user = new User();
-    user.setEmail(newEmail);
-    configureEditorToThrowError();
-
-    repository.add(user);
-  }
-
-  private void configureEditorToThrowError() throws DocumentException {
-    given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
-  }
-
-  private void configureEditor() throws DocumentException {
-    given(editor.readXMLFile(correctPathToFile)).willReturn(usedDocument);
-    given(editor.elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue,
-        existingEmail)).willReturn(true);
-
-    HashMap<String, String> mapWithUserData = new HashMap<String, String>();
-    mapWithUserData.put("email", existingEmail);
-    mapWithUserData.put("password", correctPassword);
-
-    given(editor.returnAttributesOfElementWithCorrespondingValue(usedDocument,
-        correctPathToEmailValue, existingEmail)).willReturn(mapWithUserData);
-  }
+      given(editor.returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToEmailValue,
+            existingEmail)).willReturn(mapWithUserData);
+   }
 }
