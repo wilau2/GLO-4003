@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessD
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
-public interface UserRepository {
+public interface UserDao {
 
    public User findByEmail(String email) throws UserNotFoundException, CouldNotAccessDataException;
 

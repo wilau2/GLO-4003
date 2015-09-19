@@ -10,23 +10,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
-import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
+import ca.ulaval.glo4003.b6.housematch.user.repository.UserDao;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
 @Controller
 public class SignupController {
 
-   private UserRepository userRepository;
+   private UserDao userRepository;
 
    private SignupUserConverter converter;
 
-   public void setUserRepository(UserRepository userRepository) {
+   public void setUserRepository(UserDao userRepository) {
       this.userRepository = userRepository;
    }
 
    @Autowired
-   public SignupController(UserRepository userRepository, SignupUserConverter converter) {
+   public SignupController(UserDao userRepository, SignupUserConverter converter) {
       this.userRepository = userRepository;
       this.converter = converter;
    }

@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 
+import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessDataException;
@@ -15,16 +17,19 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExis
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
 @Singleton
-public class XMLUserRepository implements UserRepository {
+public class XMLUserRepository implements UserDao {
 
    private XMLFileEditor fileEditor;
+
+   private RepositoryToPersistenceDtoFactory dtoFactory;
 
    private String pathToXML = "persistence/users.xml";
 
    private String pathToEmailValue = "users/user/email";
 
-   public XMLUserRepository() { // should have a bean to give him the two paths
+   public XMLUserRepository() {
       this.fileEditor = new XMLFileEditor();
+      this.dtoFactory = new RepositoryToPersistenceDtoFactory();
 
    }
 
@@ -64,18 +69,10 @@ public class XMLUserRepository implements UserRepository {
    }
 
    private void addNewUserToDocument(Document existingDocument, User newUser) {
-      String elementName = "user";
 
-      HashMap<String, String> attributes = new HashMap<String, String>();
+      RepositoryToPersistenceDto userDto = dtoFactory.getRepositoryDto(newUser);
 
-      attributes.put("username", newUser.getUsername());
-      attributes.put("firstName", newUser.getFirstName());
-      attributes.put("lastName", newUser.getLastName());
-      attributes.put("phoneNumber", newUser.getPhoneNumber());
-      attributes.put("email", newUser.getEmail());
-      attributes.put("password", newUser.getPassword());
-
-      fileEditor.addNewElementToDocument(existingDocument, elementName, attributes);
+      fileEditor.addNewElementToDocument(existingDocument, userDto);
    }
 
    private User returnUserWithGivenEmail(Document existingDocument, String email) {
