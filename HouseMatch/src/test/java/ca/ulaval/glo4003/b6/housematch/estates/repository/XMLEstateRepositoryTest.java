@@ -23,6 +23,8 @@ public class XMLEstateRepositoryTest {
       private static final String VALID_TYPE = "VALID_TYPE";
       private static final String VALID_ADDRESS = "VALID_ADDRESS";
       private static final Integer VALID_PRICE = 99999;
+     
+      private static final String ELEMENT_NAME = "estate";
 
       private String XML_FILE_PATH = "persistence/estates.xml";
       
@@ -37,6 +39,7 @@ public class XMLEstateRepositoryTest {
  
       @InjectMocks
       private XMLEstateRepository xmlEstateRepository;
+      
       
       @Before
       public void setUp() throws DocumentException{
@@ -75,6 +78,26 @@ public class XMLEstateRepositoryTest {
          xmlEstateRepository.addEstate(estate);
          //then
          verify(xmlFileEditor, times(0)).addNewElementToDocument(usedDocument, "estate", attributes);
+      }
+      
+      @Test
+      public void gettingAllEstatesShouldReadEstateXMLFile() throws DocumentException {
+         //Given
+
+         //When
+         xmlEstateRepository.getAllEstates();
+         //Then
+         verify(xmlFileEditor, times(1)).readXMLFile(XML_FILE_PATH);
+      }
+      
+      @Test
+      public void gettingAllEstatesShouldCallExtractAllElementsFromDocument() {
+         //Given
+
+         //When
+         xmlEstateRepository.getAllEstates();
+         //Then
+         verify(xmlFileEditor, times(1)).getAllElementsFromDocument(usedDocument, ELEMENT_NAME);
       }
       
 

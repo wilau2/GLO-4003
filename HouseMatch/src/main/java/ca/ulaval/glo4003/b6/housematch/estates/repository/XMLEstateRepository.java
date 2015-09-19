@@ -18,8 +18,13 @@ public class XMLEstateRepository implements EstateRepository {
    private String XML_FILE_PATH = "persistence/estates.xml";
 
    @Override
-   public Collection<Estate> getAllEstate() {
-      // TODO Auto-generated method stub
+   public Collection<Estate> getAllEstates() {
+      try {
+         xmlFileEditor.readXMLFile(XML_FILE_PATH);
+      } catch (DocumentException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
       return null;
    }
 

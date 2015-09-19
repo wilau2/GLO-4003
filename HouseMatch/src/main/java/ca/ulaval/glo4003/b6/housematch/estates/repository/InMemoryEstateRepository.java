@@ -11,7 +11,7 @@ public class InMemoryEstateRepository implements EstateRepository {
    private List<Estate> estates = new ArrayList<Estate>();
 
    @Override
-   public Collection<Estate> getAllEstate() {
+   public Collection<Estate> getAllEstates() {
       // TODO Auto-generated method stub
       return null;
    }

@@ -95,4 +95,16 @@ public class EstatesServiceTest {
 
       // Then InvalidEstateException is thrown
    }
+
+   @Test
+   public void whenAskedAllEstatesShouldCallEstateRepository() {
+      //Given
+      
+      //When
+      estatesService.getAllEstates();
+      
+      //Then
+      verify(estateRepository, times(1)).getAllEstates();
+   }
+
 }

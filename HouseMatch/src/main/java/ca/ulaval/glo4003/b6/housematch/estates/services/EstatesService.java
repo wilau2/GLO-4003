@@ -40,4 +40,8 @@ public class EstatesService {
       estateRepository.addEstate(estate);
    }
 
+   public void getAllEstates() {
+      estateRepository.getAllEstates();
+   }
+
 }

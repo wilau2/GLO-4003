@@ -80,4 +80,9 @@ public class XMLFileEditor {
       }
       return attributes;
    }
+
+   public void getAllElementsFromDocument(Document usedDocument, String elementName) {
+      // TODO Auto-generated method stub
+      
+   }
 }
