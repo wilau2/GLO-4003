@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.estates.services;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,6 +16,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 
@@ -29,7 +31,7 @@ public class EstatesServiceTest {
    private static final Integer VALID_PRICE = 125000;
 
    @Mock
-   private EstateValidator estateValidator;
+   private EstateValidatorFactory estateValidatorFactory;
 
    @Mock
    private EstateDto estateDto;
@@ -46,15 +48,19 @@ public class EstatesServiceTest {
    @Mock
    private EstateAssembler estateAssembler;
 
+   @Mock
+   private EstateValidator estateValidator;
+
    @InjectMocks
    private EstatesService estatesService;
 
    @Before
    public void setUp() {
       MockitoAnnotations.initMocks(this);
-
+      when(estateValidatorFactory.getValidator()).thenReturn(estateValidator);
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
+
    }
 
    @Test
@@ -77,5 +83,16 @@ public class EstatesServiceTest {
 
       // Then
       verify(estateAssemblerFactory, times(1)).createEstateAssembler();
+   }
+
+   @Test(expected = InvalidEstateException.class)
+   public void addingEstateWhenValidatingInvalidEstateShouldThrowException() throws InvalidEstateException {
+      // Given
+      doThrow(new InvalidEstateException()).when(estateValidator).validate(estateDto);
+
+      // When
+      estatesService.addEstate(estateDto);
+
+      // Then InvalidEstateException is thrown
    }
 }
