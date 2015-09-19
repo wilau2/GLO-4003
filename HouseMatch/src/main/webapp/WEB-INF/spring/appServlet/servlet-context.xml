@@ -47,13 +47,13 @@
         id="estateService"
         class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService"
     >
-        <beans:property
+        <beans:constructor-arg
             name="estateValidatorFactory"
             ref="estateValidatorFactory" />
-        <beans:property
+        <beans:constructor-arg
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
-        <beans:property
+        <beans:constructor-arg
             name="estateRepository"
             ref="estateRepository" />
     </beans:bean>
@@ -61,22 +61,25 @@
 
     <beans:bean
         id="estateCorruptionVerificator"
-        class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator">
-        <beans:property
+        class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator"
+    >
+        <beans:constructor-arg
             name="estateService"
             ref="estateService" />
     </beans:bean>
-    
+
     <beans:bean
         id="estateConverter"
         class="ca.ulaval.glo4003.b6.housematch.web.converters.EstateConverter" />
     <beans:bean
         id="estateController"
-        class="ca.ulaval.glo4003.b6.housematch.web.controllers.EstateController">
-        <beans:property
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.EstateController"
+    >
+        <beans:constructor-arg
             name="estateConverter"
-            ref="estateConverter" />
-        <beans:property
+            ref="estateConverter"
+        />
+        <beans:constructor-arg
             name="estateCorruptionVerificator"
             ref="estateCorruptionVerificator" />
     </beans:bean>
@@ -101,10 +104,10 @@
         id="loginController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.LoginController"
     >
-        <beans:property
+        <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />
-        <beans:property
+        <beans:constructor-arg
             name="adminRepository"
             ref="adminRepository" />
     </beans:bean>
@@ -113,7 +116,7 @@
         id="signupController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.SignupController"
     >
-        <beans:property
+        <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />
     </beans:bean>
