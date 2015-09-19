@@ -15,8 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
-import ca.ulaval.glo4003.b6.housematch.user.repository.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
@@ -83,14 +83,6 @@ public class XMLUserRepositoryTest {
     assertEquals(returnedUser.getPassword(), correctPassword);
   }
 
-  @Test(expected = CouldNotAccessDataException.class)
-  public void whenFindingByEmailShouldThrowExceptionIfTheFileCantBeAccessed()
-      throws DocumentException {
-    configureEditorToThrowError();
-
-    repository.findByEmail(existingEmail);
-  }
-
   @Test
   public void whenAddingUserShouldReadTheCorrectFile() throws DocumentException {
     User user = new User();
@@ -142,19 +134,6 @@ public class XMLUserRepositoryTest {
     repository.add(user);
 
     verify(editor).formatAndWriteDocument(usedDocument, correctPathToFile);
-  }
-
-  @Test(expected = CouldNotAccessDataException.class)
-  public void whenAddingUserShouldThrowExceptionIfTheFileCantBeAccessed() throws DocumentException {
-    User user = new User();
-    user.setEmail(newEmail);
-    configureEditorToThrowError();
-
-    repository.add(user);
-  }
-
-  private void configureEditorToThrowError() throws DocumentException {
-    given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
   }
 
   private void configureEditor() throws DocumentException {

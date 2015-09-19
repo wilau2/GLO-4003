@@ -23,7 +23,28 @@
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
-        <beans:bean id="estateAssemblerFactory" class="ca.ulaval.glo4003.b6.housematch.estates.assembler.factory.EstateAssemblerFactory"/>
 	</beans:bean>
+
+	
+	<beans:bean id="estatesService" class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesServices">
+		<beans:property name="estateValidator" ref="estateValidator" />
+	  	<beans:property name="estateAssemblerFactory" ref="estateAssemblerFactory" />
+	  	<beans:property name="estateRepository" ref="estateRepository" />
+	</beans:bean>
+	
+	<beans:bean id="estateValidator" class="ca.ulaval.glo4003.b6.housematch.estates.dto.validation.EstateValidator"/>
+	<beans:bean id="estateAssemblerFactory" class="ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory"/>
+	<beans:bean id="estateRepository" class="ca.ulaval.glo4003.b6.housematch.estates.repository.XMLEstateRepository"/>
+	
+	
+	<beans:bean id="userLoginService" class="ca.ulaval.glo4003.b6.housematch.user.service.UserLoginService">
+	  		<beans:property name="userRepository" ref="userRepository" />
+	  		<beans:property name="adminRepository" ref="adminRepository" />
+	 </beans:bean>
+	 
+	 <beans:bean id="userRepository" class="ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository"/>
+	 <beans:bean id="adminRepository" class="ca.ulaval.glo4003.b6.housematch.admin.repository.XMLAdminRepository"/>
+	
+	
 	
 </beans:beans>
