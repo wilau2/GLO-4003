@@ -15,6 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceUserDto;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -40,6 +42,12 @@ public class XMLUserRepositoryTest {
    @Mock
    private Document usedDocument;
 
+   @Mock
+   private RepositoryToPersistenceDtoFactory dtoFactory;
+
+   @Mock
+   private RepositoryToPersistenceUserDto userDto;
+
    @InjectMocks
    public XMLUserRepository repository;
 
@@ -48,12 +56,12 @@ public class XMLUserRepositoryTest {
       MockitoAnnotations.initMocks(this);
       configureEditor();
       configureUser();
+      configureFactory();
    }
 
    @Test
    public void whenFindingByEmailShouldReadTheCorrectFile() throws DocumentException {
       // Given
-      verify(editor).readXMLFile(correctPathToFile);
 
       // When
       repository.findByEmail(existingEmail);
@@ -120,16 +128,27 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenAddingUserShouldAddNewUserToXMLWithCorrespondingMap() {
+   public void whenAddingUserShouldCreateNewDto() {
       // Given
       configureDifferentUser();
-      HashMap<String, String> rightMap = returnTheCorrectMap();
 
       // When
       repository.add(user);
 
       // Then
-      verify(editor).addNewElementToDocument(usedDocument, "user", rightMap);
+      verify(dtoFactory).getRepositoryDto(user);
+   }
+
+   @Test
+   public void whenAddingUserShouldAddNewUserToXMLWithDto() {
+      // Given
+      configureDifferentUser();
+
+      // When
+      repository.add(user);
+
+      // Then
+      verify(editor).addNewElementToDocument(usedDocument, userDto);
    }
 
    @Test
@@ -151,7 +170,7 @@ public class XMLUserRepositoryTest {
       // When
       repository.findByEmail(newEmail);
 
-      // Then Exception is trown
+      // Then Exception is thrown
    }
 
    @Test(expected = UserAlreadyExistsException.class)
@@ -161,20 +180,11 @@ public class XMLUserRepositoryTest {
       // When
       repository.add(user);
 
-      // Then Exception is trown
+      // Then Exception is thrown
    }
 
-   private HashMap<String, String> returnTheCorrectMap() {
-
-      HashMap<String, String> rightMap = new HashMap<String, String>();
-      rightMap.put("username", "username2");
-      rightMap.put("firstName", "firstName2");
-      rightMap.put("lastName", "lastName2");
-      rightMap.put("phoneNumber", "phoneNumber2");
-      rightMap.put("email", newEmail);
-      rightMap.put("password", "newPassword");
-
-      return rightMap;
+   private void configureFactory() {
+      given(dtoFactory.getRepositoryDto(user)).willReturn(userDto);
    }
 
    private void configureUser() {

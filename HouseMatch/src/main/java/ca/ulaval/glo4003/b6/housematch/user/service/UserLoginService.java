@@ -9,17 +9,17 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
-import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
+import ca.ulaval.glo4003.b6.housematch.user.repository.UserDao;
 
 public class UserLoginService {
 
-   private UserRepository userRepository;
+   private UserDao userRepository;
 
    private AdminRepository adminRepository;
 
    private UserValidatorFactory userValidatorFactory;
 
-   public void setUserRepository(UserRepository userRepository) {
+   public void setUserRepository(UserDao userRepository) {
       this.userRepository = userRepository;
    }
 
@@ -28,7 +28,7 @@ public class UserLoginService {
    }
 
    @Autowired
-   public UserLoginService(UserRepository userRepository, AdminRepository adminRepository) {
+   public UserLoginService(UserDao userRepository, AdminRepository adminRepository) {
       this.userRepository = userRepository;
       this.adminRepository = adminRepository;
    }
