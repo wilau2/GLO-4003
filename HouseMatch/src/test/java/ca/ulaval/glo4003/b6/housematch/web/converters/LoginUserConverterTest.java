@@ -5,56 +5,59 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.b6.housematch.user.model.User;
-import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserModel;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
+import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 public class LoginUserConverterTest {
 
-  private User user;
+   private UserDto userDto;
 
-  private LoginUserModel viewUser;
+   private LoginUserViewModel viewModelUser;
 
-  private LoginUserConverter converter;
+   private LoginUserConverter converter;
 
-  @Before
-  public void setup() {
-    user = new User();
-    user.setEmail("an Email");
-    user.setPassword("a Password");
+   private String USERNAME = "username";
 
-    viewUser = new LoginUserModel();
-    viewUser.setEmail("another Email");
-    viewUser.setPassword("another Password");
+   private String PASSWORD = "password";
 
-    converter = new LoginUserConverter();
-  }
+   @Before
+   public void setup() {
+      userDto = new UserDto();
+      userDto.setUsername(USERNAME);
+      userDto.setPassword(PASSWORD);
 
-  @Test
-  public void whenConvertingAUserIntoAUserModelItShouldKeepTheSameEmail() {
-    LoginUserModel returnedViewUser;
-    returnedViewUser = converter.convert(user);
-    assertEquals("an Email", returnedViewUser.getEmail());
-  }
+      viewModelUser = new LoginUserViewModel();
+      viewModelUser.setUsername("another Email");
+      viewModelUser.setPassword("another Password");
 
-  @Test
-  public void whenConvertingAUserIntoAUserModelItShouldKeepTheSamePassword() {
-    LoginUserModel returnedViewUser;
-    returnedViewUser = converter.convert(user);
-    assertEquals("a Password", returnedViewUser.getPassword());
-  }
+      converter = new LoginUserConverter();
+   }
 
-  @Test
-  public void whenConvertingAUserModelIntoAUserItShouldKeepTheSameEmail() {
-    User returnedUser;
-    returnedUser = converter.convert(viewUser);
-    assertEquals("another Email", returnedUser.getEmail());
-  }
+   @Test
+   public void whenConvertingAUserIntoAUserModelItShouldKeepTheSameUsername() {
+      LoginUserViewModel returnedViewUser;
+      returnedViewUser = converter.convertToViewModel(userDto);
+      assertEquals("an Email", returnedViewUser.getUsername());
+   }
 
-  @Test
-  public void whenConvertingAUserModelIntoAUserItShouldKeepTheSamePassword() {
-    User returnedUser;
-    returnedUser = converter.convert(viewUser);
-    assertEquals("another Password", returnedUser.getPassword());
-  }
+   @Test
+   public void whenConvertingAUserIntoAUserModelItShouldKeepTheSamePassword() {
+      LoginUserViewModel returnedViewUser;
+      returnedViewUser = converter.convertToViewModel(userDto);
+      assertEquals("a Password", returnedViewUser.getPassword());
+   }
+
+   @Test
+   public void whenConvertingAUserModelIntoAUserItShouldKeepTheSameEmail() {
+      UserDto returnedUser;
+      returnedUser = converter.convertToDto(viewModelUser);
+      assertEquals("another Email", returnedUser.getEmail());
+   }
+
+   @Test
+   public void whenConvertingAUserModelIntoAUserItShouldKeepTheSamePassword() {
+      UserDto returnedUser;
+      returnedUser = converter.convertToDto(viewModelUser);
+      assertEquals("another Password", returnedUser.getPassword());
+   }
 }

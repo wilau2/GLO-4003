@@ -6,15 +6,15 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
-public class LoginUserModelTest {
+public class LoginUserViewModelTest {
 
-  private LoginUserModel viewUser;
+  private LoginUserViewModel viewUser;
 
   @Before
   public void setup() {
-    viewUser = new LoginUserModel();
+    viewUser = new LoginUserViewModel();
   }
 
   @Test

@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,91 +14,103 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.validation.support.BindingAwareModelMap;
 
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
-import ca.ulaval.glo4003.b6.housematch.web.controllers.LoginController;
+import ca.ulaval.glo4003.b6.housematch.user.service.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 public class LoginControllerTest {
 
-  @Mock
-  private HttpSession session;
+   @Mock
+   private UserLoginService userLoginService;
 
-  @Mock
-  private User user;
+   @Mock
+   private HttpSession session;
 
-  @Mock
-  private LoginUserModel loginExistingUser;
+   @Mock
+   private UserDto userDto;
 
-  @Mock
-  private XMLUserRepository userRepository;
+   @Mock
+   User user;
 
-  @Mock
-  private LoginUserConverter converter;
+   @Mock
+   private LoginUserViewModel loginExistingUser;
 
-  @Mock
-  private HttpServletRequest request;
+   @Mock
+   private XMLUserRepository userRepository;
 
-  @InjectMocks
-  public LoginController controller;
+   @Mock
+   private LoginUserConverter converter;
 
-  private BindingAwareModelMap model;
+   @Mock
+   private HttpServletRequest request;
 
-  @Before
-  public void setup() {
-    MockitoAnnotations.initMocks(this);
-    configureConverter();
-    configureRepository();
-    configureRequest();
-  }
+   @InjectMocks
+   public LoginController controller;
 
-  @Test
-  public void getRequestLoginReturnsTheLoginView() {
-    model = new BindingAwareModelMap();
-    String view = controller.login(model);
+   private BindingAwareModelMap model;
 
-    assertEquals("login", view);
-  }
+   @Before
+   public void setup() {
+      MockitoAnnotations.initMocks(this);
+      configureConverter();
+      configureRepository();
+      configureRequest();
+   }
 
-  @Test
-  public void postRequestLoginReturnsTheIndexView() {
-    // model = new BindingAwareModelMap();
+   @Test
+   public void getRequestLoginReturnsTheLoginView() {
+      // Given
+      model = new BindingAwareModelMap();
 
-    // String view = controller.login(request, loginExistingUser);
+      // When
+      String view = controller.login(model);
 
-    // assertEquals("redirect:/", view);
-  }
+      // Then
+      assertEquals("login", view);
+   }
 
-  @Test
-  public void postRequestLoginShouldUseTheConverter() {
-    // controller.login(request, loginExistingUser);
+   @Test
+   public void postRequestLoginReturnsTheIndexView() {
+      model = new BindingAwareModelMap();
 
-    // verify(converter).convert(loginExistingUser);
-  }
+      String view = controller.login(request, loginExistingUser);
 
-  @Test
-  public void postRequestLoginShouldUseTheRepository() {
-    // controller.login(request, loginExistingUser);
+      assertEquals("redirect:/", view);
+   }
 
-    // verify(userRepository).findByEmail(user);
-  }
+   @Test
+   public void postRequestLoginShouldUseTheConverter() {
+      controller.login(request, loginExistingUser);
 
-  @Test
-  public void postRequestLoginShouldSetALoggedUser() {
-    // controller.login(request, loginExistingUser);
-    // assertEquals(loginExistingUser.email, request.getAttribute("loggedInUser"));
-  }
+      verify(converter).convertToDto(loginExistingUser);
+   }
 
-  private void configureConverter() {
-    given(converter.convert(loginExistingUser)).willReturn(user);
-  }
+   @Test
+   public void postRequestLoginShouldUseTheUserLoginService() {
+      controller.login(request, loginExistingUser);
 
-  private void configureRepository() {
-    // given(userRepository.findByEmail(user)).willReturn(user);
-  }
+      verify(userLoginService).serviceMethod(request, userDto);
+   }
 
-  private void configureRequest() {
-    // given(request.getSession()).willReturn(session);
-  }
+   @Test
+   public void postRequestLoginShouldSetALoggedUser() {
+      controller.login(request, loginExistingUser);
+      assertEquals(loginExistingUser.getUsername(), request.getAttribute("loggedInUser"));
+   }
+
+   private void configureConverter() {
+      given(converter.convertToDto(loginExistingUser)).willReturn(userDto);
+   }
+
+   private void configureRepository() {
+      given(userRepository.findByEmail(userDto.getEmail())).willReturn(user);
+   }
+
+   private void configureRequest() {
+      given(request.getSession()).willReturn(session);
+   }
+
 }

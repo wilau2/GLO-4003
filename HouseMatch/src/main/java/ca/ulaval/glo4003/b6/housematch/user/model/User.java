@@ -2,23 +2,20 @@ package ca.ulaval.glo4003.b6.housematch.user.model;
 
 public class User {
 
-  public String email;
+   private String username;
 
-  public String password;
+   private String firstName;
 
-  public String getEmail() {
-    return email;
-  }
+   private String lastName;
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+   private String phoneNumber;
 
-  public String getPassword() {
-    return password;
-  }
+   private String email;
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+   private String password;
+
+   public User(String username, String firstName, String lastName, String phoneNum) {
+      username = username;
+   }
+
 }
