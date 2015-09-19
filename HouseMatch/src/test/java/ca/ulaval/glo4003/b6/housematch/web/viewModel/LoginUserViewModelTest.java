@@ -6,42 +6,40 @@ import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
-
 public class LoginUserViewModelTest {
 
-  private LoginUserViewModel viewUser;
+   private LoginUserViewModel viewUser;
 
-  @Before
-  public void setup() {
-    viewUser = new LoginUserViewModel();
-  }
+   @Before
+   public void setup() {
+      viewUser = new LoginUserViewModel();
+   }
 
-  @Test
-  public void newUserHasNoEmail() {
-    assertNull(viewUser.getEmail());
-  }
+   @Test
+   public void newUserHasNoUsername() {
+      assertNull(viewUser.getUsername());
+   }
 
-  @Test
-  public void newUserHasNoPassword() {
-    assertNull(viewUser.getPassword());
-  }
+   @Test
+   public void newUserHasNoPassword() {
+      assertNull(viewUser.getPassword());
+   }
 
-  @Test
-  public void emailSetterAndGetter() {
-    String testEmail = "anEmail";
+   @Test
+   public void usernameSetterAndGetter() {
+      String testEmail = "anEmail";
 
-    viewUser.setEmail(testEmail);
+      viewUser.setUsername(testEmail);
 
-    assertEquals(testEmail, viewUser.getEmail());
-  }
+      assertEquals(testEmail, viewUser.getUsername());
+   }
 
-  @Test
-  public void passwordSetterAndGetter() {
-    String testPassword = "a password";
+   @Test
+   public void passwordSetterAndGetter() {
+      String testPassword = "a password";
 
-    viewUser.setPassword(testPassword);
+      viewUser.setPassword(testPassword);
 
-    assertEquals(testPassword, viewUser.getPassword());
-  }
+      assertEquals(testPassword, viewUser.getPassword());
+   }
 }
