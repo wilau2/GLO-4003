@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.user.model;
+package ca.ulaval.glo4003.b6.housematch.user.domain;
 
 public class User {
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
-import ca.ulaval.glo4003.b6.housematch.user.service.UserLoginService;
+import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
 
 public class UserLoginCorruptionVerificator {
 

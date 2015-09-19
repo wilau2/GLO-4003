@@ -86,7 +86,7 @@
 
     <beans:bean
         id="loggedUser"
-        class="ca.ulaval.glo4003.b6.housematch.user.model.User"
+        class="ca.ulaval.glo4003.b6.housematch.user.domain.User"
         scope="session"
     >
         <aop:scoped-proxy />
@@ -106,7 +106,7 @@
         class="ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter" />
     <beans:bean
         id="loginUserService"
-        class="ca.ulaval.glo4003.b6.housematch.user.service.UserLoginService"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService"
     >
     	<beans:constructor-arg
 	        name="userRepository"

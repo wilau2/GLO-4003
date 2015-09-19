@@ -1,9 +1,11 @@
-package ca.ulaval.glo4003.b6.housematch.user.model;
+package ca.ulaval.glo4003.b6.housematch.user.domain;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 
 public class UserTest {
 

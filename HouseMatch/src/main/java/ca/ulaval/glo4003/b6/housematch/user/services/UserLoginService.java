@@ -1,14 +1,14 @@
-package ca.ulaval.glo4003.b6.housematch.user.service;
+package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.admin.repository.AdminRepository;
+import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidatorFactory;
-import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserDao;
 
 public class UserLoginService {
