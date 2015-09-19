@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -211,4 +212,5 @@ public class XMLUserRepositoryTest {
       given(editor.returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToEmailValue,
             existingEmail)).willReturn(mapWithUserData);
    }
+
 }

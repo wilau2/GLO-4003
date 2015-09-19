@@ -7,14 +7,13 @@ import javax.inject.Singleton;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.springframework.stereotype.Repository;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
-@Repository
 @Singleton
 public class XMLUserRepository implements UserRepository {
 
@@ -26,6 +25,7 @@ public class XMLUserRepository implements UserRepository {
 
    public XMLUserRepository() { // should have a bean to give him the two paths
       this.fileEditor = new XMLFileEditor();
+
    }
 
    @Override

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.user.repository;
+package ca.ulaval.glo4003.b6.housematch.persistance;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,7 +17,7 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
 public class XMLFileEditor {
-
+   
   public Document readXMLFile(String pathToXMLFile) throws DocumentException {
     File xml = new File(pathToXMLFile);
 
