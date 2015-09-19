@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.user.dto;
 
-public class UserDto {
+public class UserSignupDto {
 
    private String username;
 

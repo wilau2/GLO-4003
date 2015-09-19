@@ -15,9 +15,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.validation.support.BindingAwareModelMap;
 
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
@@ -25,13 +25,13 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 public class LoginControllerTest {
 
    @Mock
-   private UserCorruptionVerificator userCorruptionVerificatior;
+   private UserLoginCorruptionVerificator userCorruptionVerificatior;
 
    @Mock
    private HttpSession session;
 
    @Mock
-   private UserDto userDto;
+   private UserLoginDto userDto;
 
    @Mock
    User user;

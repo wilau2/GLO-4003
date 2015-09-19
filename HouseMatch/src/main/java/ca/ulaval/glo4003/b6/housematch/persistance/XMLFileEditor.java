@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.user.repository;
+package ca.ulaval.glo4003.b6.housematch.persistance;
 
 import java.io.File;
 import java.io.FileWriter;

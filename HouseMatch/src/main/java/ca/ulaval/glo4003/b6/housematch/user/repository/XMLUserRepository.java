@@ -7,16 +7,15 @@ import javax.inject.Singleton;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.springframework.stereotype.Repository;
 
 import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
-@Repository
 @Singleton
 public class XMLUserRepository implements UserDao {
 
@@ -31,6 +30,7 @@ public class XMLUserRepository implements UserDao {
    public XMLUserRepository() {
       this.fileEditor = new XMLFileEditor();
       this.dtoFactory = new RepositoryToPersistenceDtoFactory();
+
    }
 
    @Override

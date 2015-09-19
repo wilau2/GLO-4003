@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserDao;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
@@ -33,7 +33,7 @@ public class SignupController {
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
    public String signup(HttpServletRequest request, SignupUserModel viewModel) {
-      UserDto user = converter.convert(viewModel);
+      UserSignupDto user = converter.convertToDto(viewModel);
       // TODO FIX THAT WITH ASSEMBLER
       User user1 = new User(null, null, null, null, null, null);
       userRepository.add(user1);
