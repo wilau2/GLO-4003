@@ -1,12 +1,16 @@
 package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 
 public class XMLEstateRepository implements EstateRepository {
@@ -18,14 +22,35 @@ public class XMLEstateRepository implements EstateRepository {
    private String XML_FILE_PATH = "persistence/estates.xml";
 
    @Override
-   public Collection<Estate> getAllEstates() {
+   public Collection<EstateDto> getAllEstatesDto() {
+      Collection<EstateDto> estateDtoList = new ArrayList<>();
       try {
-         xmlFileEditor.readXMLFile(XML_FILE_PATH);
+         Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+         Collection<Element> elementList = xmlFileEditor.getAllElementsFromDocument(estateDocument, ESTATE);
+         estateDtoList = getDtoListFromElements(elementList);
+         
       } catch (DocumentException e) {
          // TODO Auto-generated catch block
          e.printStackTrace();
       }
-      return null;
+      
+      return estateDtoList;
+   }
+
+   private Collection<EstateDto> getDtoListFromElements(Collection<Element> elementList) {
+      Collection <EstateDto> estateDtoList = new ArrayList<>();
+      for ( Iterator<Element> iterator = elementList.iterator() ; iterator.hasNext();){
+         Element element = iterator.next();
+         estateDtoList.add(convertElementToDto(element));
+      }
+      return estateDtoList;
+   }
+
+   private EstateDto convertElementToDto(Element element) {
+      EstateDto estateDto = new EstateDto(element.attributeValue("type"), 
+                                          element.attributeValue("address"), 
+                                          Integer.parseInt(element.attributeValue("price"))); 
+      return estateDto;
    }
 
    @Override

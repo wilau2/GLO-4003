@@ -5,6 +5,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -104,7 +107,32 @@ public class EstatesServiceTest {
       estatesService.getAllEstates();
       
       //Then
-      verify(estateRepository, times(1)).getAllEstates();
+      verify(estateRepository, times(1)).getAllEstatesDto();
+   }
+   
+   @Test
+   public void whenAskedAllEstatesShouldCallEstateAssembleWithDto() {
+      //given
+      Collection<EstateDto> dumbEstateDtoList = new ArrayList<>();
+      dumbEstateDtoList.add(estateDto);
+      when(estateRepository.getAllEstatesDto()).thenReturn(dumbEstateDtoList);
+      //when
+      estatesService.getAllEstates();
+      //then
+      verify(estateAssembler, times(1)).assembleEstate(estateDto);
+   }
+   
+   @Test
+   public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() {
+    //given
+      Collection<EstateDto> dumbEstateDtoList = new ArrayList<>();
+      dumbEstateDtoList.add(estateDto);
+      when(estateRepository.getAllEstatesDto()).thenReturn(dumbEstateDtoList);
+      when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
+      //when
+      estatesService.getAllEstates();
+      //then
+      verify(estateAssembler, times(1)).assembleEstateDto(estate);
    }
 
 }

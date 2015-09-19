@@ -2,13 +2,37 @@ package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
+import javax.validation.constraints.AssertTrue;
+
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 
+import org.dom4j.Attribute;
+import org.dom4j.Branch;
+import org.dom4j.CDATA;
+import org.dom4j.Comment;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.Entity;
+import org.dom4j.InvalidXPathException;
+import org.dom4j.Namespace;
+import org.dom4j.Node;
+import org.dom4j.ProcessingInstruction;
+import org.dom4j.QName;
+import org.dom4j.Text;
+import org.dom4j.Visitor;
+import org.dom4j.XPath;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -16,6 +40,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 
 public class XMLEstateRepositoryTest {
@@ -27,6 +52,9 @@ public class XMLEstateRepositoryTest {
       private static final String ELEMENT_NAME = "estate";
 
       private String XML_FILE_PATH = "persistence/estates.xml";
+      
+      @Mock
+      private Element element;
       
       @Mock
       private Estate estate;
@@ -85,7 +113,7 @@ public class XMLEstateRepositoryTest {
          //Given
 
          //When
-         xmlEstateRepository.getAllEstates();
+         xmlEstateRepository.getAllEstatesDto();
          //Then
          verify(xmlFileEditor, times(1)).readXMLFile(XML_FILE_PATH);
       }
@@ -95,11 +123,31 @@ public class XMLEstateRepositoryTest {
          //Given
 
          //When
-         xmlEstateRepository.getAllEstates();
+         xmlEstateRepository.getAllEstatesDto();
          //Then
          verify(xmlFileEditor, times(1)).getAllElementsFromDocument(usedDocument, ELEMENT_NAME);
       }
       
+      @Test
+      public void gettingAllEstatesReturnListOfAllEstatesDTO(){
+         //Given
+         configureElement();
+         Collection<Element> dumbEstateDtoList = new ArrayList<>();
+         dumbEstateDtoList.add(element);
+         given(xmlFileEditor.getAllElementsFromDocument(usedDocument, ELEMENT_NAME)).willReturn(dumbEstateDtoList);
+         //When
+         Collection<?> estateDtoList = xmlEstateRepository.getAllEstatesDto();
+         //Then
+         assertTrue(estateDtoList.iterator().next().getClass().equals(EstateDto.class));
+      }
+      
+
+      private void configureElement() {
+         given(element.attributeValue("address")).willReturn(VALID_ADDRESS);
+         given(element.attributeValue("price")).willReturn(VALID_PRICE.toString());
+         given(element.attributeValue("type")).willReturn(VALID_TYPE);
+         
+      }
 
       private void configureEstate() throws DocumentException {
          given(estate.getAddress()).willReturn(VALID_ADDRESS);

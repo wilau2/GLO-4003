@@ -1,5 +1,9 @@
 package ca.ulaval.glo4003.b6.housematch.estates.services;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
@@ -40,8 +44,21 @@ public class EstatesService {
       estateRepository.addEstate(estate);
    }
 
-   public void getAllEstates() {
-      estateRepository.getAllEstates();
+   public Collection<EstateDto> getAllEstates() {
+      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
+      Collection<EstateDto> estateDtoList = estateRepository.getAllEstatesDto();
+      Collection<Estate> estateList = new ArrayList<>();
+      for(Iterator<EstateDto> iterator = estateDtoList.iterator(); iterator.hasNext();){
+         estateList.add(estateAssembler.assembleEstate(iterator.next()));
+      }
+      
+      Collection<EstateDto> estateDtoListToUi = new ArrayList<>();
+      for(Iterator<Estate> iterator = estateList.iterator(); iterator.hasNext();){
+         estateDtoListToUi.add(estateAssembler.assembleEstateDto(iterator.next()));
+      }
+      
+      return estateDtoListToUi;
+      
    }
 
 }
