@@ -10,10 +10,23 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop
     	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
-	<beans:bean id="loggedUser"    class="ca.ulaval.glo4003.b7.housematch.user.model.User" scope="session">        
-  		<aop:scoped-proxy/>
-  	</beans:bean>
-	<context:component-scan base-package="ca.ulaval.glo4003.b7.housematch" />
+		<context:component-scan base-package="ca.ulaval.glo4003.b6.housematch" />
+	
+		<beans:bean id="loggedUser"    class="ca.ulaval.glo4003.b6.housematch.user.model.User" scope="session">        
+	  		<aop:scoped-proxy/>
+	  	</beans:bean>
+	  	<beans:bean id="userRepository" class="ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository"/>
+	  	<beans:bean id="adminRepository" class="ca.ulaval.glo4003.b6.housematch.admin.repository.XMLAdminRepository"/>
+	  	
+	  	<beans:bean id="loginController" class="ca.ulaval.glo4003.b6.housematch.web.controllers.LoginController">
+	    	<beans:property name="userRepository" ref="userRepository" />
+	    	<beans:property name="adminRepository" ref="adminRepository" />
+	    </beans:bean>
+	    
+	    <beans:bean id="signupController" class="ca.ulaval.glo4003.b6.housematch.web.controllers.SignupController">
+	    	<beans:property name="userRepository" ref="userRepository" />
+	    </beans:bean>
+    
 	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->
