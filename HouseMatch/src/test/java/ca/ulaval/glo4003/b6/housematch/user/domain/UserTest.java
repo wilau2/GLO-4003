@@ -5,57 +5,55 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-
 public class UserTest {
 
    private User user;
 
-   private String username = "username";
+   private static String USERNAME = "username";
 
-   private String firstName = "firsname";
+   private static String FIRST_NAME = "firsname";
 
-   private String lastName = "lastname";
+   private static String LAST_NAME = "lastname";
 
-   private String phoneNumber = "phoneNumber";
+   private static String PHONE_NUMBER = "phoneNumber";
 
-   private String email = "email";
+   private static String EMAIL = "email";
 
-   private String password = "password";
+   private static String PASSWORD = "password";
 
    @Before
    public void setup() {
-      user = new User(username, firstName, lastName, phoneNumber, email, password);
+      user = new User(USERNAME, FIRST_NAME, LAST_NAME, PHONE_NUMBER, EMAIL, PASSWORD);
    }
 
    @Test
    public void canGetTheCorrectUsername() {
-      assertEquals(username, user.getUsername());
+      assertEquals(USERNAME, user.getUsername());
    }
 
    @Test
    public void canGetTheCorrectFirstName() {
-      assertEquals(firstName, user.getFirstName());
+      assertEquals(FIRST_NAME, user.getFirstName());
    }
 
    @Test
    public void canGetTheCorrectLastName() {
-      assertEquals(lastName, user.getLastName());
+      assertEquals(LAST_NAME, user.getLastName());
    }
 
    @Test
    public void canGetTheCorrectPhoneNumber() {
-      assertEquals(phoneNumber, user.getPhoneNumber());
+      assertEquals(PHONE_NUMBER, user.getPhoneNumber());
    }
 
    @Test
    public void canGetTheCorrectEmail() {
-      assertEquals(email, user.getEmail());
+      assertEquals(EMAIL, user.getEmail());
    }
 
    @Test
    public void canGetTheCorrectPassword() {
-      assertEquals(password, user.getPassword());
+      assertEquals(PASSWORD, user.getPassword());
    }
 
 }

@@ -26,7 +26,13 @@
 	            <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
 	                <form:form method="post" modelAttribute="user" class="pure-form pure-form-stacked">
 	                    <fieldset>
-	                        <form:input id="name" type="text" placeholder="Email" path="email"/>
+	                     	<form:input type="radio" name="role" value="seller" checked/> SELLER
+  							<form:input type="radio" name="role" value="buyer"/> BUYER
+  							<form:input id="firstName" type="text" placeholder="First name" path="firstName"/>
+  							<form:input id="lastName" type="text" placeholder="Last name" path="lastName"/>
+  							<form:input id="phoneNumber" type="text" placeholder="Phone number" path="phoneNumber"/>
+  							<form:input id="email" type="text" placeholder="Email" path="email"/>
+  						    <form:input id="username" type="text" placeholder="Username" path="username"/>
 	                        <form:input id="password" type="password" placeholder="Password" path="password"/>
 	                        <button type="submit" class="pure-button">Sign Up</button>
 	                    </fieldset>

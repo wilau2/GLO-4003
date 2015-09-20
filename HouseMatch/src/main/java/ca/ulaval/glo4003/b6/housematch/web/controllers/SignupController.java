@@ -8,7 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ca.ulaval.glo4003.b6.housematch.user.domain.User;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserDao;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
@@ -17,27 +18,23 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 @Controller
 public class SignupController {
 
-   private UserDao userRepository;
-
    private SignupUserConverter converter;
 
-   public void setUserRepository(UserDao userRepository) {
-      this.userRepository = userRepository;
-   }
+   private UserSignupCorruptionVerificator userSignupCorruptionVerificator;
 
    @Autowired
-   public SignupController(UserDao userRepository, SignupUserConverter converter) {
-      this.userRepository = userRepository;
+   public SignupController(UserDao userRepository, SignupUserConverter converter,
+         UserSignupCorruptionVerificator userSignupCorruptionVerificator) {
       this.converter = converter;
+      this.userSignupCorruptionVerificator = userSignupCorruptionVerificator;
    }
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-   public String signup(HttpServletRequest request, SignupUserModel viewModel) {
-      UserSignupDto user = converter.convertToDto(viewModel);
-      // TODO FIX THAT WITH ASSEMBLER
-      User user1 = new User(null, null, null, null, null, null);
-      userRepository.add(user1);
-      request.getSession().setAttribute("loggedInUserEmail", user.getEmail());
+   public String signup(HttpServletRequest request, SignupUserModel viewModel) throws InvalidUserSignupFieldException {
+      UserSignupDto userDto = converter.convertToDto(viewModel);
+      userSignupCorruptionVerificator.signup(request, userDto);
+      // TODO SECURITY
+      request.getSession().setAttribute("loggedInUserEmail", userDto.getUsername());
       return "index";
    }
 

@@ -8,10 +8,12 @@ import javax.inject.Singleton;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
+import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
+import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -54,7 +56,7 @@ public class XMLUserRepository implements UserDao {
    public void add(User newUser) throws UserAlreadyExistsException, CouldNotAccessDataException {
       try {
          Document usersXML = readUsersXML();
-         if (emailAlreadyExists(usersXML, newUser.getEmail())) {
+         if (emailAlreadyExists(usersXML, newUser.getContactInformation().getEmail())) {
             throw new UserAlreadyExistsException();
          } else {
             addNewUserToDocument(usersXML, newUser);
@@ -80,8 +82,11 @@ public class XMLUserRepository implements UserDao {
       HashMap<String, String> attributes = fileEditor.returnAttributesOfElementWithCorrespondingValue(existingDocument,
             pathToEmailValue, email);
 
-      User user = new User(attributes.get("username"), attributes.get("firstName"), attributes.get("lastName"),
-            attributes.get("phoneNumber"), attributes.get("email"), attributes.get("password"));
+      ContactInformation contactInformation = new ContactInformation(attributes.get("firstName"),
+            attributes.get("lastName"), attributes.get("phoneNumber"), attributes.get("email"));
+
+      User user = new User(attributes.get("username"), attributes.get("password"), contactInformation,
+            new Role(attributes.get("role")));
 
       return user;
    }
