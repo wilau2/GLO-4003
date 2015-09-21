@@ -58,4 +58,10 @@ public class XMLEstateRepository implements EstateRepository {
       // xmlFileEditor.addNewElementToDocument(document, ESTATE, attributes);
    }
 
+   @Override
+   public void editEstate(Estate estate) {
+      // TODO Auto-generated method stub
+      // On fetch le estate puis on le re-persiste avec ses details?
+   }
+
 }

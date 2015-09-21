@@ -95,4 +95,14 @@ public class EstatesServiceTest {
 
       // Then InvalidEstateException is thrown
    }
+   
+   @Test
+   public void whenEditingEstateShouldCallEstateRepositoryEditEstate() throws InvalidEstateException {
+      //given
+      
+      //when
+      estatesService.editEstate(estateDto);
+      //then
+      verify(estateRepository, times(1)).editEstate(estate);
+   }
 }

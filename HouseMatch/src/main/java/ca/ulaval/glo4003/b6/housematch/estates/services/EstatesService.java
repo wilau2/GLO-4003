@@ -39,5 +39,15 @@ public class EstatesService {
 
       estateRepository.addEstate(estate);
    }
+   
+   public void editEstate(EstateDto estateDto) throws InvalidEstateException{
+      EstateValidator estateValidator = estateValidatorFactory.getValidator();
+      estateValidator.validate(estateDto);
+      
+      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
+      Estate estate = estateAssembler.assembleEstate(estateDto);
+
+      estateRepository.editEstate(estate);
+   }
 
 }

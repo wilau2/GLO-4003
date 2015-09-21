@@ -84,6 +84,7 @@ public class XMLEstateRepositoryTest {
       // verify(xmlFileEditor, times(0)).addNewElementToDocument(usedDocument,
       // "estate", attributes);
    }
+   
 
    private void configureEstate() throws DocumentException {
       given(estate.getAddress()).willReturn(VALID_ADDRESS);
