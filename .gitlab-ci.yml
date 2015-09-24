@@ -1,5 +1,8 @@
+project_compiling:
+  script:
+    - "cd HouseMatch"
+    - "mvn package"
 code_coverage: 
   script: 
     - "cd HouseMatch"
     - "mvn verify findbugs:findbugs cobertura:check"
-    - "mvn package"

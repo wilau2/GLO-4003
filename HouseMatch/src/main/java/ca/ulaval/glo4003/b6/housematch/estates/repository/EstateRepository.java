@@ -1,9 +1,8 @@
 package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
-import java.util.Collection;
+import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public interface EstateRepository {
 
@@ -11,6 +10,6 @@ public interface EstateRepository {
 
    void editEstate(Estate estate);
 
-   Collection<EstateDto> getAllEstatesDto();
+   List<Estate> getAllEstates();
 
 }

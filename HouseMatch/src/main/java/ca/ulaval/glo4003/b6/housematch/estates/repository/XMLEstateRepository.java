@@ -10,10 +10,16 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 
 public class XMLEstateRepository implements EstateRepository {
+
+   private static final String ADDRESS_KEY = "address";
 
    private static final String ESTATE = "estate";
 
@@ -21,36 +27,42 @@ public class XMLEstateRepository implements EstateRepository {
 
    private String XML_FILE_PATH = "persistence/estates.xml";
 
+   private EstateAssemblerFactory estateAssemblerFactory;
+
+   private EstateElementAssemblerFactory estateElementAssemblerFactory;
+
+   private EstatePersistenceDtoFactory estatePersistenceFactory;
+
    @Override
-   public List<EstateDto> getAllEstatesDto() {
-      List<EstateDto> estateDtoList = new ArrayList<>();
+   public List<Estate> getAllEstates() {
+      List<Estate> estates = new ArrayList<Estate>();
       try {
          Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+
          Collection<Element> elementList = xmlFileEditor.getAllElementsFromDocument(estateDocument, ESTATE);
-         estateDtoList = getDtoListFromElements(elementList);
+
+         EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
+         EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+         estates = getDtoListFromElements(elementList, estateAssembler, estateElementAssembler);
 
       } catch (DocumentException e) {
          // TODO Auto-generated catch block
          e.printStackTrace();
       }
 
-      return estateDtoList;
+      return estates;
    }
 
-   private List<EstateDto> getDtoListFromElements(Collection<Element> elementList) {
-      List<EstateDto> estateDtoList = new ArrayList<EstateDto>();
+   private List<Estate> getDtoListFromElements(Collection<Element> elementList, EstateAssembler estateAssembler,
+         EstateElementAssembler estateElementAssembler) {
 
+      List<Estate> estates = new ArrayList<Estate>();
       for (Element element : elementList) {
-         estateDtoList.add(convertElementToDto(element));
+         EstateDto convertedEstateDto = estateElementAssembler.convertToDto(element);
+         Estate estate = estateAssembler.assembleEstate(convertedEstateDto);
+         estates.add(estate);
       }
-
-      return estateDtoList;
-   }
-
-   private EstateDto convertElementToDto(Element element) {
-      EstateDto estateDto = new EstateDto(element.attributeValue("type"), element.attributeValue("address"),
-            Integer.parseInt(element.attributeValue("price")));
-      return estateDto;
+      return estates;
    }
 
    @Override
@@ -61,7 +73,7 @@ public class XMLEstateRepository implements EstateRepository {
          if (isEstatePersisted(estateDocument, attributes)) {
             return;
          }
-         addNewEstateToDocument(estateDocument, attributes);
+         addNewEstateToDocument(estateDocument, attributes, estatePersistenceFactory);
       } catch (DocumentException e) {
 
          e.printStackTrace();
@@ -69,23 +81,25 @@ public class XMLEstateRepository implements EstateRepository {
    }
 
    private boolean isEstatePersisted(Document existingDocument, HashMap<String, String> attributes) {
-      return xmlFileEditor.elementWithCorrespondingValuesExists(existingDocument, "estates/estate/price",
-            attributes.get("price"));
+      return xmlFileEditor.elementWithCorrespondingValuesExists(existingDocument, "estates/estate/address",
+            attributes.get(ADDRESS_KEY));
    }
 
    public HashMap<String, String> createHashMapFromEstate(Estate estate) {
       HashMap<String, String> attributes = new HashMap<String, String>();
 
       attributes.put("type", estate.getType());
-      attributes.put("address", estate.getAddress());
+      attributes.put(ADDRESS_KEY, estate.getAddress());
       attributes.put("price", estate.getPrice().toString());
 
       return attributes;
    }
 
-   private void addNewEstateToDocument(Document document, HashMap<String, String> attributes) {
+   private void addNewEstateToDocument(Document document, HashMap<String, String> attributes,
+         EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
       // TODO BORIS doit faire l'integration
-      // xmlFileEditor.addNewElementToDocument(document, ESTATE, attributes);
+      EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
+      xmlFileEditor.addNewElementToDocument(document, estatePersistenceDto);
    }
 
    @Override

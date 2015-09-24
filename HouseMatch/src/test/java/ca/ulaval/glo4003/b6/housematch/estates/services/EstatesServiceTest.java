@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -100,36 +100,41 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenAskedAllEstatesShouldCallEstateAssembleWithDto() {
+   public void whenAskedAllEstatesShouldCallAssembleEstate() {
       // given
-      Collection<EstateDto> dumbEstateDtoList = new ArrayList<>();
-      dumbEstateDtoList.add(estateDto);
-      when(estateRepository.getAllEstatesDto()).thenReturn(dumbEstateDtoList);
+      List<Estate> dumbEstates = new ArrayList<Estate>();
+      dumbEstates.add(estate);
+      when(estateRepository.getAllEstates()).thenReturn(dumbEstates);
+
       // when
       estatesService.getAllEstates();
+
       // then
-      verify(estateAssembler, times(1)).assembleEstate(estateDto);
+      verify(estateRepository, times(1)).getAllEstates();
    }
 
    @Test
    public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() {
       // given
-      Collection<EstateDto> dumbEstateDtoList = new ArrayList<>();
-      dumbEstateDtoList.add(estateDto);
-      when(estateRepository.getAllEstatesDto()).thenReturn(dumbEstateDtoList);
+      List<Estate> dumbEstateDtoList = new ArrayList<Estate>();
+      dumbEstateDtoList.add(estate);
+      when(estateRepository.getAllEstates()).thenReturn(dumbEstateDtoList);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
+
       // when
       estatesService.getAllEstates();
+
       // then
       verify(estateAssembler, times(1)).assembleEstateDto(estate);
    }
 
    @Test
    public void whenEditingEstateShouldCallEstateRepositoryEditEstate() throws InvalidEstateException {
-      // given
+      // given no changes
 
       // when
       estatesService.editEstate(estateDto);
+
       // then
       verify(estateRepository, times(1)).editEstate(estate);
    }
