@@ -21,8 +21,17 @@ public class LoginController {
 
    private UserLoginCorruptionVerificator userCorruptionVerificator;
 
+   public void setLoginUserConverter(LoginUserConverter loginUserConverter) {
+      this.loginUserConverter = loginUserConverter;
+   }
+
+   public void setUserCorruptionVerificator(UserLoginCorruptionVerificator userCorruptionVerificator) {
+      this.userCorruptionVerificator = userCorruptionVerificator;
+   }
+
    @Autowired
-   public LoginController(LoginUserConverter loginUserConverter, UserLoginCorruptionVerificator userCorruptionVerificator) {
+   public LoginController(LoginUserConverter loginUserConverter,
+         UserLoginCorruptionVerificator userCorruptionVerificator) {
       this.loginUserConverter = loginUserConverter;
       this.userCorruptionVerificator = userCorruptionVerificator;
    }

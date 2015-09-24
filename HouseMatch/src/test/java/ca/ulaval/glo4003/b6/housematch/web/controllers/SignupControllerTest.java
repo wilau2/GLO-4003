@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.validation.support.BindingAwareModelMap;
 
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
@@ -61,14 +62,14 @@ public class SignupControllerTest {
    }
 
    @Test
-   public void postRequestSignupReturnsTheIndexView() {
+   public void postRequestSignupReturnsTheIndexView() throws InvalidUserSignupFieldException {
       model = new BindingAwareModelMap();
       String view = controller.signup(request, signupNewUser);
       assertEquals("index", view);
    }
 
    @Test
-   public void postRequestSignupShouldUseTheConverter() {
+   public void postRequestSignupShouldUseTheConverter() throws InvalidUserSignupFieldException {
       controller.signup(request, signupNewUser);
 
       verify(converter).convertToDto(signupNewUser);
@@ -76,14 +77,14 @@ public class SignupControllerTest {
 
    @Ignore
    @Test
-   public void postRequestSignupShouldUseTheRepository() {
+   public void postRequestSignupShouldUseTheRepository() throws InvalidUserSignupFieldException {
       controller.signup(request, signupNewUser);
 
       // verify(userRepository).add(userSignupDto);
    }
 
    @Test
-   public void postRequestSignupShouldSetALoggedUser() {
+   public void postRequestSignupShouldSetALoggedUser() throws InvalidUserSignupFieldException {
       controller.signup(request, signupNewUser);
 
       assertEquals(signupNewUser.getUsername(), request.getAttribute("loggedInUser"));

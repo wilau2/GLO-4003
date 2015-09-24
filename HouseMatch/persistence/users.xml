@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <users> 
+  <user>
+    <firstName>williamw</firstName>
+    <lastName>w</lastName>
+    <password>123</password>
+    <phoneNumber>w</phoneNumber>
+    <email>w</email>
+    <username>123</username>
+  </user>
 </users>

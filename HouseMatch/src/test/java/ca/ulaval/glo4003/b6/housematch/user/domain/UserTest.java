@@ -23,7 +23,9 @@ public class UserTest {
 
    @Before
    public void setup() {
-      user = new User(USERNAME, FIRST_NAME, LAST_NAME, PHONE_NUMBER, EMAIL, PASSWORD);
+      ContactInformation contactInformation = new ContactInformation(FIRST_NAME, LAST_NAME, PHONE_NUMBER, EMAIL);
+      Role role = new Role("SELLER");
+      user = new User(USERNAME, PASSWORD, contactInformation, role);
    }
 
    @Test
@@ -33,22 +35,22 @@ public class UserTest {
 
    @Test
    public void canGetTheCorrectFirstName() {
-      assertEquals(FIRST_NAME, user.getFirstName());
+      assertEquals(FIRST_NAME, user.getContactInformation().getFirstName());
    }
 
    @Test
    public void canGetTheCorrectLastName() {
-      assertEquals(LAST_NAME, user.getLastName());
+      assertEquals(LAST_NAME, user.getContactInformation().getLastName());
    }
 
    @Test
    public void canGetTheCorrectPhoneNumber() {
-      assertEquals(PHONE_NUMBER, user.getPhoneNumber());
+      assertEquals(PHONE_NUMBER, user.getContactInformation().getPhoneNumber());
    }
 
    @Test
    public void canGetTheCorrectEmail() {
-      assertEquals(EMAIL, user.getEmail());
+      assertEquals(EMAIL, user.getContactInformation().getEmail());
    }
 
    @Test

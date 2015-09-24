@@ -21,7 +21,12 @@ public class SignupUserConverter {
 
    public UserSignupDto convertToDto(SignupUserModel viewModel) {
       UserSignupDto user = new UserSignupDto();
+      user.setRole(viewModel.getRole());
+      user.setFirstName(viewModel.getFirstName());
+      user.setLastName(viewModel.getLastName());
+      user.setPhoneNumber(viewModel.getPhoneNumber());
       user.setEmail(viewModel.getEmail());
+      user.setUsername(viewModel.getUsername());
       user.setPassword(viewModel.getPassword());
       return user;
    }
