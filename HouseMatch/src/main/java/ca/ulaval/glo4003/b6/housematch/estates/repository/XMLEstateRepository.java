@@ -117,28 +117,30 @@ public class XMLEstateRepository implements EstateRepository {
       xmlFileEditor.addNewElementToDocument(document, estatePersistenceDto);
    }
 
+   
    @Override
    public void editEstate(Estate estate) {
       String address = estate.getAddress();
       try{
             Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+            //Estate anEstate = getEstateWithGivenAddress(estateDocument, address);
+            
          }
          catch (Exception e) 
          {
             e.printStackTrace();
          }
       
-      // On fetch le estate puis on le re-persiste avec ses details?
+      //TODO On fetch le estate puis on le re-persiste avec ses details?
    }
    
-   private Estate returnEstateWithGivenAddress(Document existingDocument, String address) {
+   /*
+   private Estate getEstateWithGivenAddress(Document existingDocument, String address) {
 
-      HashMap<String, String> attributes = xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(existingDocument,
-            XML_FILE_PATH, address);
-
-      Estate estate = new Estate(attributes.get("type"), attributes.get("address"), new Integer(attributes.get("price")),
-            attributes.get("seller"));
+      EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+      EstateDto estateDto = estateElementAssembler.convertToDto(element);
 
       return estate;
    }
+   */
 }
