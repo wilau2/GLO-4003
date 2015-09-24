@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.persistance;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -81,4 +82,8 @@ public class XMLFileEditor {
       return attributes;
    }
 
+   public Collection<Element> getAllElementsFromDocument(Document usedDocument, String elementName) {
+      // TODO Auto-generated method stub BORIS STUFF
+      return null;
+   }
 }

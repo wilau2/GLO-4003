@@ -7,10 +7,10 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public interface EstateRepository {
 
-   Collection<Estate> getAllEstate();
-
    void addEstate(Estate estate);
 
    void editEstate(Estate estate);
+
+   Collection<EstateDto> getAllEstatesDto();
 
 }
