@@ -17,6 +17,8 @@ import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
 
 public class EstateCorruptionVerificatorTest {
 
+   private static final String USER_ID = "USER_ID";
+
    private static final String EMPTY_FIELD = "";
 
    private static final String ADDRESS = "ADDRESS";
@@ -45,6 +47,7 @@ public class EstateCorruptionVerificatorTest {
       when(estateDto.getAddress()).thenReturn(ADDRESS);
       when(estateDto.getType()).thenReturn(TYPE);
       when(estateDto.getPrice()).thenReturn(PRICE);
+      when(estateDto.getSeller()).thenReturn(USER_ID);
    }
 
    @Test
@@ -115,4 +118,29 @@ public class EstateCorruptionVerificatorTest {
 
       // Then an InvalidEstateFieldException is thrown
    }
+
+   @Test(expected = InvalidEstateFieldException.class)
+   public void addingEstateFromCorruptionVerificatorWhenUserIdIsEmptyShouldThrowAnException()
+         throws InvalidEstateFieldException {
+      // Given
+      when(estateDto.getSeller()).thenReturn(EMPTY_FIELD);
+
+      // When
+      estateCorruptionVerificator.addEstate(estateDto);
+
+      // Then an InvalidEstateFieldException is thrown
+   }
+
+   @Test(expected = InvalidEstateFieldException.class)
+   public void addingEstateFromCorruptionVerificatorWhenSellerIdIsNullShouldThrowException()
+         throws InvalidEstateFieldException {
+      // Given
+      when(estateDto.getSeller()).thenReturn(null);
+
+      // When
+      estateCorruptionVerificator.addEstate(estateDto);
+
+      // Then an InvalidEstateFieldException is thrown
+   }
+
 }

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,14 +28,16 @@ public class EstateController {
       this.estateCorruptionVerificator = estateCorruptionVerificator;
    }
 
-   @RequestMapping(value = "/sell", method = RequestMethod.POST)
-   public String addEstate(HttpServletRequest request, EstateModel estateModel) throws InvalidEstateFieldException {
+   @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.POST)
+   public String addEstate(HttpServletRequest request, EstateModel estateModel, @PathVariable("userId") String userId)
+         throws InvalidEstateFieldException {
+      estateModel.setSeller(userId);
       EstateDto estateDto = estateConverter.convertToDto(estateModel);
       estateCorruptionVerificator.addEstate(estateDto);
       return "redirect:/";
    }
 
-   @RequestMapping(value = "/sell", method = RequestMethod.GET)
+   @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.GET)
    public String getSellEstatePage(Model model) {
       model.addAttribute("estate", new EstateModel());
       return "sell_estate";

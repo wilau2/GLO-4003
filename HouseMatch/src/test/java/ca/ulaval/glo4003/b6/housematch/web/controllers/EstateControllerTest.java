@@ -26,6 +26,8 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.EstateModel;
 
 public class EstateControllerTest {
 
+   private static final String USER_ID = "USER_ID";
+
    @InjectMocks
    private EstateController estateController;
 
@@ -59,7 +61,7 @@ public class EstateControllerTest {
       // Given no changes
 
       // When
-      estateController.addEstate(request, estateModel);
+      estateController.addEstate(request, estateModel, USER_ID);
 
       // Then
       verify(estateCorruptionVerificator, times(1)).addEstate(estateDto);
@@ -72,7 +74,7 @@ public class EstateControllerTest {
       String expectedRedirectTo = "redirect:/";
 
       // When
-      String returnedView = estateController.addEstate(request, estateModel);
+      String returnedView = estateController.addEstate(request, estateModel, USER_ID);
 
       // Then
       assertEquals(expectedRedirectTo, returnedView);
@@ -84,7 +86,7 @@ public class EstateControllerTest {
       doThrow(new InvalidEstateFieldException("")).when(estateCorruptionVerificator).addEstate(estateDto);
 
       // When
-      estateController.addEstate(request, estateModel);
+      estateController.addEstate(request, estateModel, USER_ID);
 
       // Then an InvalidEstateFieldException is thrown
    }
@@ -98,5 +100,16 @@ public class EstateControllerTest {
 
       // Then
       assertEquals("sell_estate", redirectLink);
+   }
+
+   @Test
+   public void whenAddingAnEstateShouldSetSellerIdIntoModel() throws InvalidEstateFieldException {
+      // Given no changes
+
+      // When
+      estateController.addEstate(request, estateModel, USER_ID);
+
+      // Then
+      verify(estateModel, times(1)).setSeller(USER_ID);
    }
 }

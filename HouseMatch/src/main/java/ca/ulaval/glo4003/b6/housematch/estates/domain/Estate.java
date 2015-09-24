@@ -8,10 +8,13 @@ public class Estate {
 
    private String type;
 
-   public Estate(String type, String address, Integer price) {
+   private String seller;
+
+   public Estate(String type, String address, Integer price, String seller) {
       this.type = type;
       this.address = address;
       this.price = price;
+      this.seller = seller;
    }
 
    public String getType() {
@@ -26,4 +29,7 @@ public class Estate {
       return this.price;
    }
 
+   public String getSeller() {
+      return seller;
+   }
 }

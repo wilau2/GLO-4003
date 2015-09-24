@@ -8,13 +8,16 @@ public class EstateDto {
 
    private Integer price;
 
+   private String sellerId;
+
    public EstateDto() {
    }
 
-   public EstateDto(String type, String address, Integer price) {
+   public EstateDto(String type, String address, Integer price, String sellerId) {
       this.type = type;
       this.address = address;
       this.price = price;
+      this.sellerId = sellerId;
    }
 
    public void setType(String type) {
@@ -39,6 +42,14 @@ public class EstateDto {
 
    public Integer getPrice() {
       return this.price;
+   }
+
+   public String getSeller() {
+      return sellerId;
+   }
+
+   public void setSellerId(String sellerId) {
+      this.sellerId = sellerId;
    }
 
 }

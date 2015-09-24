@@ -8,6 +8,8 @@ public class EstateModel {
 
    private Integer price;
 
+   private String seller;
+
    public String getType() {
       return type;
    }
@@ -30,6 +32,14 @@ public class EstateModel {
 
    public void setPrice(Integer price) {
       this.price = price;
+   }
+
+   public String getSeller() {
+      return seller;
+   }
+
+   public void setSeller(String seller) {
+      this.seller = seller;
    }
 
 }

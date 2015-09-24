@@ -10,6 +10,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +44,9 @@ public class XMLEstateRepositoryTest {
 
    private static final String ELEMENT_NAME = "estate";
 
-   private String XML_FILE_PATH = "persistence/estates.xml";
+   private static final String XML_FILE_PATH = "persistence" + File.separator + "estates.xml";
+
+   private static final String USER_ID = "USER_ID";
 
    @Mock
    private Element element;
@@ -112,6 +115,17 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
+   public void whenAddingAnEstateShouldCallEstateElementAssemblerForCreatingAttributes() {
+      // Given no changes
+
+      // When
+      xmlEstateRepository.addEstate(estate);
+
+      // Then
+      verify(estateElementAssembler, times(1)).convertToAttributes(estate);
+   }
+
+   @Test
    public void givenAFirstEstateToPersistXMLFileEditorCallsAddNewElementToDocument() throws DocumentException {
       // given
       configureEstate();
@@ -124,10 +138,22 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
+   public void whenAddingAnEstateShouldCallNewInstanceOfEstateElementAssebler() {
+      // Given no changes
+
+      // When
+      xmlEstateRepository.addEstate(estate);
+
+      // Then
+      verify(estateElementAssemblerFactory, times(1)).createAssembler();
+   }
+
+   @Test
    public void addingAnEstateWhenEstateIsUniqueShouldCreateEstateToPersistenceDto() throws DocumentException {
       // Given
       configureEstate();
-      HashMap<String, String> attributes = xmlEstateRepository.createHashMapFromEstate(estate);
+      HashMap<String, String> attributes = createHashMapFromEstate(estate);
+      when(estateElementAssembler.convertToAttributes(estate)).thenReturn(attributes);
 
       // When
       xmlEstateRepository.addEstate(estate);
@@ -140,7 +166,8 @@ public class XMLEstateRepositoryTest {
    public void givenAnExistingEstateInRepositoryDoNothingWhenPersisting() throws DocumentException {
       // given
       configureEstate();
-      HashMap<String, String> attributes = xmlEstateRepository.createHashMapFromEstate(estate);
+      HashMap<String, String> attributes = createHashMapFromEstate(estate);
+      when(estateElementAssembler.convertToAttributes(estate)).thenReturn(attributes);
       given(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, "estates/estate/address",
             attributes.get("address"))).willReturn(true);
 
@@ -224,6 +251,7 @@ public class XMLEstateRepositoryTest {
       given(element.attributeValue("address")).willReturn(VALID_ADDRESS);
       given(element.attributeValue("price")).willReturn(VALID_PRICE.toString());
       given(element.attributeValue("type")).willReturn(VALID_TYPE);
+      given(element.attributeValue("seller")).willReturn(USER_ID);
 
    }
 
@@ -231,10 +259,21 @@ public class XMLEstateRepositoryTest {
       given(estate.getAddress()).willReturn(VALID_ADDRESS);
       given(estate.getPrice()).willReturn(VALID_PRICE);
       given(estate.getType()).willReturn(VALID_TYPE);
+      given(estate.getSeller()).willReturn(USER_ID);
    }
 
    private void configureXmlFileEditor() throws DocumentException {
       given(xmlFileEditor.readXMLFile(XML_FILE_PATH)).willReturn(usedDocument);
+   }
+
+   private HashMap<String, String> createHashMapFromEstate(Estate estate) {
+      HashMap<String, String> attributes = new HashMap<String, String>();
+
+      attributes.put("type", estate.getType());
+      attributes.put("address", estate.getAddress());
+      attributes.put("price", estate.getPrice().toString());
+
+      return attributes;
    }
 
 }

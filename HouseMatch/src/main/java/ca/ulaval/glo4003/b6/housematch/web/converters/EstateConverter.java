@@ -11,6 +11,7 @@ public class EstateConverter {
       estateDto.setAddress(estateModel.getAddress());
       estateDto.setPrice(estateModel.getPrice());
       estateDto.setType(estateModel.getType());
+      estateDto.setSellerId(estateModel.getSeller());
 
       return estateDto;
    }

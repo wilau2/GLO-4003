@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,9 +26,9 @@ public class XMLEstateRepository implements EstateRepository {
 
    private static final String ESTATE = "estate";
 
-   private XMLFileEditor xmlFileEditor;
+   private static final String XML_FILE_PATH = "persistence" + File.separator + "estates.xml";
 
-   private String XML_FILE_PATH = "persistence/estates.xml";
+   private XMLFileEditor xmlFileEditor;
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
@@ -91,7 +92,8 @@ public class XMLEstateRepository implements EstateRepository {
    public void addEstate(Estate estate) {
       try {
          Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
-         HashMap<String, String> attributes = createHashMapFromEstate(estate);
+         EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+         HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
          if (isEstatePersisted(estateDocument, attributes)) {
             return;
          }
@@ -105,16 +107,6 @@ public class XMLEstateRepository implements EstateRepository {
    private boolean isEstatePersisted(Document existingDocument, HashMap<String, String> attributes) {
       return xmlFileEditor.elementWithCorrespondingValuesExists(existingDocument, "estates/estate/address",
             attributes.get(ADDRESS_KEY));
-   }
-
-   public HashMap<String, String> createHashMapFromEstate(Estate estate) {
-      HashMap<String, String> attributes = new HashMap<String, String>();
-
-      attributes.put("type", estate.getType());
-      attributes.put(ADDRESS_KEY, estate.getAddress());
-      attributes.put("price", estate.getPrice().toString());
-
-      return attributes;
    }
 
    private void addNewEstateToDocument(Document document, HashMap<String, String> attributes,

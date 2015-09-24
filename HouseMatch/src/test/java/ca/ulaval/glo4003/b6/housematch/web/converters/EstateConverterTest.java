@@ -20,6 +20,8 @@ public class EstateConverterTest {
 
    private static final Integer PRICE = 1;
 
+   private static final String USER_ID = "USER_ID";
+
    @Mock
    public EstateModel estateModel;
 
@@ -38,6 +40,7 @@ public class EstateConverterTest {
       when(estateModel.getType()).thenReturn(TYPE);
       when(estateModel.getAddress()).thenReturn(ADDRESS);
       when(estateModel.getPrice()).thenReturn(PRICE);
+      when(estateModel.getSeller()).thenReturn(USER_ID);
    }
 
    @Test
@@ -51,5 +54,6 @@ public class EstateConverterTest {
       assertEquals(ADDRESS, returnedEstateDto.getAddress());
       assertEquals(TYPE, returnedEstateDto.getType());
       assertEquals(PRICE, returnedEstateDto.getPrice());
+      assertEquals(USER_ID, returnedEstateDto.getSeller());
    }
 }
