@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +42,7 @@ public class SignupControllerTest {
    private HttpServletRequest request;
 
    @InjectMocks
-   public SignupController controller;
+   private SignupController controller;
 
    private BindingAwareModelMap model;
 

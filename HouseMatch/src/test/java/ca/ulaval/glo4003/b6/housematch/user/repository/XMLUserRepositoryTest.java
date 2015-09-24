@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.user.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
@@ -15,9 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceUserDto;
-import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.model.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -50,7 +51,7 @@ public class XMLUserRepositoryTest {
    private RepositoryToPersistenceUserDto userDto;
 
    @InjectMocks
-   public XMLUserRepository repository;
+   private XMLUserRepository repository;
 
    @Before
    public void setup() throws DocumentException {

@@ -29,11 +29,11 @@ public class UserLoginCorruptionVerificatorTest {
    @Mock
    UserLoginService userLoginService;
 
+   @Mock
+   private HttpServletRequest request;
+
    @InjectMocks
    private UserLoginCorruptionVerificator userCorruptionVerificator;
-
-   @Mock
-   HttpServletRequest request;
 
    @Before
    public void setup() {

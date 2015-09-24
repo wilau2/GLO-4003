@@ -19,21 +19,21 @@ public class UserLoginService {
 
    private UserValidatorFactory userValidatorFactory;
 
+   @Autowired
+   public UserLoginService(UserDao userRepository, AdminRepository adminRepository,
+         UserValidatorFactory userValidatorFactory) {
+
+      this.userRepository = userRepository;
+      this.adminRepository = adminRepository;
+      this.userValidatorFactory = userValidatorFactory;
+   }
+
    public void setUserRepository(UserDao userRepository) {
       this.userRepository = userRepository;
    }
 
    public void setAdminRepository(AdminRepository adminRepository) {
       this.adminRepository = adminRepository;
-   }
-
-   @Autowired
-
-   public UserLoginService(UserDao userRepository, AdminRepository adminRepository, UserValidatorFactory userValidatorFactory) {
-
-      this.userRepository = userRepository;
-      this.adminRepository = adminRepository;
-      this.userValidatorFactory = userValidatorFactory;
    }
 
    public User login(HttpServletRequest request, UserLoginDto userLoginDto) {

@@ -26,14 +26,6 @@ import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateReposito
 
 public class EstatesServiceTest {
 
-   private static final String VALID_TYPE_ESTATE = "CONDO";
-
-   private static final String INVALID_TYPE_ESTATE = "invalid";
-
-   private static final String VALID_ADDRESS = "2-128 rue untel, Quebec";
-
-   private static final Integer VALID_PRICE = 125000;
-
    @Mock
    private EstateValidatorFactory estateValidatorFactory;
 

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public interface RepositoryToPersistenceDto {
 
-   public HashMap<String, String> getAttributes();
+   HashMap<String, String> getAttributes();
 
-   public String getElementName();
+   String getElementName();
 }

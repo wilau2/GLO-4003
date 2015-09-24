@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -24,6 +25,9 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 public class LoginControllerTest {
 
+   @InjectMocks
+   public LoginController controller;
+
    @Mock
    private UserLoginCorruptionVerificator userCorruptionVerificatior;
 
@@ -34,7 +38,7 @@ public class LoginControllerTest {
    private UserLoginDto userDto;
 
    @Mock
-   User user;
+   private User user;
 
    @Mock
    private LoginUserViewModel loginExistingUser;
@@ -44,9 +48,6 @@ public class LoginControllerTest {
 
    @Mock
    private HttpServletRequest request;
-
-   @InjectMocks
-   public LoginController controller;
 
    private BindingAwareModelMap model;
 
