@@ -41,7 +41,7 @@ public class UserLoginService {
    public User login(HttpServletRequest request, UserLoginDto userLoginDto) {
 
       // TODO CHANGE REPO METHOD TO BE FIND BY USERNAME
-      User user = userRepository.findByEmail(userLoginDto.getUsername());
+      User user = userRepository.findByUsername(userLoginDto.getUsername());
 
       request.getSession().setAttribute("loggedInUserRole", "user");
 

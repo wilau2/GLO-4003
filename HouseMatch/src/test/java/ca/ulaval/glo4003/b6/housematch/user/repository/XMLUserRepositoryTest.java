@@ -15,24 +15,23 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceUserDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
+import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
 public class XMLUserRepositoryTest {
 
-   private String existingEmail = "an existing Email";
+   private String existingUsername = "an existing Username";
 
    private String correctPassword = "the corresponding password";
 
-   private String newEmail = "a new Email";
+   private String newUsername = "a new Username";
 
    private String correctPathToFile = "persistence/users.xml";
 
-   private String correctPathToEmailValue = "users/user/email";
+   private String correctPathToUsernameValue = "users/user/username";
 
    @Mock
    private User user;
@@ -61,44 +60,44 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenFindingByEmailShouldReadTheCorrectFile() throws DocumentException {
+   public void whenFindingByUsernameShouldReadTheCorrectFile() throws DocumentException {
       // Given
 
       // When
-      repository.findByEmail(existingEmail);
+      repository.findByUsername(existingUsername);
 
       // Then
       verify(editor).readXMLFile(correctPathToFile);
    }
 
    @Test
-   public void whenFindingByEmailShouldLookIfUsersExists() {
+   public void whenFindingByUsernameShouldLookIfUsersExists() {
       // Given
 
       // When
-      repository.findByEmail(existingEmail);
+      repository.findByUsername(existingUsername);
 
       // Then
-      verify(editor).elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue, existingEmail);
+      verify(editor).elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, existingUsername);
    }
 
    @Test
-   public void whenFindingByEmailShouldReturnAUserWithTheCorrectEmail() {
+   public void whenFindingByUsernameShouldReturnAUserWithTheCorrectUsername() {
       // Given
 
       // When
-      User returnedUser = repository.findByEmail(existingEmail);
+      User returnedUser = repository.findByUsername(existingUsername);
 
       // Then
-      assertEquals(returnedUser.getEmail(), existingEmail);
+      assertEquals(returnedUser.getUsername(), existingUsername);
    }
 
    @Test
-   public void whenFindingByEmailShouldReturnAUserWithTheCorrectPassword() {
+   public void whenFindingByUsernameShouldReturnAUserWithTheCorrectPassword() {
       // Given
 
       // When
-      User returnedUser = repository.findByEmail(existingEmail);
+      User returnedUser = repository.findByUsername(existingUsername);
 
       // Then
       assertEquals(returnedUser.getPassword(), correctPassword);
@@ -125,7 +124,7 @@ public class XMLUserRepositoryTest {
       repository.add(user);
 
       // Then
-      verify(editor).elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue, newEmail);
+      verify(editor).elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, newUsername);
    }
 
    @Test
@@ -165,17 +164,17 @@ public class XMLUserRepositoryTest {
    }
 
    @Test(expected = UserNotFoundException.class)
-   public void whenFindingByEmailShouldReturnExceptionIfEmailDoesNotExist() {
-      // Given A new email
+   public void whenFindingByUsernameShouldReturnExceptionIfUsernameDoesNotExist() {
+      // Given A new username
 
       // When
-      repository.findByEmail(newEmail);
+      repository.findByUsername(newUsername);
 
       // Then Exception is thrown
    }
 
    @Test(expected = UserAlreadyExistsException.class)
-   public void whenAddingUserShouldReturnExceptionIfEmailExist() {
+   public void whenAddingUserShouldReturnExceptionIfUsernameExist() {
       // Given An existing user
 
       // When
@@ -189,38 +188,26 @@ public class XMLUserRepositoryTest {
    }
 
    private void configureUser() {
-      given(user.getUsername()).willReturn("username");
-      given(user.getFirstName()).willReturn("firstName");
-      given(user.getLastName()).willReturn("lastName");
-      given(user.getPhoneNumber()).willReturn("phoneNumber");
-      given(user.getEmail()).willReturn(existingEmail);
+      given(user.getUsername()).willReturn(existingUsername);
       given(user.getPassword()).willReturn(correctPassword);
    }
 
    private void configureDifferentUser() {
-      given(user.getUsername()).willReturn("username2");
-      given(user.getFirstName()).willReturn("firstName2");
-      given(user.getLastName()).willReturn("lastName2");
-      given(user.getPhoneNumber()).willReturn("phoneNumber2");
-      given(user.getEmail()).willReturn(newEmail);
+      given(user.getUsername()).willReturn(newUsername);
       given(user.getPassword()).willReturn("newPassword");
    }
 
    private void configureEditor() throws DocumentException {
       given(editor.readXMLFile(correctPathToFile)).willReturn(usedDocument);
-      given(editor.elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue, existingEmail))
+      given(editor.elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, existingUsername))
             .willReturn(true);
 
       HashMap<String, String> mapWithUserData = new HashMap<String, String>();
-      mapWithUserData.put("username", "username");
-      mapWithUserData.put("password", "firstName");
-      mapWithUserData.put("email", "lastName");
-      mapWithUserData.put("password", "phoneNumber");
-      mapWithUserData.put("email", existingEmail);
+      mapWithUserData.put("username", existingUsername);
       mapWithUserData.put("password", correctPassword);
 
-      given(editor.returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToEmailValue,
-            existingEmail)).willReturn(mapWithUserData);
+      given(editor.returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
+            existingUsername)).willReturn(mapWithUserData);
    }
 
 }

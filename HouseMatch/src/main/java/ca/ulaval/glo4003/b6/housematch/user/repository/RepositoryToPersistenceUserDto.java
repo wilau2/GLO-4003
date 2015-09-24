@@ -1,7 +1,8 @@
-package ca.ulaval.glo4003.b6.housematch.user.dto;
+package ca.ulaval.glo4003.b6.housematch.user.repository;
 
 import java.util.HashMap;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 
 public class RepositoryToPersistenceUserDto implements RepositoryToPersistenceDto {

@@ -1,20 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <users> 
-  <user> 
-    <email>an email adress2</email>  
-    <password>a password</password> 
-  </user>  
-  <user> 
-    <email>123</email>  
-    <password>123</password> 
-  </user>  
-  <user> 
-    <password>working</password>  
-    <email>yup</email> 
-  </user>  
-  <user>
-    <password>123</password>
-    <email>12345</email>
-  </user>
 </users>

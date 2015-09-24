@@ -4,8 +4,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.HashMap;
-
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.junit.Before;
@@ -15,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 
 public class XMLEstateRepositoryTest {
@@ -26,6 +25,12 @@ public class XMLEstateRepositoryTest {
    private static final Integer VALID_PRICE = 99999;
 
    private String XML_FILE_PATH = "persistence/estates.xml";
+
+   @Mock
+   private RepositoryToPersistenceDtoFactory dtoFactory;
+
+   @Mock
+   private RepositoryToPersistenceEstateDto estateDto;
 
    @Mock
    private Estate estate;
@@ -43,6 +48,7 @@ public class XMLEstateRepositoryTest {
    public void setUp() throws DocumentException {
       MockitoAnnotations.initMocks(this);
       configureXmlFileEditor();
+      configureFactory();
    }
 
    @Test
@@ -59,26 +65,26 @@ public class XMLEstateRepositoryTest {
    public void givenAFirstEstateToPersistXMLFileEditorCallsAddNewElementToDocument() throws DocumentException {
       // given
       configureEstate();
-      HashMap<String, String> attributes = xmlEstateRepository.createHashMapFromEstate(estate);
       // when
       xmlEstateRepository.addEstate(estate);
       // then
-      // verify(xmlFileEditor, times(1)).addNewElementToDocument(usedDocument,
-      // "estate", attributes);
+      verify(xmlFileEditor, times(1)).addNewElementToDocument(usedDocument, estateDto);
    }
 
    @Test
    public void givenAnExistingEstateInRepositoryDoNothingWhenPersisting() throws DocumentException {
       // given
       configureEstate();
-      HashMap<String, String> attributes = xmlEstateRepository.createHashMapFromEstate(estate);
-      given(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, "estates/estate/price",
-            attributes.get("price"))).willReturn(true);
+      given(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, "estates/estate", estateDto))
+            .willReturn(true);
       // when
       xmlEstateRepository.addEstate(estate);
       // then
-      // verify(xmlFileEditor, times(0)).addNewElementToDocument(usedDocument,
-      // "estate", attributes);
+      verify(xmlFileEditor, times(0)).addNewElementToDocument(usedDocument, estateDto);
+   }
+
+   private void configureFactory() {
+      given(dtoFactory.getRepositoryDto(estate)).willReturn(estateDto);
    }
 
    private void configureEstate() throws DocumentException {

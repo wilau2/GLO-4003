@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.persistance;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,10 +17,6 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDto;
-
-// TODO Make better the comparison and modify estate persistence
-// accordingly
 public class XMLFileEditor {
 
    public Document readXMLFile(String pathToXMLFile) throws DocumentException {
@@ -46,11 +43,30 @@ public class XMLFileEditor {
       writer.close();
    }
 
-   public boolean elementWithCorrespondingValuesExists(Document existingDocument, String pathToValue,
+   public boolean elementWithCorrespondingValueExists(Document existingDocument, String pathToValue,
          String wantedValue) {
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {
          if (node.getStringValue().equals(wantedValue))
+            return true;
+      }
+      return false;
+   }
+
+   public boolean elementWithCorrespondingValuesExists(Document existingDocument, String pathToValues,
+         RepositoryToPersistenceDto receivedDto) {
+      List<Node> list = existingDocument.selectNodes(pathToValues);
+      Collection<String> attributesValues = receivedDto.getAttributes().values();
+      for (Node node : list) {
+         boolean hasAllAttributes = true;
+
+         for (String value : attributesValues) {
+            if (!node.getStringValue().contains(value)) {
+               hasAllAttributes = false;
+            }
+         }
+
+         if (hasAllAttributes)
             return true;
       }
       return false;

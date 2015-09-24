@@ -1,12 +1,13 @@
 package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
 import java.util.Collection;
-import java.util.HashMap;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 
 public class XMLEstateRepository implements EstateRepository {
@@ -14,6 +15,8 @@ public class XMLEstateRepository implements EstateRepository {
    private static final String ESTATE = "estate";
 
    private XMLFileEditor xmlFileEditor;
+
+   private RepositoryToPersistenceDtoFactory dtoFactory;
 
    private String XML_FILE_PATH = "persistence/estates.xml";
 
@@ -27,35 +30,25 @@ public class XMLEstateRepository implements EstateRepository {
    public void addEstate(Estate estate) {
       try {
          Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
-         HashMap<String, String> attributes = createHashMapFromEstate(estate);
-         if (isEstatePersisted(estateDocument, attributes)) {
+         if (isEstatePersisted(estateDocument, estate)) {
             return;
          }
-         addNewEstateToDocument(estateDocument, attributes);
+         addNewEstateToDocument(estateDocument, estate);
       } catch (DocumentException e) {
 
          e.printStackTrace();
       }
    }
 
-   private boolean isEstatePersisted(Document existingDocument, HashMap<String, String> attributes) {
-      return xmlFileEditor.elementWithCorrespondingValuesExists(existingDocument, "estates/estate/price",
-            attributes.get("price"));
+   private boolean isEstatePersisted(Document existingDocument, Estate estate) {
+
+      RepositoryToPersistenceDto estateDto = dtoFactory.getRepositoryDto(estate);
+      return xmlFileEditor.elementWithCorrespondingValuesExists(existingDocument, "estates/estate", estateDto);
    }
 
-   public HashMap<String, String> createHashMapFromEstate(Estate estate) {
-      HashMap<String, String> attributes = new HashMap<String, String>();
+   private void addNewEstateToDocument(Document document, Estate estate) {
+      RepositoryToPersistenceDto estateDto = dtoFactory.getRepositoryDto(estate);
 
-      attributes.put("type", estate.getType());
-      attributes.put("address", estate.getAddress());
-      attributes.put("price", estate.getPrice().toString());
-
-      return attributes;
+      xmlFileEditor.addNewElementToDocument(document, estateDto);
    }
-
-   private void addNewEstateToDocument(Document document, HashMap<String, String> attributes) {
-      // TODO BORIS doit faire l'integration
-      // xmlFileEditor.addNewElementToDocument(document, ESTATE, attributes);
-   }
-
 }
