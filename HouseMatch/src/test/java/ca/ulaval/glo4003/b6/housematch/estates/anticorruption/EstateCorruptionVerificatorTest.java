@@ -17,6 +17,8 @@ import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
 
 public class EstateCorruptionVerificatorTest {
 
+   private static final int NEGATIVE_NUMBER = -1;
+
    private static final String USER_ID = "USER_ID";
 
    private static final String EMPTY_FIELD = "";
@@ -141,6 +143,92 @@ public class EstateCorruptionVerificatorTest {
       estateCorruptionVerificator.addEstate(estateDto);
 
       // Then an InvalidEstateFieldException is thrown
+   }
+   
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingAnEstateFromCorruptionVerificationWhenSellerIsNullShouldThrowException() 
+         throws InvalidEstateFieldException{
+      // Given
+      
+      
+      // When
+      when(estateDto.getSeller()).thenReturn(null);
+      estateCorruptionVerificator.editEstate(estateDto);
+      
+      // Then an InvalidEstateFieldException is thrown
+     
+   }
+   
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingAnEstateFromCorruptionVerificationWhenSellerIsEmptyShouldThrowException() throws InvalidEstateFieldException {
+      // Given
+
+      // When
+      when(estateDto.getSeller()).thenReturn(EMPTY_FIELD);
+      estateCorruptionVerificator.editEstate(estateDto);
+      // Then
+   }
+   
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingAnEstateFromCorruptionVerificationWhenAddressIsNullShouldThrowException() throws InvalidEstateFieldException {
+      // Given
+
+      // When
+      when(estateDto.getAddress()).thenReturn(null);
+      estateCorruptionVerificator.editEstate(estateDto);
+      // Then
+   }
+   
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingAnEstateFromCorruptionVerificationWhenAddressIsEmptyShouldThrowException() throws InvalidEstateFieldException {
+      // Given
+
+      // When
+      when(estateDto.getAddress()).thenReturn(EMPTY_FIELD);
+      estateCorruptionVerificator.editEstate(estateDto);
+      // Then
+   }
+   
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingAnEstateFromCorruptionVerificationWhenTypeNullShouldThrowException() throws InvalidEstateFieldException {
+      // Given
+
+      // When
+      when(estateDto.getType()).thenReturn(null);
+      estateCorruptionVerificator.editEstate(estateDto);
+      // Then
+   }
+   
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingAnEstateFromCorruptionVerificationWhenTypeIsEmptyShouldThrowException() throws InvalidEstateFieldException {
+      // Given
+
+      // When
+      when(estateDto.getType()).thenReturn(EMPTY_FIELD);
+      estateCorruptionVerificator.editEstate(estateDto);
+      
+      // Then
+   }
+   
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingAnEstateFromCorruptionVerificationWhenPriceIsNullShouldThrowException() throws InvalidEstateFieldException {
+      // Given
+
+      // When
+      when(estateDto.getPrice()).thenReturn(null);
+      estateCorruptionVerificator.editEstate(estateDto);
+      
+      // Then
+   }
+   
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingAnEstateFromCorruptionVerificationWhenPriceIsEmptyShouldThrowException() throws InvalidEstateFieldException {
+      // Given
+
+      // When
+      when(estateDto.getPrice()).thenReturn(NEGATIVE_NUMBER);
+      estateCorruptionVerificator.editEstate(estateDto);
+      // Then
    }
 
 }

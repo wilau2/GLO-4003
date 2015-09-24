@@ -16,6 +16,8 @@ public class EstateDto {
    public EstateDto(String type, String address, Integer price, String sellerId) {
       this.type = type;
       this.address = address;
+      // On a peut-être besoin d'un champ old et new adresse si jamais on veux pouvoir la modifier et
+      // changer le nom du fichier
       this.price = price;
       this.sellerId = sellerId;
    }

@@ -17,7 +17,7 @@ public class EstateCorruptionVerificator {
    }
 
    public void addEstate(EstateDto estateDto) throws InvalidEstateFieldException {
-      validateEstateCorruption(estateDto);
+      validateAddingEstateCorruption(estateDto);
 
       try {
          estateService.addEstate(estateDto);
@@ -27,24 +27,54 @@ public class EstateCorruptionVerificator {
 
       }
    }
+   
+   public void editEstate(EstateDto estateDto) throws InvalidEstateFieldException {
+      validateAddingEstateCorruption(estateDto);
+      
+      try {
+         estateService.editEstate(estateDto);
+      } catch (InvalidEstateException e) {
+         System.out.println(e.getMessage());
+         throw new InvalidEstateFieldException(e.getMessage(), e);
 
-   private void validateEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {
-      String address = estateDto.getAddress();
-      if (address == null || address.isEmpty()) {
-         throw new InvalidEstateFieldException("The entered address is empty");
       }
-      String type = estateDto.getType();
-      if (type == null || type.isEmpty()) {
-         throw new InvalidEstateFieldException("The selected type is empty");
-      }
-      int price = estateDto.getPrice();
-      if (price < 0) {
-         throw new InvalidEstateFieldException("The price was negative");
-      }
+   }
+
+   private void validateAddingEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {
+      validateEstateAddress(estateDto);
+      validateEstateType(estateDto);
+      validateEstatePrice(estateDto);
+      validateEstateSeller(estateDto);
+   }
+
+   private void validateEstateSeller(EstateDto estateDto) throws InvalidEstateFieldException {
       String seller = estateDto.getSeller();
       if (seller == null || seller.isEmpty()) {
          throw new InvalidEstateFieldException("Seller is invalid");
       }
    }
+
+   private void validateEstatePrice(EstateDto estateDto) throws InvalidEstateFieldException {
+      Integer price = estateDto.getPrice();
+      if ((price == null) || (price < 0)) {
+         throw new InvalidEstateFieldException("The price was negative");
+      }
+   }
+
+   private void validateEstateType(EstateDto estateDto) throws InvalidEstateFieldException {
+      String type = estateDto.getType();
+      if (type == null || type.isEmpty()) {
+         throw new InvalidEstateFieldException("The selected type is empty");
+      }
+   }
+
+   private void validateEstateAddress(EstateDto estateDto) throws InvalidEstateFieldException {
+      String address = estateDto.getAddress();
+      if (address == null || address.isEmpty()) {
+         throw new InvalidEstateFieldException("The entered address is empty");
+      }
+   }
+
+
 
 }

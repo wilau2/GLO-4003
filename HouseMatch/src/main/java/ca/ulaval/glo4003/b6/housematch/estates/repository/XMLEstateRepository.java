@@ -19,6 +19,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDt
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
+import ca.ulaval.glo4003.b6.housematch.user.model.User;
 
 public class XMLEstateRepository implements EstateRepository {
 
@@ -118,7 +119,26 @@ public class XMLEstateRepository implements EstateRepository {
 
    @Override
    public void editEstate(Estate estate) {
-      // TODO Auto-generated method stub
+      String address = estate.getAddress();
+      try{
+            Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+         }
+         catch (Exception e) 
+         {
+            e.printStackTrace();
+         }
+      
       // On fetch le estate puis on le re-persiste avec ses details?
+   }
+   
+   private Estate returnEstateWithGivenAddress(Document existingDocument, String address) {
+
+      HashMap<String, String> attributes = xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(existingDocument,
+            XML_FILE_PATH, address);
+
+      Estate estate = new Estate(attributes.get("type"), attributes.get("address"), new Integer(attributes.get("price")),
+            attributes.get("seller"));
+
+      return estate;
    }
 }
