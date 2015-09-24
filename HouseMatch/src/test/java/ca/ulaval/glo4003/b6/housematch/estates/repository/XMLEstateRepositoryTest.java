@@ -27,6 +27,8 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
@@ -82,6 +84,7 @@ public class XMLEstateRepositoryTest {
    @Before
    public void setUp() throws DocumentException {
       MockitoAnnotations.initMocks(this);
+
       configureXmlFileEditor();
 
       configureAssemblerBehavior();

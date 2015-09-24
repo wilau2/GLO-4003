@@ -13,6 +13,8 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
@@ -31,7 +33,27 @@ public class XMLEstateRepository implements EstateRepository {
 
    private EstateElementAssemblerFactory estateElementAssemblerFactory;
 
-   private EstatePersistenceDtoFactory estatePersistenceFactory;
+   private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
+
+   public XMLEstateRepository(EstateAssemblerFactory estateAssemblerFactory,
+         EstatePersistenceDtoFactory estatePersistenceDtoFactory,
+         EstateElementAssemblerFactory estateElementAssemblerFactory) {
+
+      this.estateAssemblerFactory = estateAssemblerFactory;
+      this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
+      this.estateElementAssemblerFactory = estateElementAssemblerFactory;
+      this.xmlFileEditor = new XMLFileEditor();
+
+   }
+
+   protected XMLEstateRepository(EstateAssemblerFactory estateAssemblerFactory,
+         EstatePersistenceDtoFactory estatePersistenceDtoFactory,
+         EstateElementAssemblerFactory estateElementAssemblerFactory, XMLFileEditor xmlFileEditor) {
+      this.estateAssemblerFactory = estateAssemblerFactory;
+      this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
+      this.estateElementAssemblerFactory = estateElementAssemblerFactory;
+      this.xmlFileEditor = xmlFileEditor;
+   }
 
    @Override
    public List<Estate> getAllEstates() {
@@ -73,7 +95,7 @@ public class XMLEstateRepository implements EstateRepository {
          if (isEstatePersisted(estateDocument, attributes)) {
             return;
          }
-         addNewEstateToDocument(estateDocument, attributes, estatePersistenceFactory);
+         addNewEstateToDocument(estateDocument, attributes, estatePersistenceDtoFactory);
       } catch (DocumentException e) {
 
          e.printStackTrace();

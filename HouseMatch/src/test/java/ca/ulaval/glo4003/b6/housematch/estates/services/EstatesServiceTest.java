@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -18,10 +17,12 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
 
 public class EstatesServiceTest {
 
@@ -54,16 +55,27 @@ public class EstatesServiceTest {
    @Mock
    private EstateValidator estateValidator;
 
-   @InjectMocks
+   @Mock
+   private EstateRepositoryFactory estateRepositoryFactory;
+
+   @Mock
+   private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
+
+   // @InjectMocks
    private EstatesService estatesService;
 
    @Before
    public void setUp() {
       MockitoAnnotations.initMocks(this);
+
       when(estateValidatorFactory.getValidator()).thenReturn(estateValidator);
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
+      when(estateRepositoryFactory.newInstance(estateAssemblerFactory, estatePersistenceDtoFactory))
+            .thenReturn(estateRepository);
 
+      estatesService = new EstatesService(estateValidatorFactory, estateAssemblerFactory, estateRepositoryFactory,
+            estatePersistenceDtoFactory);
    }
 
    @Test
