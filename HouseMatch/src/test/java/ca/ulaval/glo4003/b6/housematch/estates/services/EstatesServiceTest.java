@@ -78,6 +78,7 @@ public class EstatesServiceTest {
       estatesService.addEstate(estateDto);
 
       // Then
+      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory, estatePersistenceDtoFactory);
       verify(estateRepository, times(1)).addEstate(estate);
    }
 

@@ -24,6 +24,7 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDto;
 public class XMLFileEditor {
 
    public Document readXMLFile(String pathToXMLFile) throws DocumentException {
+      System.out.println(pathToXMLFile);
       File xml = new File(pathToXMLFile);
 
       SAXReader reader = new SAXReader();

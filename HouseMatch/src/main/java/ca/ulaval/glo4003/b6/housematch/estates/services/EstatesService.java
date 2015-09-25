@@ -20,9 +20,11 @@ public class EstatesService {
 
    private EstateValidatorFactory estateValidatorFactory;
 
-   private EstateRepository estateRepository;
+   private EstateRepositoryFactory estateRepositoryFactory;
 
    private EstateAssemblerFactory estateAssemblerFactory;
+
+   private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
 
    @Autowired
    public EstatesService(EstateValidatorFactory estateValidatorFactory, EstateAssemblerFactory estateAssemblerFactory,
@@ -30,8 +32,8 @@ public class EstatesService {
 
       this.estateValidatorFactory = estateValidatorFactory;
       this.estateAssemblerFactory = estateAssemblerFactory;
-      this.estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory, estatePersistenceDtoFactory);
-
+      this.estateRepositoryFactory = estateRepositoryFactory;
+      this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
    }
 
    public void addEstate(EstateDto estateDto) throws InvalidEstateException {
@@ -42,12 +44,16 @@ public class EstatesService {
 
       Estate estate = estateAssembler.assembleEstate(estateDto);
 
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
+            estatePersistenceDtoFactory);
       estateRepository.addEstate(estate);
    }
 
    public List<EstateDto> getAllEstates() {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
+            estatePersistenceDtoFactory);
       List<Estate> estateList = estateRepository.getAllEstates();
 
       List<EstateDto> estatesDto = new ArrayList<EstateDto>();
@@ -66,6 +72,8 @@ public class EstatesService {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
       Estate estate = estateAssembler.assembleEstate(estateDto);
 
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
+            estatePersistenceDtoFactory);
       estateRepository.editEstate(estate);
    }
 

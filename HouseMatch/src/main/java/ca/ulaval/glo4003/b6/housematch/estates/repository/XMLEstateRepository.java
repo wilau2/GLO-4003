@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class XMLEstateRepository implements EstateRepository {
 
    private static final String ESTATE = "estate";
 
-   private static final String XML_FILE_PATH = "persistence" + File.separator + "estates.xml";
+   private static final String XML_FILE_PATH = "persistence/estates.xml";
 
    private XMLFileEditor xmlFileEditor;
 
@@ -92,6 +91,7 @@ public class XMLEstateRepository implements EstateRepository {
    public void addEstate(Estate estate) {
       try {
          Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
          if (isEstatePersisted(estateDocument, attributes)) {

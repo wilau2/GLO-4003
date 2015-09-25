@@ -10,7 +10,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +43,7 @@ public class XMLEstateRepositoryTest {
 
    private static final String ELEMENT_NAME = "estate";
 
-   private static final String XML_FILE_PATH = "persistence" + File.separator + "estates.xml";
+   private static final String XML_FILE_PATH = "persistence/estates.xml";
 
    private static final String USER_ID = "USER_ID";
 
