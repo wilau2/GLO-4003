@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <estates>
+  <estate>
+    <seller>123</seller>
+    <address>1435</address>
+    <price>1000</price>
+    <type>CONDO</type>
+  </estate>
 </estates>

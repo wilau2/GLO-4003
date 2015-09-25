@@ -36,6 +36,7 @@ public class XMLFileEditor {
       Element newElement = rootElement.addElement(receivedDto.getElementName());
 
       for (Entry<String, String> entry : receivedDto.getAttributes().entrySet()) {
+         System.out.println(entry);
          newElement.addElement(entry.getKey()).addText(entry.getValue());
       }
    }

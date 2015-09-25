@@ -4,12 +4,16 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -163,6 +167,32 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
+   public void whenAddingAnEstateShouldSaveOpenedXMlFile() throws DocumentException, IOException {
+      // Given
+      configureEstate();
+
+      // When
+      xmlEstateRepository.addEstate(estate);
+
+      // Then
+      int expectedNumberOfCall = 1;
+      verify(xmlFileEditor, times(expectedNumberOfCall)).formatAndWriteDocument(eq(usedDocument), anyString());
+   }
+
+   @Test(expected = CouldNotAccessDataException.class)
+   public void addingAnEstateWhenWrittingEstateThrowIOExceptionShouldThrowExceptio()
+         throws DocumentException, IOException {
+      // Given
+      configureEstate();
+      doThrow(new IOException()).when(xmlFileEditor).formatAndWriteDocument(usedDocument, XML_FILE_PATH);
+
+      // When
+      xmlEstateRepository.addEstate(estate);
+
+      // Then a CouldNotAccessDataException
+   }
+
+   @Test
    public void givenAnExistingEstateInRepositoryDoNothingWhenPersisting() throws DocumentException {
       // given
       configureEstate();
@@ -250,6 +280,27 @@ public class XMLEstateRepositoryTest {
       // Then
       verify(estateElementAssemblerFactory, times(1)).createAssembler();
       verify(estateElementAssembler, times(numberOfReturnedDto)).convertToDto(element);
+   }
+
+   @Test(expected = CouldNotAccessDataException.class)
+   public void addingAnEstateWhenPersistanceThrowAnExceptionShouldThrowException() throws DocumentException {
+      // Given
+      configureEstate();
+      when(xmlFileEditor.readXMLFile(anyString())).thenThrow(new DocumentException());
+
+      // When
+      xmlEstateRepository.addEstate(estate);
+
+      // Then a couldNotAccessDataException is thrown
+   }
+
+   @Test
+   public void shouldDoThisWhenThat() {
+      // Given
+
+      // When
+
+      // Then
    }
 
    private void configureGetAllEstate() {

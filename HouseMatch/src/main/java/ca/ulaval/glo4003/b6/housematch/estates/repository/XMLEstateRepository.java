@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -98,10 +99,17 @@ public class XMLEstateRepository implements EstateRepository {
             return;
          }
          addNewEstateToDocument(estateDocument, attributes, estatePersistenceDtoFactory);
+         saveEstateDocument(estateDocument);
       } catch (DocumentException e) {
-
-         e.printStackTrace();
+         throw new CouldNotAccessDataException("Unable to add an estate", e);
+      } catch (IOException e) {
+         throw new CouldNotAccessDataException("Unable to save the added estate", e);
       }
+   }
+
+   private void saveEstateDocument(Document estateDocument) throws IOException {
+
+      xmlFileEditor.formatAndWriteDocument(estateDocument, XML_FILE_PATH);
    }
 
    private boolean isEstatePersisted(Document existingDocument, HashMap<String, String> attributes) {
@@ -113,6 +121,7 @@ public class XMLEstateRepository implements EstateRepository {
          EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
       // TODO BORIS doit faire l'integration
       EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
+      System.out.println(document);
       xmlFileEditor.addNewElementToDocument(document, estatePersistenceDto);
    }
 
