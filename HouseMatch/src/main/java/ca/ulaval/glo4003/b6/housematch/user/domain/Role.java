@@ -12,4 +12,19 @@ public class Role {
       return role;
    }
 
+   public boolean isSeller() {
+      // TODO Auto-generated method stub
+      return false;
+   }
+
+   public boolean isAdmin() {
+      // TODO Auto-generated method stub
+      return false;
+   }
+
+   public boolean isBuyer() {
+      // TODO Auto-generated method stub
+      return false;
+   }
+
 }

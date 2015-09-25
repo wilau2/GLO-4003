@@ -17,6 +17,18 @@ public class User {
       this.role = role;
    }
 
+   public boolean isSeller() {
+      return role.isSeller();
+   }
+
+   public boolean isBuyer() {
+      return role.isSeller();
+   }
+
+   public boolean isAdmin() {
+      return role.isAdmin();
+   }
+
    public String getUsername() {
       return username;
    }
