@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDt
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepository implements EstateRepository {
 
@@ -68,8 +69,7 @@ public class XMLEstateRepository implements EstateRepository {
          estates = getDtoListFromElements(elementList, estateAssembler, estateElementAssembler);
 
       } catch (DocumentException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
+         throw new CouldNotAccessDataException("Problem when fetching all estate", e);
       }
 
       return estates;
