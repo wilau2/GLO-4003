@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.estates.anticorruption;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -10,7 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.AddressFieldInvalidException;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
@@ -33,6 +36,12 @@ public class EstateCorruptionVerificatorTest {
    @Mock
    private EstatesService estateService;
 
+   @Mock
+   private AddressDto addressDto;
+
+   @Mock
+   private AddressCorruptionVerificator addressCorruptionVerificator;
+
    @InjectMocks
    private EstateCorruptionVerificator estateCorruptionVerificator;
 
@@ -44,10 +53,11 @@ public class EstateCorruptionVerificatorTest {
    }
 
    private void configureValidEstateModel() {
-      // when(estateDto.getAddress()).thenReturn(ADDRESS);
       when(estateDto.getType()).thenReturn(TYPE);
       when(estateDto.getPrice()).thenReturn(PRICE);
       when(estateDto.getSeller()).thenReturn(USER_ID);
+
+      when(estateDto.getAddress()).thenReturn(addressDto);
    }
 
    @Test
@@ -64,9 +74,9 @@ public class EstateCorruptionVerificatorTest {
 
    @Test(expected = InvalidEstateFieldException.class)
    public void verificationCorruptionWhenEstateAddressIsEmptyShouldThrowAnException()
-         throws InvalidEstateFieldException {
+         throws InvalidEstateFieldException, AddressFieldInvalidException {
       // Given
-      // when(estateDto.getAddress()).thenReturn(EMPTY_FIELD);
+      doThrow(new AddressFieldInvalidException("")).when(addressCorruptionVerificator).validate(addressDto);
 
       // When
       estateCorruptionVerificator.addEstate(estateDto);
@@ -75,7 +85,8 @@ public class EstateCorruptionVerificatorTest {
    }
 
    @Test(expected = InvalidEstateFieldException.class)
-   public void verifyingCorruptionWhenEstateAddressIsNullShouldThrowAnException() throws InvalidEstateFieldException {
+   public void verifyingCorruptionWhenEstateAddressIsNullShouldThrowAnException()
+         throws InvalidEstateFieldException, AddressFieldInvalidException {
       // Given
       when(estateDto.getAddress()).thenReturn(null);
 
@@ -141,6 +152,18 @@ public class EstateCorruptionVerificatorTest {
       estateCorruptionVerificator.addEstate(estateDto);
 
       // Then an InvalidEstateFieldException is thrown
+   }
+
+   @Test
+   public void whenAddingEstateFromCorruptionVerificatorShouldCallAddressCorruptionVerificator()
+         throws InvalidEstateFieldException, AddressFieldInvalidException {
+      // Given
+
+      // When
+      estateCorruptionVerificator.addEstate(estateDto);
+
+      // Then
+      verify(addressCorruptionVerificator, times(1)).validate(addressDto);
    }
 
 }

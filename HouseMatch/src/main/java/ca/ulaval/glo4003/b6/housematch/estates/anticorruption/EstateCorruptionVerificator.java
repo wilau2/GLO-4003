@@ -2,7 +2,9 @@ package ca.ulaval.glo4003.b6.housematch.estates.anticorruption;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.AddressFieldInvalidException;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
@@ -11,9 +13,13 @@ public class EstateCorruptionVerificator {
 
    private EstatesService estateService;
 
+   private AddressCorruptionVerificator addressCorruptionVerificator;
+
    @Autowired
-   public EstateCorruptionVerificator(EstatesService estateService) {
+   public EstateCorruptionVerificator(EstatesService estateService,
+         AddressCorruptionVerificator addressCorruptionVerificator) {
       this.estateService = estateService;
+      this.addressCorruptionVerificator = addressCorruptionVerificator;
    }
 
    public void addEstate(EstateDto estateDto) throws InvalidEstateFieldException {
@@ -29,10 +35,16 @@ public class EstateCorruptionVerificator {
    }
 
    private void validateEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {
-      // String address = estateDto.getAddress();
-      // if (address == null || address.isEmpty()) {
-      // throw new InvalidEstateFieldException("The entered address is empty");
-      // }
+      AddressDto addressDto = estateDto.getAddress();
+      if (addressDto == null) {
+         throw new InvalidEstateFieldException("Address is invalid");
+      }
+      try {
+         addressCorruptionVerificator.validate(addressDto);
+      } catch (AddressFieldInvalidException exception) {
+         throw new InvalidEstateFieldException("Address fields are invalid", exception);
+      }
+
       String type = estateDto.getType();
       if (type == null || type.isEmpty()) {
          throw new InvalidEstateFieldException("The selected type is empty");
