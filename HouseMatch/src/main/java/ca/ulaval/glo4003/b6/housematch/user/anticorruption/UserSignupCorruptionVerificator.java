@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserSignupService;
 
 public class UserSignupCorruptionVerificator {
@@ -17,7 +19,8 @@ public class UserSignupCorruptionVerificator {
       this.userSignupService = userSignupService;
    }
 
-   public void signup(HttpServletRequest request, UserSignupDto userDto) throws InvalidUserSignupFieldException {
+   public void signup(HttpServletRequest request, UserSignupDto userDto)
+         throws InvalidUserSignupFieldException, UserAlreadyExistsException, CouldNotAccessUserDataException {
       validateUserSignupCorruption(userDto);
       // TODO try catch error
       userSignupService.signup(request, userDto);
@@ -46,6 +49,10 @@ public class UserSignupCorruptionVerificator {
       }
       String password = userDto.getPassword();
       if (password == null || password.isEmpty()) {
+         throw new InvalidUserSignupFieldException();
+      }
+      String role = userDto.getRole();
+      if (role == null || role.isEmpty()) {
          throw new InvalidUserSignupFieldException();
       }
    }
