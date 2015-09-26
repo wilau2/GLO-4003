@@ -4,13 +4,13 @@ public class Estate {
 
    private Integer price;
 
-   private String address;
+   private Address address;
 
    private String type;
 
    private String seller;
 
-   public Estate(String type, String address, Integer price, String seller) {
+   public Estate(String type, Address address, Integer price, String seller) {
       this.type = type;
       this.address = address;
       this.price = price;
@@ -21,7 +21,7 @@ public class Estate {
       return this.type;
    }
 
-   public String getAddress() {
+   public Address getAddress() {
       return this.address;
    }
 

@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.AddressAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
@@ -23,13 +25,17 @@ public class EstatesService {
    private EstateRepository estateRepository;
 
    private EstateAssemblerFactory estateAssemblerFactory;
+   
+   private AddressAssemblerFactory addressAssemblerFactory;
 
    @Autowired
    public EstatesService(EstateValidatorFactory estateValidatorFactory, EstateAssemblerFactory estateAssemblerFactory,
-         EstateRepositoryFactory estateRepositoryFactory, EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
+         AddressAssemblerFactory addressAssemblerFactory,EstateRepositoryFactory estateRepositoryFactory, 
+         EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
 
       this.estateValidatorFactory = estateValidatorFactory;
       this.estateAssemblerFactory = estateAssemblerFactory;
+      this.addressAssemblerFactory = addressAssemblerFactory;
       this.estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory, estatePersistenceDtoFactory);
 
    }
@@ -39,20 +45,20 @@ public class EstatesService {
       estateValidator.validate(estateDto);
 
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-
-      Estate estate = estateAssembler.assembleEstate(estateDto);
+      AddressAssembler addressAssembler = addressAssemblerFactory.createAddressAssembler();
+      Estate estate = estateAssembler.assembleEstate(estateDto, addressAssembler);
 
       estateRepository.addEstate(estate);
    }
 
    public List<EstateDto> getAllEstates() {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-
+      AddressAssembler addressAssembler = addressAssemblerFactory.createAddressAssembler();
       List<Estate> estateList = estateRepository.getAllEstates();
 
       List<EstateDto> estatesDto = new ArrayList<EstateDto>();
       for (Estate estate : estateList) {
-         estatesDto.add(estateAssembler.assembleEstateDto(estate));
+         estatesDto.add(estateAssembler.assembleEstateDto(estate, addressAssembler));
       }
 
       return estatesDto;
@@ -64,7 +70,8 @@ public class EstatesService {
       estateValidator.validate(estateDto);
 
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-      Estate estate = estateAssembler.assembleEstate(estateDto);
+      AddressAssembler addressAssembler = addressAssemblerFactory.createAddressAssembler();
+      Estate estate = estateAssembler.assembleEstate(estateDto, addressAssembler);
 
       estateRepository.editEstate(estate);
    }
