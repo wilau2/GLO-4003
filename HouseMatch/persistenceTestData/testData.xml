@@ -2,6 +2,7 @@
 
 <test>This is the content of the test data
   <element> 
-    <field>Existing Data</field> 
+    <field>Existing Data</field>
+    <field2>Existing Data 2</field2> 
   </element>  
 </test>

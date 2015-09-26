@@ -125,6 +125,7 @@ public class SignupControllerTest {
       // When
 
       // Then
+
    }
 
    private void configureConverter() {

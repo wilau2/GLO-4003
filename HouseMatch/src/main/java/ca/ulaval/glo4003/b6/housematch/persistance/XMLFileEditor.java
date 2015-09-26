@@ -95,10 +95,10 @@ public class XMLFileEditor {
          }
       }
 
-      return returnMapOfAttributes(null);
+      return new HashMap<String, String>();
    }
 
-   public HashMap<String, String> returnMapOfAttributes(Element element) {
+   private HashMap<String, String> returnMapOfAttributes(Element element) {
       HashMap<String, String> attributes = new HashMap<String, String>();
 
       for (Iterator i = element.elementIterator(); i.hasNext();) {

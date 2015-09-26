@@ -79,6 +79,7 @@ public class LoginControllerTest {
       model = new BindingAwareModelMap();
 
       // When
+
       String view = controller.login(request, loginUserViewModel);
 
       // Then
@@ -89,6 +90,7 @@ public class LoginControllerTest {
    public void postRequestLoginShouldUseTheConverter() throws InvalidUserLoginFieldException, UserNotFoundException,
          CouldNotAccessUserDataException, InvalidPasswordException {
       // When
+
       controller.login(request, loginUserViewModel);
 
       // Then
