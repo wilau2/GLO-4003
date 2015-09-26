@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ca.ulaval.glo4003.b6.housematch.admin.repository.exception.CouldNotAccesAdminDataException;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
@@ -21,7 +22,8 @@ public class UserLoginCorruptionVerificator {
       this.userLoginService = userLoginService;
    }
 
-   public void login(HttpServletRequest request, UserLoginDto userDto) throws InvalidUserLoginFieldException {
+   public void login(HttpServletRequest request, UserLoginDto userDto)
+         throws InvalidUserLoginFieldException, CouldNotAccesAdminDataException {
       validateUserLoginCorruption(userDto);
       // TODO try catch error
       userLoginService.login(request, userDto);

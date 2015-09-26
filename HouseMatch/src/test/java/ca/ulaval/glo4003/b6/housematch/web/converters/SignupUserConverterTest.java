@@ -32,28 +32,28 @@ public class SignupUserConverterTest {
    @Test
    public void whenConvertingAUserIntoAUserModelItShouldKeepTheSameEmail() {
       SignupUserModel returnedViewUser;
-      returnedViewUser = converter.convertToViewModel(userSignupDto);
+      returnedViewUser = converter.convertSignupDtoToViewModel(userSignupDto);
       assertEquals("an Email", returnedViewUser.getEmail());
    }
 
    @Test
    public void whenConvertingAUserIntoAUserModelItShouldKeepTheSamePassword() {
       SignupUserModel returnedViewUser;
-      returnedViewUser = converter.convertToViewModel(userSignupDto);
+      returnedViewUser = converter.convertSignupDtoToViewModel(userSignupDto);
       assertEquals("a Password", returnedViewUser.getPassword());
    }
 
    @Test
    public void whenConvertingAUserModelIntoAUserItShouldKeepTheSameEmail() {
       UserSignupDto returnedUser;
-      returnedUser = converter.convertToDto(viewUser);
+      returnedUser = converter.convertViewModelToSignupDto(viewUser);
       assertEquals("another Email", returnedUser.getEmail());
    }
 
    @Test
    public void whenConvertingAUserModelIntoAUserItShouldKeepTheSamePassword() {
       UserSignupDto returnedUser;
-      returnedUser = converter.convertToDto(viewUser);
+      returnedUser = converter.convertViewModelToSignupDto(viewUser);
       assertEquals("another Password", returnedUser.getPassword());
    }
 }

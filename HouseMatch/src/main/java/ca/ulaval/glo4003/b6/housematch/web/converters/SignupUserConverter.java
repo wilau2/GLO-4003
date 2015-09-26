@@ -2,13 +2,14 @@ package ca.ulaval.glo4003.b6.housematch.web.converters;
 
 import org.springframework.stereotype.Component;
 
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
 @Component
 public class SignupUserConverter {
 
-   public SignupUserModel convertToViewModel(UserSignupDto user) {
+   public SignupUserModel convertSignupDtoToViewModel(UserSignupDto user) {
       SignupUserModel viewModel = new SignupUserModel();
       viewModel.setFirstName(user.getFirstName());
       viewModel.setLastName(user.getLastName());
@@ -19,7 +20,7 @@ public class SignupUserConverter {
       return viewModel;
    }
 
-   public UserSignupDto convertToDto(SignupUserModel viewModel) {
+   public UserSignupDto convertViewModelToSignupDto(SignupUserModel viewModel) {
       UserSignupDto user = new UserSignupDto();
       user.setRole(viewModel.getRole());
       user.setFirstName(viewModel.getFirstName());
@@ -31,4 +32,10 @@ public class SignupUserConverter {
       return user;
    }
 
+   public UserLoginDto convertSignupDtoToLoginDto(UserSignupDto userSignupDto) {
+      UserLoginDto user = new UserLoginDto();
+      user.setUsername(userSignupDto.getUsername());
+      user.setPassword(userSignupDto.getPassword());
+      return user;
+   }
 }

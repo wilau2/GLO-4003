@@ -1,38 +1,42 @@
 package ca.ulaval.glo4003.b6.housematch.admin.repository;
 
-import java.io.File;
-import java.util.List;
-
 import javax.inject.Singleton;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.Node;
-import org.dom4j.io.SAXReader;
+
+import ca.ulaval.glo4003.b6.housematch.admin.repository.exception.CouldNotAccesAdminDataException;
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 
 @Singleton
 public class XMLAdminRepository implements AdminRepository {
 
-   @Override
-   public boolean isAdmin(String email) {
-      try {
-         List<Node> list = readAdminXML().selectNodes("admins/admin");
-         for (Node node : list) {
-            if (node.selectSingleNode("email").getStringValue().equals(email))
-               return true;
-         }
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
+   private XMLFileEditor fileEditor;
 
-      return false;
+   private String pathToXML = "persistence/admins.xml";
+
+   private String pathToUsernameValue = "admins/admin/username";
+
+   public XMLAdminRepository() {
+      this.fileEditor = new XMLFileEditor();
+
    }
 
-   private Document readAdminXML() throws DocumentException {
-      File xml = new File("persistence/admins.xml");
+   @Override
+   public boolean isAdmin(String username) throws CouldNotAccesAdminDataException {
 
-      SAXReader reader = new SAXReader();
-      return reader.read(xml);
+      try {
+         Document existingDocument = readAdminsXML();
+         return fileEditor.elementWithCorrespondingValueExists(existingDocument, pathToUsernameValue, username);
+
+      } catch (DocumentException e) {
+         throw new CouldNotAccesAdminDataException();
+      }
+
+   }
+
+   private Document readAdminsXML() throws DocumentException {
+      return fileEditor.readXMLFile(pathToXML);
    }
 
 }

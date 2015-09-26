@@ -14,12 +14,12 @@ import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
 @Singleton
-public class XMLUserRepository implements UserDao {
+public class XMLUserRepository implements UserRepository {
 
    private XMLFileEditor fileEditor;
 
@@ -36,7 +36,7 @@ public class XMLUserRepository implements UserDao {
    }
 
    @Override
-   public User findByUsername(String username) throws UserNotFoundException, CouldNotAccessDataException {
+   public User findByUsername(String username) throws UserNotFoundException, CouldNotAccessUserDataException {
       try {
          Document usersXML = readUsersXML();
          if (!usernameAlreadyExists(usersXML, username)) {
@@ -48,12 +48,12 @@ public class XMLUserRepository implements UserDao {
          throw userNotFoundException;
       } catch (Exception exception) {
          exception.printStackTrace();
-         throw new CouldNotAccessDataException();
+         throw new CouldNotAccessUserDataException();
       }
    }
 
    @Override
-   public void add(User newUser) throws UserAlreadyExistsException, CouldNotAccessDataException {
+   public void add(User newUser) throws UserAlreadyExistsException, CouldNotAccessUserDataException {
       try {
          Document usersXML = readUsersXML();
          if (usernameAlreadyExists(usersXML, newUser.getUsername())) {
@@ -64,9 +64,9 @@ public class XMLUserRepository implements UserDao {
          }
       } catch (UserAlreadyExistsException userExists) {
          throw userExists;
-      } catch (Exception exception) {
+      } catch (DocumentException exception) {
          exception.printStackTrace();
-         throw new CouldNotAccessDataException();
+         throw new CouldNotAccessUserDataException();
       }
    }
 
@@ -91,8 +91,12 @@ public class XMLUserRepository implements UserDao {
       return user;
    }
 
-   private void saveFile(Document usersXML) throws IOException {
-      fileEditor.formatAndWriteDocument(usersXML, pathToXML);
+   private void saveFile(Document usersXML) throws DocumentException {
+      try {
+         fileEditor.formatAndWriteDocument(usersXML, pathToXML);
+      } catch (IOException e) {
+         throw new DocumentException();
+      }
    }
 
    private boolean usernameAlreadyExists(Document existingDocument, String username) {
