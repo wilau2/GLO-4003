@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +22,8 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.services.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
@@ -46,7 +47,7 @@ public class SignupControllerTest {
    private UserSignupDto userSignupDto;
 
    @Mock
-   private SignupUserModel signupNewUser;
+   private SignupUserModel userSignupViewModel;
 
    @Mock
    private XMLUserRepository userRepository;
@@ -86,12 +87,12 @@ public class SignupControllerTest {
 
    @Test
    public void postRequestSignupRedirectToRoot() throws InvalidUserSignupFieldException, UserNotFoundException,
-         CouldNotAccessUserDataException, InvalidPasswordException, UserAlreadyExistsException {
+         CouldNotAccessUserDataException, InvalidPasswordException, UsernameAlreadyExistsException {
       // Given
       model = new BindingAwareModelMap();
 
       // When
-      String view = controller.signup(request, signupNewUser);
+      String view = controller.signup(request, userSignupViewModel);
 
       // Then
       assertEquals("redirect:/", view);
@@ -99,37 +100,132 @@ public class SignupControllerTest {
 
    @Test
    public void postRequestSignupShouldUseTheConverter() throws InvalidUserSignupFieldException, UserNotFoundException,
-         CouldNotAccessUserDataException, InvalidPasswordException, UserAlreadyExistsException {
+         CouldNotAccessUserDataException, InvalidPasswordException, UsernameAlreadyExistsException {
       // Given
 
       // When
-      controller.signup(request, signupNewUser);
+      controller.signup(request, userSignupViewModel);
 
       // Then
-      verify(converter).convertViewModelToSignupDto(signupNewUser);
+      verify(converter).convertViewModelToSignupDto(userSignupViewModel);
    }
 
    @Test
-   public void postRequestShouldSignupUsingUserSignupCorruptionVerificator() {
+   public void postRequestShouldSignupUsingUserSignupCorruptionVerificator()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException {
       // Given
 
       // When
+      controller.signup(request, userSignupViewModel);
 
       // Then
+      verify(userSignupCorruptionVerificator).signup(request, userSignupDto);
    }
 
    @Test
-   public void postRequestShouldLoginUsingUserLoginService() {
+   public void postRequestShouldConvertSignupDtoToLoginDtoUsingConverter()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException {
       // Given
 
       // When
+      controller.signup(request, userSignupViewModel);
 
       // Then
+      verify(converter).convertSignupDtoToLoginDto(userSignupDto);
+   }
 
+   @Test
+   public void postRequestShouldLoginUsingUserLoginService()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException {
+      // Given
+
+      // When
+      controller.signup(request, userSignupViewModel);
+
+      // Then
+      verify(userLoginService).login(request, userLoginDto);
+
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void givenInvalidFieldsWhenSignupShouldThrowException()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException {
+
+      doThrow(new InvalidUserSignupFieldException()).when(userSignupCorruptionVerificator).signup(request,
+            userSignupDto);
+      // When
+      controller.signup(request, userSignupViewModel);
+
+      // Then an InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = UserNotFoundException.class)
+   public void givenInvalidUserWhenSignupShouldThrowException()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException {
+
+      doThrow(new UserNotFoundException()).when(userLoginService).login(request, userLoginDto);
+      // When
+      controller.signup(request, userSignupViewModel);
+
+      // Then an UserNotFoundException is thrown
+   }
+
+   @Test(expected = CouldNotAccessUserDataException.class)
+   public void givenInvalidDataAccessWhenSignupShouldThrowException()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException {
+
+      doThrow(new CouldNotAccessUserDataException()).when(userSignupCorruptionVerificator).signup(request,
+            userSignupDto);
+      // When
+      controller.signup(request, userSignupViewModel);
+
+      // Then an CouldNotAccessUserDataException is thrown
+   }
+
+   @Test(expected = InvalidPasswordException.class)
+   public void givenInvalidPasswordWhenSignupShouldThrowException()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException {
+
+      doThrow(new InvalidPasswordException()).when(userLoginService).login(request, userLoginDto);
+      // When
+      controller.signup(request, userSignupViewModel);
+
+      // Then an InvalidPasswordException is thrown
+   }
+
+   @Test(expected = UsernameAlreadyExistsException.class)
+   public void givenAlreadyUsedUsernameWhenSignupShouldThrowException()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException {
+
+      doThrow(new UsernameAlreadyExistsException()).when(userSignupCorruptionVerificator).signup(request,
+            userSignupDto);
+      // When
+      controller.signup(request, userSignupViewModel);
+
+      // Then an UsernameAlreadyExistsException is thrown
+   }
+
+   @Test
+   public void givenValidSignupShouldNotThrowException() throws InvalidUserSignupFieldException, UserNotFoundException,
+         CouldNotAccessUserDataException, InvalidPasswordException, UsernameAlreadyExistsException {
+      // Given
+
+      // When
+      controller.signup(request, userSignupViewModel);
+
+      // Then should not throw exception
    }
 
    private void configureConverter() {
-      given(converter.convertViewModelToSignupDto(signupNewUser)).willReturn(userSignupDto);
+      given(converter.convertViewModelToSignupDto(userSignupViewModel)).willReturn(userSignupDto);
       given(converter.convertSignupDtoToLoginDto(userSignupDto)).willReturn(userLoginDto);
    }
 

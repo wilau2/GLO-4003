@@ -2,30 +2,35 @@ package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import javax.servlet.http.HttpServletRequest;
 
+import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 
 public class UserAuthorisationService {
 
+   protected static String LOGGED_IN_USER_ROLE = "loggedInUserRole";
+
+   protected static String LOGGED_IN_USERNAME = "loggedInUsername";
+
    public HttpServletRequest setSessionUserAuthorisation(HttpServletRequest request, User user) {
 
       if (user.isAdmin()) {
-         request.getSession().setAttribute("loggedInUserRole", "admin");
+         request.getSession().setAttribute(LOGGED_IN_USER_ROLE, Role.ADMIN);
       }
       if (user.isSeller()) {
-         request.getSession().setAttribute("loggedInUserRole", "seller");
+         request.getSession().setAttribute(LOGGED_IN_USER_ROLE, Role.SELLER);
       }
       if (user.isBuyer()) {
-         request.getSession().setAttribute("loggedInUserRole", "buyer");
+         request.getSession().setAttribute(LOGGED_IN_USER_ROLE, Role.BUYER);
       }
 
-      request.getSession().setAttribute("loggedInUsername", user.getUsername());
+      request.getSession().setAttribute(LOGGED_IN_USERNAME, user.getUsername());
 
       return request;
    }
 
    public HttpServletRequest closeSession(HttpServletRequest request) {
-      request.getSession().setAttribute("loggedInUsername", null);
-      request.getSession().setAttribute("loggedInUserRole", null);
+      request.getSession().setAttribute(LOGGED_IN_USERNAME, null);
+      request.getSession().setAttribute(LOGGED_IN_USER_ROLE, null);
 
       return request;
    }

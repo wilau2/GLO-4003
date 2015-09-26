@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserSignupService;
 
 public class UserSignupCorruptionVerificator {
@@ -20,7 +20,7 @@ public class UserSignupCorruptionVerificator {
    }
 
    public void signup(HttpServletRequest request, UserSignupDto userDto)
-         throws InvalidUserSignupFieldException, UserAlreadyExistsException, CouldNotAccessUserDataException {
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       validateUserSignupCorruption(userDto);
       // TODO try catch error
       userSignupService.signup(request, userDto);

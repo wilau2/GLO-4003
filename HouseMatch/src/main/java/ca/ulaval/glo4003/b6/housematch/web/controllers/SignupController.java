@@ -13,7 +13,7 @@ import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUse
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
@@ -39,7 +39,7 @@ public class SignupController {
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
    public String signup(HttpServletRequest request, SignupUserModel viewModel) throws InvalidUserSignupFieldException,
-         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserAlreadyExistsException {
+         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UsernameAlreadyExistsException {
 
       UserSignupDto userSignupDto = converter.convertViewModelToSignupDto(viewModel);
       userSignupCorruptionVerificator.signup(request, userSignupDto);

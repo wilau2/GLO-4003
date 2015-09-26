@@ -19,7 +19,7 @@ import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFac
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
 public class XMLUserRepositoryTest {
@@ -110,7 +110,7 @@ public class XMLUserRepositoryTest {
 
    @Test
    public void whenAddingUserShouldReadTheCorrectFile()
-         throws DocumentException, UserAlreadyExistsException, CouldNotAccessUserDataException {
+         throws DocumentException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       configureDifferentUser();
 
@@ -123,7 +123,7 @@ public class XMLUserRepositoryTest {
 
    @Test
    public void whenAddingUserShouldLookIfUsersExists()
-         throws UserAlreadyExistsException, CouldNotAccessUserDataException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       configureDifferentUser();
 
@@ -135,7 +135,7 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenAddingUserShouldCreateNewDto() throws UserAlreadyExistsException, CouldNotAccessUserDataException {
+   public void whenAddingUserShouldCreateNewDto() throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       configureDifferentUser();
 
@@ -148,7 +148,7 @@ public class XMLUserRepositoryTest {
 
    @Test
    public void whenAddingUserShouldAddNewUserToXMLWithDto()
-         throws UserAlreadyExistsException, CouldNotAccessUserDataException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       configureDifferentUser();
 
@@ -161,7 +161,7 @@ public class XMLUserRepositoryTest {
 
    @Test
    public void whenAddingUserShouldWriteToTheRightFile()
-         throws IOException, UserAlreadyExistsException, CouldNotAccessUserDataException {
+         throws IOException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       configureDifferentUser();
 
@@ -183,9 +183,9 @@ public class XMLUserRepositoryTest {
       // Then Exception is thrown
    }
 
-   @Test(expected = UserAlreadyExistsException.class)
+   @Test(expected = UsernameAlreadyExistsException.class)
    public void whenAddingUserShouldReturnExceptionIfUsernameExist()
-         throws UserAlreadyExistsException, CouldNotAccessUserDataException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       // Given An existing user
 
       // When

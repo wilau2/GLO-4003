@@ -12,7 +12,7 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 
 public class UserSignupService {
 
@@ -33,7 +33,7 @@ public class UserSignupService {
    }
 
    public void signup(HttpServletRequest request, UserSignupDto userSignupDto)
-         throws UserAlreadyExistsException, CouldNotAccessUserDataException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
 
       UserValidator userValidator = userValidatorFactory.getValidator();
       userValidator.validate(userSignupDto);
