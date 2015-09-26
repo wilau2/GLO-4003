@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.estates.anticorruption;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -155,7 +157,7 @@ public class AddressCorruptionVerificatorTest {
    }
 
    @Test(expected = AddressFieldInvalidException.class)
-   public void shouldDoThisWhenThat() throws AddressFieldInvalidException {
+   public void verifyingAddressWhenStateIsNullShouldThrowException() throws AddressFieldInvalidException {
       // Given
       when(addressDto.getState()).thenReturn(null);
 
@@ -163,5 +165,30 @@ public class AddressCorruptionVerificatorTest {
       addressCorruptionVerificator.validate(addressDto);
 
       // Then an AddressFieldInvalidException is thrown
+   }
+
+   @Test
+   public void verifyingAddressWhenAppartmentNumberIsNullShouldSetItToZero() throws AddressFieldInvalidException {
+      // Given
+      when(addressDto.getAppartment()).thenReturn(null);
+
+      // When
+      addressCorruptionVerificator.validate(addressDto);
+
+      // Then
+      verify(addressDto, times(1)).setAppartment(0);
+   }
+
+   @Test(expected = AddressFieldInvalidException.class)
+   public void verifyingAddressWhenAppartmentNumberIsNegativeShouldThrowException()
+         throws AddressFieldInvalidException {
+      // Given
+      int negativeAppartmentNumber = -1;
+      when(addressDto.getAppartment()).thenReturn(negativeAppartmentNumber);
+
+      // When
+      addressCorruptionVerificator.validate(addressDto);
+
+      // Then an AddressFieldInvalidException is throw
    }
 }

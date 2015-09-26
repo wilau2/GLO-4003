@@ -9,6 +9,10 @@ public class EstateAssembler {
 
    private AddressAssembler addressAssembler;
 
+   public EstateAssembler(AddressAssembler addressAssembler) {
+      this.addressAssembler = addressAssembler;
+   }
+
    public Estate assembleEstate(EstateDto estateDto) {
       Address address = addressAssembler.assembleAddress(estateDto.getAddress());
       String type = estateDto.getType();

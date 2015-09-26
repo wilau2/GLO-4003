@@ -14,6 +14,10 @@ public class AddressDto {
 
    private Integer appartment;
 
+   public AddressDto() {
+
+   }
+
    public void setStreet(String street) {
       this.street = street;
    }

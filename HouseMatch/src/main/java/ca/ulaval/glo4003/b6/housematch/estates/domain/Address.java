@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.b6.housematch.estates.domain;
 
 public class Address {
 
+   private static final String UNION = "-";
+
    private Integer appartment;
 
    private Integer civicNumber;
@@ -49,4 +51,10 @@ public class Address {
       return country;
    }
 
+   @Override
+   public String toString() {
+      String formattedAddress = appartment.toString() + UNION + civicNumber.toString() + UNION + street + UNION
+                                + province + UNION + country + UNION + postalCode;
+      return formattedAddress;
+   }
 }

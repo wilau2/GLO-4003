@@ -27,7 +27,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
@@ -42,7 +44,7 @@ public class XMLEstateRepositoryTest {
 
    private static final String VALID_TYPE = "VALID_TYPE";
 
-   private static final String VALID_ADDRESS = "VALID_ADDRESS";
+   private static final Address VALID_ADDRESS = new Address(1, 1, "STREET", "POSTAL_CODE", "STATE", "COUNTRY");
 
    private static final Integer VALID_PRICE = 99999;
 
@@ -84,6 +86,9 @@ public class XMLEstateRepositoryTest {
 
    @Mock
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
+
+   @Mock
+   private AddressAssembler addressAssembler;
 
    @InjectMocks
    private XMLEstateRepository xmlEstateRepository;
@@ -294,15 +299,6 @@ public class XMLEstateRepositoryTest {
       // Then a couldNotAccessDataException is thrown
    }
 
-   @Test
-   public void shouldDoThisWhenThat() {
-      // Given
-
-      // When
-
-      // Then
-   }
-
    private void configureGetAllEstate() {
       configureElement();
       List<Element> estateDtoList = new ArrayList<Element>();
@@ -311,7 +307,7 @@ public class XMLEstateRepositoryTest {
    }
 
    private void configureElement() {
-      given(element.attributeValue("address")).willReturn(VALID_ADDRESS);
+      given(element.attributeValue("address")).willReturn(VALID_ADDRESS.toString());
       given(element.attributeValue("price")).willReturn(VALID_PRICE.toString());
       given(element.attributeValue("type")).willReturn(VALID_TYPE);
       given(element.attributeValue("seller")).willReturn(USER_ID);
@@ -319,7 +315,7 @@ public class XMLEstateRepositoryTest {
    }
 
    private void configureEstate() throws DocumentException {
-      // given(estate.getAddress()).willReturn(VALID_ADDRESS);
+      given(estate.getAddress()).willReturn(VALID_ADDRESS);
       given(estate.getPrice()).willReturn(VALID_PRICE);
       given(estate.getType()).willReturn(VALID_TYPE);
       given(estate.getSeller()).willReturn(USER_ID);
@@ -333,7 +329,7 @@ public class XMLEstateRepositoryTest {
       HashMap<String, String> attributes = new HashMap<String, String>();
 
       attributes.put("type", estate.getType());
-      // attributes.put("address", estate.getAddress());
+      attributes.put("address", estate.getAddress().toString());
       attributes.put("price", estate.getPrice().toString());
 
       return attributes;

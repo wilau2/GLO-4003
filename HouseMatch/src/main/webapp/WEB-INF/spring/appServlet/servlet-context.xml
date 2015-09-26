@@ -46,7 +46,9 @@
     <beans:bean
         id="estatePersistenceDtoFactory"
         class="ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory" />
-        
+    <beans:bean
+        id="addressValidatorFactory"
+        class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidatorFactory" />
     <beans:bean
         id="estateService"
         class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService"
@@ -63,14 +65,23 @@
         <beans:constructor-arg
             name="estatePersistenceDtoFactory"
             ref="estatePersistenceDtoFactory" />
+        <beans:constructor-arg
+            name="addressValidatorFactory"
+            ref="addressValidatorFactory" />
 
     </beans:bean>
-
+    <beans:bean
+        id="addressCorruptionVerificator"
+        class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.AddressCorruptionVerificator" />
 
     <beans:bean
         id="estateCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator"
     >
+        <beans:constructor-arg
+            name="addressCorruptionVerificator"
+            ref="addressCorruptionVerificator" />
+
         <beans:constructor-arg
             name="estateService"
             ref="estateService" />

@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<estates>
+<estates> 
+  <estate> 
+    <seller>123</seller>  
+    <address>1435</address>  
+    <price>1000</price>  
+    <type>CONDO</type> 
+  </estate>  
   <estate>
     <seller>123</seller>
-    <address>1435</address>
+    <country>weaf</country>
+    <appartment>0</appartment>
     <price>1000</price>
-    <type>CONDO</type>
+    <street>124e1r5</street>
+    <civic_number>1234</civic_number>
+    <state>fawefa</state>
+    <type>SINGLE_FAMILY</type>
+    <postal_code>fawfwa</postal_code>
   </estate>
 </estates>

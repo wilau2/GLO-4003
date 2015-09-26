@@ -4,30 +4,19 @@ import java.util.HashMap;
 
 import org.dom4j.Element;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class EstateElementAssembler {
 
-   private static final String APPARTMENT = "appartment";
-
-   private static final String STATE = "state";
-
-   private static final String COUNTRY = "country";
-
-   private static final String POSTAL_CODE = "postal_code";
-
-   private static final String CIVIC_NUMBER = "civic_number";
-
-   private static final String STREET = "street";
-
    private static final String SELLER = "seller";
 
    private static final String PRICE = "price";
 
    private static final String TYPE = "type";
+
+   private static final String ADDRESS = "address";
 
    public EstateDto convertToDto(Element element) {
 
@@ -36,7 +25,8 @@ public class EstateElementAssembler {
       String type = element.attributeValue(TYPE);
       estateDto.setType(type);
 
-      AddressDto addressDto = constructAddressDtoFromElement(element);
+      String addressFromElement = element.attributeValue(ADDRESS);
+      AddressDto addressDto = constructAddressDtoFromElement(addressFromElement);
       estateDto.setAddress(addressDto);
 
       Integer price = Integer.parseInt(element.attributeValue(PRICE));
@@ -48,27 +38,11 @@ public class EstateElementAssembler {
       return estateDto;
    }
 
-   private AddressDto constructAddressDtoFromElement(Element element) {
+   private AddressDto constructAddressDtoFromElement(String addressFromElement) {
       AddressDto addressDto = new AddressDto();
-
-      Integer civicNumber = Integer.parseInt(element.attributeValue(CIVIC_NUMBER));
-      addressDto.setCivicNumber(civicNumber);
-
-      String street = element.attributeValue(STREET);
-      addressDto.setStreet(street);
-
-      String postalCode = element.attributeValue(POSTAL_CODE);
-      addressDto.setPostalCode(postalCode);
-
-      String country = element.attributeValue(COUNTRY);
-      addressDto.setCountry(country);
-
-      String state = element.attributeValue(STATE);
-      addressDto.setState(state);
-
-      Integer appartment = Integer.parseInt(element.attributeValue(APPARTMENT));
-      addressDto.setAppartment(appartment);
-
+      String[] splittedAddressAttributes = addressFromElement.split("-");
+      int appartmentNumber = Integer.parseInt(splittedAddressAttributes[0]);
+      addressDto.setAppartment(appartmentNumber);
       return addressDto;
    }
 
@@ -79,19 +53,9 @@ public class EstateElementAssembler {
       attributes.put(PRICE, estate.getPrice().toString());
       attributes.put(TYPE, estate.getType());
 
-      Address address = estate.getAddress();
-      addAddressAttributes(address, attributes);
+      attributes.put(ADDRESS, estate.getAddress().toString());
 
       return attributes;
-   }
-
-   private void addAddressAttributes(Address address, HashMap<String, String> attributes) {
-      attributes.put(COUNTRY, address.getCountry());
-      attributes.put(STATE, address.getState());
-      attributes.put(POSTAL_CODE, address.getPostalCode());
-      attributes.put(STREET, address.getStreet());
-      attributes.put(CIVIC_NUMBER, address.getCivicNumber().toString());
-      attributes.put(APPARTMENT, address.getAppartment().toString());
    }
 
 }

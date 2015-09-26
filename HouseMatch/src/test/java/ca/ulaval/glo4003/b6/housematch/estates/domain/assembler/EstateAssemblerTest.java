@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -19,16 +18,11 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class EstateAssemblerTest {
 
-   private static final String ADDRESS = "ADDRESS";
-
    private static final String TYPE = "TYPE";
 
    private static final Integer PRICE = 1;
 
    private static final String SELLER = "SELLER";
-
-   @InjectMocks
-   private EstateAssembler estateAssembler;
 
    @Mock
    private EstateDto estateDto;
@@ -45,11 +39,15 @@ public class EstateAssemblerTest {
    @Mock
    private Address address;
 
+   private EstateAssembler estateAssembler;
+
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
       when(addressAssembler.assembleAddressDto(address)).thenReturn(addressDto);
+
+      estateAssembler = new EstateAssembler(addressAssembler);
 
       configureEstate();
    }

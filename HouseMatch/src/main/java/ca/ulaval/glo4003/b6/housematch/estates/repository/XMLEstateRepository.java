@@ -10,6 +10,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
@@ -27,7 +28,7 @@ public class XMLEstateRepository implements EstateRepository {
 
    private static final String ESTATE = "estate";
 
-   private static final String XML_FILE_PATH = "persistence/estates.xml";
+   private static final String XML_DIRECTORY_PATH = "persistence/estates.xml";
 
    private XMLFileEditor xmlFileEditor;
 
@@ -61,7 +62,7 @@ public class XMLEstateRepository implements EstateRepository {
    public List<Estate> getAllEstates() {
       List<Estate> estates = new ArrayList<Estate>();
       try {
-         Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+         Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
          Collection<Element> elementList = xmlFileEditor.getAllElementsFromDocument(estateDocument, ESTATE);
 
@@ -91,7 +92,7 @@ public class XMLEstateRepository implements EstateRepository {
    @Override
    public void addEstate(Estate estate) {
       try {
-         Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+         Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
@@ -99,7 +100,7 @@ public class XMLEstateRepository implements EstateRepository {
             return;
          }
          addNewEstateToDocument(estateDocument, attributes, estatePersistenceDtoFactory);
-         saveEstateDocument(estateDocument);
+         saveEstateDocument(estateDocument, estate.getAddress());
       } catch (DocumentException e) {
          throw new CouldNotAccessDataException("Unable to add an estate", e);
       } catch (IOException e) {
@@ -107,9 +108,9 @@ public class XMLEstateRepository implements EstateRepository {
       }
    }
 
-   private void saveEstateDocument(Document estateDocument) throws IOException {
+   private void saveEstateDocument(Document estateDocument, Address address) throws IOException {
 
-      xmlFileEditor.formatAndWriteDocument(estateDocument, XML_FILE_PATH);
+      xmlFileEditor.formatAndWriteDocument(estateDocument, XML_DIRECTORY_PATH);
    }
 
    private boolean isEstatePersisted(Document existingDocument, HashMap<String, String> attributes) {
@@ -119,15 +120,14 @@ public class XMLEstateRepository implements EstateRepository {
 
    private void addNewEstateToDocument(Document document, HashMap<String, String> attributes,
          EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
-      // TODO BORIS doit faire l'integration
+
       EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
-      System.out.println(document);
+
       xmlFileEditor.addNewElementToDocument(document, estatePersistenceDto);
    }
 
    @Override
    public void editEstate(Estate estate) {
-      // TODO Auto-generated method stub
       // On fetch le estate puis on le re-persiste avec ses details?
    }
 }
