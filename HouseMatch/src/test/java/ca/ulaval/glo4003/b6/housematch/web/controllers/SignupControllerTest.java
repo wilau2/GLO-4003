@@ -16,6 +16,7 @@ import org.springframework.validation.support.BindingAwareModelMap;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
+import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
@@ -61,6 +62,9 @@ public class SignupControllerTest {
    @Mock
    private UserLoginDto userLoginDto;
 
+   @Mock
+   private User user;
+
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
@@ -81,37 +85,46 @@ public class SignupControllerTest {
    }
 
    @Test
-   public void postRequestSignupReturnsTheIndexView() throws InvalidUserSignupFieldException, UserNotFoundException,
+   public void postRequestSignupRedirectToRoot() throws InvalidUserSignupFieldException, UserNotFoundException,
          CouldNotAccessUserDataException, InvalidPasswordException, UserAlreadyExistsException {
+      // Given
       model = new BindingAwareModelMap();
 
+      // When
       String view = controller.signup(request, signupNewUser);
+
+      // Then
       assertEquals("redirect:/", view);
    }
 
    @Test
    public void postRequestSignupShouldUseTheConverter() throws InvalidUserSignupFieldException, UserNotFoundException,
          CouldNotAccessUserDataException, InvalidPasswordException, UserAlreadyExistsException {
+      // Given
+
+      // When
       controller.signup(request, signupNewUser);
 
+      // Then
       verify(converter).convertViewModelToSignupDto(signupNewUser);
    }
 
    @Test
-   public void postRequestSignupShouldUseTheRepository() throws InvalidUserSignupFieldException, UserNotFoundException,
-         CouldNotAccessUserDataException, InvalidPasswordException, UserAlreadyExistsException {
-      controller.signup(request, signupNewUser);
+   public void postRequestShouldSignupUsingUserSignupCorruptionVerificator() {
+      // Given
 
-      // verify(userRepository).add(userSignupDto);
+      // When
+
+      // Then
    }
 
    @Test
-   public void postRequestSignupShouldSetALoggedUser() throws InvalidUserSignupFieldException, UserNotFoundException,
-         CouldNotAccessUserDataException, InvalidPasswordException, UserAlreadyExistsException {
-      controller.signup(request, signupNewUser);
+   public void postRequestShouldLoginUsingUserLoginService() {
+      // Given
 
-      // assertEquals(signupNewUser.getUsername(),
-      // request.getAttribute("loggedInUser"));
+      // When
+
+      // Then
    }
 
    private void configureConverter() {

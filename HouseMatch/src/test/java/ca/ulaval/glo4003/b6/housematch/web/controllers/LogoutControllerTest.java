@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,17 +32,21 @@ public class LogoutControllerTest {
    public void setup() {
 
       MockitoAnnotations.initMocks(this);
-      configureRequest();
+      configureUserAuthorisationService();
    }
 
    @Test
-   public void logoutShouldSetLoggedUserToNull() {
+   public void logoutShouldDelegateToUserAuthorisationService() {
+
+      // When
       controller.logout(request);
-      assertEquals(null, request.getAttribute("loggedInUser"));
+
+      // Then
+      verify(userAuthorisationService.closeSession(request));
    }
 
-   private void configureRequest() {
-      given(request.getSession()).willReturn(session);
+   private void configureUserAuthorisationService() {
+      given(userAuthorisationService.closeSession(request)).willReturn(request);
    }
 
 }

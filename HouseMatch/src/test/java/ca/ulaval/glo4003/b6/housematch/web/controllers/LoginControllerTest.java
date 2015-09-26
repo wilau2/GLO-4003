@@ -125,7 +125,7 @@ public class LoginControllerTest {
       // When
       controller.login(request, loginUserViewModel);
 
-      // Then an InvalidUserLoginFieldException is thrown
+      // Then an UserNotFoundException is thrown
    }
 
    @Test(expected = InvalidPasswordException.class)
@@ -136,7 +136,7 @@ public class LoginControllerTest {
       // When
       controller.login(request, loginUserViewModel);
 
-      // Then an InvalidUserLoginFieldException is thrown
+      // Then an InvalidPasswordException is thrown
    }
 
    @Test(expected = CouldNotAccessUserDataException.class)
@@ -147,7 +147,7 @@ public class LoginControllerTest {
       // When
       controller.login(request, loginUserViewModel);
 
-      // Then an InvalidUserLoginFieldException is thrown
+      // Then an CouldNotAccessUserDataException is thrown
    }
 
    private void configureConverter() {
