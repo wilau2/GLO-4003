@@ -44,7 +44,7 @@ public class EstateCorruptionVerificatorTest {
    }
 
    private void configureValidEstateModel() {
-      when(estateDto.getAddress()).thenReturn(ADDRESS);
+      // when(estateDto.getAddress()).thenReturn(ADDRESS);
       when(estateDto.getType()).thenReturn(TYPE);
       when(estateDto.getPrice()).thenReturn(PRICE);
       when(estateDto.getSeller()).thenReturn(USER_ID);
@@ -66,7 +66,7 @@ public class EstateCorruptionVerificatorTest {
    public void verificationCorruptionWhenEstateAddressIsEmptyShouldThrowAnException()
          throws InvalidEstateFieldException {
       // Given
-      when(estateDto.getAddress()).thenReturn(EMPTY_FIELD);
+      // when(estateDto.getAddress()).thenReturn(EMPTY_FIELD);
 
       // When
       estateCorruptionVerificator.addEstate(estateDto);

@@ -10,6 +10,8 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
@@ -26,20 +28,26 @@ public class EstatesService {
 
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
 
+   private AddressValidatorFactory addressValidatorFactory;
+
    @Autowired
    public EstatesService(EstateValidatorFactory estateValidatorFactory, EstateAssemblerFactory estateAssemblerFactory,
-         EstateRepositoryFactory estateRepositoryFactory, EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
+         EstateRepositoryFactory estateRepositoryFactory, EstatePersistenceDtoFactory estatePersistenceDtoFactory,
+         AddressValidatorFactory addressValidatorFactory) {
 
       this.estateValidatorFactory = estateValidatorFactory;
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepositoryFactory = estateRepositoryFactory;
       this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
+      this.addressValidatorFactory = addressValidatorFactory;
    }
 
    public void addEstate(EstateDto estateDto) throws InvalidEstateException {
       EstateValidator estateValidator = estateValidatorFactory.getValidator();
       estateValidator.validate(estateDto);
-
+      AddressValidator addressValidator = addressValidatorFactory.getValidator();
+      System.out.println(addressValidator);
+      addressValidator.validate(estateDto.getAddress());
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
       Estate estate = estateAssembler.assembleEstate(estateDto);

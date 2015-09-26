@@ -319,7 +319,7 @@ public class XMLEstateRepositoryTest {
    }
 
    private void configureEstate() throws DocumentException {
-      given(estate.getAddress()).willReturn(VALID_ADDRESS);
+      // given(estate.getAddress()).willReturn(VALID_ADDRESS);
       given(estate.getPrice()).willReturn(VALID_PRICE);
       given(estate.getType()).willReturn(VALID_TYPE);
       given(estate.getSeller()).willReturn(USER_ID);
@@ -333,7 +333,7 @@ public class XMLEstateRepositoryTest {
       HashMap<String, String> attributes = new HashMap<String, String>();
 
       attributes.put("type", estate.getType());
-      attributes.put("address", estate.getAddress());
+      // attributes.put("address", estate.getAddress());
       attributes.put("price", estate.getPrice().toString());
 
       return attributes;

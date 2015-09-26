@@ -12,7 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class EstateAssemblerTest {
@@ -34,18 +36,29 @@ public class EstateAssemblerTest {
    @Mock
    private Estate estate;
 
+   @Mock
+   private AddressDto addressDto;
+
+   @Mock
+   private AddressAssembler addressAssembler;
+
+   @Mock
+   private Address address;
+
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
+
+      when(addressAssembler.assembleAddressDto(address)).thenReturn(addressDto);
 
       configureEstate();
    }
 
    private void configureEstate() {
-      when(estate.getAddress()).thenReturn(ADDRESS);
       when(estate.getPrice()).thenReturn(PRICE);
       when(estate.getSeller()).thenReturn(SELLER);
       when(estate.getType()).thenReturn(TYPE);
+      when(estate.getAddress()).thenReturn(address);
    }
 
    @Test
@@ -72,7 +85,17 @@ public class EstateAssemblerTest {
       // Then
       assertEquals(SELLER, returnedEstateDto.getSeller());
       assertEquals(TYPE, returnedEstateDto.getType());
-      assertEquals(ADDRESS, returnedEstateDto.getAddress());
       assertEquals(PRICE, returnedEstateDto.getPrice());
+   }
+
+   @Test
+   public void whenAssemblingAnEstateDtoFromAnEstateShouldCallAddressAssembler() {
+      // Given no changes
+
+      // When
+      estateAssembler.assembleEstateDto(estate);
+
+      // Then
+      verify(addressAssembler, times(1)).assembleAddressDto(address);
    }
 }

@@ -10,6 +10,16 @@ public class EstateModel {
 
    private String seller;
 
+   private String postalCode;
+
+   private Integer civicNumber;
+
+   private String country;
+
+   private String state;
+
+   private String street;
+
    public String getType() {
       return type;
    }
@@ -40,6 +50,47 @@ public class EstateModel {
 
    public void setSeller(String seller) {
       this.seller = seller;
+   }
+
+   public String getPostalCode() {
+      return postalCode;
+   }
+
+   public void setPostalCode(String postalCode) {
+      this.postalCode = postalCode;
+   }
+
+   public Integer getCivicNumber() {
+      return civicNumber;
+   }
+
+   public void setCivicNumber(Integer civicNumber) {
+      this.civicNumber = civicNumber;
+   }
+
+   public String getCountry() {
+      return country;
+   }
+
+   public void setCountry(String country) {
+      this.country = country;
+   }
+
+   public String getState() {
+      return state;
+   }
+
+   public void setState(String state) {
+      this.state = state;
+   }
+
+   public String getStreet() {
+
+      return street;
+   }
+
+   public void setStreet(String street) {
+      this.street = street;
    }
 
 }

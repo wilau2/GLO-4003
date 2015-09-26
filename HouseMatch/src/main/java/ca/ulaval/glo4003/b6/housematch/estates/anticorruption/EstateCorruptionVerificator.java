@@ -29,10 +29,10 @@ public class EstateCorruptionVerificator {
    }
 
    private void validateEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {
-      String address = estateDto.getAddress();
-      if (address == null || address.isEmpty()) {
-         throw new InvalidEstateFieldException("The entered address is empty");
-      }
+      // String address = estateDto.getAddress();
+      // if (address == null || address.isEmpty()) {
+      // throw new InvalidEstateFieldException("The entered address is empty");
+      // }
       String type = estateDto.getType();
       if (type == null || type.isEmpty()) {
          throw new InvalidEstateFieldException("The selected type is empty");

@@ -4,7 +4,7 @@ public class EstateDto {
 
    private String type;
 
-   private String address;
+   private AddressDto address;
 
    private Integer price;
 
@@ -13,7 +13,7 @@ public class EstateDto {
    public EstateDto() {
    }
 
-   public EstateDto(String type, String address, Integer price, String sellerId) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId) {
       this.type = type;
       this.address = address;
       this.price = price;
@@ -28,11 +28,11 @@ public class EstateDto {
       return this.type;
    }
 
-   public void setAddress(String address) {
+   public void setAddress(AddressDto address) {
       this.address = address;
    }
 
-   public String getAddress() {
+   public AddressDto getAddress() {
       return this.address;
    }
 
