@@ -17,7 +17,7 @@
 
     <body>
         <jsp:include page="_menu.jsp" />
-        <c:if test="${loggedInUserEmail == null}">
+        <c:if test="${loggedInUsername == null}">
 	        <div class="splash-container">
 	            <div class="splash">
 	                <h1 class="splash-head">House Match</h1>
@@ -27,7 +27,7 @@
 	            </div>
 	        </div>
         </c:if>
-        <c:if test="${loggedInUserEmail != null}">
+        <c:if test="${loggedInUsername != null}">
 	        <div class="splash">
 	        	<jsp:include page="_welcome.jsp" />
 	        </div>

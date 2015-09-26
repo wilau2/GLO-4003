@@ -96,9 +96,6 @@
         id="userRepository"
         class="ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository" />
     <beans:bean
-        id="adminRepository"
-        class="ca.ulaval.glo4003.b6.housematch.admin.repository.XMLAdminRepository" />
-    <beans:bean
         id="userValidatorFactory"
         class="ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidatorFactory" />
     <beans:bean
@@ -110,6 +107,9 @@
     <beans:bean
         id="signupUserConverter"
         class="ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter" />
+    <beans:bean
+        id="userAuthorisationService"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorisationService" />
     
     
     <beans:bean
@@ -120,8 +120,8 @@
 	        name="userRepository"
 	        ref="userRepository" />
 	    <beans:constructor-arg
-	        name="adminRepository"
-	        ref="adminRepository" />
+	        name="userAuthorisationService"
+	        ref="userAuthorisationService" />
 	        
     </beans:bean>
     
@@ -185,5 +185,16 @@
             name="userLoginService"
             ref="userLoginService" />
     </beans:bean>
+    
+    <beans:bean
+        id="logoutController"
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.LogoutController"
+    >
+        <beans:constructor-arg
+            name="userAuthorisationService"
+            ref="userAuthorisationService" />
+        
+    </beans:bean>
+    
 
 </beans:beans>

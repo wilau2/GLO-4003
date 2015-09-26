@@ -2,35 +2,21 @@
 
 <users> 
   <user> 
-    <firstName>williamw</firstName>  
-    <lastName>w</lastName>  
-    <password>123</password>  
-    <phoneNumber>w</phoneNumber>  
-    <email>w</email>  
-    <username>123</username> 
-  </user>  
-  <user> 
     <firstName>qwe</firstName>  
     <lastName>qwe</lastName>  
     <password>123</password>  
+    <role>buyer</role>  
     <phoneNumber>qwe</phoneNumber>  
     <email>qwe</email>  
-    <username>1234</username> 
-  </user>  
-  <user> 
-    <firstName>qwe</firstName>  
-    <lastName>qwe</lastName>  
-    <password>qwe</password>  
-    <phoneNumber>qwe</phoneNumber>  
-    <email>qwe</email>  
-    <username>12345</username> 
+    <username>qwe</username> 
   </user>  
   <user>
-    <firstName>qwe</firstName>
-    <lastName>qwe</lastName>
+    <firstName>123</firstName>
+    <lastName>123</lastName>
     <password>123</password>
-    <phoneNumber>qwe</phoneNumber>
-    <email>qwe</email>
-    <username>qwe</username>
+    <role>seller</role>
+    <phoneNumber>123</phoneNumber>
+    <email>123</email>
+    <username>123</username>
   </user>
 </users>

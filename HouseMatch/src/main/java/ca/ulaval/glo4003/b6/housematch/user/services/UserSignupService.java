@@ -11,6 +11,8 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 
 public class UserSignupService {
 
@@ -23,12 +25,16 @@ public class UserSignupService {
    @Autowired
    public UserSignupService(UserValidatorFactory userValidatorFactory, UserAssemblerFactory userAssemblerFactory,
          UserRepository userRepository) {
+
       this.userValidatorFactory = userValidatorFactory;
       this.userAssemblerFactory = userAssemblerFactory;
       this.userRepository = userRepository;
+
    }
 
-   public void signup(HttpServletRequest request, UserSignupDto userSignupDto) {
+   public void signup(HttpServletRequest request, UserSignupDto userSignupDto)
+         throws UserAlreadyExistsException, CouldNotAccessUserDataException {
+
       UserValidator userValidator = userValidatorFactory.getValidator();
       userValidator.validate(userSignupDto);
 

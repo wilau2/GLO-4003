@@ -12,6 +12,8 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserSignupService;
 
 public class UserSignupCorruptionVerificatorTest {
@@ -29,6 +31,8 @@ public class UserSignupCorruptionVerificatorTest {
    private static final String PASSWORD = "password";
 
    private static final String EMPTY_FIELD = "";
+
+   private static final String ROLE = "role";
 
    @Mock
    UserSignupDto userDto;
@@ -51,11 +55,16 @@ public class UserSignupCorruptionVerificatorTest {
    private void configureValidUserSignupModel() {
       when(userDto.getUsername()).thenReturn(USERNAME);
       when(userDto.getPassword()).thenReturn(PASSWORD);
+      when(userDto.getFirstName()).thenReturn(FIRST_NAME);
+      when(userDto.getLastName()).thenReturn(LAST_NAME);
+      when(userDto.getEmail()).thenReturn(EMAIL);
+      when(userDto.getPhoneNumber()).thenReturn(PHONE_NUMBER);
+      when(userDto.getRole()).thenReturn(ROLE);
    }
 
    @Test
    public void verificatingUserSignupCorruptionWhenUserSignupIsValidShouldCallServiceSignup()
-         throws InvalidUserSignupFieldException {
+         throws InvalidUserSignupFieldException, UserAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
 
       // When
@@ -68,7 +77,7 @@ public class UserSignupCorruptionVerificatorTest {
 
    @Test(expected = InvalidUserSignupFieldException.class)
    public void verificatingUserSignupCorruptionWhenUserHasNoUsernameShouldThrowException()
-         throws InvalidUserSignupFieldException {
+         throws InvalidUserSignupFieldException, UserAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       when(userDto.getUsername()).thenReturn(null);
 
@@ -80,7 +89,7 @@ public class UserSignupCorruptionVerificatorTest {
 
    @Test(expected = InvalidUserSignupFieldException.class)
    public void verificatingUserSignupCorruptionWhenUserHasEmptyUsernameShouldThrowException()
-         throws InvalidUserSignupFieldException {
+         throws InvalidUserSignupFieldException, UserAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       when(userDto.getUsername()).thenReturn(EMPTY_FIELD);
 
@@ -92,7 +101,7 @@ public class UserSignupCorruptionVerificatorTest {
 
    @Test(expected = InvalidUserSignupFieldException.class)
    public void verificatingUserSignupCorruptionWhenUserHasNoPasswordShouldThrowException()
-         throws InvalidUserSignupFieldException {
+         throws InvalidUserSignupFieldException, UserAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       when(userDto.getPassword()).thenReturn(null);
 
@@ -104,7 +113,7 @@ public class UserSignupCorruptionVerificatorTest {
 
    @Test(expected = InvalidUserSignupFieldException.class)
    public void verificatingUserSignupCorruptionWhenUserHasEmptyPasswordShouldThrowException()
-         throws InvalidUserSignupFieldException {
+         throws InvalidUserSignupFieldException, UserAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       when(userDto.getPassword()).thenReturn(EMPTY_FIELD);
 

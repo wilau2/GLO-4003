@@ -15,7 +15,7 @@ public class LoginUserConverter {
       return viewModel;
    }
 
-   public UserLoginDto convertToDto(LoginUserViewModel viewModel) {
+   public UserLoginDto convertViewModelToDto(LoginUserViewModel viewModel) {
       UserLoginDto userDto = new UserLoginDto();
       userDto.setUsername(viewModel.getUsername());
       userDto.setPassword(viewModel.getPassword());

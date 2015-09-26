@@ -2,29 +2,32 @@ package ca.ulaval.glo4003.b6.housematch.user.domain;
 
 public class Role {
 
+   private static String SELLER = "seller";
+
+   private static String BUYER = "buyer";
+
+   private static String ADMIN = "admin";
+
    private String role;
 
    public Role(String role) {
       this.role = role;
    }
 
-   public String getRole() {
-      return role;
+   public String getRoles() {
+      return role.toString();
    }
 
-   public boolean isSeller() {
-      // TODO Auto-generated method stub
-      return false;
+   public boolean asSeller() {
+      return role.equals(SELLER);
    }
 
-   public boolean isAdmin() {
-      // TODO Auto-generated method stub
-      return false;
+   public boolean asAdmin() {
+      return role.equals(ADMIN);
    }
 
-   public boolean isBuyer() {
-      // TODO Auto-generated method stub
-      return false;
+   public boolean asBuyer() {
+      return role.equals(BUYER);
    }
 
 }

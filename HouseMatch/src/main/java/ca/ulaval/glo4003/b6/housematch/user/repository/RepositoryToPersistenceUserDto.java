@@ -14,7 +14,7 @@ public class RepositoryToPersistenceUserDto implements RepositoryToPersistenceDt
    public RepositoryToPersistenceUserDto(User user) {
 
       HashMap<String, String> attributes = new HashMap<String, String>();
-
+      attributes.put("role", user.getRole().getRoles());
       attributes.put("username", user.getUsername());
       attributes.put("firstName", user.getContactInformation().getFirstName());
       attributes.put("lastName", user.getContactInformation().getLastName());

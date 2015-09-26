@@ -9,14 +9,15 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 @Component
 public class SignupUserConverter {
 
-   public SignupUserModel convertSignupDtoToViewModel(UserSignupDto user) {
+   public SignupUserModel convertSignupDtoToViewModel(UserSignupDto userSignupDto) {
       SignupUserModel viewModel = new SignupUserModel();
-      viewModel.setFirstName(user.getFirstName());
-      viewModel.setLastName(user.getLastName());
-      viewModel.setUsername(user.getUsername());
-      viewModel.setEmail(user.getEmail());
-      viewModel.setPhoneNumber(user.getPhoneNumber());
-      viewModel.setPassword(user.getPassword());
+      viewModel.setRole(userSignupDto.getRole());
+      viewModel.setFirstName(userSignupDto.getFirstName());
+      viewModel.setLastName(userSignupDto.getLastName());
+      viewModel.setUsername(userSignupDto.getUsername());
+      viewModel.setEmail(userSignupDto.getEmail());
+      viewModel.setPhoneNumber(userSignupDto.getPhoneNumber());
+      viewModel.setPassword(userSignupDto.getPassword());
       return viewModel;
    }
 

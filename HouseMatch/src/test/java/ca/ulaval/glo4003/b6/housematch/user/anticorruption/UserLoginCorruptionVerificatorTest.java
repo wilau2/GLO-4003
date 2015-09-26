@@ -12,6 +12,9 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.services.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
 
 public class UserLoginCorruptionVerificatorTest {
@@ -47,7 +50,8 @@ public class UserLoginCorruptionVerificatorTest {
 
    @Test
    public void verificatingUserLoginCorruptionWhenUserLoginIsValidShouldCallServiceLogin()
-         throws InvalidUserLoginFieldException {
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException {
       // Given
 
       // When
@@ -59,7 +63,8 @@ public class UserLoginCorruptionVerificatorTest {
 
    @Test // (expected = InvalidUserLoginFieldException.class)
    public void verificatingUserLoginCorruptionWhenUserHasNoUsernameShouldThrowException()
-         throws InvalidUserLoginFieldException {
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException {
       // Given
       when(userDto.getUsername()).thenReturn(null);
 
@@ -71,7 +76,8 @@ public class UserLoginCorruptionVerificatorTest {
 
    @Test // (expected = InvalidUserLoginFieldException.class)
    public void verificatingUserLoginCorruptionWhenUserHasEmptyUsernameShouldThrowException()
-         throws InvalidUserLoginFieldException {
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException {
       // Given
       when(userDto.getUsername()).thenReturn(EMPTY_FIELD);
 
@@ -83,7 +89,8 @@ public class UserLoginCorruptionVerificatorTest {
 
    @Test // (expected = InvalidUserLoginFieldException.class)
    public void verificatingUserLoginCorruptionWhenUserHasNoPasswordShouldThrowException()
-         throws InvalidUserLoginFieldException {
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException {
       // Given
       when(userDto.getPassword()).thenReturn(null);
 
@@ -95,7 +102,8 @@ public class UserLoginCorruptionVerificatorTest {
 
    @Test // (expected = InvalidUserLoginFieldException.class)
    public void verificatingUserLoginCorruptionWhenUserHasEmptyPasswordShouldThrowException()
-         throws InvalidUserLoginFieldException {
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException {
       // Given
       when(userDto.getPassword()).thenReturn(EMPTY_FIELD);
 

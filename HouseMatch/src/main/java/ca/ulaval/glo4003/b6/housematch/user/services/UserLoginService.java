@@ -4,37 +4,36 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ca.ulaval.glo4003.b6.housematch.admin.repository.AdminRepository;
-import ca.ulaval.glo4003.b6.housematch.admin.repository.exception.CouldNotAccesAdminDataException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
 public class UserLoginService {
 
    private UserRepository userRepository;
 
-   private AdminRepository adminRepository;
+   private UserAuthorisationService userAuthorisationService;
 
    @Autowired
-   public UserLoginService(UserRepository userRepository, AdminRepository adminRepository) {
+   public UserLoginService(UserRepository userRepository, UserAuthorisationService userAuthorisationService) {
 
       this.userRepository = userRepository;
-      this.adminRepository = adminRepository;
+      this.userAuthorisationService = userAuthorisationService;
 
    }
 
-   public void login(HttpServletRequest request, UserLoginDto userLoginDto) throws CouldNotAccesAdminDataException {
+   public void login(HttpServletRequest request, UserLoginDto userLoginDto)
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
 
       User user = userRepository.findByUsername(userLoginDto.getUsername());
 
-      request.getSession().setAttribute("loggedInUserRole", "user");
-
-      if (adminRepository.isAdmin(user.getUsername())) {
-         request.getSession().setAttribute("loggedInUserRole", "admin");
+      if (!user.getPassword().equals(userLoginDto.getPassword())) {
+         throw new InvalidPasswordException();
       }
 
-      request.getSession().setAttribute("loggedInUserEmail", user.getContactInformation().getEmail());
+      request = userAuthorisationService.setSessionUserAuthorisation(request, user);
 
    }
 
