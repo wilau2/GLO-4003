@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -114,9 +116,8 @@ public class LoginControllerTest {
       // When
       controller.login(request, loginUserViewModel);
 
-      //Then an InvalidUserLoginFieldException is thrown
+      // Then an InvalidUserLoginFieldException is thrown
    }
-
 
    @Test(expected = UserNotFoundException.class)
    public void givenNotExistingUserPostRequestLogingShouldThrowException() throws InvalidUserLoginFieldException,

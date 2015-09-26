@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.RepositoryToPersistenceEstateDto;
 import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
+import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.RepositoryToPersistenceUserDto;
 
@@ -21,6 +22,9 @@ public class RepositoryToPersistenceDtoFactoryTest {
 
    @Mock
    private ContactInformation userInfos;
+
+   @Mock
+   private Role role;
 
    @Mock
    private Estate estate;
@@ -60,12 +64,16 @@ public class RepositoryToPersistenceDtoFactoryTest {
 
    private void configureUser() {
       given(user.getUsername()).willReturn("username");
+      given(user.getPassword()).willReturn("password");
+
+      given(user.getRole()).willReturn(role);
+      given(role.getRoles()).willReturn("roles");
+
       given(user.getContactInformation()).willReturn(userInfos);
       given(userInfos.getFirstName()).willReturn("firstName");
       given(userInfos.getLastName()).willReturn("lastname");
       given(userInfos.getPhoneNumber()).willReturn("phonenumber");
       given(userInfos.getEmail()).willReturn("email");
-      given(user.getPassword()).willReturn("password");
    }
 
    private void configureEstate() {
