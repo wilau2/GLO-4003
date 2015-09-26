@@ -77,26 +77,28 @@ public class XMLFileEditorTest {
       assertFalse(shouldBeFalse);
    }
 
+   @Test
    public void shouldBeAbleToVerifyEveryAttributesOfASpecificElement() throws DocumentException {
       // Given
 
       // When
-      boolean shouldBeTrue = editor.elementWithCorrespondingValuesExists(document, "test/element/field",
+      boolean shouldBeTrue = editor.elementWithCorrespondingValuesExists(document, "test/element",
             dtoContainingExistingElement);
 
       // Then
       assertTrue(shouldBeTrue);
    }
 
+   @Test
    public void shouldBeAbleToVerifyThatSomeAttributesAreMissing() throws DocumentException {
       // Given
 
       // When
-      boolean shouldBeFalse = editor.elementWithCorrespondingValuesExists(document, "test/element/field",
+      boolean shouldBeFalse = editor.elementWithCorrespondingValuesExists(document, "test/element",
             dtoContainingNewElement);
 
       // Then
-      assertTrue(shouldBeFalse);
+      assertFalse(shouldBeFalse);
    }
 
    @Test

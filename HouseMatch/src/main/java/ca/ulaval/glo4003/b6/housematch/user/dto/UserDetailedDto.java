@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.b6.housematch.user.dto;
 
-public class UserDetailedDto {
+public class UserDetailedDto extends BaseUserDto {
 
-   private String username;
+   public UserDetailedDto(String username) {
+      super(username);
+   }
 
    private String firstName;
 
@@ -14,14 +16,6 @@ public class UserDetailedDto {
 
    public String getFirstName() {
       return firstName;
-   }
-
-   public String getUsername() {
-      return username;
-   }
-
-   public void setUsername(String username) {
-      this.username = username;
    }
 
    public void setFirstName(String firstName) {

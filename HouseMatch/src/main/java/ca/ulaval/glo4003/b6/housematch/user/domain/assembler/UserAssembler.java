@@ -24,12 +24,11 @@ public class UserAssembler {
    }
 
    public UserDetailedDto convertUserToDetailedDto(User user) {
-      UserDetailedDto userDetailedDto = new UserDetailedDto();
+      UserDetailedDto userDetailedDto = new UserDetailedDto(user.getUsername());
       userDetailedDto.setFirstName(user.getContactInformation().getFirstName());
       userDetailedDto.setLastName(user.getContactInformation().getLastName());
       userDetailedDto.setEmail(user.getContactInformation().getEmail());
       userDetailedDto.setPhoneNumber(user.getPassword());
-      userDetailedDto.setUsername(user.getUsername());
 
       return userDetailedDto;
    }

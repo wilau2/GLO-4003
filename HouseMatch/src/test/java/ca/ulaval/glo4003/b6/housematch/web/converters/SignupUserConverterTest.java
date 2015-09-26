@@ -18,7 +18,7 @@ public class SignupUserConverterTest {
 
    @Before
    public void setup() {
-      userSignupDto = new UserSignupDto();
+      userSignupDto = new UserSignupDto("a username");
       userSignupDto.setEmail("an Email");
       userSignupDto.setPassword("a Password");
 
@@ -27,6 +27,13 @@ public class SignupUserConverterTest {
       viewUser.setPassword("another Password");
 
       converter = new SignupUserConverter();
+   }
+
+   @Test
+   public void whenConvertingAUserIntoAUserModelItShouldKeepTheSameUsername() {
+      SignupUserModel returnedViewUser;
+      returnedViewUser = converter.convertSignupDtoToViewModel(userSignupDto);
+      assertEquals("a username", returnedViewUser.getUsername());
    }
 
    @Test

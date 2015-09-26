@@ -22,8 +22,7 @@ public class LoginUserConverterTest {
 
    @Before
    public void setup() {
-      userDto = new UserLoginDto();
-      userDto.setUsername(USERNAME);
+      userDto = new UserLoginDto(USERNAME);
       userDto.setPassword(PASSWORD);
 
       viewModelUser = new LoginUserViewModel();

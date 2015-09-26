@@ -22,20 +22,18 @@ public class SignupUserConverter {
    }
 
    public UserSignupDto convertViewModelToSignupDto(SignupUserModel viewModel) {
-      UserSignupDto user = new UserSignupDto();
+      UserSignupDto user = new UserSignupDto(viewModel.getUsername());
       user.setRole(viewModel.getRole());
       user.setFirstName(viewModel.getFirstName());
       user.setLastName(viewModel.getLastName());
       user.setPhoneNumber(viewModel.getPhoneNumber());
       user.setEmail(viewModel.getEmail());
-      user.setUsername(viewModel.getUsername());
       user.setPassword(viewModel.getPassword());
       return user;
    }
 
    public UserLoginDto convertSignupDtoToLoginDto(UserSignupDto userSignupDto) {
-      UserLoginDto user = new UserLoginDto();
-      user.setUsername(userSignupDto.getUsername());
+      UserLoginDto user = new UserLoginDto(userSignupDto.getUsername());
       user.setPassword(userSignupDto.getPassword());
       return user;
    }
