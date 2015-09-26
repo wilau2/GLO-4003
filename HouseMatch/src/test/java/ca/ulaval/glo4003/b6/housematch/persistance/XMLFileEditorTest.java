@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.persistance;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
@@ -25,7 +27,10 @@ public class XMLFileEditorTest {
    Document document;
 
    @Mock
-   RepositoryToPersistenceDto someDto;
+   RepositoryToPersistenceDto dtoContainingNewElement;
+
+   @Mock
+   RepositoryToPersistenceDto dtoContainingExistingElement;
 
    @Before
    public void setup() throws DocumentException {
@@ -33,7 +38,8 @@ public class XMLFileEditorTest {
       editor = new XMLFileEditor();
 
       document = editor.readXMLFile(pathToXmlFileStatic);
-      configureSomeDto();
+      configureDtoContainingNewElement();
+      configureDtoContainingExistingElement();
    }
 
    @Test
@@ -48,19 +54,55 @@ public class XMLFileEditorTest {
    }
 
    @Test
-   public void shouldBeAbleToVerifyTheContentOfASpecificElement() {
+   public void shouldBeAbleToVerifyTheContentOfASpecificElement() throws DocumentException {
       // Given
 
       // When
+      boolean shouldBeTrue = editor.elementWithCorrespondingValueExists(document, "test/element/field",
+            "Existing Data");
 
       // Then
-      assertTrue(editor.elementWithCorrespondingValueExists(document, "test/element/field", "Existing Data"));
+      assertTrue(shouldBeTrue);
+   }
+
+   @Test
+   public void shouldBeAbleToVerifyThatAContentIsMissingElement() throws DocumentException {
+      // Given
+
+      // When
+      boolean shouldBeFalse = editor.elementWithCorrespondingValueExists(document, "test/element/field",
+            "Not an Existing Data");
+
+      // Then
+      assertFalse(shouldBeFalse);
+   }
+
+   public void shouldBeAbleToVerifyEveryAttributesOfASpecificElement() throws DocumentException {
+      // Given
+
+      // When
+      boolean shouldBeTrue = editor.elementWithCorrespondingValuesExists(document, "test/element/field",
+            dtoContainingExistingElement);
+
+      // Then
+      assertTrue(shouldBeTrue);
+   }
+
+   public void shouldBeAbleToVerifyThatSomeAttributesAreMissing() throws DocumentException {
+      // Given
+
+      // When
+      boolean shouldBeFalse = editor.elementWithCorrespondingValuesExists(document, "test/element/field",
+            dtoContainingNewElement);
+
+      // Then
+      assertTrue(shouldBeFalse);
    }
 
    @Test
    public void shouldBeAbleToAddANewElementToAnXmlFile() throws DocumentException, IOException {
       // Given
-      editor.addNewElementToDocument(document, someDto);
+      editor.addNewElementToDocument(document, dtoContainingNewElement);
       editor.formatAndWriteDocument(document, pathToXmlFileModified);
 
       // When
@@ -73,8 +115,8 @@ public class XMLFileEditorTest {
    @Test
    public void shouldBeAbleToAddANewNestedElementToAnXmlFile() throws DocumentException, IOException {
       // Given
-      given(someDto.getElementName()).willReturn("nestedElement");
-      editor.addNewNestedElementToDocument(document, "element", someDto);
+      given(dtoContainingNewElement.getElementName()).willReturn("nestedElement");
+      editor.addNewNestedElementToDocument(document, "element", dtoContainingNewElement);
       editor.formatAndWriteDocument(document, pathToXmlFileModified);
 
       // When
@@ -85,11 +127,47 @@ public class XMLFileEditorTest {
             "added Data"));
    }
 
-   private void configureSomeDto() {
+   @Test
+   public void shouldBeAbleToReturnAMapWithTheAttributesOfASpecifiedElement() {
+      // Given
+
+      // When
+      HashMap<String, String> attributes = editor.returnAttributesOfElementWithCorrespondingValue(document,
+            "test/element/field", "Existing Data");
+
+      // Then
+      assertEquals(returnAHashMapWithTheTwoExistingFields(), attributes);
+   }
+
+   @Test
+   public void shouldReturnAnEmptyMapIfSpecifiedElementDoesntExists() {
+      // Given
+
+      // When
+      HashMap<String, String> attributes = editor.returnAttributesOfElementWithCorrespondingValue(document,
+            "test/element/field", "Not An Existing Data");
+
+      // Then
+      assertEquals(new HashMap<String, String>(), attributes);
+   }
+
+   private void configureDtoContainingNewElement() {
       HashMap<String, String> mapWithData = new HashMap<String, String>();
       mapWithData.put("field", "added Data");
 
-      given(someDto.getAttributes()).willReturn(mapWithData);
-      given(someDto.getElementName()).willReturn("element");
+      given(dtoContainingNewElement.getAttributes()).willReturn(mapWithData);
+      given(dtoContainingNewElement.getElementName()).willReturn("element");
+   }
+
+   private void configureDtoContainingExistingElement() {
+      given(dtoContainingExistingElement.getAttributes()).willReturn(returnAHashMapWithTheTwoExistingFields());
+      given(dtoContainingExistingElement.getElementName()).willReturn("element");
+   }
+
+   private HashMap<String, String> returnAHashMapWithTheTwoExistingFields() {
+      HashMap<String, String> mapWithData = new HashMap<String, String>();
+      mapWithData.put("field", "Existing Data");
+      mapWithData.put("field2", "Existing Data 2");
+      return mapWithData;
    }
 }
