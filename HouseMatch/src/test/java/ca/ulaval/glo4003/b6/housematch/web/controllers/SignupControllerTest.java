@@ -72,7 +72,7 @@ public class SignupControllerTest {
    public void postRequestSignupShouldUseTheConverter() throws InvalidUserSignupFieldException {
       controller.signup(request, signupNewUser);
 
-      verify(converter).convertToDto(signupNewUser);
+      verify(converter).convertViewModelToSignupDto(signupNewUser);
    }
 
    @Ignore
@@ -91,7 +91,7 @@ public class SignupControllerTest {
    }
 
    private void configureConverter() {
-      given(converter.convertToDto(signupNewUser)).willReturn(userSignupDto);
+      given(converter.convertViewModelToSignupDto(signupNewUser)).willReturn(userSignupDto);
    }
 
    private void configureRequest() {

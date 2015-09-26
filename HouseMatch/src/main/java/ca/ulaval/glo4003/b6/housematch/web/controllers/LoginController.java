@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ca.ulaval.glo4003.b6.housematch.admin.repository.exception.CouldNotAccesAdminDataException;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
@@ -37,7 +38,8 @@ public class LoginController {
    }
 
    @RequestMapping(value = "/login", method = RequestMethod.POST)
-   public String login(HttpServletRequest request, LoginUserViewModel viewModel) throws InvalidUserLoginFieldException {
+   public String login(HttpServletRequest request, LoginUserViewModel viewModel)
+         throws InvalidUserLoginFieldException, CouldNotAccesAdminDataException {
       UserLoginDto userDto = loginUserConverter.convertToDto(viewModel);
       userCorruptionVerificator.login(request, userDto);
       return "redirect:/";

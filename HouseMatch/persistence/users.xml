@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <users> 
+  <user> 
+    <firstName>williamw</firstName>  
+    <lastName>w</lastName>  
+    <password>123</password>  
+    <phoneNumber>w</phoneNumber>  
+    <email>w</email>  
+    <username>123</username> 
+  </user>  
+  <user> 
+    <firstName>qwe</firstName>  
+    <lastName>qwe</lastName>  
+    <password>123</password>  
+    <phoneNumber>qwe</phoneNumber>  
+    <email>qwe</email>  
+    <username>1234</username> 
+  </user>  
+  <user> 
+    <firstName>qwe</firstName>  
+    <lastName>qwe</lastName>  
+    <password>qwe</password>  
+    <phoneNumber>qwe</phoneNumber>  
+    <email>qwe</email>  
+    <username>12345</username> 
+  </user>  
   <user>
-    <firstName>williamw</firstName>
-    <lastName>w</lastName>
+    <firstName>qwe</firstName>
+    <lastName>qwe</lastName>
     <password>123</password>
-    <phoneNumber>w</phoneNumber>
-    <email>w</email>
-    <username>123</username>
+    <phoneNumber>qwe</phoneNumber>
+    <email>qwe</email>
+    <username>qwe</username>
   </user>
 </users>

@@ -119,15 +119,9 @@
     	<beans:constructor-arg
 	        name="userRepository"
 	        ref="userRepository" />
-	    <!--beans:constructor-arg
+	    <beans:constructor-arg
 	        name="adminRepository"
 	        ref="adminRepository" />
-	    <beans:constructor-arg
-	        name="userValidatorFactory"
-	        ref="userValidatorFactory" />
-	    <beans:constructor-arg
-	        name="userAssemblerFactory"
-	        ref="userAssemblerFactory" /-->
 	        
     </beans:bean>
     
@@ -187,6 +181,9 @@
         <beans:constructor-arg
             name="userSignupCorruptionVerificator"
             ref="userSignupCorruptionVerificator" />
+        <beans:constructor-arg
+            name="userLoginService"
+            ref="userLoginService" />
     </beans:bean>
 
 </beans:beans>

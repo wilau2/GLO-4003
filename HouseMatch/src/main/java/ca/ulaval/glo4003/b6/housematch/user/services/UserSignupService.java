@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.UserAssembler;
 import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.factory.UserAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidatorFactory;
-import ca.ulaval.glo4003.b6.housematch.user.repository.UserDao;
+import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 
 public class UserSignupService {
 
@@ -19,17 +18,17 @@ public class UserSignupService {
 
    private UserAssemblerFactory userAssemblerFactory;
 
-   private UserDao userRepository;
+   private UserRepository userRepository;
 
    @Autowired
    public UserSignupService(UserValidatorFactory userValidatorFactory, UserAssemblerFactory userAssemblerFactory,
-         UserDao userRepository) {
+         UserRepository userRepository) {
       this.userValidatorFactory = userValidatorFactory;
       this.userAssemblerFactory = userAssemblerFactory;
       this.userRepository = userRepository;
    }
 
-   public UserDetailedDto signup(HttpServletRequest request, UserSignupDto userSignupDto) {
+   public void signup(HttpServletRequest request, UserSignupDto userSignupDto) {
       UserValidator userValidator = userValidatorFactory.getValidator();
       userValidator.validate(userSignupDto);
 
@@ -37,6 +36,6 @@ public class UserSignupService {
       User newUser = userAssembler.assembleUser(userSignupDto);
 
       userRepository.add(newUser);
-      return userAssembler.convertUserToDetailedDto(newUser);
+
    }
 }
