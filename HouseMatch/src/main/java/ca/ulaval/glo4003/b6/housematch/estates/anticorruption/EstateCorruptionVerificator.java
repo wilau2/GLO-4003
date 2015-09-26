@@ -46,5 +46,7 @@ public class EstateCorruptionVerificator {
          throw new InvalidEstateFieldException("Seller is invalid");
       }
    }
+   
+   
 
 }

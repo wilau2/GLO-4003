@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
@@ -65,6 +66,7 @@ public class EstatesService {
 
    }
 
+   //TODO a faire pour la 2e itération car c'est dans la story 7
    public void editEstate(EstateDto estateDto) throws InvalidEstateException {
       EstateValidator estateValidator = estateValidatorFactory.getValidator();
       estateValidator.validate(estateDto);
@@ -76,5 +78,10 @@ public class EstatesService {
             estatePersistenceDtoFactory);
       estateRepository.editEstate(estate);
    }
+   
+   public void addDescription(DescriptionDto descriptionDto){
+      //TODO
+   }
+   
 
 }

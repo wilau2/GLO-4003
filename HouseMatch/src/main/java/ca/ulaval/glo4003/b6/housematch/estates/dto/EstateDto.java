@@ -3,11 +3,8 @@ package ca.ulaval.glo4003.b6.housematch.estates.dto;
 public class EstateDto {
 
    private String type;
-
    private String address;
-
    private Integer price;
-
    private String sellerId;
 
    public EstateDto() {
