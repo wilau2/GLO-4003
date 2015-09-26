@@ -58,7 +58,9 @@ public class EstateConverterTest {
       when(estateModel.getCivicNumber()).thenReturn(CIVIC_NUMBER);
       when(estateModel.getCountry()).thenReturn(COUNTRY);
       when(estateModel.getState()).thenReturn(STATE);
-      // when(estateModel)
+      when(estateModel.getStreet()).thenReturn(STREET);
+      when(estateModel.getAppartment()).thenReturn(APPARTMENT);
+
    }
 
    @Test

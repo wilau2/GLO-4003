@@ -20,6 +20,8 @@ public class EstateModel {
 
    private String street;
 
+   private int appartment;
+
    public String getType() {
       return type;
    }
@@ -91,6 +93,14 @@ public class EstateModel {
 
    public void setStreet(String street) {
       this.street = street;
+   }
+
+   public int getAppartment() {
+      return appartment;
+   }
+
+   public void setAppartment(int appartment) {
+      this.appartment = appartment;
    }
 
 }

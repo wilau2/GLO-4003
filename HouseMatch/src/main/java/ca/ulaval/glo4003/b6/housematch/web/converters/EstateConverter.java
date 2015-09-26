@@ -27,6 +27,7 @@ public class EstateConverter {
       addressDto.setCountry(estateModel.getCountry());
       addressDto.setState(estateModel.getState());
       addressDto.setStreet(estateModel.getStreet());
+      addressDto.setAppartment(estateModel.getAppartment());
 
       return addressDto;
    }
