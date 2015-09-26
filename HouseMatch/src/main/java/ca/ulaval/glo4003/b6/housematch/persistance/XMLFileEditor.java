@@ -35,6 +35,17 @@ public class XMLFileEditor {
       }
    }
 
+   public void addNewNestedElementToDocument(Document existingDocument, String parentElementName,
+         RepositoryToPersistenceDto receivedDto) {
+      Element rootElement = existingDocument.getRootElement();
+      Element parentElement = rootElement.element(parentElementName);
+      Element newElement = parentElement.addElement(receivedDto.getElementName());
+
+      for (Entry<String, String> entry : receivedDto.getAttributes().entrySet()) {
+         newElement.addElement(entry.getKey()).addText(entry.getValue());
+      }
+   }
+
    public void formatAndWriteDocument(Document existingDocument, String pathToXML) throws IOException {
       OutputFormat format = OutputFormat.createPrettyPrint();
 
