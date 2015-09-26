@@ -28,7 +28,7 @@ public class UserAssembler {
       userDetailedDto.setFirstName(user.getContactInformation().getFirstName());
       userDetailedDto.setLastName(user.getContactInformation().getLastName());
       userDetailedDto.setEmail(user.getContactInformation().getEmail());
-      userDetailedDto.setPhoneNumber(user.getPassword());
+      userDetailedDto.setPhoneNumber(user.getContactInformation().getPhoneNumber());
 
       return userDetailedDto;
    }

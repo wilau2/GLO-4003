@@ -15,10 +15,6 @@ public class UserLoginCorruptionVerificator {
 
    private UserLoginService userLoginService;
 
-   public void setUserLoginService(UserLoginService userLoginService) {
-      this.userLoginService = userLoginService;
-   }
-
    @Autowired
    public UserLoginCorruptionVerificator(UserLoginService userLoginService) {
       this.userLoginService = userLoginService;

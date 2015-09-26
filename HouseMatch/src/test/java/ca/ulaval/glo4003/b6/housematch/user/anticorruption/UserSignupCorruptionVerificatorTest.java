@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.user.anticorruption;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,10 +69,10 @@ public class UserSignupCorruptionVerificatorTest {
       // Given
 
       // When
-      // userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(request, userDto);
 
       // Then
-      // verify(userSignupService).signup(request, userDto);
+      verify(userSignupService).signup(request, userDto);
 
    }
 
@@ -116,6 +117,126 @@ public class UserSignupCorruptionVerificatorTest {
          throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       when(userDto.getPassword()).thenReturn(EMPTY_FIELD);
+
+      // When
+      userCorruptionVerificator.signup(request, userDto);
+
+      // Then InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void verificatingUserSignupCorruptionWhenUserHasNoFirstNameShouldThrowException()
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+      // Given
+      when(userDto.getFirstName()).thenReturn(null);
+
+      // When
+      userCorruptionVerificator.signup(request, userDto);
+
+      // Then InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void verificatingUserSignupCorruptionWhenUserHasEmptyFirstNameShouldThrowException()
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+      // Given
+      when(userDto.getFirstName()).thenReturn(EMPTY_FIELD);
+
+      // When
+      userCorruptionVerificator.signup(request, userDto);
+
+      // Then InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void verificatingUserSignupCorruptionWhenUserHasNoLastNameShouldThrowException()
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+      // Given
+      when(userDto.getLastName()).thenReturn(null);
+
+      // When
+      userCorruptionVerificator.signup(request, userDto);
+
+      // Then InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void verificatingUserSignupCorruptionWhenUserHasEmptyLastNameShouldThrowException()
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+      // Given
+      when(userDto.getLastName()).thenReturn(EMPTY_FIELD);
+
+      // When
+      userCorruptionVerificator.signup(request, userDto);
+
+      // Then InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void verificatingUserSignupCorruptionWhenUserHasNoPhoneNumberShouldThrowException()
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+      // Given
+      when(userDto.getPhoneNumber()).thenReturn(null);
+
+      // When
+      userCorruptionVerificator.signup(request, userDto);
+
+      // Then InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void verificatingUserSignupCorruptionWhenUserHasEmptyPhoneNumberShouldThrowException()
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+      // Given
+      when(userDto.getPhoneNumber()).thenReturn(EMPTY_FIELD);
+
+      // When
+      userCorruptionVerificator.signup(request, userDto);
+
+      // Then InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void verificatingUserSignupCorruptionWhenUserHasNoEmailShouldThrowException()
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+      // Given
+      when(userDto.getEmail()).thenReturn(null);
+
+      // When
+      userCorruptionVerificator.signup(request, userDto);
+
+      // Then InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void verificatingUserSignupCorruptionWhenUserHasEmptyEmailShouldThrowException()
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+      // Given
+      when(userDto.getEmail()).thenReturn(EMPTY_FIELD);
+
+      // When
+      userCorruptionVerificator.signup(request, userDto);
+
+      // Then InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void verificatingUserSignupCorruptionWhenUserHasNoRoleShouldThrowException()
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+      // Given
+      when(userDto.getRole()).thenReturn(null);
+
+      // When
+      userCorruptionVerificator.signup(request, userDto);
+
+      // Then InvalidUserSignupFieldException is thrown
+   }
+
+   @Test(expected = InvalidUserSignupFieldException.class)
+   public void verificatingUserSignupCorruptionWhenUserHasEmptyRoleShouldThrowException()
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+      // Given
+      when(userDto.getRole()).thenReturn(EMPTY_FIELD);
 
       // When
       userCorruptionVerificator.signup(request, userDto);
