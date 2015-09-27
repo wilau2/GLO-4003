@@ -29,7 +29,6 @@ public class EstateCorruptionVerificator {
       try {
          estateService.addEstate(estateDto);
       } catch (InvalidEstateException e) {
-         System.out.println(e.getMessage());
          throw new InvalidEstateFieldException(e.getMessage(), e);
 
       }

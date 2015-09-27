@@ -15,6 +15,7 @@
 
 <link rel="stylesheet"
 	href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+<link rel="stylesheet" href="/resources/css/layouts/side-menu.css">
 <link rel="stylesheet"
 	href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
 <link rel="stylesheet"
@@ -23,6 +24,16 @@
 </head>
 <body>
 	<jsp:include page="_menu.jsp" />
+	<div id="menu" class="side-menu">
+		<div class="pure-menu">
+			<a class="pure-menu-heading" href="">Seller</a>
+			<ul class="pure-menu-list">
+				<li class="pure-menu-item"><a class="pure-menu-link"
+					href="${entryUrl}/seller/${loggedInUserEmail}/estates/add">Sell
+						an estate</a></li>
+			</ul>
+		</div>
+	</div>
 	<div class="splash">
 		<table class="pure-table">
 			<thead>
@@ -40,7 +51,7 @@
 						<td>${estate.type}</td>
 						<td>${estate.addressToString()}</td>
 						<td>${estate.price}</td>
-						<td><a class="btn btn-default"
+						<td><a class="pure-button"
 							href="${entryUrl}/seller/${loggedInUserEmail}/estates/${estate.addressToUrl()}">Select</a></td>
 					</tr>
 

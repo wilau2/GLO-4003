@@ -25,8 +25,6 @@ public class EstateCorruptionVerificatorTest {
 
    private static final String EMPTY_FIELD = "";
 
-   private static final String ADDRESS = "ADDRESS";
-
    private static final String TYPE = "TYPE";
 
    private static final Integer PRICE = 1;
@@ -71,6 +69,18 @@ public class EstateCorruptionVerificatorTest {
 
       // Then
       verify(estateService, times(1)).addEstate(estateDto);
+   }
+
+   @Test(expected = InvalidEstateFieldException.class)
+   public void addingEstateFromCorruptionVerificatorWhenEstateServiceThrowExceptionShouldThrowException()
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidEstateException {
+      // Given
+      doThrow(new InvalidEstateException()).when(estateService).addEstate(estateDto);
+
+      // When
+      estateCorruptionVerificator.addEstate(estateDto);
+
+      // Then an InvalidEstateFieldException is thrown
    }
 
    @Test(expected = InvalidEstateFieldException.class)
