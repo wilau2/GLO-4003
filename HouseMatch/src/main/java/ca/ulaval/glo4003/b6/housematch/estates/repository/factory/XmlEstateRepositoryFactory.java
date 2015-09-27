@@ -9,9 +9,8 @@ import ca.ulaval.glo4003.b6.housematch.estates.repository.XMLEstateRepository;
 public class XmlEstateRepositoryFactory implements EstateRepositoryFactory {
 
    @Override
-   public EstateRepository newInstance(EstateAssemblerFactory estateAssemblerFactory,
-         EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
-      return new XMLEstateRepository(estateAssemblerFactory, estatePersistenceDtoFactory,
+   public EstateRepository newInstance(EstateAssemblerFactory estateAssemblerFactory) {
+      return new XMLEstateRepository(estateAssemblerFactory, new EstatePersistenceDtoFactory(),
             new EstateElementAssemblerFactory());
    }
 

@@ -38,8 +38,7 @@ public class XmlEstateRepositoryFactoryTest {
       // Given
 
       // When
-      EstateRepository newInstance = xmlEstateRepositoryFactory.newInstance(estateAssemblerFactory,
-            estatePersistencDtoFactory);
+      EstateRepository newInstance = xmlEstateRepositoryFactory.newInstance(estateAssemblerFactory);
 
       // Then
       assertTrue(newInstance instanceof XMLEstateRepository);

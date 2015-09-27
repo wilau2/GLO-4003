@@ -95,7 +95,12 @@ public class EstateElementAssemblerTest {
       AddressDto addressDto = estateDto.getAddress();
 
       // Then
-      // assertEquals(ADDRESS.toString(), addressDto.toString());
+      assertEquals(ADDRESS.getAppartment(), addressDto.getAppartment());
+      assertEquals(ADDRESS.getCivicNumber(), addressDto.getCivicNumber());
+      assertEquals(ADDRESS.getStreet(), addressDto.getStreet());
+      assertEquals(ADDRESS.getState(), addressDto.getState());
+      assertEquals(ADDRESS.getCountry(), addressDto.getCountry());
+      assertEquals(ADDRESS.getPostalCode(), addressDto.getPostalCode());
    }
 
    @Test

@@ -35,20 +35,16 @@
 
     <beans:bean
         id="estateValidatorFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory" />
+        class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactoryImpl" />
     <beans:bean
         id="estateAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory" />
     <beans:bean
         id="estateRepositoryFactory"
         class="ca.ulaval.glo4003.b6.housematch.estates.repository.factory.XmlEstateRepositoryFactory" />
-
-    <beans:bean
-        id="estatePersistenceDtoFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory" />
     <beans:bean
         id="addressValidatorFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidatorFactory" />
+        class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.AddressValidatorFactoryImpl" />
     <beans:bean
         id="estateService"
         class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService"
@@ -62,9 +58,6 @@
         <beans:constructor-arg
             name="estateRepositoryFactory"
             ref="estateRepositoryFactory" />
-        <beans:constructor-arg
-            name="estatePersistenceDtoFactory"
-            ref="estatePersistenceDtoFactory" />
         <beans:constructor-arg
             name="addressValidatorFactory"
             ref="addressValidatorFactory" />

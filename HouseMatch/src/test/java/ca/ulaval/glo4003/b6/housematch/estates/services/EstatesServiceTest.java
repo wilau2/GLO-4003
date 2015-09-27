@@ -20,9 +20,9 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidator;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.AddressValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
@@ -75,14 +75,13 @@ public class EstatesServiceTest {
       when(estateValidatorFactory.getValidator()).thenReturn(estateValidator);
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
-      when(estateRepositoryFactory.newInstance(estateAssemblerFactory, estatePersistenceDtoFactory))
-            .thenReturn(estateRepository);
+      when(estateRepositoryFactory.newInstance(estateAssemblerFactory)).thenReturn(estateRepository);
       when(addressValidatorFactory.getValidator()).thenReturn(addressValidaor);
 
       when(estateDto.getAddress()).thenReturn(addressDto);
 
       estatesService = new EstatesService(estateValidatorFactory, estateAssemblerFactory, estateRepositoryFactory,
-            estatePersistenceDtoFactory, addressValidatorFactory);
+            addressValidatorFactory);
    }
 
    @Test
@@ -93,7 +92,7 @@ public class EstatesServiceTest {
       estatesService.addEstate(estateDto);
 
       // Then
-      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory, estatePersistenceDtoFactory);
+      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
       verify(estateRepository, times(1)).addEstate(estate);
    }
 

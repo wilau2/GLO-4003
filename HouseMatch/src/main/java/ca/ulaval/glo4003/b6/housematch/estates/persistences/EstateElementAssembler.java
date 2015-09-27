@@ -41,8 +41,18 @@ public class EstateElementAssembler {
    private AddressDto constructAddressDtoFromElement(String addressFromElement) {
       AddressDto addressDto = new AddressDto();
       String[] splittedAddressAttributes = addressFromElement.split("-");
-      int appartmentNumber = Integer.parseInt(splittedAddressAttributes[0]);
+      int addressIndex = 0;
+      int appartmentNumber = Integer.parseInt(splittedAddressAttributes[addressIndex++]);
       addressDto.setAppartment(appartmentNumber);
+
+      Integer civicNumber = Integer.parseInt(splittedAddressAttributes[addressIndex++]);
+      addressDto.setCivicNumber(civicNumber);
+
+      addressDto.setStreet(splittedAddressAttributes[addressIndex++]);
+      addressDto.setState(splittedAddressAttributes[addressIndex++]);
+      addressDto.setCountry(splittedAddressAttributes[addressIndex++]);
+      addressDto.setPostalCode(splittedAddressAttributes[addressIndex++]);
+
       return addressDto;
    }
 

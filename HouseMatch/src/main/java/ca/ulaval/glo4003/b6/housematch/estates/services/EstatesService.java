@@ -9,11 +9,10 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidator;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.AddressValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
@@ -26,42 +25,40 @@ public class EstatesService {
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
-   private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
-
    private AddressValidatorFactory addressValidatorFactory;
 
    @Autowired
    public EstatesService(EstateValidatorFactory estateValidatorFactory, EstateAssemblerFactory estateAssemblerFactory,
-         EstateRepositoryFactory estateRepositoryFactory, EstatePersistenceDtoFactory estatePersistenceDtoFactory,
-         AddressValidatorFactory addressValidatorFactory) {
+         EstateRepositoryFactory estateRepositoryFactory, AddressValidatorFactory addressValidatorFactory) {
 
       this.estateValidatorFactory = estateValidatorFactory;
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepositoryFactory = estateRepositoryFactory;
-      this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
       this.addressValidatorFactory = addressValidatorFactory;
    }
 
    public void addEstate(EstateDto estateDto) throws InvalidEstateException {
-      EstateValidator estateValidator = estateValidatorFactory.getValidator();
-      estateValidator.validate(estateDto);
-      AddressValidator addressValidator = addressValidatorFactory.getValidator();
-      System.out.println(addressValidator);
-      addressValidator.validate(estateDto.getAddress());
+      validateEstate(estateDto);
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
       Estate estate = estateAssembler.assembleEstate(estateDto);
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
-            estatePersistenceDtoFactory);
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       estateRepository.addEstate(estate);
+   }
+
+   private void validateEstate(EstateDto estateDto) throws InvalidEstateException {
+      EstateValidator estateValidator = estateValidatorFactory.getValidator();
+      estateValidator.validate(estateDto);
+
+      AddressValidator addressValidator = addressValidatorFactory.getValidator();
+      addressValidator.validate(estateDto.getAddress());
    }
 
    public List<EstateDto> getAllEstates() {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
-            estatePersistenceDtoFactory);
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       List<Estate> estateList = estateRepository.getAllEstates();
 
       List<EstateDto> estatesDto = new ArrayList<EstateDto>();
@@ -80,8 +77,7 @@ public class EstatesService {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
       Estate estate = estateAssembler.assembleEstate(estateDto);
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
-            estatePersistenceDtoFactory);
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       estateRepository.editEstate(estate);
    }
 

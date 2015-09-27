@@ -7,15 +7,21 @@
     <price>1000</price>  
     <type>CONDO</type> 
   </estate>  
+  <estate> 
+    <seller>123</seller>  
+    <country>weaf</country>  
+    <appartment>0</appartment>  
+    <price>1000</price>  
+    <street>124e1r5</street>  
+    <civic_number>1234</civic_number>  
+    <state>fawefa</state>  
+    <type>SINGLE_FAMILY</type>  
+    <postal_code>fawfwa</postal_code> 
+  </estate>  
   <estate>
     <seller>123</seller>
-    <country>weaf</country>
-    <appartment>0</appartment>
+    <address>0-123-1edawfe-efwaf-sregwa-wfearaf</address>
     <price>1000</price>
-    <street>124e1r5</street>
-    <civic_number>1234</civic_number>
-    <state>fawefa</state>
-    <type>SINGLE_FAMILY</type>
-    <postal_code>fawfwa</postal_code>
+    <type>MULTIPLEX</type>
   </estate>
 </estates>

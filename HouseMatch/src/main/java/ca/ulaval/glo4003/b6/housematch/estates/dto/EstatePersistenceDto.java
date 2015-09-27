@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDto;
 
 public class EstatePersistenceDto implements RepositoryToPersistenceDto {
 
-   private static final String elementName = "estate";
+   private static final String ELEMENT_NAME = "estate";
 
    private HashMap<String, String> attributes;
 
@@ -21,7 +21,7 @@ public class EstatePersistenceDto implements RepositoryToPersistenceDto {
 
    @Override
    public String getElementName() {
-      return elementName;
+      return ELEMENT_NAME;
    }
 
 }
