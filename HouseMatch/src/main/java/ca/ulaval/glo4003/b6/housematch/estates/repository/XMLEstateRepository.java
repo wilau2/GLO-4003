@@ -62,13 +62,13 @@ public class XMLEstateRepository implements EstateRepository {
    }
 
    @Override
-   public List<Estate> getAllEstates() {
+   public List<Estate> getAllEstates() throws CouldNotAccessDataException {
       List<Estate> estates = new ArrayList<Estate>();
       try {
          Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
-         Collection<Element> elementList = xmlFileEditor.getAllElementsFromDocument(estateDocument, ESTATE);
-
+         List<Element> elementList = xmlFileEditor.getAllElementsFromDocument(estateDocument, "estates/estate");
+         System.out.println(elementList);
          EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          estates = getDtoListFromElements(elementList, estateAssembler, estateElementAssembler);
@@ -93,7 +93,7 @@ public class XMLEstateRepository implements EstateRepository {
    }
 
    @Override
-   public void addEstate(Estate estate) {
+   public void addEstate(Estate estate) throws CouldNotAccessDataException {
       try {
          Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
@@ -135,18 +135,21 @@ public class XMLEstateRepository implements EstateRepository {
    }
 
    @Override
-   public List<Estate> getEstateFromSeller(String sellerName) throws SellerNotFoundException {
-      try {
-         Document document = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
-         boolean valuesExists = xmlFileEditor.elementWithCorrespondingValuesExists(document, ESTATE_SELLER, sellerName);
-         if (!valuesExists) {
-            throw new SellerNotFoundException("Wanted seller does not exist");
+   public List<Estate> getEstateFromSeller(String sellerName)
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      List<Estate> allEstates = getAllEstates();
+
+      List<Estate> estatesFromSeller = new ArrayList<Estate>();
+      for (Estate estate : allEstates) {
+         boolean fromSeller = estate.isFromSeller(sellerName);
+         if (fromSeller) {
+            estatesFromSeller.add(estate);
          }
-         xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(document, ESTATE_SELLER, sellerName);
-      } catch (DocumentException e) {
-         // throw new SellerNotFoundException("Wanted seller does not exist");
       }
-      return null;
+      if (estatesFromSeller.isEmpty()) {
+         throw new SellerNotFoundException("Wanted seller does not exist");
+      }
+      return estatesFromSeller;
 
    }
 }

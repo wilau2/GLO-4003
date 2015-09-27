@@ -26,6 +26,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateVa
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class EstatesServiceTest {
 
@@ -85,7 +86,8 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void addingAnEstateWhenEstateIsValidShouldCallAddEstateAtRepository() throws InvalidEstateException {
+   public void addingAnEstateWhenEstateIsValidShouldCallAddEstateAtRepository()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -97,7 +99,8 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenAddingAnEstateShouldCallGetAssemblerFromAssemblerFactory() throws InvalidEstateException {
+   public void whenAddingAnEstateShouldCallGetAssemblerFromAssemblerFactory()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -108,7 +111,8 @@ public class EstatesServiceTest {
    }
 
    @Test(expected = InvalidEstateException.class)
-   public void addingEstateWhenValidatingInvalidEstateShouldThrowException() throws InvalidEstateException {
+   public void addingEstateWhenValidatingInvalidEstateShouldThrowException()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given
       doThrow(new InvalidEstateException()).when(estateValidator).validate(estateDto);
 
@@ -119,7 +123,7 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenAskedAllEstatesShouldCallAssembleEstate() {
+   public void whenAskedAllEstatesShouldCallAssembleEstate() throws CouldNotAccessDataException {
       // given
       List<Estate> dumbEstates = new ArrayList<Estate>();
       dumbEstates.add(estate);
@@ -133,7 +137,7 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() {
+   public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() throws CouldNotAccessDataException {
       // given
       List<Estate> dumbEstateDtoList = new ArrayList<Estate>();
       dumbEstateDtoList.add(estate);
@@ -159,7 +163,8 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenAddingAnEstateShouldValidateEstateAddress() throws InvalidEstateException {
+   public void whenAddingAnEstateShouldValidateEstateAddress()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given
 
       // When

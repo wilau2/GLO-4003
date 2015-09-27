@@ -32,4 +32,11 @@ public class Estate {
    public String getSeller() {
       return seller;
    }
+
+   public boolean isFromSeller(String sellerName) {
+      if (seller.equals(sellerName)) {
+         return true;
+      }
+      return false;
+   }
 }

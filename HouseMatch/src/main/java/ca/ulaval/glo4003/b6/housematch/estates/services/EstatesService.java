@@ -16,6 +16,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateVa
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class EstatesService {
 
@@ -37,7 +38,7 @@ public class EstatesService {
       this.addressValidatorFactory = addressValidatorFactory;
    }
 
-   public void addEstate(EstateDto estateDto) throws InvalidEstateException {
+   public void addEstate(EstateDto estateDto) throws InvalidEstateException, CouldNotAccessDataException {
       validateEstate(estateDto);
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
@@ -55,7 +56,7 @@ public class EstatesService {
       addressValidator.validate(estateDto.getAddress());
    }
 
-   public List<EstateDto> getAllEstates() {
+   public List<EstateDto> getAllEstates() throws CouldNotAccessDataException {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
       EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);

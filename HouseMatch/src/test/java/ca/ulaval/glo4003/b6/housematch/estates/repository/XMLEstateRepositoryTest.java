@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
@@ -51,7 +52,7 @@ public class XMLEstateRepositoryTest {
 
    private static final Integer VALID_PRICE = 99999;
 
-   private static final String ELEMENT_NAME = "estate";
+   private static final String ELEMENT_NAME = "estates/estate";
 
    private static final String XML_FILE_PATH = "persistence/estates.xml";
 
@@ -98,6 +99,8 @@ public class XMLEstateRepositoryTest {
    @InjectMocks
    private XMLEstateRepository xmlEstateRepository;
 
+   private List<Element> estateElementList;
+
    @Before
    public void setUp() throws DocumentException {
       MockitoAnnotations.initMocks(this);
@@ -106,15 +109,7 @@ public class XMLEstateRepositoryTest {
 
       configureAssemblerBehavior();
 
-      configureXmlFileEditorForSellerNameSearch();
-
       when(estatePersistenceDtoFactory.newInstance(any(HashMap.class))).thenReturn(estatePersisenceDto);
-   }
-
-   private void configureXmlFileEditorForSellerNameSearch() {
-      when(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, ESTATE_SELLER, SELLER_NAME))
-            .thenReturn(true);
-
    }
 
    private void configureAssemblerBehavior() {
@@ -126,7 +121,8 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void givenAFirstEstateToPersistXMLFileEditorCallsReadXmlFile() throws DocumentException {
+   public void givenAFirstEstateToPersistXMLFileEditorCallsReadXmlFile()
+         throws DocumentException, CouldNotAccessDataException {
       // given no changes
 
       // when
@@ -137,7 +133,8 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void whenAddingAnEstateShouldCallEstateElementAssemblerForCreatingAttributes() {
+   public void whenAddingAnEstateShouldCallEstateElementAssemblerForCreatingAttributes()
+         throws CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -148,7 +145,8 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void givenAFirstEstateToPersistXMLFileEditorCallsAddNewElementToDocument() throws DocumentException {
+   public void givenAFirstEstateToPersistXMLFileEditorCallsAddNewElementToDocument()
+         throws DocumentException, CouldNotAccessDataException {
       // given
       configureEstate();
 
@@ -160,7 +158,7 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void whenAddingAnEstateShouldCallNewInstanceOfEstateElementAssebler() {
+   public void whenAddingAnEstateShouldCallNewInstanceOfEstateElementAssebler() throws CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -171,7 +169,8 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void addingAnEstateWhenEstateIsUniqueShouldCreateEstateToPersistenceDto() throws DocumentException {
+   public void addingAnEstateWhenEstateIsUniqueShouldCreateEstateToPersistenceDto()
+         throws DocumentException, CouldNotAccessDataException {
       // Given
       configureEstate();
       HashMap<String, String> attributes = createHashMapFromEstate(estate);
@@ -185,7 +184,8 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void whenAddingAnEstateShouldSaveOpenedXMlFile() throws DocumentException, IOException {
+   public void whenAddingAnEstateShouldSaveOpenedXMlFile()
+         throws DocumentException, IOException, CouldNotAccessDataException {
       // Given
       configureEstate();
 
@@ -199,7 +199,7 @@ public class XMLEstateRepositoryTest {
 
    @Test(expected = CouldNotAccessDataException.class)
    public void addingAnEstateWhenWrittingEstateThrowIOExceptionShouldThrowExceptio()
-         throws DocumentException, IOException {
+         throws DocumentException, IOException, CouldNotAccessDataException {
       // Given
       configureEstate();
       doThrow(new IOException()).when(xmlFileEditor).formatAndWriteDocument(usedDocument, XML_FILE_PATH);
@@ -211,7 +211,8 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void givenAnExistingEstateInRepositoryDoNothingWhenPersisting() throws DocumentException {
+   public void givenAnExistingEstateInRepositoryDoNothingWhenPersisting()
+         throws DocumentException, CouldNotAccessDataException {
       // given
       configureEstate();
       HashMap<String, String> attributes = createHashMapFromEstate(estate);
@@ -227,7 +228,7 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void gettingAllEstatesShouldReadEstateXMLFile() throws DocumentException {
+   public void gettingAllEstatesShouldReadEstateXMLFile() throws DocumentException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -238,7 +239,7 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void gettingAllEstatesShouldCallExtractAllElementsFromDocument() {
+   public void gettingAllEstatesShouldCallExtractAllElementsFromDocument() throws CouldNotAccessDataException {
       // Given
 
       // When
@@ -249,7 +250,7 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void gettingAllEstatesReturnListOfAllEstatesDTO() {
+   public void gettingAllEstatesReturnListOfAllEstatesDTO() throws CouldNotAccessDataException {
       // Given
       configureGetAllEstate();
 
@@ -261,10 +262,11 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void whenGettingAllEstateShouldCallEstateAssemblerForAllReturnedEstateDto() {
+   public void whenGettingAllEstateShouldCallEstateAssemblerForAllReturnedEstateDto()
+         throws CouldNotAccessDataException {
       // Given
-      int numberOfReturnedDto = 1;
       configureGetAllEstate();
+      int numberOfReturnedDto = 1;
 
       // When
       xmlEstateRepository.getAllEstates();
@@ -275,7 +277,8 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test(expected = CouldNotAccessDataException.class)
-   public void gettingAllEstateWhenPersistenceThrowExceptionShouldThrowException() throws DocumentException {
+   public void gettingAllEstateWhenPersistenceThrowExceptionShouldThrowException()
+         throws DocumentException, CouldNotAccessDataException {
       // Given
       configureGetAllEstate();
       when(xmlFileEditor.readXMLFile(any(String.class))).thenThrow(new DocumentException());
@@ -287,10 +290,11 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void whenGettingAllEstateShouldCallEstateElementAssemblerForAllReturnedXmlElement() {
+   public void whenGettingAllEstateShouldCallEstateElementAssemblerForAllReturnedXmlElement()
+         throws CouldNotAccessDataException {
       // Given
-      int numberOfReturnedDto = 1;
       configureGetAllEstate();
+      int numberOfReturnedDto = 1;
 
       // When
       xmlEstateRepository.getAllEstates();
@@ -301,7 +305,8 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test(expected = CouldNotAccessDataException.class)
-   public void addingAnEstateWhenPersistanceThrowAnExceptionShouldThrowException() throws DocumentException {
+   public void addingAnEstateWhenPersistanceThrowAnExceptionShouldThrowException()
+         throws DocumentException, CouldNotAccessDataException {
       // Given
       configureEstate();
       when(xmlFileEditor.readXMLFile(anyString())).thenThrow(new DocumentException());
@@ -314,24 +319,24 @@ public class XMLEstateRepositoryTest {
 
    @Test
    public void gettingEstatesBySellerNameWhenSellerExistShouldQueryEstatesXmlFile()
-         throws DocumentException, SellerNotFoundException {
+         throws DocumentException, SellerNotFoundException, CouldNotAccessDataException {
       // Given
+      configureGetEstatesFromSeller();
 
       // When
       xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
 
       // Then
       verify(xmlFileEditor, times(1)).readXMLFile(XML_FILE_PATH);
-      verify(xmlFileEditor, times(1)).elementWithCorrespondingValuesExists(usedDocument, ESTATE_SELLER, SELLER_NAME);
-      verify(xmlFileEditor, times(1)).returnAttributesOfElementWithCorrespondingValue(usedDocument, ESTATE_SELLER,
-            SELLER_NAME);
+      verify(xmlFileEditor, times(1)).getAllElementsFromDocument(usedDocument, "estates/estate");
    }
 
    @Test(expected = SellerNotFoundException.class)
-   public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldThrowAnException() throws SellerNotFoundException {
+   public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldThrowAnException()
+         throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
-      when(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, ESTATE_SELLER, SELLER_NAME))
-            .thenReturn(false);
+      configureGetEstatesFromSeller();
+      when(estate.isFromSeller(SELLER_NAME)).thenReturn(false);
 
       // When
       xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
@@ -339,11 +344,45 @@ public class XMLEstateRepositoryTest {
       // Then an SellerNotFoundException is thrown
    }
 
+   @Test
+   public void gettingEstatesBySellerNameWhenSellerExistShouldReturnListOfSellersEstates()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      configureGetEstatesFromSeller();
+      int expectedReturnedEstatesNumber = estateElementList.size();
+
+      // When
+      List<Estate> estateFromSeller = xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
+
+      // Then
+      assertEquals(expectedReturnedEstatesNumber, estateFromSeller.size());
+
+   }
+
+   @Test
+   public void gettingEstateFromSellerWhenEstateIsFromSellerShouldAddEstateToList()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      configureGetEstatesFromSeller();
+
+      // When
+      xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
+
+      // Then
+      verify(estate, times(1)).isFromSeller(SELLER_NAME);
+   }
+
+   private void configureGetEstatesFromSeller() {
+      configureGetAllEstate();
+
+      when(estate.isFromSeller(SELLER_NAME)).thenReturn(true);
+   }
+
    private void configureGetAllEstate() {
       configureElement();
-      List<Element> estateDtoList = new ArrayList<Element>();
-      estateDtoList.add(element);
-      given(xmlFileEditor.getAllElementsFromDocument(usedDocument, ELEMENT_NAME)).willReturn(estateDtoList);
+      estateElementList = new ArrayList<Element>();
+      estateElementList.add(element);
+      given(xmlFileEditor.getAllElementsFromDocument(usedDocument, ELEMENT_NAME)).willReturn(estateElementList);
    }
 
    private void configureElement() {

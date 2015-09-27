@@ -21,6 +21,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class EstatesFetcherTest {
 
@@ -49,7 +50,7 @@ public class EstatesFetcherTest {
    private EstatesFetcher estateFetcher;
 
    @Before
-   public void setup() throws SellerNotFoundException {
+   public void setup() throws SellerNotFoundException, CouldNotAccessDataException {
       MockitoAnnotations.initMocks(this);
 
       configureEstateRepository();
@@ -64,7 +65,7 @@ public class EstatesFetcherTest {
       when(estateAssembler.assembleEstateDto(estate)).thenReturn(estateDto);
    }
 
-   private void configureEstateRepository() throws SellerNotFoundException {
+   private void configureEstateRepository() throws SellerNotFoundException, CouldNotAccessDataException {
       estates = new ArrayList<Estate>();
       estates.add(estate);
       when(estateRepositoryFactory.newInstance(estateAssemblerFactory)).thenReturn(estateRepository);
@@ -72,7 +73,8 @@ public class EstatesFetcherTest {
    }
 
    @Test
-   public void whenFetchingEstateBySellerNameShouldReturnListOfEstateDto() throws SellerNotFoundException {
+   public void whenFetchingEstateBySellerNameShouldReturnListOfEstateDto()
+         throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -83,7 +85,8 @@ public class EstatesFetcherTest {
    }
 
    @Test
-   public void whenFetchingEstateBySellerNameShouldGetEstateRepository() throws SellerNotFoundException {
+   public void whenFetchingEstateBySellerNameShouldGetEstateRepository()
+         throws SellerNotFoundException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -94,7 +97,8 @@ public class EstatesFetcherTest {
    }
 
    @Test
-   public void whenFetchingEstatesBySellerNameShouldCallMethodFromRepository() throws SellerNotFoundException {
+   public void whenFetchingEstatesBySellerNameShouldCallMethodFromRepository()
+         throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -105,7 +109,8 @@ public class EstatesFetcherTest {
    }
 
    @Test
-   public void whenFetchingEstateBySellerNameShouldCallEstateAssemblerForDto() throws SellerNotFoundException {
+   public void whenFetchingEstateBySellerNameShouldCallEstateAssemblerForDto()
+         throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
       int numberOfReturnedEstateFromRepo = estates.size();
 

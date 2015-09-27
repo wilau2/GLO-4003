@@ -32,4 +32,23 @@ public class EstateConverter {
       return addressDto;
    }
 
+   public EstateModel convertToModel(EstateDto estateDto) {
+      EstateModel estateModel = new EstateModel();
+
+      estateModel.setType(estateDto.getType());
+      estateModel.setPrice(estateDto.getPrice());
+      estateModel.setSeller(estateDto.getSeller());
+
+      AddressDto addressDto = estateDto.getAddress();
+
+      estateModel.setAppartment(addressDto.getAppartment());
+      estateModel.setCivicNumber(addressDto.getCivicNumber());
+      estateModel.setStreet(addressDto.getStreet());
+      estateModel.setState(addressDto.getState());
+      estateModel.setCountry(addressDto.getCountry());
+      estateModel.setPostalCode(addressDto.getPostalCode());
+
+      return estateModel;
+   }
+
 }

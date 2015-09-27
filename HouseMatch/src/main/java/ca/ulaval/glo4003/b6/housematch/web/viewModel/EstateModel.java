@@ -4,8 +4,6 @@ public class EstateModel {
 
    private String type;
 
-   private String address;
-
    private Integer price;
 
    private String seller;
@@ -28,14 +26,6 @@ public class EstateModel {
 
    public void setType(String type) {
       this.type = type;
-   }
-
-   public String getAddress() {
-      return address;
-   }
-
-   public void setAddress(String address) {
-      this.address = address;
    }
 
    public Integer getPrice() {

@@ -17,6 +17,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class EstateCorruptionVerificatorTest {
 
@@ -62,7 +63,7 @@ public class EstateCorruptionVerificatorTest {
 
    @Test
    public void verificatingEstateCorruptionWhenEstateHasNoCorruptionShouldCallAddEstateFromService()
-         throws InvalidEstateFieldException, InvalidEstateException {
+         throws InvalidEstateFieldException, InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -74,7 +75,7 @@ public class EstateCorruptionVerificatorTest {
 
    @Test(expected = InvalidEstateFieldException.class)
    public void verificationCorruptionWhenEstateAddressIsEmptyShouldThrowAnException()
-         throws InvalidEstateFieldException, AddressFieldInvalidException {
+         throws InvalidEstateFieldException, AddressFieldInvalidException, CouldNotAccessDataException {
       // Given
       doThrow(new AddressFieldInvalidException("")).when(addressCorruptionVerificator).validate(addressDto);
 
@@ -86,7 +87,7 @@ public class EstateCorruptionVerificatorTest {
 
    @Test(expected = InvalidEstateFieldException.class)
    public void verifyingCorruptionWhenEstateAddressIsNullShouldThrowAnException()
-         throws InvalidEstateFieldException, AddressFieldInvalidException {
+         throws InvalidEstateFieldException, AddressFieldInvalidException, CouldNotAccessDataException {
       // Given
       when(estateDto.getAddress()).thenReturn(null);
 
@@ -97,7 +98,8 @@ public class EstateCorruptionVerificatorTest {
    }
 
    @Test(expected = InvalidEstateFieldException.class)
-   public void verifyingCorruptionWhenEstatePriceIsNegativeShouldThrowAnException() throws InvalidEstateFieldException {
+   public void verifyingCorruptionWhenEstatePriceIsNegativeShouldThrowAnException()
+         throws InvalidEstateFieldException, CouldNotAccessDataException {
       // Given
       when(estateDto.getPrice()).thenReturn(-1);
 
@@ -108,7 +110,8 @@ public class EstateCorruptionVerificatorTest {
    }
 
    @Test(expected = InvalidEstateFieldException.class)
-   public void verifyingCorruptionWhenEstateTypeIsEmptyShouldThrowAnException() throws InvalidEstateFieldException {
+   public void verifyingCorruptionWhenEstateTypeIsEmptyShouldThrowAnException()
+         throws InvalidEstateFieldException, CouldNotAccessDataException {
       // Given
       when(estateDto.getType()).thenReturn(EMPTY_FIELD);
 
@@ -120,7 +123,7 @@ public class EstateCorruptionVerificatorTest {
 
    @Test(expected = InvalidEstateFieldException.class)
    public void addEstateFromCorruptionVerificatorWhenEstateTypeIsNullShouldThrowAnException()
-         throws InvalidEstateFieldException {
+         throws InvalidEstateFieldException, CouldNotAccessDataException {
       // Given
       when(estateDto.getType()).thenReturn(null);
 
@@ -132,7 +135,7 @@ public class EstateCorruptionVerificatorTest {
 
    @Test(expected = InvalidEstateFieldException.class)
    public void addingEstateFromCorruptionVerificatorWhenUserIdIsEmptyShouldThrowAnException()
-         throws InvalidEstateFieldException {
+         throws InvalidEstateFieldException, CouldNotAccessDataException {
       // Given
       when(estateDto.getSeller()).thenReturn(EMPTY_FIELD);
 
@@ -144,7 +147,7 @@ public class EstateCorruptionVerificatorTest {
 
    @Test(expected = InvalidEstateFieldException.class)
    public void addingEstateFromCorruptionVerificatorWhenSellerIdIsNullShouldThrowException()
-         throws InvalidEstateFieldException {
+         throws InvalidEstateFieldException, CouldNotAccessDataException {
       // Given
       when(estateDto.getSeller()).thenReturn(null);
 
@@ -156,7 +159,7 @@ public class EstateCorruptionVerificatorTest {
 
    @Test
    public void whenAddingEstateFromCorruptionVerificatorShouldCallAddressCorruptionVerificator()
-         throws InvalidEstateFieldException, AddressFieldInvalidException {
+         throws InvalidEstateFieldException, AddressFieldInvalidException, CouldNotAccessDataException {
       // Given
 
       // When

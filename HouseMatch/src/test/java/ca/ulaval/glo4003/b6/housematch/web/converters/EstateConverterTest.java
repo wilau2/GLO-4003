@@ -38,6 +38,12 @@ public class EstateConverterTest {
    @Mock
    public EstateModel estateModel;
 
+   @Mock
+   private EstateDto estateDto;
+
+   @Mock
+   private AddressDto addressDto;
+
    private EstateConverter estateConverter;
 
    @Before
@@ -47,6 +53,26 @@ public class EstateConverterTest {
       estateConverter = new EstateConverter();
 
       configureEstateModel();
+
+      configureEstateDto();
+   }
+
+   private void configureEstateDto() {
+      when(estateDto.getAddress()).thenReturn(addressDto);
+      when(estateDto.getPrice()).thenReturn(PRICE);
+      when(estateDto.getSeller()).thenReturn(USER_ID);
+      when(estateDto.getType()).thenReturn(TYPE);
+
+      configureAddressDto();
+   }
+
+   private void configureAddressDto() {
+      when(addressDto.getAppartment()).thenReturn(APPARTMENT);
+      when(addressDto.getCivicNumber()).thenReturn(CIVIC_NUMBER);
+      when(addressDto.getCountry()).thenReturn(COUNTRY);
+      when(addressDto.getPostalCode()).thenReturn(POSTAL_CODE);
+      when(addressDto.getState()).thenReturn(STATE);
+      when(addressDto.getStreet()).thenReturn(STREET);
    }
 
    private void configureEstateModel() {
@@ -91,5 +117,34 @@ public class EstateConverterTest {
       assertEquals(STREET, addressDto.getStreet());
       assertEquals(CIVIC_NUMBER, addressDto.getCivicNumber());
       assertEquals(APPARTMENT, addressDto.getAppartment());
+   }
+
+   @Test
+   public void whenConvertingEstateDtoToAnEstateModelShouldConstructEstateModelWithEstateFieldsSet() {
+      // Given no changes
+
+      // When
+      EstateModel returnedEstateModel = estateConverter.convertToModel(estateDto);
+
+      // Then
+      assertEquals(TYPE, returnedEstateModel.getType());
+      assertEquals(USER_ID, returnedEstateModel.getSeller());
+      assertEquals(PRICE, returnedEstateModel.getPrice());
+   }
+
+   @Test
+   public void whenConvertingEstateDtoToEstateModelShouldSetAllAddressFields() {
+      // Given
+
+      // When
+      EstateModel returnedEstateModel = estateConverter.convertToModel(estateDto);
+
+      // Then
+      assertEquals(APPARTMENT.intValue(), returnedEstateModel.getAppartment());
+      assertEquals(CIVIC_NUMBER, returnedEstateModel.getCivicNumber());
+      assertEquals(STREET, returnedEstateModel.getStreet());
+      assertEquals(STATE, returnedEstateModel.getState());
+      assertEquals(COUNTRY, returnedEstateModel.getCountry());
+      assertEquals(POSTAL_CODE, returnedEstateModel.getPostalCode());
    }
 }

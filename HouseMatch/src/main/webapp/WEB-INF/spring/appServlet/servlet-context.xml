@@ -81,11 +81,24 @@
     </beans:bean>
 
     <beans:bean
+        id="estatesFetcher"
+        class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher"
+    >
+
+        <beans:constructor-arg
+            name="estateRepositoryFactory"
+            ref="estateRepositoryFactory" />
+        <beans:constructor-arg
+            name="estateAssemblerFactory"
+            ref="estateAssemblerFactory" />
+    </beans:bean>
+
+    <beans:bean
         id="estateConverter"
         class="ca.ulaval.glo4003.b6.housematch.web.converters.EstateConverter" />
     <beans:bean
-        id="estateController"
-        class="ca.ulaval.glo4003.b6.housematch.web.controllers.EstateController"
+        id="sellerEstateController"
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.SellerEstateController"
     >
         <beans:constructor-arg
             name="estateConverter"
@@ -93,6 +106,9 @@
         <beans:constructor-arg
             name="estateCorruptionVerificator"
             ref="estateCorruptionVerificator" />
+        <beans:constructor-arg
+            name="estatesFetcher"
+            ref="estatesFetcher" />
     </beans:bean>
 
     <beans:bean

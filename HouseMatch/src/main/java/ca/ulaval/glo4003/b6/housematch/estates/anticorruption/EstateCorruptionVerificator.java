@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class EstateCorruptionVerificator {
 
@@ -22,7 +23,7 @@ public class EstateCorruptionVerificator {
       this.addressCorruptionVerificator = addressCorruptionVerificator;
    }
 
-   public void addEstate(EstateDto estateDto) throws InvalidEstateFieldException {
+   public void addEstate(EstateDto estateDto) throws InvalidEstateFieldException, CouldNotAccessDataException {
       validateEstateCorruption(estateDto);
 
       try {
