@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.persistences;
+package ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.persistences;
+package ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,6 +17,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
 
 public class EstateElementAssemblerTest {
 

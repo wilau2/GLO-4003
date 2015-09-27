@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -13,9 +14,11 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
 
@@ -30,23 +33,46 @@ public class EstatesFetcherTest {
    private EstateAssemblerFactory estateAssemblerFactory;
 
    @Mock
-   private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
+   private EstateRepository estateRepository;
+
+   private List<Estate> estates;
+
+   @Mock
+   private Estate estate;
+
+   @Mock
+   private EstateAssembler estateAssembler;
+
+   @Mock
+   private EstateDto estateDto;
 
    private EstatesFetcher estateFetcher;
 
-   private EstateRepository estateRepository;
-
    @Before
-   public void setup() {
+   public void setup() throws SellerNotFoundException {
       MockitoAnnotations.initMocks(this);
 
-      when(estateRepositoryFactory.newInstance(estateAssemblerFactory)).thenReturn(estateRepository);
+      configureEstateRepository();
 
-      estateFetcher = new EstatesFetcher(estateAssemblerFactory, estatePersistenceDtoFactory, estateRepositoryFactory);
+      configureEstateAssembler();
+
+      estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepositoryFactory);
+   }
+
+   private void configureEstateAssembler() {
+      when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
+      when(estateAssembler.assembleEstateDto(estate)).thenReturn(estateDto);
+   }
+
+   private void configureEstateRepository() throws SellerNotFoundException {
+      estates = new ArrayList<Estate>();
+      estates.add(estate);
+      when(estateRepositoryFactory.newInstance(estateAssemblerFactory)).thenReturn(estateRepository);
+      when(estateRepository.getEstateFromSeller(SELLER_NAME)).thenReturn(estates);
    }
 
    @Test
-   public void whenFetchingEstateBySellerNameShouldReturnListOfEstateDto() {
+   public void whenFetchingEstateBySellerNameShouldReturnListOfEstateDto() throws SellerNotFoundException {
       // Given
 
       // When
@@ -57,7 +83,7 @@ public class EstatesFetcherTest {
    }
 
    @Test
-   public void whenFetchingEstateBySellerNameShouldGetEstateRepository() {
+   public void whenFetchingEstateBySellerNameShouldGetEstateRepository() throws SellerNotFoundException {
       // Given no changes
 
       // When
@@ -66,4 +92,30 @@ public class EstatesFetcherTest {
       // Then
       verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
    }
+
+   @Test
+   public void whenFetchingEstatesBySellerNameShouldCallMethodFromRepository() throws SellerNotFoundException {
+      // Given
+
+      // When
+      estateFetcher.getEstatesBySeller(SELLER_NAME);
+
+      // Then
+      verify(estateRepository, times(1)).getEstateFromSeller(SELLER_NAME);
+   }
+
+   @Test
+   public void whenFetchingEstateBySellerNameShouldCallEstateAssemblerForDto() throws SellerNotFoundException {
+      // Given
+      int numberOfReturnedEstateFromRepo = estates.size();
+
+      // When
+      estateFetcher.getEstatesBySeller(SELLER_NAME);
+
+      // Then
+      verify(estateAssemblerFactory, times(1)).createEstateAssembler();
+      verify(estateAssembler, times(numberOfReturnedEstateFromRepo)).assembleEstateDto(estate);
+
+   }
+
 }

@@ -35,12 +35,15 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAs
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssembler;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepositoryTest {
+
+   private static final String ESTATE_SELLER = "estate/seller";
 
    private static final String VALID_TYPE = "VALID_TYPE";
 
@@ -53,6 +56,8 @@ public class XMLEstateRepositoryTest {
    private static final String XML_FILE_PATH = "persistence/estates.xml";
 
    private static final String USER_ID = "USER_ID";
+
+   private static final String SELLER_NAME = "SELLERs";
 
    @Mock
    private Element element;
@@ -101,7 +106,15 @@ public class XMLEstateRepositoryTest {
 
       configureAssemblerBehavior();
 
+      configureXmlFileEditorForSellerNameSearch();
+
       when(estatePersistenceDtoFactory.newInstance(any(HashMap.class))).thenReturn(estatePersisenceDto);
+   }
+
+   private void configureXmlFileEditorForSellerNameSearch() {
+      when(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, ESTATE_SELLER, SELLER_NAME))
+            .thenReturn(true);
+
    }
 
    private void configureAssemblerBehavior() {
@@ -297,6 +310,33 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.addEstate(estate);
 
       // Then a couldNotAccessDataException is thrown
+   }
+
+   @Test
+   public void gettingEstatesBySellerNameWhenSellerExistShouldQueryEstatesXmlFile()
+         throws DocumentException, SellerNotFoundException {
+      // Given
+
+      // When
+      xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
+
+      // Then
+      verify(xmlFileEditor, times(1)).readXMLFile(XML_FILE_PATH);
+      verify(xmlFileEditor, times(1)).elementWithCorrespondingValuesExists(usedDocument, ESTATE_SELLER, SELLER_NAME);
+      verify(xmlFileEditor, times(1)).returnAttributesOfElementWithCorrespondingValue(usedDocument, ESTATE_SELLER,
+            SELLER_NAME);
+   }
+
+   @Test(expected = SellerNotFoundException.class)
+   public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldThrowAnException() throws SellerNotFoundException {
+      // Given
+      when(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, ESTATE_SELLER, SELLER_NAME))
+            .thenReturn(false);
+
+      // When
+      xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
+
+      // Then an SellerNotFoundException is thrown
    }
 
    private void configureGetAllEstate() {

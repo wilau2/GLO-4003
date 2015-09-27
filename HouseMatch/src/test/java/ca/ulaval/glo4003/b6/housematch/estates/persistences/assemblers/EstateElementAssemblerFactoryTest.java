@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.persistences;
+package ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
+
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
 
 public class EstateElementAssemblerFactoryTest {
 

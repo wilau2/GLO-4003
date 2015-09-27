@@ -17,12 +17,15 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAs
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssembler;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepository implements EstateRepository {
+
+   private static final String ESTATE_SELLER = "estate/seller";
 
    private static final String ADDRESS_KEY = "address";
 
@@ -129,5 +132,21 @@ public class XMLEstateRepository implements EstateRepository {
    @Override
    public void editEstate(Estate estate) {
       // On fetch le estate puis on le re-persiste avec ses details?
+   }
+
+   @Override
+   public List<Estate> getEstateFromSeller(String sellerName) throws SellerNotFoundException {
+      try {
+         Document document = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
+         boolean valuesExists = xmlFileEditor.elementWithCorrespondingValuesExists(document, ESTATE_SELLER, sellerName);
+         if (!valuesExists) {
+            throw new SellerNotFoundException("Wanted seller does not exist");
+         }
+         xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(document, ESTATE_SELLER, sellerName);
+      } catch (DocumentException e) {
+         // throw new SellerNotFoundException("Wanted seller does not exist");
+      }
+      return null;
+
    }
 }
