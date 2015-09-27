@@ -17,7 +17,6 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
 
 public class EstateElementAssemblerTest {
 
@@ -67,10 +66,10 @@ public class EstateElementAssemblerTest {
    }
 
    private void configureElement() {
-      when(element.attributeValue("type")).thenReturn(TYPE);
-      when(element.attributeValue("price")).thenReturn(PRICE.toString());
-      when(element.attributeValue("seller")).thenReturn(USER_ID);
-      when(element.attributeValue("address")).thenReturn(ADDRESS.toString());
+      when(element.elementText("type")).thenReturn(TYPE);
+      when(element.elementText("price")).thenReturn(PRICE.toString());
+      when(element.elementText("seller")).thenReturn(USER_ID);
+      when(element.elementText("address")).thenReturn(ADDRESS.toString());
    }
 
    @Test

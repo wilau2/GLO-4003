@@ -7,10 +7,16 @@
     <price>1000</price>  
     <type>MULTIPLEX</type> 
   </estate>  
-  <estate>
-    <seller>123</seller>
-    <address>0-12414-123214-14221-124-1241</address>
-    <price>1000</price>
-    <type>MULTIPLEX</type>
-  </estate>
+  <estate> 
+    <seller>123</seller>  
+    <address>0-12414-123214-14221-124-1241</address>  
+    <price>1000</price>  
+    <type>MULTIPLEX</type> 
+  </estate>  
+  <estate> 
+    <seller>1234</seller>  
+    <address>0-232-fwafwafeaewtea-23weaf-fwaef-aewfeawfwa</address>  
+    <price>1000</price>  
+    <type>CONDO</type> 
+  </estate>  
 </estates>

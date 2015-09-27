@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 import static org.junit.Assert.assertEquals;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -21,6 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
@@ -83,7 +83,7 @@ public class SellerEstateControllerTest {
       // Given no changes
 
       // When
-      estateController.addEstate(request, estateModel, USER_ID);
+      estateController.addEstate(estateModel, USER_ID);
 
       // Then
       verify(estateCorruptionVerificator, times(1)).addEstate(estateDto);
@@ -96,7 +96,7 @@ public class SellerEstateControllerTest {
       String expectedRedirectTo = "redirect:/";
 
       // When
-      String returnedView = estateController.addEstate(request, estateModel, USER_ID);
+      String returnedView = estateController.addEstate(estateModel, USER_ID);
 
       // Then
       assertEquals(expectedRedirectTo, returnedView);
@@ -109,7 +109,7 @@ public class SellerEstateControllerTest {
       doThrow(new InvalidEstateFieldException("")).when(estateCorruptionVerificator).addEstate(estateDto);
 
       // When
-      estateController.addEstate(request, estateModel, USER_ID);
+      estateController.addEstate(estateModel, USER_ID);
 
       // Then an InvalidEstateFieldException is thrown
    }
@@ -131,22 +131,22 @@ public class SellerEstateControllerTest {
       // Given no changes
 
       // When
-      estateController.addEstate(request, estateModel, USER_ID);
+      estateController.addEstate(estateModel, USER_ID);
 
       // Then
       verify(estateModel, times(1)).setSeller(USER_ID);
    }
 
    @Test
-   public void whenFetchingEstateByTheLoggedSellerShouldRedirectToCorrectPage()
+   public void whenFetchingEstateByTheLoggedSellerShouldReturnModelAndView()
          throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
-      String redirectLink = estateController.getSellerEstates(USER_ID, model);
+      ModelAndView returnedViewModel = estateController.getSellerEstates(USER_ID);
 
       // Then
-      assertEquals("seller_estates", redirectLink);
+      assertEquals("seller_estates", returnedViewModel.getViewName());
 
    }
 
@@ -156,7 +156,7 @@ public class SellerEstateControllerTest {
       // Given
 
       // When
-      estateController.getSellerEstates(USER_ID, model);
+      estateController.getSellerEstates(USER_ID);
 
       // Then
       verify(estateFetcherService, times(1)).getEstatesBySeller(USER_ID);
@@ -168,21 +168,10 @@ public class SellerEstateControllerTest {
       // Given
       int numberOfReturnedEstateDto = estatesDto.size();
       // When
-      estateController.getSellerEstates(USER_ID, model);
+      estateController.getSellerEstates(USER_ID);
 
       // Then
       verify(estateConverter, times(numberOfReturnedEstateDto)).convertToModel(estateDto);
    }
 
-   @Test
-   public void whenFetchingEstateByLoggedSellerShouldAddListOfEstateModelToThe()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-
-      // When
-      estateController.getSellerEstates(USER_ID, model);
-
-      // Then
-      verify(model, times(1)).addAttribute(eq("estates"), any(List.class));
-   }
 }

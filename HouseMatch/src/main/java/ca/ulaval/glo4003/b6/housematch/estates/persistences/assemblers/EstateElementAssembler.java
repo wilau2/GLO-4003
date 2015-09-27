@@ -19,20 +19,19 @@ public class EstateElementAssembler {
    private static final String ADDRESS = "address";
 
    public EstateDto convertToDto(Element element) {
-
       EstateDto estateDto = new EstateDto();
 
-      String type = element.attributeValue(TYPE);
+      String type = element.elementText(TYPE);
       estateDto.setType(type);
 
-      String addressFromElement = element.attributeValue(ADDRESS);
+      String addressFromElement = element.elementText(ADDRESS);
       AddressDto addressDto = constructAddressDtoFromElement(addressFromElement);
       estateDto.setAddress(addressDto);
 
-      Integer price = Integer.parseInt(element.attributeValue(PRICE));
+      Integer price = Integer.parseInt(element.elementText(PRICE));
       estateDto.setPrice(price);
 
-      String seller = element.attributeValue(SELLER);
+      String seller = element.elementText(SELLER);
       estateDto.setSellerId(seller);
 
       return estateDto;
@@ -40,6 +39,7 @@ public class EstateElementAssembler {
 
    private AddressDto constructAddressDtoFromElement(String addressFromElement) {
       AddressDto addressDto = new AddressDto();
+
       String[] splittedAddressAttributes = addressFromElement.split("-");
       int addressIndex = 0;
       int appartmentNumber = Integer.parseInt(splittedAddressAttributes[addressIndex++]);

@@ -83,11 +83,12 @@ public class XMLFileEditor {
    }
 
    public List<Element> getAllElementsFromDocument(Document usedDocument, String elementName) {
-      List<Node> nodes = usedDocument.selectNodes(elementName);
 
+      List<Node> nodes = usedDocument.selectNodes(elementName);
       List<Element> elements = new ArrayList<Element>();
       for (Node node : nodes) {
-         elements.add((Element) node);
+         Element element = (Element) node;
+         elements.add(element);
       }
       return elements;
    }

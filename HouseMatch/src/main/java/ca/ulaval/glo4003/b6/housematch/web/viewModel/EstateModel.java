@@ -2,6 +2,10 @@ package ca.ulaval.glo4003.b6.housematch.web.viewModel;
 
 public class EstateModel {
 
+   private static final String COMMA = ", ";
+
+   private static final String UNION = "-";
+
    private String type;
 
    private Integer price;
@@ -91,6 +95,19 @@ public class EstateModel {
 
    public void setAppartment(int appartment) {
       this.appartment = appartment;
+   }
+
+   public String addressToString() {
+
+      String formattedAddress = appartment + COMMA + civicNumber + COMMA + street + COMMA + state + COMMA + country
+                                + COMMA + postalCode;
+      return formattedAddress;
+   }
+
+   public String addressToUrl() {
+      String formattedAddress = appartment + UNION + civicNumber + UNION + street + UNION + state + UNION + country
+                                + UNION + postalCode;
+      return formattedAddress;
    }
 
 }

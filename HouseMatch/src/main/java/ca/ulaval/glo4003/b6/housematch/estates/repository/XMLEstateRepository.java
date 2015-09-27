@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,11 +24,7 @@ import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessData
 
 public class XMLEstateRepository implements EstateRepository {
 
-   private static final String ESTATE_SELLER = "estate/seller";
-
    private static final String ADDRESS_KEY = "address";
-
-   private static final String ESTATE = "estate";
 
    private static final String XML_DIRECTORY_PATH = "persistence/estates.xml";
 
@@ -68,7 +63,7 @@ public class XMLEstateRepository implements EstateRepository {
          Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
          List<Element> elementList = xmlFileEditor.getAllElementsFromDocument(estateDocument, "estates/estate");
-         System.out.println(elementList);
+
          EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          estates = getDtoListFromElements(elementList, estateAssembler, estateElementAssembler);
@@ -80,9 +75,8 @@ public class XMLEstateRepository implements EstateRepository {
       return estates;
    }
 
-   private List<Estate> getDtoListFromElements(Collection<Element> elementList, EstateAssembler estateAssembler,
+   private List<Estate> getDtoListFromElements(List<Element> elementList, EstateAssembler estateAssembler,
          EstateElementAssembler estateElementAssembler) {
-
       List<Estate> estates = new ArrayList<Estate>();
       for (Element element : elementList) {
          EstateDto convertedEstateDto = estateElementAssembler.convertToDto(element);

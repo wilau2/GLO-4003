@@ -24,41 +24,29 @@
 <body>
 	<jsp:include page="_menu.jsp" />
 	<div class="splash">
-			<table class="pure-table">
-				<thead>
-					<tr>
-						<th>Type</th>
-						<th>Address</th>
-						<th>Price</th>
-						<th>Select</th>
-					</tr>
-				</thead>
+		<table class="pure-table">
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Address</th>
+					<th>Price</th>
+					<th>Select</th>
+				</tr>
+			</thead>
 
-				<tbody>
-				<ui:repeat var="estate" value="#{estates}">
+			<tbody>
+				<c:forEach var="estate" items="${estates}">
 					<tr>
-						<td>#{estate.type}</td>
-						<td>#{estate.address}</td>
-						<td>#{estate.price}</td>
-						<td><a class="btn btn-default" href="${entryUrl}/seller/${loggedInUserEmail}/estates/${estate.address}"></a></td>
-					</tr>
-
-					<tr>
-						<td>2</td>
-						<td>Toyota</td>
-						<td>Camry</td>
-						<td>2012</td>
+						<td>${estate.type}</td>
+						<td>${estate.addressToString()}</td>
+						<td>${estate.price}</td>
+						<td><a class="btn btn-default"
+							href="${entryUrl}/seller/${loggedInUserEmail}/estates/${estate.addressToUrl()}">Select</a></td>
 					</tr>
 
-					<tr>
-						<td>3</td>
-						<td>Hyundai</td>
-						<td>Elantra</td>
-						<td>2010</td>
-					</tr>
-				</ui:repeat>
+				</c:forEach>
 			</tbody>
-			</table>
+		</table>
 
 
 	</div>
