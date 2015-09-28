@@ -19,4 +19,10 @@
     <price>1000</price>  
     <type>CONDO</type> 
   </estate>  
+  <estate>
+    <seller>123</seller>
+    <address>0-809-2134-23-Canada-G1B 3r3</address>
+    <price>600000</price>
+    <type>CONDO</type>
+  </estate>
 </estates>

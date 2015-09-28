@@ -41,8 +41,7 @@
 				<div class="pure-control-group">
 					<form:label path="price">Price $</form:label>
 					<div class="pure-u-13-24">
-						<form:input disabled="true" id="price" type="number" path="price"
-							value="1000" min="0" step="100" />
+						<form:input disabled="true" id="price" type="number" path="price" />
 					</div>
 				</div>
 			</fieldset>
