@@ -19,8 +19,8 @@ import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFac
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 
 public class XMLUserRepositoryTest {
 
@@ -135,7 +135,8 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenAddingUserShouldCreateNewDto() throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+   public void whenAddingUserShouldCreateNewDto()
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       configureDifferentUser();
 
@@ -192,6 +193,35 @@ public class XMLUserRepositoryTest {
       repository.add(user);
 
       // Then Exception is thrown
+   }
+
+   @Test(expected = CouldNotAccessUserDataException.class)
+   public void whenFindingByUsernameShouldReturnCouldNotAccessDataExceptionIfTheDocumentIsInvalid()
+         throws CouldNotAccessUserDataException, UserNotFoundException, DocumentException {
+      // Given
+      configureEditorToThrowException();
+
+      // When
+      repository.findByUsername(existingUsername);
+
+      // Then Exception is thrown
+   }
+
+   @Test(expected = CouldNotAccessUserDataException.class)
+   public void whenAddingUserShouldReturnCouldNotAccessDataExceptionIfTheDocumentIsInvalid()
+         throws CouldNotAccessUserDataException, UserNotFoundException, DocumentException,
+         UsernameAlreadyExistsException {
+      // Given
+      configureEditorToThrowException();
+
+      // When
+      repository.add(user);
+
+      // Then Exception is thrown
+   }
+
+   private void configureEditorToThrowException() throws DocumentException {
+      given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
    }
 
    private void configureFactory() {
