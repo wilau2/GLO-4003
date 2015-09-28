@@ -17,6 +17,7 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 
 public class UserLoginServiceTest {
 
@@ -62,7 +63,7 @@ public class UserLoginServiceTest {
       userLoginService.login(request, userLoginDto);
 
       // Then
-      verify(userRepository).findByUsername(USERNAME);
+      verify(userRepository).getUser(USERNAME);
    }
 
    @Test
@@ -113,7 +114,7 @@ public class UserLoginServiceTest {
       configureValidUsername();
 
       // When
-      doThrow(new CouldNotAccessUserDataException()).when(userRepository).findByUsername(USERNAME);
+      doThrow(new CouldNotAccessUserDataException(null)).when(userRepository).getUser(USERNAME);
       userLoginService.login(request, userLoginDto);
 
       // Then throws CouldNotAccessUserDataException
@@ -126,7 +127,7 @@ public class UserLoginServiceTest {
       configureValidUsername();
 
       // When
-      doThrow(new UserNotFoundException()).when(userRepository).findByUsername(USERNAME);
+      doThrow(new UserNotFoundException(null)).when(userRepository).getUser(USERNAME);
       userLoginService.login(request, userLoginDto);
 
       // Then throws UserNotFoundException
@@ -148,7 +149,7 @@ public class UserLoginServiceTest {
    }
 
    private void configureUserRepository() throws UserNotFoundException, CouldNotAccessUserDataException {
-      given(userRepository.findByUsername(USERNAME)).willReturn(user);
+      given(userRepository.getUser(USERNAME)).willReturn(user);
    }
 
    private void configureUserAuthorisationService() {

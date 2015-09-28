@@ -66,7 +66,7 @@ public class XMLUserRepositoryTest {
       // Given
 
       // When
-      repository.findByUsername(existingUsername);
+      repository.getUser(existingUsername);
 
       // Then
       verify(editor).readXMLFile(correctPathToFile);
@@ -78,7 +78,7 @@ public class XMLUserRepositoryTest {
       // Given
 
       // When
-      repository.findByUsername(existingUsername);
+      repository.getUser(existingUsername);
 
       // Then
       verify(editor).elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, existingUsername);
@@ -90,7 +90,7 @@ public class XMLUserRepositoryTest {
       // Given
 
       // When
-      User returnedUser = repository.findByUsername(existingUsername);
+      User returnedUser = repository.getUser(existingUsername);
 
       // Then
       assertEquals(returnedUser.getUsername(), existingUsername);
@@ -102,7 +102,7 @@ public class XMLUserRepositoryTest {
       // Given
 
       // When
-      User returnedUser = repository.findByUsername(existingUsername);
+      User returnedUser = repository.getUser(existingUsername);
 
       // Then
       assertEquals(returnedUser.getPassword(), correctPassword);
@@ -115,7 +115,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).readXMLFile(correctPathToFile);
@@ -128,7 +128,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, newUsername);
@@ -140,7 +140,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(dtoFactory).getRepositoryDto(user);
@@ -153,7 +153,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).addNewElementToDocument(usedDocument, userDto);
@@ -166,7 +166,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).formatAndWriteDocument(usedDocument, correctPathToFile);
@@ -178,7 +178,7 @@ public class XMLUserRepositoryTest {
       // Given A new username
 
       // When
-      repository.findByUsername(newUsername);
+      repository.getUser(newUsername);
 
       // Then Exception is thrown
    }
@@ -189,7 +189,7 @@ public class XMLUserRepositoryTest {
       // Given An existing user
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then Exception is thrown
    }

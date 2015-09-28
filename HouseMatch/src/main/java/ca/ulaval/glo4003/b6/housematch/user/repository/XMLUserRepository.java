@@ -36,7 +36,7 @@ public class XMLUserRepository implements UserRepository {
    }
 
    @Override
-   public User findByUsername(String username) throws CouldNotAccessUserDataException, UserNotFoundException {
+   public User getUser(String username) throws CouldNotAccessUserDataException, UserNotFoundException {
       try {
          Document usersXML = readUsersXML();
          if (!usernameAlreadyExists(usersXML, username)) {
@@ -53,7 +53,7 @@ public class XMLUserRepository implements UserRepository {
    }
 
    @Override
-   public void add(User newUser) throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+   public void addUser(User newUser) throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       try {
          Document usersXML = readUsersXML();
          if (usernameAlreadyExists(usersXML, newUser.getUsername())) {

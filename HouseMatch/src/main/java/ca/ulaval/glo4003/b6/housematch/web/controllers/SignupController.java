@@ -15,8 +15,8 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.user.services.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 

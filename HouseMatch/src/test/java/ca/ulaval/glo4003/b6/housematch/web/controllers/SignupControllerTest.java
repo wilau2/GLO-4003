@@ -24,8 +24,8 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.user.services.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
@@ -155,7 +155,7 @@ public class SignupControllerTest {
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException {
 
-      doThrow(new InvalidUserSignupFieldException()).when(userSignupCorruptionVerificator).signup(request,
+      doThrow(new InvalidUserSignupFieldException(null)).when(userSignupCorruptionVerificator).signup(request,
             userSignupDto);
       // When
       controller.signup(request, userSignupViewModel);
@@ -168,7 +168,7 @@ public class SignupControllerTest {
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException {
 
-      doThrow(new UserNotFoundException()).when(userLoginService).login(request, userLoginDto);
+      doThrow(new UserNotFoundException(null)).when(userLoginService).login(request, userLoginDto);
       // When
       controller.signup(request, userSignupViewModel);
 
@@ -180,7 +180,7 @@ public class SignupControllerTest {
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException {
 
-      doThrow(new CouldNotAccessUserDataException()).when(userSignupCorruptionVerificator).signup(request,
+      doThrow(new CouldNotAccessUserDataException(null)).when(userSignupCorruptionVerificator).signup(request,
             userSignupDto);
       // When
       controller.signup(request, userSignupViewModel);
@@ -193,7 +193,7 @@ public class SignupControllerTest {
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException {
 
-      doThrow(new InvalidPasswordException()).when(userLoginService).login(request, userLoginDto);
+      doThrow(new InvalidPasswordException(null)).when(userLoginService).login(request, userLoginDto);
       // When
       controller.signup(request, userSignupViewModel);
 
@@ -205,7 +205,7 @@ public class SignupControllerTest {
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException {
 
-      doThrow(new UsernameAlreadyExistsException()).when(userSignupCorruptionVerificator).signup(request,
+      doThrow(new UsernameAlreadyExistsException(null)).when(userSignupCorruptionVerificator).signup(request,
             userSignupDto);
       // When
       controller.signup(request, userSignupViewModel);

@@ -21,7 +21,7 @@ import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.user.services.InvalidPasswordException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
@@ -112,7 +112,7 @@ public class LoginControllerTest {
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException {
 
-      doThrow(new InvalidUserLoginFieldException()).when(userCorruptionVerificatior).login(request, userDto);
+      doThrow(new InvalidUserLoginFieldException(null)).when(userCorruptionVerificatior).login(request, userDto);
       // When
       controller.login(request, loginUserViewModel);
 
@@ -123,7 +123,7 @@ public class LoginControllerTest {
    public void givenNotExistingUserPostRequestLogingShouldThrowException() throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
 
-      doThrow(new UserNotFoundException()).when(userCorruptionVerificatior).login(request, userDto);
+      doThrow(new UserNotFoundException(null)).when(userCorruptionVerificatior).login(request, userDto);
       // When
       controller.login(request, loginUserViewModel);
 
@@ -134,7 +134,7 @@ public class LoginControllerTest {
    public void givenInvalidPasswordPostRequestLogingShouldThrowException() throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
 
-      doThrow(new InvalidPasswordException()).when(userCorruptionVerificatior).login(request, userDto);
+      doThrow(new InvalidPasswordException(null)).when(userCorruptionVerificatior).login(request, userDto);
       // When
       controller.login(request, loginUserViewModel);
 
@@ -145,7 +145,7 @@ public class LoginControllerTest {
    public void givenNoAccessToDataPostRequestLogingShouldThrowException() throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
 
-      doThrow(new CouldNotAccessUserDataException()).when(userCorruptionVerificatior).login(request, userDto);
+      doThrow(new CouldNotAccessUserDataException(null)).when(userCorruptionVerificatior).login(request, userDto);
       // When
       controller.login(request, loginUserViewModel);
 

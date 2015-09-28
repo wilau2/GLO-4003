@@ -8,8 +8,8 @@ import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUse
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.user.services.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 
 public class UserLoginCorruptionVerificator {
 
