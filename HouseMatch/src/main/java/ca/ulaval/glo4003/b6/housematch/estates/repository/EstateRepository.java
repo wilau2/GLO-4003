@@ -1,13 +1,22 @@
 package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
-import java.util.Collection;
+import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public interface EstateRepository {
 
-   Collection<Estate> getAllEstate();
+   void addEstate(Estate estate) throws CouldNotAccessDataException;
 
-   void addEstate(Estate estate);
+   void editEstate(Estate estate);
+
+   List<Estate> getAllEstates() throws CouldNotAccessDataException;
+
+   List<Estate> getEstateFromSeller(String sellerName) throws SellerNotFoundException, CouldNotAccessDataException;
+
+   Estate getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException;
 
 }

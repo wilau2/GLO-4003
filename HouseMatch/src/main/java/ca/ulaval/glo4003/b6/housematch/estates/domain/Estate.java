@@ -4,21 +4,24 @@ public class Estate {
 
    private Integer price;
 
-   private String address;
+   private Address address;
 
    private String type;
 
-   public Estate(String type, String address, Integer price) {
+   private String seller;
+
+   public Estate(String type, Address address, Integer price, String seller) {
       this.type = type;
       this.address = address;
       this.price = price;
+      this.seller = seller;
    }
 
    public String getType() {
       return this.type;
    }
 
-   public String getAddress() {
+   public Address getAddress() {
       return this.address;
    }
 
@@ -26,4 +29,14 @@ public class Estate {
       return this.price;
    }
 
+   public String getSeller() {
+      return seller;
+   }
+
+   public boolean isFromSeller(String sellerName) {
+      if (seller.equals(sellerName)) {
+         return true;
+      }
+      return false;
+   }
 }

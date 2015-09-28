@@ -13,8 +13,8 @@ import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUse
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
@@ -38,8 +38,9 @@ public class SignupController {
    }
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-   public String signup(HttpServletRequest request, SignupUserModel viewModel) throws InvalidUserSignupFieldException,
-         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UsernameAlreadyExistsException {
+   public String signup(HttpServletRequest request, SignupUserModel viewModel)
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException {
 
       UserSignupDto userSignupDto = converter.convertViewModelToSignupDto(viewModel);
       userSignupCorruptionVerificator.signup(request, userSignupDto);
@@ -48,6 +49,7 @@ public class SignupController {
       userLoginService.login(request, userLoginDto);
 
       return "redirect:/";
+
    }
 
    @RequestMapping(value = "/signup", method = RequestMethod.GET)

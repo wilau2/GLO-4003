@@ -22,6 +22,7 @@ public class UserLoginCorruptionVerificator {
 
    public void login(HttpServletRequest request, UserLoginDto userDto) throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+
       validateUserLoginCorruption(userDto);
       userLoginService.login(request, userDto);
    }

@@ -27,6 +27,9 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 public class LoginControllerTest {
 
+   @InjectMocks
+   public LoginController controller;
+
    @Mock
    private UserLoginCorruptionVerificator userCorruptionVerificatior;
 
@@ -37,7 +40,7 @@ public class LoginControllerTest {
    private UserLoginDto userDto;
 
    @Mock
-   User user;
+   private User user;
 
    @Mock
    private LoginUserViewModel loginUserViewModel;
@@ -47,9 +50,6 @@ public class LoginControllerTest {
 
    @Mock
    private HttpServletRequest request;
-
-   @InjectMocks
-   public LoginController controller;
 
    private BindingAwareModelMap model;
 
@@ -75,6 +75,7 @@ public class LoginControllerTest {
    @Test
    public void postRequestLoginReturnsRootRedirection() throws InvalidUserLoginFieldException, UserNotFoundException,
          CouldNotAccessUserDataException, InvalidPasswordException {
+
       // Given
       model = new BindingAwareModelMap();
 
@@ -89,6 +90,7 @@ public class LoginControllerTest {
    @Test
    public void postRequestLoginShouldUseTheConverter() throws InvalidUserLoginFieldException, UserNotFoundException,
          CouldNotAccessUserDataException, InvalidPasswordException {
+
       // When
 
       controller.login(request, loginUserViewModel);
@@ -98,8 +100,10 @@ public class LoginControllerTest {
    }
 
    @Test
+
    public void postRequestLoginShouldUseTheUserCorruptionVerificator() throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+
       // When
       controller.login(request, loginUserViewModel);
 

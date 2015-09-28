@@ -35,6 +35,7 @@ public class LoginController {
    public String login(HttpServletRequest request, LoginUserViewModel viewModel) throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
       UserLoginDto userDto = loginUserConverter.convertViewModelToDto(viewModel);
+
       userCorruptionVerificator.login(request, userDto);
       return "redirect:/";
    }

@@ -56,7 +56,7 @@ public class SignupControllerTest {
    private HttpServletRequest request;
 
    @InjectMocks
-   public SignupController controller;
+   private SignupController controller;
 
    private BindingAwareModelMap model;
 
@@ -89,6 +89,7 @@ public class SignupControllerTest {
    public void postRequestSignupRedirectToRoot() throws InvalidUserSignupFieldException, UserNotFoundException,
          CouldNotAccessUserDataException, InvalidPasswordException, UsernameAlreadyExistsException {
       // Given
+
       model = new BindingAwareModelMap();
 
       // When

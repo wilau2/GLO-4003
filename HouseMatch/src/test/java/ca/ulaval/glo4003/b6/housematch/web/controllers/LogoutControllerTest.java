@@ -47,6 +47,7 @@ public class LogoutControllerTest {
 
    private void configureUserAuthorisationService() {
       given(userAuthorisationService.closeSession(request)).willReturn(request);
+
    }
 
 }

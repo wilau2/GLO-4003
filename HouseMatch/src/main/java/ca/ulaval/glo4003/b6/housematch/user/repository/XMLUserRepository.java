@@ -47,8 +47,10 @@ public class XMLUserRepository implements UserRepository {
       } catch (UserNotFoundException userNotFoundException) {
          throw userNotFoundException;
       } catch (DocumentException exception) {
+
          exception.printStackTrace();
          throw new CouldNotAccessUserDataException("Something wrong happend trying to acces the data");
+
       }
    }
 
@@ -65,8 +67,10 @@ public class XMLUserRepository implements UserRepository {
       } catch (UsernameAlreadyExistsException userExists) {
          throw userExists;
       } catch (DocumentException exception) {
+
          exception.printStackTrace();
          throw new CouldNotAccessUserDataException("Something wrong happend trying acces the data");
+
       }
    }
 

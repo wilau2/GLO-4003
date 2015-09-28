@@ -19,8 +19,8 @@ import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFac
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 
 public class XMLUserRepositoryTest {
 
@@ -50,7 +50,7 @@ public class XMLUserRepositoryTest {
    private RepositoryToPersistenceUserDto userDto;
 
    @InjectMocks
-   public XMLUserRepository repository;
+   private XMLUserRepository repository;
 
    @Before
    public void setup() throws DocumentException {
@@ -63,6 +63,7 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenFindingByUsernameShouldReadTheCorrectFile()
          throws DocumentException, CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
@@ -73,8 +74,10 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
+
    public void whenFindingByUsernameShouldLookIfUsersExists()
          throws CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
@@ -85,8 +88,10 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
+
    public void whenFindingByUsernameShouldReturnAUserWithTheCorrectUsername()
          throws CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
@@ -99,6 +104,7 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenFindingByUsernameShouldReturnAUserWithTheCorrectPassword()
          throws CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
@@ -110,7 +116,9 @@ public class XMLUserRepositoryTest {
 
    @Test
    public void whenAddingUserShouldReadTheCorrectFile()
-         throws DocumentException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
+   throws DocumentException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
@@ -124,6 +132,7 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenAddingUserShouldLookIfUsersExists()
          throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
@@ -135,7 +144,9 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenAddingUserShouldCreateNewDto() throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+   public void whenAddingUserShouldCreateNewDto()
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
@@ -149,6 +160,7 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenAddingUserShouldAddNewUserToXMLWithDto()
          throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
@@ -162,6 +174,7 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenAddingUserShouldWriteToTheRightFile()
          throws IOException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
@@ -186,6 +199,7 @@ public class XMLUserRepositoryTest {
    @Test(expected = UsernameAlreadyExistsException.class)
    public void whenAddingUserShouldReturnExceptionIfUsernameExist()
          throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given An existing user
 
       // When
