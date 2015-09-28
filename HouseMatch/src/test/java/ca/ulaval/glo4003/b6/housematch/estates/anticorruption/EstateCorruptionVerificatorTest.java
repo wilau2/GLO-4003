@@ -75,7 +75,7 @@ public class EstateCorruptionVerificatorTest {
    public void addingEstateFromCorruptionVerificatorWhenEstateServiceThrowExceptionShouldThrowException()
          throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidEstateException {
       // Given
-      doThrow(new InvalidEstateException()).when(estateService).addEstate(estateDto);
+      doThrow(new InvalidEstateException("")).when(estateService).addEstate(estateDto);
 
       // When
       estateCorruptionVerificator.addEstate(estateDto);

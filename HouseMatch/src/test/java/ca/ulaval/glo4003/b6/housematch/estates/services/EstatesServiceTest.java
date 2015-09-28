@@ -114,7 +114,7 @@ public class EstatesServiceTest {
    public void addingEstateWhenValidatingInvalidEstateShouldThrowException()
          throws InvalidEstateException, CouldNotAccessDataException {
       // Given
-      doThrow(new InvalidEstateException()).when(estateValidator).validate(estateDto);
+      doThrow(new InvalidEstateException("")).when(estateValidator).validate(estateDto);
 
       // When
       estatesService.addEstate(estateDto);

@@ -8,8 +8,4 @@ public class InvalidEstateException extends Exception {
       super(message);
    }
 
-   public InvalidEstateException() {
-
-   }
-
 }
