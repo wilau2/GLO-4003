@@ -65,7 +65,7 @@ public class EstatesFetcherTest {
       estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepositoryFactory);
    }
 
-   private void configureFetchingEstateByAddress() throws EstateNotFoundException {
+   private void configureFetchingEstateByAddress() throws EstateNotFoundException, CouldNotAccessDataException {
       when(estateRepository.getEstateByAddress(ADDRESS)).thenReturn(estate);
    }
 
@@ -133,7 +133,8 @@ public class EstatesFetcherTest {
    }
 
    @Test
-   public void whenFetchingEstateByAddressShouldReturnEstateDto() throws EstateNotFoundException {
+   public void whenFetchingEstateByAddressShouldReturnEstateDto()
+         throws EstateNotFoundException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -145,7 +146,7 @@ public class EstatesFetcherTest {
 
    @Test
    public void fetchingAnEstateByAddressWhenOneEstateHasItsAddressShouldCallRepository()
-         throws EstateNotFoundException {
+         throws EstateNotFoundException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -158,7 +159,7 @@ public class EstatesFetcherTest {
 
    @Test
    public void fetchingAnEstateByItsAddressWhenAddressCorrespondToAnEstateShouldConvertEstateToEstateDto()
-         throws EstateNotFoundException {
+         throws EstateNotFoundException, CouldNotAccessDataException {
       // Given no changes
 
       // When

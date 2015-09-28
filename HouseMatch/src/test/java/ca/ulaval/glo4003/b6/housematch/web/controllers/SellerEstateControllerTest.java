@@ -77,7 +77,7 @@ public class SellerEstateControllerTest {
       configureFetchingEstateByAddress();
    }
 
-   private void configureFetchingEstateByAddress() throws EstateNotFoundException {
+   private void configureFetchingEstateByAddress() throws EstateNotFoundException, CouldNotAccessDataException {
       when(estateFetcherService.getEstateByAddress(ADDRESS)).thenReturn(estateDto);
       when(estateConverter.convertToModel(estateDto)).thenReturn(estateModel);
    }
@@ -187,7 +187,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenFetchingEstateByAddressShouldCallFetchingMethodOfServiceLayer() throws EstateNotFoundException {
+   public void whenFetchingEstateByAddressShouldCallFetchingMethodOfServiceLayer()
+         throws EstateNotFoundException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -198,7 +199,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenFetchingEstateByAddressShouldReturnModelAndViewOfWantedEstate() throws EstateNotFoundException {
+   public void whenFetchingEstateByAddressShouldReturnModelAndViewOfWantedEstate()
+         throws EstateNotFoundException, CouldNotAccessDataException {
       // Given
       String expectedViewName = "estate";
 
@@ -212,7 +214,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenFetchingEstateByAddressShouldConvertEstateDtoToModel() throws EstateNotFoundException {
+   public void whenFetchingEstateByAddressShouldConvertEstateDtoToModel()
+         throws EstateNotFoundException, CouldNotAccessDataException {
       // Given no changes
 
       // When

@@ -17,6 +17,6 @@ public interface EstateRepository {
 
    List<Estate> getEstateFromSeller(String sellerName) throws SellerNotFoundException, CouldNotAccessDataException;
 
-   Estate getEstateByAddress(String address) throws EstateNotFoundException;
+   Estate getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException;
 
 }

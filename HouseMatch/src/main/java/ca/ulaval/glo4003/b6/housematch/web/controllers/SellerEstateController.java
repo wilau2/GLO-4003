@@ -74,7 +74,8 @@ public class SellerEstateController {
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.GET)
-   public ModelAndView getEstateByAddress(@PathVariable("address") String address) throws EstateNotFoundException {
+   public ModelAndView getEstateByAddress(@PathVariable("address") String address)
+         throws EstateNotFoundException, CouldNotAccessDataException {
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 

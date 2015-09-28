@@ -380,7 +380,7 @@ public class XMLEstateRepositoryTest {
 
    @Test
    public void fetchingEstateByAddressWhenOneEstateHasTheWantedAddressShouldReturnEstate()
-         throws DocumentException, EstateNotFoundException {
+         throws DocumentException, EstateNotFoundException, CouldNotAccessDataException {
       // Given
       configureFetchingEstateByAddress();
 
@@ -393,7 +393,7 @@ public class XMLEstateRepositoryTest {
 
    @Test
    public void fetchingEstateByAddressWhenEstateIsFoundShouldCallHasCorrespondingElementMethodFromXmlFileEditor()
-         throws DocumentException, EstateNotFoundException {
+         throws DocumentException, EstateNotFoundException, CouldNotAccessDataException {
       // Given
       configureFetchingEstateByAddress();
 
@@ -410,7 +410,7 @@ public class XMLEstateRepositoryTest {
 
    @Test
    public void fetchingEstateByAddressWhenEstateIsFoundShouldConvertAttributesToEstateDto()
-         throws DocumentException, EstateNotFoundException {
+         throws DocumentException, EstateNotFoundException, CouldNotAccessDataException {
       // Given
       configureFetchingEstateByAddress();
 
@@ -424,7 +424,7 @@ public class XMLEstateRepositoryTest {
 
    @Test
    public void fetchingEstateByAddressWhenEstateIsFoundShouldConvertEstateDtoToEstate()
-         throws DocumentException, EstateNotFoundException {
+         throws DocumentException, EstateNotFoundException, CouldNotAccessDataException {
       // Given
       configureFetchingEstateByAddress();
 
@@ -438,7 +438,7 @@ public class XMLEstateRepositoryTest {
 
    @Test(expected = EstateNotFoundException.class)
    public void fetchingEstateByAddressWhenNoEstateFoundShouldThrowAnException()
-         throws DocumentException, EstateNotFoundException {
+         throws DocumentException, EstateNotFoundException, CouldNotAccessDataException {
       // Given
       configureFetchingEstateByAddress();
       when(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, PATH_TO_ADDRESS, VALID_ADDRESS.toString()))

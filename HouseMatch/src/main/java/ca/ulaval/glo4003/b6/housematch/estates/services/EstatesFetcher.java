@@ -51,7 +51,7 @@ public class EstatesFetcher {
       return sellerEstatesDto;
    }
 
-   public EstateDto getEstateByAddress(String address) throws EstateNotFoundException {
+   public EstateDto getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException {
 
       EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       Estate estate = estateRepository.getEstateByAddress(address);
