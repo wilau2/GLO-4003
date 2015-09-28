@@ -62,9 +62,9 @@ public class UserTest {
       configureAdminUser();
 
       // When
-      assertTrue(user.isAdmin());
 
       // Then
+      assertTrue(user.isAdmin());
    }
 
    @Test
@@ -73,7 +73,6 @@ public class UserTest {
       configureBuyerUser();
 
       // When
-      user.isBuyer();
 
       // Then
       assertTrue(user.isBuyer());

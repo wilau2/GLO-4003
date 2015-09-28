@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public class LogoutControllerTest {
       controller.logout(request);
 
       // Then
-      verify(userAuthorisationService.closeSession(request));
+      verify(userAuthorisationService, times(1)).closeSession(request);
    }
 
    private void configureUserAuthorisationService() {
