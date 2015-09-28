@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.Invalid
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidLandFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidRoomFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
 
 public class DescriptionCorruptionVerificator {
@@ -24,7 +25,7 @@ public class DescriptionCorruptionVerificator {
       this.estateService = estateService;
    }
    
-   public void addDescription(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException{
+   public void addDescription(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException{
       validateDescriptionCorruption(descriptionDto);
       estateService.addDescription(descriptionDto);
       

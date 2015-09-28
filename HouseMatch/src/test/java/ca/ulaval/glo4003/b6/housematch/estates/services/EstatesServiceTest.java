@@ -15,9 +15,11 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.DescriptionAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
@@ -52,6 +54,12 @@ public class EstatesServiceTest {
 
    @Mock
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
+   
+   @Mock
+   private DescriptionValidatorFactory descriptionValidatorFactory ;
+
+   @Mock
+   private DescriptionAssemblerFactory descriptionAssemblerFactory;
 
    // @InjectMocks
    private EstatesService estatesService;
@@ -67,7 +75,7 @@ public class EstatesServiceTest {
             .thenReturn(estateRepository);
 
       estatesService = new EstatesService(estateValidatorFactory, estateAssemblerFactory, estateRepositoryFactory,
-            estatePersistenceDtoFactory);
+            estatePersistenceDtoFactory, descriptionValidatorFactory, descriptionAssemblerFactory);
    }
 
    @Test

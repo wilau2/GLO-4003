@@ -2,9 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.estates.anticorruption;
 
 import static org.mockito.Mockito.when;
 
-import java.awt.List;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,9 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidLandFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidRoomFieldException;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.LandDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.RoomDto;
 
 public class RoomCorruptionVerificatorTest {

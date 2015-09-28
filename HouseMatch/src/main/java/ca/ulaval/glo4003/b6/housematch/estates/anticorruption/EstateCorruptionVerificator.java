@@ -24,26 +24,41 @@ public class EstateCorruptionVerificator {
       } catch (InvalidEstateException e) {
          System.out.println(e.getMessage());
          throw new InvalidEstateFieldException(e.getMessage(), e);
-
       }
    }
 
    private void validateEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {
-      String address = estateDto.getAddress();
-      if (address == null || address.isEmpty()) {
-         throw new InvalidEstateFieldException("The entered address is empty");
+      validateAddress(estateDto);
+      validateType(estateDto);
+      validatePrice(estateDto);
+      validateSeller(estateDto);
+   }
+
+   private void validateSeller(EstateDto estateDto) throws InvalidEstateFieldException {
+      String seller = estateDto.getSeller();
+      if (seller == null || seller.isEmpty()) {
+         throw new InvalidEstateFieldException("Seller is invalid");
       }
-      String type = estateDto.getType();
-      if (type == null || type.isEmpty()) {
-         throw new InvalidEstateFieldException("The selected type is empty");
-      }
+   }
+
+   private void validatePrice(EstateDto estateDto) throws InvalidEstateFieldException {
       int price = estateDto.getPrice();
       if (price < 0) {
          throw new InvalidEstateFieldException("The price was negative");
       }
-      String seller = estateDto.getSeller();
-      if (seller == null || seller.isEmpty()) {
-         throw new InvalidEstateFieldException("Seller is invalid");
+   }
+
+   private void validateType(EstateDto estateDto) throws InvalidEstateFieldException {
+      String type = estateDto.getType();
+      if (type == null || type.isEmpty()) {
+         throw new InvalidEstateFieldException("The selected type is empty");
+      }
+   }
+
+   private void validateAddress(EstateDto estateDto) throws InvalidEstateFieldException {
+      String address = estateDto.getAddress();
+      if (address == null || address.isEmpty()) {
+         throw new InvalidEstateFieldException("The entered address is empty");
       }
    }
    

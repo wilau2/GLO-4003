@@ -5,14 +5,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.DescriptionAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.DescriptionAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
@@ -26,15 +32,22 @@ public class EstatesService {
    private EstateAssemblerFactory estateAssemblerFactory;
 
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
+   
+   private DescriptionValidatorFactory descriptionValidatorFactory;
+   
+   private DescriptionAssemblerFactory descriptionAssemblerFactory;
 
    @Autowired
    public EstatesService(EstateValidatorFactory estateValidatorFactory, EstateAssemblerFactory estateAssemblerFactory,
-         EstateRepositoryFactory estateRepositoryFactory, EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
+          EstateRepositoryFactory estateRepositoryFactory, EstatePersistenceDtoFactory estatePersistenceDtoFactory, 
+          DescriptionValidatorFactory descriptionValidatorFactory, DescriptionAssemblerFactory descriptionAssemblerFactory) {
 
       this.estateValidatorFactory = estateValidatorFactory;
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepositoryFactory = estateRepositoryFactory;
       this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
+      this.descriptionValidatorFactory = descriptionValidatorFactory;
+      this.descriptionAssemblerFactory = descriptionAssemblerFactory;
    }
 
    public void addEstate(EstateDto estateDto) throws InvalidEstateException {
@@ -79,9 +92,15 @@ public class EstatesService {
       estateRepository.editEstate(estate);
    }
    
-   public void addDescription(DescriptionDto descriptionDto){
-      //TODO
+   //---> À compléter
+   public void addDescription(DescriptionDto descriptionDto) throws InvalidDescriptionException{
+      DescriptionValidator descriptionValidator = descriptionValidatorFactory.getValidator();
+      descriptionValidator.validate(descriptionDto);
+      
+      DescriptionAssembler descriptionAssembler = descriptionAssemblerFactory.createDescriptionAssembler();
+      Description description = descriptionAssembler.assembleDescription(descriptionDto);
+     
+      //estateRepository.addDescription(description);
    }
-   
 
 }

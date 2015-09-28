@@ -10,6 +10,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
@@ -129,5 +130,11 @@ public class XMLEstateRepository implements EstateRepository {
    public void editEstate(Estate estate) {
       // TODO Auto-generated method stub
       // On fetch le estate puis on le re-persiste avec ses details?
+   }
+
+   @Override
+   public void addDescription(Description description) {
+      // TODO Auto-generated method stub
+      
    }
 }
