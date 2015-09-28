@@ -15,8 +15,8 @@ import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 
 @Singleton
 public class XMLUserRepository implements UserRepository {
@@ -40,7 +40,7 @@ public class XMLUserRepository implements UserRepository {
       try {
          Document usersXML = readUsersXML();
          if (!usernameAlreadyExists(usersXML, username)) {
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("No user with this username was found");
          }
          return returnUserWithGivenUsername(usersXML, username);
 
@@ -48,7 +48,7 @@ public class XMLUserRepository implements UserRepository {
          throw userNotFoundException;
       } catch (DocumentException exception) {
          exception.printStackTrace();
-         throw new CouldNotAccessUserDataException();
+         throw new CouldNotAccessUserDataException("Something wrong happend trying to acces the data");
       }
    }
 
@@ -57,7 +57,7 @@ public class XMLUserRepository implements UserRepository {
       try {
          Document usersXML = readUsersXML();
          if (usernameAlreadyExists(usersXML, newUser.getUsername())) {
-            throw new UsernameAlreadyExistsException();
+            throw new UsernameAlreadyExistsException("This username is already used");
          } else {
             addNewUserToDocument(usersXML, newUser);
             saveFile(usersXML);
@@ -66,7 +66,7 @@ public class XMLUserRepository implements UserRepository {
          throw userExists;
       } catch (DocumentException exception) {
          exception.printStackTrace();
-         throw new CouldNotAccessUserDataException();
+         throw new CouldNotAccessUserDataException("Something wrong happend trying acces the data");
       }
    }
 

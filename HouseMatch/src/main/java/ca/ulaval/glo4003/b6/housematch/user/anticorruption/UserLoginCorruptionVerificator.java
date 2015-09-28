@@ -23,18 +23,17 @@ public class UserLoginCorruptionVerificator {
    public void login(HttpServletRequest request, UserLoginDto userDto) throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
       validateUserLoginCorruption(userDto);
-      // TODO try catch error
       userLoginService.login(request, userDto);
    }
 
    private void validateUserLoginCorruption(UserLoginDto userDto) throws InvalidUserLoginFieldException {
       String username = userDto.getUsername();
       if (username == null || username.isEmpty()) {
-         throw new InvalidUserLoginFieldException();
+         throw new InvalidUserLoginFieldException("Username is mandatory");
       }
       String password = userDto.getPassword();
       if (password == null || password.isEmpty()) {
-         throw new InvalidUserLoginFieldException();
+         throw new InvalidUserLoginFieldException("Password is mandatory");
       }
    }
 

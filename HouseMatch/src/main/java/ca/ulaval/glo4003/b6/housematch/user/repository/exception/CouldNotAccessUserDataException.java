@@ -4,4 +4,8 @@ public class CouldNotAccessUserDataException extends Exception {
 
    private static final long serialVersionUID = 1L;
 
+   public CouldNotAccessUserDataException(String message) {
+      super(message);
+   }
+
 }
