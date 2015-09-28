@@ -25,7 +25,7 @@ public class EstateElementAssembler {
       estateDto.setType(type);
 
       String addressFromElement = element.elementText(ADDRESS);
-      AddressDto addressDto = constructAddressDtoFromElement(addressFromElement);
+      AddressDto addressDto = constructAddressDtoFromString(addressFromElement);
       estateDto.setAddress(addressDto);
 
       Integer price = Integer.parseInt(element.elementText(PRICE));
@@ -37,7 +37,7 @@ public class EstateElementAssembler {
       return estateDto;
    }
 
-   private AddressDto constructAddressDtoFromElement(String addressFromElement) {
+   private AddressDto constructAddressDtoFromString(String addressFromElement) {
       AddressDto addressDto = new AddressDto();
 
       String[] splittedAddressAttributes = addressFromElement.split("-");
@@ -66,6 +66,21 @@ public class EstateElementAssembler {
       attributes.put(ADDRESS, estate.getAddress().toString());
 
       return attributes;
+   }
+
+   public EstateDto convertAttributesToDto(HashMap<String, String> attributes) {
+      EstateDto estateDto = new EstateDto();
+
+      estateDto.setSellerId(attributes.get(SELLER));
+      estateDto.setType(attributes.get(TYPE));
+
+      Integer price = Integer.parseInt(attributes.get(PRICE));
+      estateDto.setPrice(price);
+
+      AddressDto addressDto = constructAddressDtoFromString(attributes.get(ADDRESS));
+      estateDto.setAddress(addressDto);
+
+      return estateDto;
    }
 
 }

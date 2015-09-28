@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import static org.mockito.Matchers.any;
 
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
@@ -34,6 +37,8 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.EstateModel;
 public class SellerEstateControllerTest {
 
    private static final String USER_ID = "USER_ID";
+
+   private static final String ADDRESS = "ADDRESS";
 
    @InjectMocks
    private SellerEstateController estateController;
@@ -62,12 +67,19 @@ public class SellerEstateControllerTest {
    private List<EstateDto> estatesDto;
 
    @Before
-   public void setup() throws SellerNotFoundException, CouldNotAccessDataException {
+   public void setup() throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException {
       MockitoAnnotations.initMocks(this);
 
       when(estateConverter.convertToDto(any(EstateModel.class))).thenReturn(estateDto);
 
       configureFetchingListOfEstateDto();
+
+      configureFetchingEstateByAddress();
+   }
+
+   private void configureFetchingEstateByAddress() throws EstateNotFoundException {
+      when(estateFetcherService.getEstateByAddress(ADDRESS)).thenReturn(estateDto);
+      when(estateConverter.convertToModel(estateDto)).thenReturn(estateModel);
    }
 
    private void configureFetchingListOfEstateDto() throws SellerNotFoundException, CouldNotAccessDataException {
@@ -151,7 +163,7 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenFetchingEstateByTheLoggedSellerShouldCallFetchingMethodOfAntiCorruptionLayer()
+   public void whenFetchingEstateByTheLoggedSellerShouldCallFetchingMethodOfServiceLayer()
          throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
 
@@ -174,4 +186,39 @@ public class SellerEstateControllerTest {
       verify(estateConverter, times(numberOfReturnedEstateDto)).convertToModel(estateDto);
    }
 
+   @Test
+   public void whenFetchingEstateByAddressShouldCallFetchingMethodOfServiceLayer() throws EstateNotFoundException {
+      // Given no changes
+
+      // When
+      estateController.getEstateByAddress(ADDRESS);
+
+      // Then
+      verify(estateFetcherService, times(1)).getEstateByAddress(ADDRESS);
+   }
+
+   @Test
+   public void whenFetchingEstateByAddressShouldReturnModelAndViewOfWantedEstate() throws EstateNotFoundException {
+      // Given
+      String expectedViewName = "estate";
+
+      // When
+      ModelAndView returnedModelAndView = estateController.getEstateByAddress(ADDRESS);
+
+      // Then
+      assertEquals(expectedViewName, returnedModelAndView.getViewName());
+      Map<String, Object> returnedModel = returnedModelAndView.getModel();
+      assertTrue(returnedModel.get("estate") instanceof EstateModel);
+   }
+
+   @Test
+   public void whenFetchingEstateByAddressShouldConvertEstateDtoToModel() throws EstateNotFoundException {
+      // Given no changes
+
+      // When
+      estateController.getEstateByAddress(ADDRESS);
+
+      // Then
+      verify(estateConverter, times(1)).convertToModel(estateDto);
+   }
 }

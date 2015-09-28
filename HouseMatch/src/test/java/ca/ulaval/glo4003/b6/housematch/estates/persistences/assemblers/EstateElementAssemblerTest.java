@@ -20,6 +20,14 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class EstateElementAssemblerTest {
 
+   private static final String ADDRESS_KEY = "address";
+
+   private static final String SELLER_KEY = "seller";
+
+   private static final String PRICE_KEY = "price";
+
+   private static final String TYPE_KEY = "type";
+
    private static final String COUNTRY = "TEST_COUNTRY";
 
    private static final String PROVINCE = "Test";
@@ -46,6 +54,9 @@ public class EstateElementAssemblerTest {
    @Mock
    private Estate estate;
 
+   @Mock
+   private HashMap<String, String> attributes;
+
    @InjectMocks
    private EstateElementAssembler estateElementAssembler;
 
@@ -56,6 +67,15 @@ public class EstateElementAssemblerTest {
       configureElement();
 
       configureEstate();
+
+      configureAttributes();
+   }
+
+   private void configureAttributes() {
+      when(attributes.get(TYPE_KEY)).thenReturn(TYPE);
+      when(attributes.get(PRICE_KEY)).thenReturn(PRICE.toString());
+      when(attributes.get(SELLER_KEY)).thenReturn(USER_ID);
+      when(attributes.get(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
    }
 
    private void configureEstate() {
@@ -66,10 +86,10 @@ public class EstateElementAssemblerTest {
    }
 
    private void configureElement() {
-      when(element.elementText("type")).thenReturn(TYPE);
-      when(element.elementText("price")).thenReturn(PRICE.toString());
-      when(element.elementText("seller")).thenReturn(USER_ID);
-      when(element.elementText("address")).thenReturn(ADDRESS.toString());
+      when(element.elementText(TYPE_KEY)).thenReturn(TYPE);
+      when(element.elementText(PRICE_KEY)).thenReturn(PRICE.toString());
+      when(element.elementText(SELLER_KEY)).thenReturn(USER_ID);
+      when(element.elementText(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
    }
 
    @Test
@@ -111,9 +131,9 @@ public class EstateElementAssemblerTest {
       HashMap<String, String> returnedAttributes = estateElementAssembler.convertToAttributes(estate);
 
       // Then
-      assertEquals(USER_ID, returnedAttributes.get("seller"));
-      assertEquals(PRICE.toString(), returnedAttributes.get("price"));
-      assertEquals(TYPE, returnedAttributes.get("type"));
+      assertEquals(USER_ID, returnedAttributes.get(SELLER_KEY));
+      assertEquals(PRICE.toString(), returnedAttributes.get(PRICE_KEY));
+      assertEquals(TYPE, returnedAttributes.get(TYPE_KEY));
    }
 
    @Test
@@ -124,6 +144,36 @@ public class EstateElementAssemblerTest {
       HashMap<String, String> returnedAttributes = estateElementAssembler.convertToAttributes(estate);
 
       // Then
-      assertEquals(ADDRESS.toString(), returnedAttributes.get("address"));
+      assertEquals(ADDRESS.toString(), returnedAttributes.get(ADDRESS_KEY));
+   }
+
+   @Test
+   public void assemblingEstateDtoFromAttributesWhenAllAttributesArePresentShouldSetAllEstateDtoFields() {
+      // Given no changes
+
+      // When
+      EstateDto assembledEstateDto = estateElementAssembler.convertAttributesToDto(attributes);
+
+      // Then
+      assertEquals(USER_ID, assembledEstateDto.getSeller());
+      assertEquals(PRICE, assembledEstateDto.getPrice());
+      assertEquals(TYPE, assembledEstateDto.getType());
+   }
+
+   @Test
+   public void assemblingEstateDtoFromAttributesWhenAttributesContainsAddressShouldSetAllAddressDtoFields() {
+      // Given
+
+      // When
+      EstateDto convertedEstateDto = estateElementAssembler.convertAttributesToDto(attributes);
+      AddressDto addressDto = convertedEstateDto.getAddress();
+
+      // Then
+      assertEquals(APPARTMENT, addressDto.getAppartment());
+      assertEquals(CIVI_NUMBER, addressDto.getCivicNumber());
+      assertEquals(STREET, addressDto.getStreet());
+      assertEquals(PROVINCE, addressDto.getState());
+      assertEquals(COUNTRY, addressDto.getCountry());
+      assertEquals(POSTAL_CODE, addressDto.getPostalCode());
    }
 }

@@ -36,6 +36,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAs
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
@@ -44,7 +45,7 @@ import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessData
 
 public class XMLEstateRepositoryTest {
 
-   private static final String ESTATE_SELLER = "estate/seller";
+   private static final String PATH_TO_ADDRESS = "estates/estate/address";
 
    private static final String VALID_TYPE = "VALID_TYPE";
 
@@ -96,10 +97,13 @@ public class XMLEstateRepositoryTest {
    @Mock
    private AddressAssembler addressAssembler;
 
-   @InjectMocks
-   private XMLEstateRepository xmlEstateRepository;
+   @Mock
+   private HashMap<String, String> attributes;
 
    private List<Element> estateElementList;
+
+   @InjectMocks
+   private XMLEstateRepository xmlEstateRepository;
 
    @Before
    public void setUp() throws DocumentException {
@@ -116,8 +120,10 @@ public class XMLEstateRepositoryTest {
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateElementAssemblerFactory.createAssembler()).thenReturn(estateElementAssembler);
 
-      when(estateElementAssembler.convertToDto(element)).thenReturn(estateDto);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
+
+      when(estateElementAssembler.convertToDto(element)).thenReturn(estateDto);
+      when(estateElementAssembler.convertAttributesToDto(attributes)).thenReturn(estateDto);
    }
 
    @Test
@@ -217,7 +223,7 @@ public class XMLEstateRepositoryTest {
       configureEstate();
       HashMap<String, String> attributes = createHashMapFromEstate(estate);
       when(estateElementAssembler.convertToAttributes(estate)).thenReturn(attributes);
-      given(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, "estates/estate/address",
+      given(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, PATH_TO_ADDRESS,
             attributes.get("address"))).willReturn(true);
 
       // when
@@ -370,6 +376,88 @@ public class XMLEstateRepositoryTest {
 
       // Then
       verify(estate, times(1)).isFromSeller(SELLER_NAME);
+   }
+
+   @Test
+   public void fetchingEstateByAddressWhenOneEstateHasTheWantedAddressShouldReturnEstate()
+         throws DocumentException, EstateNotFoundException {
+      // Given
+      configureFetchingEstateByAddress();
+
+      // When
+      Estate estateByAddress = xmlEstateRepository.getEstateByAddress(VALID_ADDRESS.toString());
+
+      // Then
+      assertEquals(estateByAddress, estate);
+   }
+
+   @Test
+   public void fetchingEstateByAddressWhenEstateIsFoundShouldCallHasCorrespondingElementMethodFromXmlFileEditor()
+         throws DocumentException, EstateNotFoundException {
+      // Given
+      configureFetchingEstateByAddress();
+
+      // When
+      xmlEstateRepository.getEstateByAddress(VALID_ADDRESS.toString());
+
+      // Then
+      verify(xmlFileEditor, times(1)).readXMLFile(XML_FILE_PATH);
+      verify(xmlFileEditor, times(1)).elementWithCorrespondingValuesExists(usedDocument, PATH_TO_ADDRESS,
+            VALID_ADDRESS.toString());
+      verify(xmlFileEditor, times(1)).returnAttributesOfElementWithCorrespondingValue(usedDocument, PATH_TO_ADDRESS,
+            VALID_ADDRESS.toString());
+   }
+
+   @Test
+   public void fetchingEstateByAddressWhenEstateIsFoundShouldConvertAttributesToEstateDto()
+         throws DocumentException, EstateNotFoundException {
+      // Given
+      configureFetchingEstateByAddress();
+
+      // When
+      xmlEstateRepository.getEstateByAddress(VALID_ADDRESS.toString());
+
+      // Then
+      verify(estateElementAssemblerFactory, times(1)).createAssembler();
+      verify(estateElementAssembler, times(1)).convertAttributesToDto(attributes);
+   }
+
+   @Test
+   public void fetchingEstateByAddressWhenEstateIsFoundShouldConvertEstateDtoToEstate()
+         throws DocumentException, EstateNotFoundException {
+      // Given
+      configureFetchingEstateByAddress();
+
+      // When
+      xmlEstateRepository.getEstateByAddress(VALID_ADDRESS.toString());
+
+      // Then
+      verify(estateAssemblerFactory, times(1)).createEstateAssembler();
+      verify(estateAssembler, times(1)).assembleEstate(estateDto);
+   }
+
+   @Test(expected = EstateNotFoundException.class)
+   public void fetchingEstateByAddressWhenNoEstateFoundShouldThrowAnException()
+         throws DocumentException, EstateNotFoundException {
+      // Given
+      configureFetchingEstateByAddress();
+      when(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, PATH_TO_ADDRESS, VALID_ADDRESS.toString()))
+            .thenReturn(false);
+
+      // When
+      xmlEstateRepository.getEstateByAddress(VALID_ADDRESS.toString());
+
+      // Then an EstateNotFoundException is thrown
+   }
+
+   private void configureFetchingEstateByAddress() throws DocumentException {
+      configureXmlFileEditor();
+
+      when(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, PATH_TO_ADDRESS, VALID_ADDRESS.toString()))
+            .thenReturn(true);
+      when(xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(usedDocument, PATH_TO_ADDRESS,
+            VALID_ADDRESS.toString())).thenReturn(attributes);
+
    }
 
    private void configureGetEstatesFromSeller() {

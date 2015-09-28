@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
@@ -26,6 +27,8 @@ import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessData
 public class EstatesFetcherTest {
 
    private static final String SELLER_NAME = "SELLER";
+
+   private static final String ADDRESS = "ADDRESS";
 
    @Mock
    private EstateRepositoryFactory estateRepositoryFactory;
@@ -50,14 +53,20 @@ public class EstatesFetcherTest {
    private EstatesFetcher estateFetcher;
 
    @Before
-   public void setup() throws SellerNotFoundException, CouldNotAccessDataException {
+   public void setup() throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException {
       MockitoAnnotations.initMocks(this);
 
       configureEstateRepository();
 
       configureEstateAssembler();
 
+      configureFetchingEstateByAddress();
+
       estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepositoryFactory);
+   }
+
+   private void configureFetchingEstateByAddress() throws EstateNotFoundException {
+      when(estateRepository.getEstateByAddress(ADDRESS)).thenReturn(estate);
    }
 
    private void configureEstateAssembler() {
@@ -121,6 +130,43 @@ public class EstatesFetcherTest {
       verify(estateAssemblerFactory, times(1)).createEstateAssembler();
       verify(estateAssembler, times(numberOfReturnedEstateFromRepo)).assembleEstateDto(estate);
 
+   }
+
+   @Test
+   public void whenFetchingEstateByAddressShouldReturnEstateDto() throws EstateNotFoundException {
+      // Given no changes
+
+      // When
+      Object returnedObject = estateFetcher.getEstateByAddress(ADDRESS);
+
+      // Then
+      assertTrue(returnedObject instanceof EstateDto);
+   }
+
+   @Test
+   public void fetchingAnEstateByAddressWhenOneEstateHasItsAddressShouldCallRepository()
+         throws EstateNotFoundException {
+      // Given no changes
+
+      // When
+      estateFetcher.getEstateByAddress(ADDRESS);
+
+      // Then
+      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
+      verify(estateRepository, times(1)).getEstateByAddress(ADDRESS);
+   }
+
+   @Test
+   public void fetchingAnEstateByItsAddressWhenAddressCorrespondToAnEstateShouldConvertEstateToEstateDto()
+         throws EstateNotFoundException {
+      // Given no changes
+
+      // When
+      estateFetcher.getEstateByAddress(ADDRESS);
+
+      // Then
+      verify(estateAssemblerFactory, times(1)).createEstateAssembler();
+      verify(estateAssembler, times(1)).assembleEstateDto(estate);
    }
 
 }

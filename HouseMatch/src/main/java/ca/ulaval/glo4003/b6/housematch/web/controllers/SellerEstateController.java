@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
@@ -40,9 +41,12 @@ public class SellerEstateController {
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.POST)
    public String addEstate(EstateModel estateModel, @PathVariable("userId") String userId)
          throws InvalidEstateFieldException, CouldNotAccessDataException {
+
       estateModel.setSeller(userId);
+
       EstateDto estateDto = estateConverter.convertToDto(estateModel);
       estateCorruptionVerificator.addEstate(estateDto);
+
       return "redirect:/";
    }
 
@@ -65,8 +69,21 @@ public class SellerEstateController {
 
       ModelAndView sellerEstatesViewModel = new ModelAndView("seller_estates");
       sellerEstatesViewModel.addObject("estates", estatesModel);
-      return sellerEstatesViewModel;
 
+      return sellerEstatesViewModel;
+   }
+
+   @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.GET)
+   public ModelAndView getEstateByAddress(@PathVariable("address") String address) throws EstateNotFoundException {
+
+      EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
+
+      EstateModel estateModel = estateConverter.convertToModel(estateByAddress);
+
+      ModelAndView estateViewModel = new ModelAndView("estate");
+      estateViewModel.addObject("estate", estateModel);
+
+      return estateViewModel;
    }
 
 }
