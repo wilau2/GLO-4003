@@ -147,9 +147,6 @@ public class XMLEstateRepository implements EstateRepository {
             estatesFromSeller.add(estate);
          }
       }
-      if (estatesFromSeller.isEmpty()) {
-         throw new SellerNotFoundException("Wanted seller does not exist");
-      }
       return estatesFromSeller;
 
    }
