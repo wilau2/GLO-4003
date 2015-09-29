@@ -143,7 +143,7 @@
         id="userLoginService"
         class="ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService"
     >
-<<<<<<< HEAD
+
     	<beans:constructor-arg
 	        name="userRepository"
 	        ref="userRepository" />
@@ -166,24 +166,14 @@
 	    <beans:constructor-arg
 	        name="userAssemblerFactory"
 	        ref="userAssemblerFactory" />    
-=======
-        <beans:constructor-arg
-            name="userRepository"
-            ref="userRepository" />
-        <beans:constructor-arg
-            name="adminRepository"
-            ref="adminRepository" />
-        <beans:constructor-arg
-            name="userValidatorFactory"
-            ref="userValidatorFactory" />
->>>>>>> fetching_estate_by_address
+
     </beans:bean>
 
     <beans:bean
         id="userLoginCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator"
     >
-<<<<<<< HEAD
+
     	<beans:constructor-arg
 	        name="userLoginService"
 	        ref="userLoginService" />
@@ -197,11 +187,7 @@
     	<beans:constructor-arg
 	        name="userSignupService"
 	        ref="userSignupService" />
-=======
-        <beans:constructor-arg
-            name="loginUserService"
-            ref="loginUserService" />
->>>>>>> fetching_estate_by_address
+
     </beans:bean>
 
     <beans:bean
