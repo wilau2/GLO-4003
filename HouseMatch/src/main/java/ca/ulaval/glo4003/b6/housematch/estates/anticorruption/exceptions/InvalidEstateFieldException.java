@@ -8,8 +8,8 @@ public class InvalidEstateFieldException extends Exception {
       super(message, exception);
    }
 
-   public InvalidEstateFieldException() {
-      // TODO Auto-generated constructor stub
+   public InvalidEstateFieldException(String message) {
+      super(message);
    }
 
 }

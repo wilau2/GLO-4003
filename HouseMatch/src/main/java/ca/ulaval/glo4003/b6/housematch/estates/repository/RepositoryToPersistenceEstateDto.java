@@ -16,7 +16,7 @@ public class RepositoryToPersistenceEstateDto implements RepositoryToPersistence
       HashMap<String, String> attributes = new HashMap<String, String>();
 
       attributes.put("type", estate.getType());
-      attributes.put("address", estate.getAddress());
+      attributes.put("address", estate.getAddress().toString());
       attributes.put("price", estate.getPrice().toString());
 
       this.attributes = attributes;

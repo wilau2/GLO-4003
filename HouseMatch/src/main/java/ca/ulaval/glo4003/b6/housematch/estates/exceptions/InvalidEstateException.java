@@ -4,4 +4,8 @@ public class InvalidEstateException extends Exception {
 
    private static final long serialVersionUID = -4582007207015488746L;
 
+   public InvalidEstateException(String message) {
+      super(message);
+   }
+
 }

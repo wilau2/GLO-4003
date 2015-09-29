@@ -8,8 +8,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
-import ca.ulaval.glo4003.b6.housematch.estates.repository.RepositoryToPersistenceEstateDto;
 import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
@@ -26,9 +24,6 @@ public class RepositoryToPersistenceDtoFactoryTest {
    @Mock
    private Role role;
 
-   @Mock
-   private Estate estate;
-
    private RepositoryToPersistenceDtoFactory factory;
 
    @Before
@@ -37,7 +32,7 @@ public class RepositoryToPersistenceDtoFactoryTest {
       factory = new RepositoryToPersistenceDtoFactory();
 
       configureUser();
-      configureEstate();
+
    }
 
    @Test
@@ -49,17 +44,6 @@ public class RepositoryToPersistenceDtoFactoryTest {
 
       // Then
       assertTrue(dto instanceof RepositoryToPersistenceUserDto);
-   }
-
-   @Test
-   public void shouldReturnAEstateDtoIfGivenAnEstate() {
-      // Given
-
-      // When
-      RepositoryToPersistenceDto dto = factory.getRepositoryDto(estate);
-
-      // Then
-      assertTrue(dto instanceof RepositoryToPersistenceEstateDto);
    }
 
    private void configureUser() {
@@ -74,12 +58,6 @@ public class RepositoryToPersistenceDtoFactoryTest {
       given(userInfos.getLastName()).willReturn("lastname");
       given(userInfos.getPhoneNumber()).willReturn("phonenumber");
       given(userInfos.getEmail()).willReturn("email");
-   }
-
-   private void configureEstate() {
-      given(estate.getType()).willReturn("type");
-      given(estate.getAddress()).willReturn("address");
-      given(estate.getPrice()).willReturn(10);
    }
 
 }

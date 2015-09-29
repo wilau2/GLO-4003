@@ -14,7 +14,7 @@ public class EstateValidator {
    public void validate(EstateDto estateDto) throws InvalidEstateException {
       String type = estateDto.getType();
       if (!estateList.contains(type)) {
-         throw new InvalidEstateException();
+         throw new InvalidEstateException("Type is not supported");
       }
    }
 

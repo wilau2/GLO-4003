@@ -1,40 +1,62 @@
 package ca.ulaval.glo4003.b6.housematch.estates.domain.assembler;
 
+import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class EstateAssemblerTest {
 
-   private static final String VALID_TYPE_ESTATE = "CONDO";
+   private static final String TYPE = "TYPE";
 
-   private static final String INVALID_TYPE_ESTATE = "INVALID_ESTATE";
+   private static final Integer PRICE = 1;
 
-   private static final String VALID_ADDRESS = "1257 av. Jean-michel";
-
-   private static final String INVALID_ADDRESS = "";
-
-   private static final Integer VALID_PRICE = 1257;
-
-   private static final Integer INVALID_PRICE = -10;
-
-   private EstateAssembler estateAssembler;
+   private static final String SELLER = "SELLER";
 
    @Mock
    private EstateDto estateDto;
+
+   @Mock
+   private Estate estate;
+
+   @Mock
+   private AddressDto addressDto;
+
+   @Mock
+   private AddressAssembler addressAssembler;
+
+   @Mock
+   private Address address;
+
+   private EstateAssembler estateAssembler;
 
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
-      estateAssembler = new EstateAssembler();
+      when(addressAssembler.assembleAddressDto(address)).thenReturn(addressDto);
+
+      estateAssembler = new EstateAssembler(addressAssembler);
+
+      configureEstate();
+   }
+
+   private void configureEstate() {
+      when(estate.getPrice()).thenReturn(PRICE);
+      when(estate.getSeller()).thenReturn(SELLER);
+      when(estate.getType()).thenReturn(TYPE);
+      when(estate.getAddress()).thenReturn(address);
    }
 
    @Test
@@ -48,5 +70,30 @@ public class EstateAssemblerTest {
       verify(estateDto, times(1)).getAddress();
       verify(estateDto, times(1)).getPrice();
       verify(estateDto, times(1)).getType();
+      verify(estateDto, times(1)).getSeller();
+   }
+
+   @Test
+   public void whenAssemblingAnEstateDtoFromAnEstateShouldSetCorrectlyAllFieldOfDto() {
+      // Given no changes
+
+      // When
+      EstateDto returnedEstateDto = estateAssembler.assembleEstateDto(estate);
+
+      // Then
+      assertEquals(SELLER, returnedEstateDto.getSeller());
+      assertEquals(TYPE, returnedEstateDto.getType());
+      assertEquals(PRICE, returnedEstateDto.getPrice());
+   }
+
+   @Test
+   public void whenAssemblingAnEstateDtoFromAnEstateShouldCallAddressAssembler() {
+      // Given no changes
+
+      // When
+      estateAssembler.assembleEstateDto(estate);
+
+      // Then
+      verify(addressAssembler, times(1)).assembleAddressDto(address);
    }
 }

@@ -50,7 +50,7 @@ public class XMLUserRepositoryTest {
    private RepositoryToPersistenceUserDto userDto;
 
    @InjectMocks
-   public XMLUserRepository repository;
+   private XMLUserRepository repository;
 
    @Before
    public void setup() throws DocumentException {
@@ -63,34 +63,39 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenFindingByUsernameShouldReadTheCorrectFile()
          throws DocumentException, CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
-      repository.findByUsername(existingUsername);
+      repository.getUser(existingUsername);
 
       // Then
       verify(editor).readXMLFile(correctPathToFile);
    }
 
    @Test
+
    public void whenFindingByUsernameShouldLookIfUsersExists()
          throws CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
-      repository.findByUsername(existingUsername);
+      repository.getUser(existingUsername);
 
       // Then
       verify(editor).elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, existingUsername);
    }
 
    @Test
+
    public void whenFindingByUsernameShouldReturnAUserWithTheCorrectUsername()
          throws CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
-      User returnedUser = repository.findByUsername(existingUsername);
+      User returnedUser = repository.getUser(existingUsername);
 
       // Then
       assertEquals(returnedUser.getUsername(), existingUsername);
@@ -99,10 +104,11 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenFindingByUsernameShouldReturnAUserWithTheCorrectPassword()
          throws CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
-      User returnedUser = repository.findByUsername(existingUsername);
+      User returnedUser = repository.getUser(existingUsername);
 
       // Then
       assertEquals(returnedUser.getPassword(), correctPassword);
@@ -110,12 +116,14 @@ public class XMLUserRepositoryTest {
 
    @Test
    public void whenAddingUserShouldReadTheCorrectFile()
-         throws DocumentException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
+   throws DocumentException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).readXMLFile(correctPathToFile);
@@ -124,11 +132,12 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenAddingUserShouldLookIfUsersExists()
          throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, newUsername);
@@ -141,7 +150,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(dtoFactory).getRepositoryDto(user);
@@ -150,11 +159,12 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenAddingUserShouldAddNewUserToXMLWithDto()
          throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).addNewElementToDocument(usedDocument, userDto);
@@ -163,11 +173,12 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenAddingUserShouldWriteToTheRightFile()
          throws IOException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).formatAndWriteDocument(usedDocument, correctPathToFile);
@@ -179,7 +190,7 @@ public class XMLUserRepositoryTest {
       // Given A new username
 
       // When
-      repository.findByUsername(newUsername);
+      repository.getUser(newUsername);
 
       // Then Exception is thrown
    }
@@ -187,10 +198,11 @@ public class XMLUserRepositoryTest {
    @Test(expected = UsernameAlreadyExistsException.class)
    public void whenAddingUserShouldReturnExceptionIfUsernameExist()
          throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given An existing user
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then Exception is thrown
    }

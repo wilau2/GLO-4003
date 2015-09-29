@@ -15,8 +15,8 @@ import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUse
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.user.services.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 
 public class UserLoginCorruptionVerificatorTest {
 
@@ -32,11 +32,11 @@ public class UserLoginCorruptionVerificatorTest {
    @Mock
    UserLoginService userLoginService;
 
+   @Mock
+   private HttpServletRequest request;
+
    @InjectMocks
    private UserLoginCorruptionVerificator userCorruptionVerificator;
-
-   @Mock
-   HttpServletRequest request;
 
    @Before
    public void setup() {
@@ -53,6 +53,7 @@ public class UserLoginCorruptionVerificatorTest {
    public void verificatingUserLoginCorruptionWhenUserLoginIsValidShouldCallServiceLogin()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException {
+
       // Given
 
       // When
@@ -66,6 +67,7 @@ public class UserLoginCorruptionVerificatorTest {
    public void verificatingUserLoginCorruptionWhenUserHasNoUsernameShouldThrowException()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException {
+
       // Given
       when(userDto.getUsername()).thenReturn(null);
 
@@ -79,6 +81,7 @@ public class UserLoginCorruptionVerificatorTest {
    public void verificatingUserLoginCorruptionWhenUserHasEmptyUsernameShouldThrowException()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException {
+
       // Given
       when(userDto.getUsername()).thenReturn(EMPTY_FIELD);
 
@@ -92,6 +95,7 @@ public class UserLoginCorruptionVerificatorTest {
    public void verificatingUserLoginCorruptionWhenUserHasNoPasswordShouldThrowException()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException {
+
       // Given
       when(userDto.getPassword()).thenReturn(null);
 
@@ -105,6 +109,7 @@ public class UserLoginCorruptionVerificatorTest {
    public void verificatingUserLoginCorruptionWhenUserHasEmptyPasswordShouldThrowException()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException {
+
       // Given
       when(userDto.getPassword()).thenReturn(EMPTY_FIELD);
 
