@@ -3,9 +3,11 @@ package ca.ulaval.glo4003.b6.housematch.estates.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -335,8 +337,8 @@ public class XMLEstateRepositoryTest {
       verify(xmlFileEditor, times(1)).getAllElementsFromDocument(usedDocument, "estates/estate");
    }
 
-   @Test(expected = SellerNotFoundException.class)
-   public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldThrowAnException()
+   @Test
+   public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldNotThrowException()
          throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
       configureGetEstatesFromSeller();
@@ -345,7 +347,7 @@ public class XMLEstateRepositoryTest {
       // When
       xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
 
-      // Then an SellerNotFoundException is thrown
+      // Then no exception is thrown
    }
 
    @Test
