@@ -121,7 +121,6 @@ public class XMLEstateRepository implements EstateRepository {
          EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
       // TODO BORIS doit faire l'integration
       EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
-      System.out.println(document);
       xmlFileEditor.addNewElementToDocument(document, estatePersistenceDto);
    }
 
@@ -132,7 +131,8 @@ public class XMLEstateRepository implements EstateRepository {
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
          EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
-         xmlFileEditor.replaceElement(estateDocument, ESTATE, attributes.get(ADDRESS_KEY),estatePersistenceDto);
+         System.out.println(estateDocument);
+         xmlFileEditor.replaceElement(estateDocument, ESTATE, attributes.get(ADDRESS_KEY), estatePersistenceDto);
       } catch (DocumentException e) {
          throw new CouldNotAccessDataException("Unable to edit the estate", e);
       }

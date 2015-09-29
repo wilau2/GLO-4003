@@ -22,7 +22,6 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -38,7 +37,6 @@ import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssembl
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDto;
 
 public class XMLEstateRepositoryTest {
 
@@ -71,9 +69,6 @@ public class XMLEstateRepositoryTest {
    private Document usedDocument;
 
    @Mock
-   private EstatePersistenceDto estatePersisenceDto;
-
-   @Mock
    private EstateAssembler estateAssembler;
 
    @Mock
@@ -90,17 +85,15 @@ public class XMLEstateRepositoryTest {
 
    @Mock
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
-   
+
    @Mock
-   private  HashMap<String, String> attributes;
-   
+   private HashMap<String, String> attributes;
+
    @Mock
-   private RepositoryToPersistenceDto estatePersistenceDto;
+   private EstatePersistenceDto estatePersistenceDto;
 
    @InjectMocks
    private XMLEstateRepository xmlEstateRepository;
-
-   
 
    @Before
    public void setUp() throws DocumentException {
@@ -110,7 +103,7 @@ public class XMLEstateRepositoryTest {
 
       configureAssemblerBehavior();
 
-      when(estatePersistenceDtoFactory.newInstance(any(HashMap.class))).thenReturn(estatePersisenceDto);
+      when(estatePersistenceDtoFactory.newInstance(any(HashMap.class))).thenReturn(estatePersistenceDto);
    }
 
    private void configureAssemblerBehavior() {
@@ -152,7 +145,7 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.addEstate(estate);
 
       // then
-      verify(xmlFileEditor, times(1)).addNewElementToDocument(usedDocument, estatePersisenceDto);
+      verify(xmlFileEditor, times(1)).addNewElementToDocument(usedDocument, estatePersistenceDto);
    }
 
    @Test
@@ -219,7 +212,7 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.addEstate(estate);
 
       // then
-      verify(xmlFileEditor, never()).addNewElementToDocument(usedDocument, estatePersisenceDto);
+      verify(xmlFileEditor, never()).addNewElementToDocument(usedDocument, estatePersistenceDto);
    }
 
    @Test
@@ -310,29 +303,27 @@ public class XMLEstateRepositoryTest {
 
    @Test
    public void editingEstateShouldAskXmlForDocument() throws DocumentException {
-      //given
+      // given
 
-      //when
+      // when
       xmlEstateRepository.editEstate(estate);
-      //then
+      // then
       verify(xmlFileEditor, times(1)).readXMLFile(XML_FILE_PATH);
    }
-   
-   @Ignore
+
    @Test
    public void editingEstateShouldCallReplaceEstateFromXmlFileEditor() throws DocumentException {
-      //given
-      when(xmlFileEditor.readXMLFile(XML_FILE_PATH)).thenReturn(usedDocument);
-      when(estateElementAssemblerFactory.createAssembler()).thenReturn(estateElementAssembler);
+      // given
       when(estateElementAssembler.convertToAttributes(estate)).thenReturn(attributes);
-      when(estatePersistenceDtoFactory.newInstance(attributes)).thenReturn(estatePersisenceDto);
       when(attributes.get(ADDRESS_KEY)).thenReturn(VALID_ADDRESS);
-      //when
+
+      // when
       xmlEstateRepository.editEstate(estate);
-      //then
+
+      // then
       verify(xmlFileEditor, times(1)).replaceElement(usedDocument, ESTATE, VALID_ADDRESS, estatePersistenceDto);
    }
-  
+
    private void configureGetAllEstate() {
       configureElement();
       List<Element> estateDtoList = new ArrayList<Element>();
