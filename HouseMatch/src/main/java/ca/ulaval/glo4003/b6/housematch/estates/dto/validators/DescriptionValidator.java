@@ -7,30 +7,30 @@ import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionExce
 public class DescriptionValidator {
 
    public void validate(DescriptionDto descriptionDto) throws InvalidDescriptionException {
-      if (numberSmallerThanOne(descriptionDto.getNumberOfBathrooms())){
+      if (isNumberSmallerThanOne(descriptionDto.getNumberOfBathrooms())){
          throw new InvalidDescriptionException("invalid number of bathrooms");
       }
-      if(numberSmallerThanOne(descriptionDto.getLivingSpaceAreaSquareMeter())){
+      if(isNumberSmallerThanOne(descriptionDto.getLivingSpaceAreaSquareMeter())){
          throw new InvalidDescriptionException("invalid area square meter");
       }
-      if(numberSmallerThanOne(descriptionDto.getMunicipalValuation())){
+      if(isNumberSmallerThanOne(descriptionDto.getMunicipalValuation())){
          throw new InvalidDescriptionException("invalid municipal valuation");
       }
-      if(numberSmallerThanOne(descriptionDto.getNumberOfBedRooms())){
+      if(isNumberSmallerThanOne(descriptionDto.getNumberOfBedRooms())){
          throw new InvalidDescriptionException("invalid number of bed rooms");
       }
-      if(numberSmallerThanOne(descriptionDto.getNumberOfLevel())){
+      if(isNumberSmallerThanOne(descriptionDto.getNumberOfLevel())){
          throw new InvalidDescriptionException("invalid number of levels");
       }
-      if(numberSmallerThanOne(descriptionDto.getNumberOfRooms())){
+      if(isNumberSmallerThanOne(descriptionDto.getNumberOfRooms())){
          throw new InvalidDescriptionException("invalid number of rooms");
       }
-      if(numberSmallerThanOne(descriptionDto.getYearsOfConstruction())){
+      if(isNumberSmallerThanOne(descriptionDto.getYearsOfConstruction())){
          throw new InvalidDescriptionException("invalid year of construction");
       }
    }
    
-   private boolean numberSmallerThanOne(Integer integer){
+   private boolean isNumberSmallerThanOne(Integer integer){
          if (integer <= 0){
             return true;
          }

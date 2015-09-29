@@ -232,7 +232,7 @@ public class EstatesServiceTest {
    private void configureDescriptionTests(){
       when(descriptionAssemblerFactory.createDescriptionAssembler()).thenReturn(descriptionAssembler);
       when(descriptionAssembler.assembleDescription(descriptionDto)).thenReturn(description);
-      when(descriptionValidatorFactory.getValidator()).thenReturn(descriptionValidator);
+      when(descriptionValidatorFactory.createValidator()).thenReturn(descriptionValidator);
       when(estateRepository.getEstate(estateAddress)).thenReturn(estate);
       when(descriptionDto.getEstateID()).thenReturn(estateAddress);
    }

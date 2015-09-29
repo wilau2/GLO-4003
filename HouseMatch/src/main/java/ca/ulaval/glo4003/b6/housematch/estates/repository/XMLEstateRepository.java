@@ -128,8 +128,6 @@ public class XMLEstateRepository implements EstateRepository {
 
    @Override
    public void editEstate(Estate estate) {
-      // TODO Auto-generated method stub
-      // On a le estate modifié, juste le persister sur l'ancien et boom, modif/ajout description en 1
    }
 
    @Override

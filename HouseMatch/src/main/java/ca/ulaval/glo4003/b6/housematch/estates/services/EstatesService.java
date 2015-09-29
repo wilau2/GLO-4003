@@ -93,7 +93,7 @@ public class EstatesService {
    }
    
    public void addDescription(DescriptionDto descriptionDto) throws InvalidDescriptionException{
-      DescriptionValidator descriptionValidator = descriptionValidatorFactory.getValidator();
+      DescriptionValidator descriptionValidator = descriptionValidatorFactory.createValidator();
       descriptionValidator.validate(descriptionDto);
       
       String estateAddress = descriptionDto.getEstateID();

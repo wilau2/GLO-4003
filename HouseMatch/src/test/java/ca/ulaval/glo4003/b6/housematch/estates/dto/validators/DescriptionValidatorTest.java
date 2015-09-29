@@ -6,13 +6,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
-import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 
 public class DescriptionValidatorTest {
    
@@ -76,6 +74,61 @@ public class DescriptionValidatorTest {
       descriptionValidator.validate(descriptionDto);
       //then
       //exception is catched
+   }
+   
+   @Test(expected = InvalidDescriptionException.class)
+   public void whenNumberOfLevelsIsUnderOneThrowsException() throws InvalidDescriptionException {
+      //given
+      when(descriptionDto.getNumberOfLevel()).thenReturn(0);
+      //when
+      descriptionValidator.validate(descriptionDto);
+      //then
+      //exception is catched
+   }
+   
+   @Test(expected = InvalidDescriptionException.class)
+   public void whenYearOfConstructionIsUnderOneThrowsException() throws InvalidDescriptionException {
+      //given
+      when(descriptionDto.getYearsOfConstruction()).thenReturn(0);
+      //when
+      descriptionValidator.validate(descriptionDto);
+      //then
+      //exception is catched
+   }
+   
+   
+   @Test(expected = InvalidDescriptionException.class)
+   public void whenLivingSpaceUnderOneThrowsException() throws InvalidDescriptionException {
+      //given
+      when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(0);
+      //when
+      descriptionValidator.validate(descriptionDto);
+      //then
+      //exception is catched
+   }
+   
+   @Test(expected = InvalidDescriptionException.class)
+   public void whenMunicipalValueUnderOneThrowsException() throws InvalidDescriptionException {
+      //given
+      when(descriptionDto.getMunicipalValuation()).thenReturn(0);
+      //when
+      descriptionValidator.validate(descriptionDto);
+      //then
+      //exception is catched
+   }
+   
+   @Test
+   public void whenValidatingCorrectDTOnoExceptionThrown() throws InvalidDescriptionException {
+      //given
+      //when
+      try{
+         descriptionValidator.validate(descriptionDto);
+      }
+      catch(InvalidDescriptionException exception){
+         fail("exception Thrown");
+      }
+      //then
+      //exception is not throwed
    }
    
    private void configureValidDescriptionDto(){
