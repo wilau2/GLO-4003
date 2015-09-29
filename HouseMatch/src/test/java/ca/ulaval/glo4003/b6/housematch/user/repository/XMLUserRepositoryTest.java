@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.user.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
@@ -15,10 +16,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceUserDto;
-import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
@@ -50,7 +52,7 @@ public class XMLUserRepositoryTest {
    private RepositoryToPersistenceUserDto userDto;
 
    @InjectMocks
-   public XMLUserRepository repository;
+   private XMLUserRepository repository;
 
    @Before
    public void setup() throws DocumentException {
@@ -61,7 +63,8 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenFindingByEmailShouldReadTheCorrectFile() throws DocumentException {
+   public void whenFindingByEmailShouldReadTheCorrectFile()
+         throws DocumentException, UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -72,7 +75,7 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenFindingByEmailShouldLookIfUsersExists() {
+   public void whenFindingByEmailShouldLookIfUsersExists() throws UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -83,7 +86,8 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenFindingByEmailShouldReturnAUserWithTheCorrectEmail() {
+   public void whenFindingByEmailShouldReturnAUserWithTheCorrectEmail()
+         throws UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -94,7 +98,8 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenFindingByEmailShouldReturnAUserWithTheCorrectPassword() {
+   public void whenFindingByEmailShouldReturnAUserWithTheCorrectPassword()
+         throws UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -105,7 +110,8 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenAddingUserShouldReadTheCorrectFile() throws DocumentException {
+   public void whenAddingUserShouldReadTheCorrectFile()
+         throws DocumentException, UserAlreadyExistsException, CouldNotAccessDataException {
       // Given
       configureDifferentUser();
 
@@ -117,7 +123,7 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenAddingUserShouldLookIfUsersExists() {
+   public void whenAddingUserShouldLookIfUsersExists() throws UserAlreadyExistsException, CouldNotAccessDataException {
       // Given
       configureDifferentUser();
 
@@ -129,7 +135,7 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenAddingUserShouldCreateNewDto() {
+   public void whenAddingUserShouldCreateNewDto() throws UserAlreadyExistsException, CouldNotAccessDataException {
       // Given
       configureDifferentUser();
 
@@ -141,7 +147,8 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenAddingUserShouldAddNewUserToXMLWithDto() {
+   public void whenAddingUserShouldAddNewUserToXMLWithDto()
+         throws UserAlreadyExistsException, CouldNotAccessDataException {
       // Given
       configureDifferentUser();
 
@@ -153,7 +160,8 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenAddingUserShouldWriteToTheRightFile() throws IOException {
+   public void whenAddingUserShouldWriteToTheRightFile()
+         throws IOException, UserAlreadyExistsException, CouldNotAccessDataException {
       // Given
       configureDifferentUser();
 
@@ -165,7 +173,8 @@ public class XMLUserRepositoryTest {
    }
 
    @Test(expected = UserNotFoundException.class)
-   public void whenFindingByEmailShouldReturnExceptionIfEmailDoesNotExist() {
+   public void whenFindingByEmailShouldReturnExceptionIfEmailDoesNotExist()
+         throws UserNotFoundException, CouldNotAccessDataException {
       // Given A new email
 
       // When
@@ -175,7 +184,8 @@ public class XMLUserRepositoryTest {
    }
 
    @Test(expected = UserAlreadyExistsException.class)
-   public void whenAddingUserShouldReturnExceptionIfEmailExist() {
+   public void whenAddingUserShouldReturnExceptionIfEmailExist()
+         throws UserAlreadyExistsException, CouldNotAccessDataException {
       // Given An existing user
 
       // When

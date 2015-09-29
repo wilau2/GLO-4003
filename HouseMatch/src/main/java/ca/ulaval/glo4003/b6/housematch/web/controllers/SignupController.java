@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserDao;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
@@ -32,7 +34,8 @@ public class SignupController {
    }
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-   public String signup(HttpServletRequest request, SignupUserModel viewModel) {
+   public String signup(HttpServletRequest request, SignupUserModel viewModel)
+         throws UserAlreadyExistsException, CouldNotAccessDataException {
       UserSignupDto user = converter.convertToDto(viewModel);
       // TODO FIX THAT WITH ASSEMBLER
       User user1 = new User(null, null, null, null, null, null);

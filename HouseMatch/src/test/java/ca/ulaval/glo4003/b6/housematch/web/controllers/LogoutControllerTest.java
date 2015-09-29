@@ -12,34 +12,32 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.web.controllers.LogoutController;
-
 public class LogoutControllerTest {
 
-  @Mock
-  private HttpSession session;
+   @Mock
+   private HttpSession session;
 
-  @Mock
-  private HttpServletRequest request;
+   @Mock
+   private HttpServletRequest request;
 
-  @InjectMocks
-  public LogoutController controller;
+   @InjectMocks
+   private LogoutController controller;
 
-  @Before
-  public void setup() {
+   @Before
+   public void setup() {
 
-    MockitoAnnotations.initMocks(this);
-    configureRequest();
-  }
+      MockitoAnnotations.initMocks(this);
+      configureRequest();
+   }
 
-  @Test
-  public void logoutShouldSetLoggedUserToNull() {
-    controller.logout(request);
-    assertEquals(null, request.getAttribute("loggedInUser"));
-  }
+   @Test
+   public void logoutShouldSetLoggedUserToNull() {
+      controller.logout(request);
+      assertEquals(null, request.getAttribute("loggedInUser"));
+   }
 
-  private void configureRequest() {
-    given(request.getSession()).willReturn(session);
-  }
+   private void configureRequest() {
+      given(request.getSession()).willReturn(session);
+   }
 
 }

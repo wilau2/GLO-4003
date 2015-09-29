@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -15,14 +16,19 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.validation.support.BindingAwareModelMap;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 public class LoginControllerTest {
+
+   @InjectMocks
+   public LoginController controller;
 
    @Mock
    private UserLoginCorruptionVerificator userCorruptionVerificatior;
@@ -34,7 +40,7 @@ public class LoginControllerTest {
    private UserLoginDto userDto;
 
    @Mock
-   User user;
+   private User user;
 
    @Mock
    private LoginUserViewModel loginExistingUser;
@@ -44,9 +50,6 @@ public class LoginControllerTest {
 
    @Mock
    private HttpServletRequest request;
-
-   @InjectMocks
-   public LoginController controller;
 
    private BindingAwareModelMap model;
 
@@ -70,7 +73,8 @@ public class LoginControllerTest {
    }
 
    @Test
-   public void postRequestLoginReturnsTheIndexView() throws InvalidUserLoginFieldException {
+   public void postRequestLoginReturnsTheIndexView()
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessDataException {
       // Given
       model = new BindingAwareModelMap();
 
@@ -82,7 +86,8 @@ public class LoginControllerTest {
    }
 
    @Test
-   public void postRequestLoginShouldUseTheConverter() throws InvalidUserLoginFieldException {
+   public void postRequestLoginShouldUseTheConverter()
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessDataException {
       // When
       controller.login(request, loginExistingUser);
 
@@ -91,7 +96,8 @@ public class LoginControllerTest {
    }
 
    @Test
-   public void postRequestLoginShouldUseTheUserCorruptioonVerificator() throws InvalidUserLoginFieldException {
+   public void postRequestLoginShouldUseTheUserCorruptioonVerificator()
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessDataException {
       // When
       controller.login(request, loginExistingUser);
 
@@ -100,7 +106,8 @@ public class LoginControllerTest {
    }
 
    @Test
-   public void postRequestLoginShouldSetALoggedUser() throws InvalidUserLoginFieldException {
+   public void postRequestLoginShouldSetALoggedUser()
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessDataException {
       // When
       controller.login(request, loginExistingUser);
 
@@ -110,7 +117,7 @@ public class LoginControllerTest {
 
    @Test(expected = InvalidUserLoginFieldException.class)
    public void givenInvalidUserLoginViewModelpostRequestLogingShouldThrowException()
-         throws InvalidUserLoginFieldException {
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessDataException {
 
       doThrow(new InvalidUserLoginFieldException()).when(userCorruptionVerificatior).login(request, userDto);
       // When

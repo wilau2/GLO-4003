@@ -36,7 +36,7 @@ public class EstateValidatorTest {
 
    private void configureValidEstateDto() {
 
-      when(estateDto.getAddress()).thenReturn(VALID_ADDRESS);
+      // when(estateDto.getAddress()).thenReturn(VALID_ADDRESS);
       when(estateDto.getPrice()).thenReturn(VALID_PRICE);
       when(estateDto.getType()).thenReturn(VALID_TYPE_ESTATE);
 

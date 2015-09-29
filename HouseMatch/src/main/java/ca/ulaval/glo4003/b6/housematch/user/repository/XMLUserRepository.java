@@ -8,11 +8,11 @@ import javax.inject.Singleton;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
@@ -44,9 +44,8 @@ public class XMLUserRepository implements UserDao {
 
       } catch (UserNotFoundException userNotFoundException) {
          throw userNotFoundException;
-      } catch (Exception exception) {
-         exception.printStackTrace();
-         throw new CouldNotAccessDataException();
+      } catch (DocumentException exception) {
+         throw new CouldNotAccessDataException("Unable to find user by email", exception);
       }
    }
 
@@ -62,9 +61,10 @@ public class XMLUserRepository implements UserDao {
          }
       } catch (UserAlreadyExistsException userExists) {
          throw userExists;
-      } catch (Exception exception) {
-         exception.printStackTrace();
-         throw new CouldNotAccessDataException();
+      } catch (DocumentException exception) {
+         throw new CouldNotAccessDataException("Unable to add a user", exception);
+      } catch (IOException exception) {
+         throw new CouldNotAccessDataException("Unable to add a user", exception);
       }
    }
 

@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.persistance;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -79,5 +80,16 @@ public class XMLFileEditor {
          attributes.put(attribute.getQualifiedName(), attribute.getStringValue());
       }
       return attributes;
+   }
+
+   public List<Element> getAllElementsFromDocument(Document usedDocument, String elementName) {
+
+      List<Node> nodes = usedDocument.selectNodes(elementName);
+      List<Element> elements = new ArrayList<Element>();
+      for (Node node : nodes) {
+         Element element = (Element) node;
+         elements.add(element);
+      }
+      return elements;
    }
 }

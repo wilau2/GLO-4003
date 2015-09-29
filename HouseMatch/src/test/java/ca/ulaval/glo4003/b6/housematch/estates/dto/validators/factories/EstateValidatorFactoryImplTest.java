@@ -1,17 +1,19 @@
-package ca.ulaval.glo4003.b6.housematch.estates.dto.validators;
+package ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class EstateValidatorFactoryTest {
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
 
-   private EstateValidatorFactory estateValidatorFactory;
+public class EstateValidatorFactoryImplTest {
+
+   private EstateValidatorFactoryImpl estateValidatorFactory;
 
    @Before
    public void setup() {
-      estateValidatorFactory = new EstateValidatorFactory();
+      estateValidatorFactory = new EstateValidatorFactoryImpl();
    }
 
    @Test

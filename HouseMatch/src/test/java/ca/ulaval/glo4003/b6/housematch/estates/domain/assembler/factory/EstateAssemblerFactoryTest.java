@@ -5,17 +5,25 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 
 public class EstateAssemblerFactoryTest {
+
+   @Mock
+   private AddressAssembler addressAssembler;
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
    @Before
    public void setup() {
+      MockitoAnnotations.initMocks(this);
+
       estateAssemblerFactory = new EstateAssemblerFactory();
+
    }
 
    @Test

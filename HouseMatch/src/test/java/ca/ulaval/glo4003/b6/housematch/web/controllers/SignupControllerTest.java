@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +16,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.validation.support.BindingAwareModelMap;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
@@ -41,7 +44,7 @@ public class SignupControllerTest {
    private HttpServletRequest request;
 
    @InjectMocks
-   public SignupController controller;
+   private SignupController controller;
 
    private BindingAwareModelMap model;
 
@@ -61,14 +64,14 @@ public class SignupControllerTest {
    }
 
    @Test
-   public void postRequestSignupReturnsTheIndexView() {
+   public void postRequestSignupReturnsTheIndexView() throws UserAlreadyExistsException, CouldNotAccessDataException {
       model = new BindingAwareModelMap();
       String view = controller.signup(request, signupNewUser);
       assertEquals("index", view);
    }
 
    @Test
-   public void postRequestSignupShouldUseTheConverter() {
+   public void postRequestSignupShouldUseTheConverter() throws UserAlreadyExistsException, CouldNotAccessDataException {
       controller.signup(request, signupNewUser);
 
       verify(converter).convertToDto(signupNewUser);
@@ -76,14 +79,15 @@ public class SignupControllerTest {
 
    @Ignore
    @Test
-   public void postRequestSignupShouldUseTheRepository() {
+   public void postRequestSignupShouldUseTheRepository()
+         throws UserAlreadyExistsException, CouldNotAccessDataException {
       controller.signup(request, signupNewUser);
 
       // verify(userRepository).add(userSignupDto);
    }
 
    @Test
-   public void postRequestSignupShouldSetALoggedUser() {
+   public void postRequestSignupShouldSetALoggedUser() throws UserAlreadyExistsException, CouldNotAccessDataException {
       controller.signup(request, signupNewUser);
 
       assertEquals(signupNewUser.getUsername(), request.getAttribute("loggedInUser"));

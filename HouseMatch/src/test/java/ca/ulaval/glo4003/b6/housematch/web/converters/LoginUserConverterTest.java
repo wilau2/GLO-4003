@@ -10,15 +10,15 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 public class LoginUserConverterTest {
 
+   private static final String USERNAME = "username";
+
+   private static final String PASSWORD = "password";
+
    private UserLoginDto userDto;
 
    private LoginUserViewModel viewModelUser;
 
    private LoginUserConverter converter;
-
-   private String USERNAME = "username";
-
-   private String PASSWORD = "password";
 
    @Before
    public void setup() {
