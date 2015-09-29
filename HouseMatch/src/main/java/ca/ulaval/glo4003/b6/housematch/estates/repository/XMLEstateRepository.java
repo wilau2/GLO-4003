@@ -129,12 +129,12 @@ public class XMLEstateRepository implements EstateRepository {
    @Override
    public void editEstate(Estate estate) {
       // TODO Auto-generated method stub
-      // On fetch le estate puis on le re-persiste avec ses details?
+      // On a le estate modifié, juste le persister sur l'ancien et boom, modif/ajout description en 1
    }
 
    @Override
-   public void addDescription(Description description) {
-      // TODO Auto-generated method stub
-      
+   public Estate getEstate(String estateAddress) {
+      // Methode faite par will et boris
+      return null;
    }
 }

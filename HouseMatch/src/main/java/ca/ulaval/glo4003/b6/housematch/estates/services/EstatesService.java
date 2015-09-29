@@ -92,15 +92,22 @@ public class EstatesService {
       estateRepository.editEstate(estate);
    }
    
-   //---> À compléter
    public void addDescription(DescriptionDto descriptionDto) throws InvalidDescriptionException{
       DescriptionValidator descriptionValidator = descriptionValidatorFactory.getValidator();
       descriptionValidator.validate(descriptionDto);
       
+      String estateAddress = descriptionDto.getEstateID();
+      
       DescriptionAssembler descriptionAssembler = descriptionAssemblerFactory.createDescriptionAssembler();
       Description description = descriptionAssembler.assembleDescription(descriptionDto);
-     
-      //estateRepository.addDescription(description);
+      
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
+            estatePersistenceDtoFactory);
+      
+      Estate estate = estateRepository.getEstate(estateAddress);
+      estate.setDescription(description);
+      
+      estateRepository.editEstate(estate);
    }
 
 }
