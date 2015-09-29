@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -151,6 +152,19 @@ public class XMLFileEditorTest {
 
       // Then
       assertEquals(new HashMap<String, String>(), attributes);
+   }
+
+   @Test
+   public void getAllElementsFromDocumentShouldReturnTheCorrectNumberOfElement() {
+      // Given
+      List<Element> returnedList;
+      String pathToElement = "test/element";
+
+      // When
+      returnedList = editor.getAllElementsFromDocument(document, pathToElement);
+
+      // Then
+      assertEquals(1, returnedList.size());
    }
 
    private void configureDtoContainingNewElement() {

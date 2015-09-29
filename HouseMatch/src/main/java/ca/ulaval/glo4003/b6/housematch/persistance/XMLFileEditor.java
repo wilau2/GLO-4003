@@ -109,9 +109,9 @@ public class XMLFileEditor {
       return attributes;
    }
 
-   public List<Element> getAllElementsFromDocument(Document usedDocument, String elementName) {
+   public List<Element> getAllElementsFromDocument(Document usedDocument, String pathToElement) {
 
-      List<Node> nodes = usedDocument.selectNodes(elementName);
+      List<Node> nodes = usedDocument.selectNodes(pathToElement);
       List<Element> elements = new ArrayList<Element>();
       for (Node node : nodes) {
          Element element = (Element) node;
