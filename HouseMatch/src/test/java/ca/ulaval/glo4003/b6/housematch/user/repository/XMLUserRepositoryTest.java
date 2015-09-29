@@ -199,7 +199,7 @@ public class XMLUserRepositoryTest {
    public void whenFindingByUsernameShouldReturnCouldNotAccessDataExceptionIfTheDocumentIsInvalid()
          throws CouldNotAccessUserDataException, UserNotFoundException, DocumentException {
       // Given
-      configureEditorToThrowException();
+      given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
 
       // When
       repository.findByUsername(existingUsername);
@@ -212,16 +212,12 @@ public class XMLUserRepositoryTest {
          throws CouldNotAccessUserDataException, UserNotFoundException, DocumentException,
          UsernameAlreadyExistsException {
       // Given
-      configureEditorToThrowException();
+      given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
 
       // When
       repository.add(user);
 
       // Then Exception is thrown
-   }
-
-   private void configureEditorToThrowException() throws DocumentException {
-      given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
    }
 
    private void configureFactory() {

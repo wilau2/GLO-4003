@@ -37,8 +37,13 @@ public class XMLUserRepository implements UserRepository {
 
    @Override
    public User findByUsername(String username) throws CouldNotAccessUserDataException, UserNotFoundException {
+      Document usersXML;
       try {
-         Document usersXML = readUsersXML();
+         usersXML = readUsersXML();
+      } catch (DocumentException exception) {
+         throw new CouldNotAccessUserDataException();
+      }
+      try {
          if (!usernameAlreadyExists(usersXML, username)) {
             throw new UserNotFoundException();
          }
@@ -46,9 +51,6 @@ public class XMLUserRepository implements UserRepository {
 
       } catch (UserNotFoundException userNotFoundException) {
          throw userNotFoundException;
-      } catch (DocumentException exception) {
-         exception.printStackTrace();
-         throw new CouldNotAccessUserDataException();
       }
    }
 
@@ -65,7 +67,6 @@ public class XMLUserRepository implements UserRepository {
       } catch (UsernameAlreadyExistsException userExists) {
          throw userExists;
       } catch (DocumentException exception) {
-         exception.printStackTrace();
          throw new CouldNotAccessUserDataException();
       }
    }
