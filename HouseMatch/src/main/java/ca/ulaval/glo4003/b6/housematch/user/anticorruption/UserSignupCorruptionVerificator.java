@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.b6.housematch.user.anticorruption;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
@@ -19,10 +17,10 @@ public class UserSignupCorruptionVerificator {
       this.userSignupService = userSignupService;
    }
 
-   public void signup(HttpServletRequest request, UserSignupDto userDto)
+   public void signup(UserSignupDto userDto)
          throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       validateUserSignupCorruption(userDto);
-      userSignupService.signup(request, userDto);
+      userSignupService.signup(userDto);
    }
 
    private void validateUserSignupCorruption(UserSignupDto userDto) throws InvalidUserSignupFieldException {

@@ -38,7 +38,7 @@ public class UserLoginService {
 
    private void validatePassword(UserLoginDto userLoginDto, User user) throws InvalidPasswordException {
       if (!user.getPassword().equals(userLoginDto.getPassword())) {
-         throw new InvalidPasswordException("This password good, you fool");
+         throw new InvalidPasswordException("This password is not good, you fool");
       }
    }
 

@@ -43,7 +43,7 @@ public class SignupController {
          InvalidPasswordException, UsernameAlreadyExistsException {
 
       UserSignupDto userSignupDto = converter.convertViewModelToSignupDto(viewModel);
-      userSignupCorruptionVerificator.signup(request, userSignupDto);
+      userSignupCorruptionVerificator.signup(userSignupDto);
 
       UserLoginDto userLoginDto = converter.convertSignupDtoToLoginDto(userSignupDto);
       userLoginService.login(request, userLoginDto);

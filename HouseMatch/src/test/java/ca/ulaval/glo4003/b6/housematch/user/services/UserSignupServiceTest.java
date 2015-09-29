@@ -64,7 +64,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(request, userSignupDto);
+      userSignupService.signup(userSignupDto);
 
       // Then
       verify(userValidator).validate(userSignupDto);
@@ -76,7 +76,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(request, userSignupDto);
+      userSignupService.signup(userSignupDto);
 
       // Then
       verify(userValidatorFactory).getValidator();
@@ -88,7 +88,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(request, userSignupDto);
+      userSignupService.signup(userSignupDto);
 
       // Then
       verify(userAssemblerFactory).createUserAssembler();
@@ -100,7 +100,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(request, userSignupDto);
+      userSignupService.signup(userSignupDto);
 
       // Then
       verify(userAssembler).assembleUser(userSignupDto);
@@ -112,7 +112,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(request, userSignupDto);
+      userSignupService.signup(userSignupDto);
 
       // Then
       verify(userRepository).addUser(user);
@@ -124,7 +124,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(request, userSignupDto);
+      userSignupService.signup(userSignupDto);
 
       // Then does not throw exception
    }
@@ -136,7 +136,7 @@ public class UserSignupServiceTest {
 
       // When
       doThrow(new CouldNotAccessUserDataException(null)).when(userRepository).addUser(user);
-      userSignupService.signup(request, userSignupDto);
+      userSignupService.signup(userSignupDto);
 
       // Then throw CouldNotAccessUserDataException
    }
@@ -148,7 +148,7 @@ public class UserSignupServiceTest {
 
       // When
       doThrow(new UsernameAlreadyExistsException(null)).when(userRepository).addUser(user);
-      userSignupService.signup(request, userSignupDto);
+      userSignupService.signup(userSignupDto);
 
       // Then throw UsernameAlreadyExistsException
    }

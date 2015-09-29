@@ -121,7 +121,7 @@ public class SignupControllerTest {
       controller.signup(request, userSignupViewModel);
 
       // Then
-      verify(userSignupCorruptionVerificator).signup(request, userSignupDto);
+      verify(userSignupCorruptionVerificator).signup(userSignupDto);
    }
 
    @Test
@@ -156,8 +156,7 @@ public class SignupControllerTest {
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException {
 
-      doThrow(new InvalidUserSignupFieldException(null)).when(userSignupCorruptionVerificator).signup(request,
-            userSignupDto);
+      doThrow(new InvalidUserSignupFieldException(null)).when(userSignupCorruptionVerificator).signup(userSignupDto);
       // When
       controller.signup(request, userSignupViewModel);
 
@@ -181,8 +180,7 @@ public class SignupControllerTest {
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException {
 
-      doThrow(new CouldNotAccessUserDataException(null)).when(userSignupCorruptionVerificator).signup(request,
-            userSignupDto);
+      doThrow(new CouldNotAccessUserDataException(null)).when(userSignupCorruptionVerificator).signup(userSignupDto);
       // When
       controller.signup(request, userSignupViewModel);
 
@@ -206,8 +204,7 @@ public class SignupControllerTest {
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException {
 
-      doThrow(new UsernameAlreadyExistsException(null)).when(userSignupCorruptionVerificator).signup(request,
-            userSignupDto);
+      doThrow(new UsernameAlreadyExistsException(null)).when(userSignupCorruptionVerificator).signup(userSignupDto);
       // When
       controller.signup(request, userSignupViewModel);
 

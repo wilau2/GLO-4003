@@ -69,10 +69,10 @@ public class UserSignupCorruptionVerificatorTest {
       // Given
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then
-      verify(userSignupService).signup(request, userDto);
+      verify(userSignupService).signup(userDto);
 
    }
 
@@ -83,7 +83,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getUsername()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -95,7 +95,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getUsername()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -107,7 +107,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getPassword()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -119,7 +119,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getPassword()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -131,7 +131,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getFirstName()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -143,7 +143,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getFirstName()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -155,7 +155,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getLastName()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -167,7 +167,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getLastName()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -179,7 +179,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getPhoneNumber()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -191,7 +191,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getPhoneNumber()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -203,7 +203,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getEmail()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -215,7 +215,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getEmail()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -227,7 +227,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getRole()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -239,7 +239,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getRole()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.signup(request, userDto);
+      userCorruptionVerificator.signup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }

@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
@@ -32,7 +30,7 @@ public class UserSignupService {
 
    }
 
-   public void signup(HttpServletRequest request, UserSignupDto userSignupDto)
+   public void signup(UserSignupDto userSignupDto)
          throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
 
       UserValidator userValidator = userValidatorFactory.getValidator();
