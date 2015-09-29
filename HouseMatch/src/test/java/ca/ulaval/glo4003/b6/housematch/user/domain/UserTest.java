@@ -21,9 +21,9 @@ public class UserTest {
    @InjectMocks
    private User user;
 
-   private static String USERNAME = "username";
+   private final static String USERNAME = "username";
 
-   private static String PASSWORD = "password";
+   private final static String PASSWORD = "password";
 
    @Before
    public void setup() {
@@ -31,28 +31,46 @@ public class UserTest {
    }
 
    @Test
-   public void canGetTheCorrectUsername() {
+   public void shouldReturnTheUsernameGivenAtInitialisation() {
       // Given
       configureUser();
+
       // When
+
+      // Then
       assertEquals(USERNAME, user.getUsername());
    }
 
    @Test
-   public void canGetTheCorrectPassword() {
+   public void shouldReturnThePasswordGivenAtInitialisation() {
       // Given
       configureUser();
+
       // When
+
+      // Then
       assertEquals(PASSWORD, user.getPassword());
    }
 
    @Test
-   public void canGetTheCorrectContactInformation() {
+   public void shouldReturnTheContactInformationGivenAtInitialisation() {
+      // Given
+      configureUser();
+
+      // When
+
+      // Then
       assertEquals(contactInformation, user.getContactInformation());
    }
 
    @Test
-   public void canGetTheCorrectRole() {
+   public void shouldReturnTheRoleGivenAtInitialisation() {
+      // Given
+      configureUser();
+
+      // When
+
+      // Then
       assertEquals(role, user.getRole());
    }
 

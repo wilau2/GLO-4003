@@ -20,6 +20,7 @@ public class UserAssembler {
       ContactInformation contactInformation = new ContactInformation(firstName, lastName, phoneNumber, email);
       Role userRole = new Role(role);
       User user = new User(username, password, contactInformation, userRole);
+
       return user;
    }
 

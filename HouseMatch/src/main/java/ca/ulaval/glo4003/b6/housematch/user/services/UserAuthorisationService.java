@@ -7,9 +7,9 @@ import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 
 public class UserAuthorisationService {
 
-   protected static String LOGGED_IN_USER_ROLE = "loggedInUserRole";
+   protected final static String LOGGED_IN_USER_ROLE = "loggedInUserRole";
 
-   protected static String LOGGED_IN_USERNAME = "loggedInUsername";
+   protected final static String LOGGED_IN_USERNAME = "loggedInUsername";
 
    public HttpServletRequest setSessionUserAuthorisation(HttpServletRequest request, User user) {
 

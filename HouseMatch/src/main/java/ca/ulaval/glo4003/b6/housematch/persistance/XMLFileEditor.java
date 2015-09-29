@@ -24,6 +24,7 @@ public class XMLFileEditor {
       File xml = new File(pathToXMLFile);
 
       SAXReader reader = new SAXReader();
+
       return reader.read(xml);
    }
 
@@ -78,8 +79,9 @@ public class XMLFileEditor {
             }
          }
 
-         if (hasAllAttributes)
+         if (hasAllAttributes) {
             return true;
+         }
       }
       return false;
    }

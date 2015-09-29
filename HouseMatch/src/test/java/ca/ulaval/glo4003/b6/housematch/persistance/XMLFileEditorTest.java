@@ -21,9 +21,9 @@ public class XMLFileEditorTest {
 
    XMLFileEditor editor;
 
-   String pathToXmlFileStatic = "persistenceTestData/testData.xml";
+   final String pathToXmlFileStatic = "persistenceTestData/testData.xml";
 
-   String pathToXmlFileModified = "persistenceTestData/changingTestData.xml";
+   final String pathToXmlFileModified = "persistenceTestData/changingTestData.xml";
 
    Document document;
 

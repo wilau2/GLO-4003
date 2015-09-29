@@ -25,9 +25,9 @@ public class XMLUserRepository implements UserRepository {
 
    private RepositoryToPersistenceDtoFactory dtoFactory;
 
-   private String pathToXML = "persistence/users.xml";
+   private final String pathToXML = "persistence/users.xml";
 
-   private String pathToUsernameValue = "users/user/username";
+   private final String pathToUsernameValue = "users/user/username";
 
    public XMLUserRepository() {
       this.fileEditor = new XMLFileEditor();
@@ -43,15 +43,10 @@ public class XMLUserRepository implements UserRepository {
       } catch (DocumentException exception) {
          throw new CouldNotAccessUserDataException("Something wrong happend trying to acces the data");
       }
-      try {
-         if (!usernameAlreadyExists(usersXML, username)) {
-            throw new UserNotFoundException("No user with this username was found");
-         }
-         return returnUserWithGivenUsername(usersXML, username);
-
-      } catch (UserNotFoundException userNotFoundException) {
-         throw userNotFoundException;
-      } 
+      if (!usernameAlreadyExists(usersXML, username)) {
+         throw new UserNotFoundException("No user with this username was found");
+      }
+      return returnUserWithGivenUsername(usersXML, username);
    }
 
    @Override
@@ -64,8 +59,6 @@ public class XMLUserRepository implements UserRepository {
             addNewUserToDocument(usersXML, newUser);
             saveFile(usersXML);
          }
-      } catch (UsernameAlreadyExistsException userExists) {
-         throw userExists;
       } catch (DocumentException exception) {
          throw new CouldNotAccessUserDataException("Something wrong happend trying acces the data");
       }
@@ -96,7 +89,7 @@ public class XMLUserRepository implements UserRepository {
       try {
          fileEditor.formatAndWriteDocument(usersXML, pathToXML);
       } catch (IOException e) {
-         throw new DocumentException();
+         throw new DocumentException("Could not access the specified file");
       }
    }
 

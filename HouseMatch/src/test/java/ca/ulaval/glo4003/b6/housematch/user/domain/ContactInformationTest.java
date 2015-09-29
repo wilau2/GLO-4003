@@ -7,13 +7,13 @@ import org.junit.Test;
 
 public class ContactInformationTest {
 
-   private static String FIRST_NAME = "firsname";
+   private final static String FIRST_NAME = "firsname";
 
-   private static String LAST_NAME = "lastname";
+   private final static String LAST_NAME = "lastname";
 
-   private static String PHONE_NUMBER = "phoneNumber";
+   private final static String PHONE_NUMBER = "phoneNumber";
 
-   private static String EMAIL = "email";
+   private final static String EMAIL = "email";
 
    private ContactInformation contactInformation;
 

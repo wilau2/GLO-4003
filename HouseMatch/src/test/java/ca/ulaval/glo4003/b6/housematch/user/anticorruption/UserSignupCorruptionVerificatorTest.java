@@ -36,16 +36,16 @@ public class UserSignupCorruptionVerificatorTest {
    private static final String ROLE = "role";
 
    @Mock
-   UserSignupDto userDto;
+   private UserSignupDto userDto;
 
    @Mock
-   UserSignupService userSignupService;
+   private UserSignupService userSignupService;
 
    @InjectMocks
    private UserSignupCorruptionVerificator userCorruptionVerificator;
 
    @Mock
-   HttpServletRequest request;
+   private HttpServletRequest request;
 
    @Before
    public void setup() {
@@ -85,7 +85,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -97,7 +97,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -109,7 +109,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -121,7 +121,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -133,7 +133,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -145,7 +145,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -157,7 +157,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -169,7 +169,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -181,7 +181,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -193,7 +193,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -205,7 +205,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -217,7 +217,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -229,7 +229,7 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -241,6 +241,6 @@ public class UserSignupCorruptionVerificatorTest {
       // When
       userCorruptionVerificator.signup(request, userDto);
 
-      // Then InvalidUserSignupFieldException is thrown
+      // Then an InvalidUserSignupFieldException is thrown
    }
 }

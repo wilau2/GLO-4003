@@ -24,15 +24,15 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlready
 
 public class XMLUserRepositoryTest {
 
-   private String existingUsername = "an existing Username";
+   private final String existingUsername = "an existing Username";
 
-   private String correctPassword = "the corresponding password";
+   private final String correctPassword = "the corresponding password";
 
-   private String newUsername = "a new Username";
+   private final String newUsername = "a new Username";
 
-   private String correctPathToFile = "persistence/users.xml";
+   private final String correctPathToFile = "persistence/users.xml";
 
-   private String correctPathToUsernameValue = "users/user/username";
+   private final String correctPathToUsernameValue = "users/user/username";
 
    @Mock
    private User user;
