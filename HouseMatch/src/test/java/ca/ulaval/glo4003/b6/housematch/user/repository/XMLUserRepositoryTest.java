@@ -214,7 +214,7 @@ public class XMLUserRepositoryTest {
       given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
 
       // When
-      repository.findByUsername(existingUsername);
+      repository.getUser(existingUsername);
 
       // Then Exception is thrown
    }
@@ -227,7 +227,7 @@ public class XMLUserRepositoryTest {
       given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then Exception is thrown
    }
