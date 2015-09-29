@@ -88,4 +88,19 @@ public class XMLFileEditor {
       // TODO Auto-generated method stub BORIS STUFF
       return null;
    }
+   
+   public void replaceElement(Document existingDocument, String pathToValue, String matchingElement, RepositoryToPersistenceDto receivedDto){
+      List<Node> list = existingDocument.selectNodes(pathToValue);
+      
+      for (Node node : list) {
+         if (node.getStringValue().equals(matchingElement)) {
+              replaceAttributes(receivedDto, node);
+              break;
+         }
+      }
+   }
+   
+   private void replaceAttributes(RepositoryToPersistenceDto receivedDto, Node node){
+      //ici faudrait gosser avec le xml, le data de la node pis toute BORIS :) ?
+   }
 }

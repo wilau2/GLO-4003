@@ -10,7 +10,6 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
@@ -128,6 +127,15 @@ public class XMLEstateRepository implements EstateRepository {
 
    @Override
    public void editEstate(Estate estate) {
+      try {
+         Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+         EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+         HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
+         EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
+         xmlFileEditor.replaceElement(estateDocument, ESTATE, attributes.get(ADDRESS_KEY),estatePersistenceDto);
+      } catch (DocumentException e) {
+         throw new CouldNotAccessDataException("Unable to edit the estate", e);
+      }
    }
 
    @Override
