@@ -53,8 +53,20 @@ public class DescriptionAssemblerTest {
       MockitoAnnotations.initMocks(this);
 
       configureDescription();
+      configureDescriptionDto();
    }
    
+   private void configureDescriptionDto(){
+      when(descriptionDto.getNumberOfBedRooms()).thenReturn(NUMBER_OF_BED_ROOMS);
+      when(descriptionDto.getNumberOfBathrooms()).thenReturn(NUMBER_OF_BATHROOMS);
+      when(descriptionDto.getNumberOfRooms()).thenReturn(NUMBER_OF_ROOMS);
+      when(descriptionDto.getNumberOfLevel()).thenReturn(NUMBER_OF_FLOOR);
+      when(descriptionDto.getYearsOfConstruction()).thenReturn(YEAR_OF_CONSTRUCTION);
+      when(descriptionDto.getDimensionsBuilding()).thenReturn(DIMENSION_BUILDING);
+      when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(LIVING_SPACE);
+      when(descriptionDto.getMunicipalValuation()).thenReturn(MUNICIPAL_VALUATION);
+      when(descriptionDto.getBackyardFaces()).thenReturn(BACKYARD_FACE);
+   }
    private void configureDescription() {
       when(description.getNumberOfBedRooms()).thenReturn(NUMBER_OF_BED_ROOMS);
       when(description.getNumberOfBathrooms()).thenReturn(NUMBER_OF_BATHROOMS);
@@ -84,6 +96,25 @@ public class DescriptionAssemblerTest {
       assertEquals(LIVING_SPACE, returnedDescriptionDto.getLivingSpaceAreaSquareMeter());
       assertEquals(MUNICIPAL_VALUATION, returnedDescriptionDto.getMunicipalValuation());
       assertEquals(BACKYARD_FACE, returnedDescriptionDto.getBackyardFaces());
+   }
+   
+   @Test
+   public void whenAssemblingAnDescriptionFromAnDescriptionDTOShouldSetCorrectlyAllField() {
+      // Given 
+
+      // When
+      Description description = descriptionAssembler.assembleDescription(descriptionDto);
+
+      // Then
+      assertEquals(NUMBER_OF_BED_ROOMS, description.getNumberOfBedRooms());
+      assertEquals(NUMBER_OF_BATHROOMS, description.getNumberOfBathrooms());
+      assertEquals(NUMBER_OF_ROOMS, description.getNumberOfRooms());
+      assertEquals(NUMBER_OF_FLOOR, description.getNumberOfLevel());
+      assertEquals(YEAR_OF_CONSTRUCTION, description.getYearsOfConstruction());
+      assertEquals(DIMENSION_BUILDING, description.getDimensionsBuilding());
+      assertEquals(LIVING_SPACE, description.getLivingSpaceAreaSquareMeter());
+      assertEquals(MUNICIPAL_VALUATION, description.getMunicipalValuation());
+      assertEquals(BACKYARD_FACE, description.getBackyardFaces());
    }
 
 }
