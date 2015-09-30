@@ -17,7 +17,7 @@ import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 public class RepositoryToPersistenceUserDtoTest {
 
    @Mock
-   User user;
+   private User user;
 
    @Mock
    private ContactInformation userInfos;

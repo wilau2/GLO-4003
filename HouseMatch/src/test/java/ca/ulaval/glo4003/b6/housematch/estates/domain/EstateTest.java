@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.estates.domain;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -26,6 +27,38 @@ public class EstateTest {
       MockitoAnnotations.initMocks(this);
 
       estate = new Estate(TYPE, address, PRICE, SELLER_NAME);
+   }
+
+   @Test
+   public void shouldReturnTheTypeGivenAtInitialisation() {
+      // Given an estate
+
+      // Then
+      assertEquals(TYPE, estate.getType());
+   }
+
+   @Test
+   public void shouldReturnTheAddressGivenAtInitialisation() {
+      // Given an estate
+
+      // Then
+      assertEquals(address, estate.getAddress());
+   }
+
+   @Test
+   public void shouldReturnThePriceGivenAtInitialisation() {
+      // Given an estate
+
+      // Then
+      assertEquals(PRICE, estate.getPrice());
+   }
+
+   @Test
+   public void shouldReturnTheSellerGivenAtInitialisation() {
+      // Given an estate
+
+      // Then
+      assertEquals(SELLER_NAME, estate.getSeller());
    }
 
    @Test
