@@ -23,7 +23,7 @@
     <firstName>bob</firstName>
     <lastName>bob</lastName>
     <password>bob</password>
-    <role>seller</role>
+    <role>admin</role>
     <phoneNumber>111</phoneNumber>
     <email>bob</email>
     <username>bob</username>
