@@ -4,54 +4,42 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ca.ulaval.glo4003.b6.housematch.admin.repository.AdminRepository;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
-import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
-import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidatorFactory;
-import ca.ulaval.glo4003.b6.housematch.user.repository.UserDao;
+import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 
 public class UserLoginService {
 
-   private UserDao userRepository;
+   private UserRepository userRepository;
 
-   private AdminRepository adminRepository;
-
-   private UserValidatorFactory userValidatorFactory;
+   private UserAuthorisationService userAuthorisationService;
 
    @Autowired
-   public UserLoginService(UserDao userRepository, AdminRepository adminRepository,
-         UserValidatorFactory userValidatorFactory) {
+   public UserLoginService(UserRepository userRepository, UserAuthorisationService userAuthorisationService) {
 
       this.userRepository = userRepository;
-      this.adminRepository = adminRepository;
-      this.userValidatorFactory = userValidatorFactory;
+      this.userAuthorisationService = userAuthorisationService;
+
    }
 
-   public void setUserRepository(UserDao userRepository) {
-      this.userRepository = userRepository;
+   public void login(HttpServletRequest request, UserLoginDto userLoginDto)
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+
+      User user = userRepository.getUser(userLoginDto.getUsername());
+
+      validatePassword(userLoginDto, user);
+
+      request = userAuthorisationService.setSessionUserAuthorisation(request, user);
+
    }
 
-   public void setAdminRepository(AdminRepository adminRepository) {
-      this.adminRepository = adminRepository;
-   }
-
-   public User login(HttpServletRequest request, UserLoginDto userLoginDto)
-         throws UserNotFoundException, CouldNotAccessDataException {
-      UserValidator userValidator = userValidatorFactory.getValidator();
-      userValidator.validate(userLoginDto);
-      // TODO CHANGE REPO METHOD TO BE FIND BY USERNAME
-      User user = userRepository.findByEmail(userLoginDto.getUsername());
-      request.getSession().setAttribute("loggedInUserRole", "user");
-
-      // if (adminRepository.isAdmin(user.getEmail())) {
-      // request.getSession().setAttribute("loggedInUserRole", "admin");
-      // }
-      request.getSession().setAttribute("loggedInUserEmail", user.getEmail());
-
-      return user;
+   private void validatePassword(UserLoginDto userLoginDto, User user) throws InvalidPasswordException {
+      if (!user.getPassword().equals(userLoginDto.getPassword())) {
+         throw new InvalidPasswordException("This password is not good, you fool");
+      }
    }
 
 }

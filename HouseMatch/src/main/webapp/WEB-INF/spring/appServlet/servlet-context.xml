@@ -123,36 +123,71 @@
         id="userRepository"
         class="ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository" />
     <beans:bean
-        id="adminRepository"
-        class="ca.ulaval.glo4003.b6.housematch.admin.repository.XMLAdminRepository" />
-    <beans:bean
         id="userValidatorFactory"
-        class="ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidatorFactory" />
+        class="ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidatorFactory" />
+    <beans:bean
+        id="userAssemblerFactory"
+        class="ca.ulaval.glo4003.b6.housematch.user.domain.assembler.factory.UserAssemblerFactory" />
     <beans:bean
         id="loginUserConverter"
         class="ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter" />
     <beans:bean
-        id="loginUserService"
+        id="signupUserConverter"
+        class="ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter" />
+    <beans:bean
+        id="userAuthorisationService"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorisationService" />
+    
+    
+    <beans:bean
+        id="userLoginService"
         class="ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService"
     >
-        <beans:constructor-arg
-            name="userRepository"
-            ref="userRepository" />
-        <beans:constructor-arg
-            name="adminRepository"
-            ref="adminRepository" />
-        <beans:constructor-arg
-            name="userValidatorFactory"
-            ref="userValidatorFactory" />
+
+    	<beans:constructor-arg
+	        name="userRepository"
+	        ref="userRepository" />
+	    <beans:constructor-arg
+	        name="userAuthorisationService"
+	        ref="userAuthorisationService" />
+	        
+    </beans:bean>
+    
+    <beans:bean
+        id="userSignupService"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.UserSignupService"
+    >
+    	<beans:constructor-arg
+	        name="userRepository"
+	        ref="userRepository" />   
+	    <beans:constructor-arg
+	        name="userValidatorFactory"
+	        ref="userValidatorFactory" />
+	    <beans:constructor-arg
+	        name="userAssemblerFactory"
+	        ref="userAssemblerFactory" />    
+
     </beans:bean>
 
     <beans:bean
-        id="userCorruptionVerificator"
+        id="userLoginCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator"
     >
-        <beans:constructor-arg
-            name="loginUserService"
-            ref="loginUserService" />
+
+    	<beans:constructor-arg
+	        name="userLoginService"
+	        ref="userLoginService" />
+    </beans:bean>
+    
+    
+    <beans:bean
+        id="userSignupCorruptionVerificator"
+        class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator"
+    >
+    	<beans:constructor-arg
+	        name="userSignupService"
+	        ref="userSignupService" />
+
     </beans:bean>
 
     <beans:bean
@@ -163,8 +198,8 @@
             name="loginUserConverter"
             ref="loginUserConverter" />
         <beans:constructor-arg
-            name="userCorruptionVerificator"
-            ref="userCorruptionVerificator" />
+            name="userLoginCorruptionVerificator"
+            ref="userLoginCorruptionVerificator" />
     </beans:bean>
 
     <beans:bean
@@ -172,8 +207,25 @@
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.SignupController"
     >
         <beans:constructor-arg
-            name="userRepository"
-            ref="userRepository" />
+            name="signupUserConverter"
+            ref="signupUserConverter" />
+        <beans:constructor-arg
+            name="userSignupCorruptionVerificator"
+            ref="userSignupCorruptionVerificator" />
+        <beans:constructor-arg
+            name="userLoginService"
+            ref="userLoginService" />
     </beans:bean>
+    
+    <beans:bean
+        id="logoutController"
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.LogoutController"
+    >
+        <beans:constructor-arg
+            name="userAuthorisationService"
+            ref="userAuthorisationService" />
+        
+    </beans:bean>
+    
 
 </beans:beans>

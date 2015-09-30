@@ -2,19 +2,30 @@
 
 <users> 
   <user> 
-    <email>an email adress2</email>  
-    <password>a password</password> 
+    <firstName>qwe</firstName>  
+    <lastName>qwe</lastName>  
+    <password>123</password>  
+    <role>buyer</role>  
+    <phoneNumber>qwe</phoneNumber>  
+    <email>qwe</email>  
+    <username>qwe</username> 
   </user>  
   <user> 
+    <firstName>123</firstName>  
+    <lastName>123</lastName>  
+    <password>123</password>  
+    <role>seller</role>  
+    <phoneNumber>123</phoneNumber>  
     <email>123</email>  
-    <password>123</password> 
-  </user>  
-  <user> 
-    <password>working</password>  
-    <email>yup</email> 
+    <username>123</username> 
   </user>  
   <user>
-    <password>123</password>
-    <email>12345</email>
+    <firstName>bob</firstName>
+    <lastName>bob</lastName>
+    <password>bob</password>
+    <role>seller</role>
+    <phoneNumber>111</phoneNumber>
+    <email>bob</email>
+    <username>bob</username>
   </user>
 </users>

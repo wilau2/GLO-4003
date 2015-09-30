@@ -1,61 +1,142 @@
 package ca.ulaval.glo4003.b6.housematch.user.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import ca.ulaval.glo4003.b6.housematch.user.domain.User;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class UserTest {
 
+   @Mock
+   private ContactInformation contactInformation;
+
+   @Mock
+   private Role role;
+
+   @InjectMocks
    private User user;
 
-   private String username = "username";
+   private final static String USERNAME = "username";
 
-   private String firstName = "firsname";
-
-   private String lastName = "lastname";
-
-   private String phoneNumber = "phoneNumber";
-
-   private String email = "email";
-
-   private String password = "password";
+   private final static String PASSWORD = "password";
 
    @Before
    public void setup() {
-      user = new User(username, firstName, lastName, phoneNumber, email, password);
+      MockitoAnnotations.initMocks(this);
    }
 
    @Test
-   public void canGetTheCorrectUsername() {
-      assertEquals(username, user.getUsername());
+   public void shouldReturnTheUsernameGivenAtInitialisation() {
+      // Given
+      configureUser();
+
+      // When
+
+      // Then
+      assertEquals(USERNAME, user.getUsername());
    }
 
    @Test
-   public void canGetTheCorrectFirstName() {
-      assertEquals(firstName, user.getFirstName());
+   public void shouldReturnThePasswordGivenAtInitialisation() {
+      // Given
+      configureUser();
+
+      // When
+
+      // Then
+      assertEquals(PASSWORD, user.getPassword());
    }
 
    @Test
-   public void canGetTheCorrectLastName() {
-      assertEquals(lastName, user.getLastName());
+   public void shouldReturnTheContactInformationGivenAtInitialisation() {
+      // Given
+      configureUser();
+
+      // When
+
+      // Then
+      assertEquals(contactInformation, user.getContactInformation());
    }
 
    @Test
-   public void canGetTheCorrectPhoneNumber() {
-      assertEquals(phoneNumber, user.getPhoneNumber());
+   public void shouldReturnTheRoleGivenAtInitialisation() {
+      // Given
+      configureUser();
+
+      // When
+
+      // Then
+      assertEquals(role, user.getRole());
    }
 
    @Test
-   public void canGetTheCorrectEmail() {
-      assertEquals(email, user.getEmail());
+   public void givenAdminUserWhenIsUserShouldReturnTrue() {
+      // Given
+      configureAdminUser();
+
+      // When
+
+      // Then
+      assertTrue(user.isAdmin());
    }
 
    @Test
-   public void canGetTheCorrectPassword() {
-      assertEquals(password, user.getPassword());
+   public void givenBuyerUserWhenIsUserShouldReturnTrue() {
+      // Given
+      configureBuyerUser();
+
+      // When
+
+      // Then
+      assertTrue(user.isBuyer());
+   }
+
+   @Test
+   public void givenSellerUserWhenIsUserShouldReturnTrue() {
+      // Given
+      configureSellerUser();
+
+      // When
+      user.isSeller();
+
+      // Then
+      assertTrue(user.isSeller());
+   }
+
+   private void configureAdminRole() {
+      given(role.asAdmin()).willReturn(true);
+   }
+
+   private void configureSellerRole() {
+      given(role.asSeller()).willReturn(true);
+   }
+
+   private void configureBuyerRole() {
+      given(role.asBuyer()).willReturn(true);
+   }
+
+   private void configureUser() {
+      user = new User(USERNAME, PASSWORD, contactInformation, role);
+   }
+
+   private void configureAdminUser() {
+      configureAdminRole();
+      configureUser();
+   }
+
+   private void configureSellerUser() {
+      configureSellerRole();
+      configureUser();
+   }
+
+   private void configureBuyerUser() {
+      configureBuyerRole();
+      configureUser();
    }
 
 }

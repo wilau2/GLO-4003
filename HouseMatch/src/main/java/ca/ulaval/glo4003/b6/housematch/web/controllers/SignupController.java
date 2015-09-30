@@ -8,40 +8,48 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.user.domain.User;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
-import ca.ulaval.glo4003.b6.housematch.user.repository.UserDao;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
 @Controller
 public class SignupController {
 
-   private UserDao userRepository;
-
    private SignupUserConverter converter;
 
-   public void setUserRepository(UserDao userRepository) {
-      this.userRepository = userRepository;
-   }
+   private UserSignupCorruptionVerificator userSignupCorruptionVerificator;
+
+   private UserLoginService userLoginService;
 
    @Autowired
-   public SignupController(UserDao userRepository, SignupUserConverter converter) {
-      this.userRepository = userRepository;
+   public SignupController(SignupUserConverter converter,
+         UserSignupCorruptionVerificator userSignupCorruptionVerificator, UserLoginService userLoginService) {
       this.converter = converter;
+      this.userSignupCorruptionVerificator = userSignupCorruptionVerificator;
+      this.userLoginService = userLoginService;
    }
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
    public String signup(HttpServletRequest request, SignupUserModel viewModel)
-         throws UserAlreadyExistsException, CouldNotAccessDataException {
-      UserSignupDto user = converter.convertToDto(viewModel);
-      // TODO FIX THAT WITH ASSEMBLER
-      User user1 = new User(null, null, null, null, null, null);
-      userRepository.add(user1);
-      request.getSession().setAttribute("loggedInUserEmail", user.getEmail());
-      return "index";
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException {
+
+      UserSignupDto userSignupDto = converter.convertViewModelToSignupDto(viewModel);
+      userSignupCorruptionVerificator.signup(userSignupDto);
+
+      UserLoginDto userLoginDto = converter.convertSignupDtoToLoginDto(userSignupDto);
+      userLoginService.login(request, userLoginDto);
+
+      return "redirect:/";
+
    }
 
    @RequestMapping(value = "/signup", method = RequestMethod.GET)

@@ -45,7 +45,7 @@
 							<td>${estate.addressToString()}</td>
 							<td>${estate.price}</td>
 							<td><a class="pure-button"
-								href="${entryUrl}/seller/${loggedInUserEmail}/estates/${estate.addressToUrl()}">Select</a></td>
+								href="${entryUrl}/seller/${loggedInUsername}/estates/${estate.addressToUrl()}">Select</a></td>
 						</tr>
 
 					</c:forEach>
@@ -56,7 +56,7 @@
 			<h2>It seems that you don't have any Estates for sale!</h2>
 			<h3>
 				Would you like to add one <a class="pure-button"
-					href="${entryUrl}/seller/${loggedInUserEmail}/estates/add">Sell
+					href="${entryUrl}/seller/${loggedInUsername}/estates/add">Sell
 					an Estate</a>
 			</h3>
 		</c:if>

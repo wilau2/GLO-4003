@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
@@ -18,7 +19,7 @@ public class SignupUserConverterTest {
 
    @Before
    public void setup() {
-      userSignupDto = new UserSignupDto();
+      userSignupDto = new UserSignupDto("a username");
       userSignupDto.setEmail("an Email");
       userSignupDto.setPassword("a Password");
 
@@ -30,30 +31,86 @@ public class SignupUserConverterTest {
    }
 
    @Test
-   public void whenConvertingAUserIntoAUserModelItShouldKeepTheSameEmail() {
+   public void whenConvertingAUserIntoAUserModelItShouldKeepTheSameUsername() {
+      // Given
       SignupUserModel returnedViewUser;
-      returnedViewUser = converter.convertToViewModel(userSignupDto);
+
+      // When
+      returnedViewUser = converter.convertSignupDtoToViewModel(userSignupDto);
+
+      // Then
+      assertEquals("a username", returnedViewUser.getUsername());
+   }
+
+   @Test
+   public void whenConvertingAUserIntoAUserModelItShouldKeepTheSameEmail() {
+      // Given
+      SignupUserModel returnedViewUser;
+
+      // When
+      returnedViewUser = converter.convertSignupDtoToViewModel(userSignupDto);
+
+      // Then
       assertEquals("an Email", returnedViewUser.getEmail());
    }
 
    @Test
    public void whenConvertingAUserIntoAUserModelItShouldKeepTheSamePassword() {
+      // Given
       SignupUserModel returnedViewUser;
-      returnedViewUser = converter.convertToViewModel(userSignupDto);
+
+      // When
+      returnedViewUser = converter.convertSignupDtoToViewModel(userSignupDto);
+
+      // Then
       assertEquals("a Password", returnedViewUser.getPassword());
    }
 
    @Test
    public void whenConvertingAUserModelIntoAUserItShouldKeepTheSameEmail() {
+      // Given
       UserSignupDto returnedUser;
-      returnedUser = converter.convertToDto(viewUser);
+
+      // When
+      returnedUser = converter.convertViewModelToSignupDto(viewUser);
+
+      // Then
       assertEquals("another Email", returnedUser.getEmail());
    }
 
    @Test
    public void whenConvertingAUserModelIntoAUserItShouldKeepTheSamePassword() {
+      // Given
       UserSignupDto returnedUser;
-      returnedUser = converter.convertToDto(viewUser);
+
+      // When
+      returnedUser = converter.convertViewModelToSignupDto(viewUser);
+
+      // Then
       assertEquals("another Password", returnedUser.getPassword());
+   }
+
+   @Test
+   public void shouldBetAbleToConvertSingupDtoToLoginDtoAndKeepTheUsername() {
+      // Given
+      UserLoginDto returnedUserLoginDto;
+
+      // When
+      returnedUserLoginDto = converter.convertSignupDtoToLoginDto(userSignupDto);
+
+      // Then
+      assertEquals(userSignupDto.getUsername(), returnedUserLoginDto.getUsername());
+   }
+
+   @Test
+   public void shouldBetAbleToConvertSingupDtoToLoginDtoAndKeepThePassword() {
+      // Given
+      UserLoginDto returnedUserLoginDto;
+
+      // When
+      returnedUserLoginDto = converter.convertSignupDtoToLoginDto(userSignupDto);
+
+      // Then
+      assertEquals(userSignupDto.getPassword(), returnedUserLoginDto.getPassword());
    }
 }

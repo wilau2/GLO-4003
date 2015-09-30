@@ -2,28 +2,39 @@ package ca.ulaval.glo4003.b6.housematch.web.converters;
 
 import org.springframework.stereotype.Component;
 
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
 @Component
 public class SignupUserConverter {
 
-   public SignupUserModel convertToViewModel(UserSignupDto user) {
+   public SignupUserModel convertSignupDtoToViewModel(UserSignupDto userSignupDto) {
       SignupUserModel viewModel = new SignupUserModel();
-      viewModel.setFirstName(user.getFirstName());
-      viewModel.setLastName(user.getLastName());
-      viewModel.setUsername(user.getUsername());
-      viewModel.setEmail(user.getEmail());
-      viewModel.setPhoneNumber(user.getPhoneNumber());
-      viewModel.setPassword(user.getPassword());
+      viewModel.setRole(userSignupDto.getRole());
+      viewModel.setFirstName(userSignupDto.getFirstName());
+      viewModel.setLastName(userSignupDto.getLastName());
+      viewModel.setUsername(userSignupDto.getUsername());
+      viewModel.setEmail(userSignupDto.getEmail());
+      viewModel.setPhoneNumber(userSignupDto.getPhoneNumber());
+      viewModel.setPassword(userSignupDto.getPassword());
       return viewModel;
    }
 
-   public UserSignupDto convertToDto(SignupUserModel viewModel) {
-      UserSignupDto user = new UserSignupDto();
+   public UserSignupDto convertViewModelToSignupDto(SignupUserModel viewModel) {
+      UserSignupDto user = new UserSignupDto(viewModel.getUsername());
+      user.setRole(viewModel.getRole());
+      user.setFirstName(viewModel.getFirstName());
+      user.setLastName(viewModel.getLastName());
+      user.setPhoneNumber(viewModel.getPhoneNumber());
       user.setEmail(viewModel.getEmail());
       user.setPassword(viewModel.getPassword());
       return user;
    }
 
+   public UserLoginDto convertSignupDtoToLoginDto(UserSignupDto userSignupDto) {
+      UserLoginDto user = new UserLoginDto(userSignupDto.getUsername());
+      user.setPassword(userSignupDto.getPassword());
+      return user;
+   }
 }

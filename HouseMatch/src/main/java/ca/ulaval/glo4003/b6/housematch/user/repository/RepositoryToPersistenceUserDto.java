@@ -1,7 +1,8 @@
-package ca.ulaval.glo4003.b6.housematch.user.dto;
+package ca.ulaval.glo4003.b6.housematch.user.repository;
 
 import java.util.HashMap;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 
 public class RepositoryToPersistenceUserDto implements RepositoryToPersistenceDto {
@@ -13,12 +14,12 @@ public class RepositoryToPersistenceUserDto implements RepositoryToPersistenceDt
    public RepositoryToPersistenceUserDto(User user) {
 
       HashMap<String, String> attributes = new HashMap<String, String>();
-
+      attributes.put("role", user.getRole().getRoles());
       attributes.put("username", user.getUsername());
-      attributes.put("firstName", user.getFirstName());
-      attributes.put("lastName", user.getLastName());
-      attributes.put("phoneNumber", user.getPhoneNumber());
-      attributes.put("email", user.getEmail());
+      attributes.put("firstName", user.getContactInformation().getFirstName());
+      attributes.put("lastName", user.getContactInformation().getLastName());
+      attributes.put("phoneNumber", user.getContactInformation().getPhoneNumber());
+      attributes.put("email", user.getContactInformation().getEmail());
       attributes.put("password", user.getPassword());
 
       this.attributes = attributes;

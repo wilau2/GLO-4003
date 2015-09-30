@@ -16,25 +16,24 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.user.dto.RepositoryToPersistenceUserDto;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 
 public class XMLUserRepositoryTest {
 
-   private String existingEmail = "an existing Email";
+   private final String existingUsername = "an existing Username";
 
-   private String correctPassword = "the corresponding password";
+   private final String correctPassword = "the corresponding password";
 
-   private String newEmail = "a new Email";
+   private final String newUsername = "a new Username";
 
-   private String correctPathToFile = "persistence/users.xml";
+   private final String correctPathToFile = "persistence/users.xml";
 
-   private String correctPathToEmailValue = "users/user/email";
+   private final String correctPathToUsernameValue = "users/user/username";
 
    @Mock
    private User user;
@@ -63,47 +62,54 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-   public void whenFindingByEmailShouldReadTheCorrectFile()
-         throws DocumentException, UserNotFoundException, CouldNotAccessDataException {
+   public void whenFindingByUsernameShouldReadTheCorrectFile()
+         throws DocumentException, CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
-      repository.findByEmail(existingEmail);
+      repository.getUser(existingUsername);
 
       // Then
       verify(editor).readXMLFile(correctPathToFile);
    }
 
    @Test
-   public void whenFindingByEmailShouldLookIfUsersExists() throws UserNotFoundException, CouldNotAccessDataException {
+
+   public void whenFindingByUsernameShouldLookIfUsersExists()
+         throws CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
-      repository.findByEmail(existingEmail);
+      repository.getUser(existingUsername);
 
       // Then
-      verify(editor).elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue, existingEmail);
+      verify(editor).elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, existingUsername);
    }
 
    @Test
-   public void whenFindingByEmailShouldReturnAUserWithTheCorrectEmail()
-         throws UserNotFoundException, CouldNotAccessDataException {
+
+   public void whenFindingByUsernameShouldReturnAUserWithTheCorrectUsername()
+         throws CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
-      User returnedUser = repository.findByEmail(existingEmail);
+      User returnedUser = repository.getUser(existingUsername);
 
       // Then
-      assertEquals(returnedUser.getEmail(), existingEmail);
+      assertEquals(returnedUser.getUsername(), existingUsername);
    }
 
    @Test
-   public void whenFindingByEmailShouldReturnAUserWithTheCorrectPassword()
-         throws UserNotFoundException, CouldNotAccessDataException {
+   public void whenFindingByUsernameShouldReturnAUserWithTheCorrectPassword()
+         throws CouldNotAccessUserDataException, UserNotFoundException {
+
       // Given
 
       // When
-      User returnedUser = repository.findByEmail(existingEmail);
+      User returnedUser = repository.getUser(existingUsername);
 
       // Then
       assertEquals(returnedUser.getPassword(), correctPassword);
@@ -111,36 +117,41 @@ public class XMLUserRepositoryTest {
 
    @Test
    public void whenAddingUserShouldReadTheCorrectFile()
-         throws DocumentException, UserAlreadyExistsException, CouldNotAccessDataException {
+
+   throws DocumentException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).readXMLFile(correctPathToFile);
    }
 
    @Test
-   public void whenAddingUserShouldLookIfUsersExists() throws UserAlreadyExistsException, CouldNotAccessDataException {
+   public void whenAddingUserShouldLookIfUsersExists()
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
-      verify(editor).elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue, newEmail);
+      verify(editor).elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, newUsername);
    }
 
    @Test
-   public void whenAddingUserShouldCreateNewDto() throws UserAlreadyExistsException, CouldNotAccessDataException {
+   public void whenAddingUserShouldCreateNewDto()
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
       // Given
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(dtoFactory).getRepositoryDto(user);
@@ -148,12 +159,13 @@ public class XMLUserRepositoryTest {
 
    @Test
    public void whenAddingUserShouldAddNewUserToXMLWithDto()
-         throws UserAlreadyExistsException, CouldNotAccessDataException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).addNewElementToDocument(usedDocument, userDto);
@@ -161,35 +173,62 @@ public class XMLUserRepositoryTest {
 
    @Test
    public void whenAddingUserShouldWriteToTheRightFile()
-         throws IOException, UserAlreadyExistsException, CouldNotAccessDataException {
+         throws IOException, UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given
       configureDifferentUser();
 
       // When
-      repository.add(user);
+      repository.addUser(user);
 
       // Then
       verify(editor).formatAndWriteDocument(usedDocument, correctPathToFile);
    }
 
    @Test(expected = UserNotFoundException.class)
-   public void whenFindingByEmailShouldReturnExceptionIfEmailDoesNotExist()
-         throws UserNotFoundException, CouldNotAccessDataException {
-      // Given A new email
+   public void whenFindingByUsernameShouldReturnExceptionIfUsernameDoesNotExist()
+         throws CouldNotAccessUserDataException, UserNotFoundException {
+      // Given A new username
 
       // When
-      repository.findByEmail(newEmail);
+      repository.getUser(newUsername);
 
       // Then Exception is thrown
    }
 
-   @Test(expected = UserAlreadyExistsException.class)
-   public void whenAddingUserShouldReturnExceptionIfEmailExist()
-         throws UserAlreadyExistsException, CouldNotAccessDataException {
+   @Test(expected = UsernameAlreadyExistsException.class)
+   public void whenAddingUserShouldReturnExceptionIfUsernameExist()
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+
       // Given An existing user
 
       // When
-      repository.add(user);
+      repository.addUser(user);
+
+      // Then Exception is thrown
+   }
+
+   @Test(expected = CouldNotAccessUserDataException.class)
+   public void whenFindingByUsernameShouldReturnCouldNotAccessDataExceptionIfTheDocumentIsInvalid()
+         throws CouldNotAccessUserDataException, UserNotFoundException, DocumentException {
+      // Given
+      given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
+
+      // When
+      repository.getUser(existingUsername);
+
+      // Then Exception is thrown
+   }
+
+   @Test(expected = CouldNotAccessUserDataException.class)
+   public void whenAddingUserShouldReturnCouldNotAccessDataExceptionIfTheDocumentIsInvalid()
+         throws CouldNotAccessUserDataException, UserNotFoundException, DocumentException,
+         UsernameAlreadyExistsException {
+      // Given
+      given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
+
+      // When
+      repository.addUser(user);
 
       // Then Exception is thrown
    }
@@ -199,38 +238,26 @@ public class XMLUserRepositoryTest {
    }
 
    private void configureUser() {
-      given(user.getUsername()).willReturn("username");
-      given(user.getFirstName()).willReturn("firstName");
-      given(user.getLastName()).willReturn("lastName");
-      given(user.getPhoneNumber()).willReturn("phoneNumber");
-      given(user.getEmail()).willReturn(existingEmail);
+      given(user.getUsername()).willReturn(existingUsername);
       given(user.getPassword()).willReturn(correctPassword);
    }
 
    private void configureDifferentUser() {
-      given(user.getUsername()).willReturn("username2");
-      given(user.getFirstName()).willReturn("firstName2");
-      given(user.getLastName()).willReturn("lastName2");
-      given(user.getPhoneNumber()).willReturn("phoneNumber2");
-      given(user.getEmail()).willReturn(newEmail);
+      given(user.getUsername()).willReturn(newUsername);
       given(user.getPassword()).willReturn("newPassword");
    }
 
    private void configureEditor() throws DocumentException {
       given(editor.readXMLFile(correctPathToFile)).willReturn(usedDocument);
-      given(editor.elementWithCorrespondingValuesExists(usedDocument, correctPathToEmailValue, existingEmail))
+      given(editor.elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, existingUsername))
             .willReturn(true);
 
       HashMap<String, String> mapWithUserData = new HashMap<String, String>();
-      mapWithUserData.put("username", "username");
-      mapWithUserData.put("password", "firstName");
-      mapWithUserData.put("email", "lastName");
-      mapWithUserData.put("password", "phoneNumber");
-      mapWithUserData.put("email", existingEmail);
+      mapWithUserData.put("username", existingUsername);
       mapWithUserData.put("password", correctPassword);
 
-      given(editor.returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToEmailValue,
-            existingEmail)).willReturn(mapWithUserData);
+      given(editor.returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
+            existingUsername)).willReturn(mapWithUserData);
    }
 
 }

@@ -223,8 +223,8 @@ public class XMLEstateRepositoryTest {
       configureEstate();
       HashMap<String, String> attributes = createHashMapFromEstate(estate);
       when(estateElementAssembler.convertToAttributes(estate)).thenReturn(attributes);
-      given(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, PATH_TO_ADDRESS,
-            attributes.get("address"))).willReturn(true);
+      given(xmlFileEditor.elementWithCorrespondingValueExists(usedDocument, PATH_TO_ADDRESS, attributes.get("address")))
+            .willReturn(true);
 
       // when
       xmlEstateRepository.addEstate(estate);
@@ -337,8 +337,8 @@ public class XMLEstateRepositoryTest {
       verify(xmlFileEditor, times(1)).getAllElementsFromDocument(usedDocument, "estates/estate");
    }
 
-   @Test(expected = SellerNotFoundException.class)
-   public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldThrowAnException()
+   @Test
+   public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldNotThrowException()
          throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
       configureGetEstatesFromSeller();
@@ -347,7 +347,7 @@ public class XMLEstateRepositoryTest {
       // When
       xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
 
-      // Then an SellerNotFoundException is thrown
+      // Then no exception is thrown
    }
 
    @Test
@@ -402,7 +402,7 @@ public class XMLEstateRepositoryTest {
 
       // Then
       verify(xmlFileEditor, times(1)).readXMLFile(XML_FILE_PATH);
-      verify(xmlFileEditor, times(1)).elementWithCorrespondingValuesExists(usedDocument, PATH_TO_ADDRESS,
+      verify(xmlFileEditor, times(1)).elementWithCorrespondingValueExists(usedDocument, PATH_TO_ADDRESS,
             VALID_ADDRESS.toString());
       verify(xmlFileEditor, times(1)).returnAttributesOfElementWithCorrespondingValue(usedDocument, PATH_TO_ADDRESS,
             VALID_ADDRESS.toString());
@@ -441,7 +441,7 @@ public class XMLEstateRepositoryTest {
          throws DocumentException, EstateNotFoundException, CouldNotAccessDataException {
       // Given
       configureFetchingEstateByAddress();
-      when(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, PATH_TO_ADDRESS, VALID_ADDRESS.toString()))
+      when(xmlFileEditor.elementWithCorrespondingValueExists(usedDocument, PATH_TO_ADDRESS, VALID_ADDRESS.toString()))
             .thenReturn(false);
 
       // When
@@ -453,7 +453,7 @@ public class XMLEstateRepositoryTest {
    private void configureFetchingEstateByAddress() throws DocumentException {
       configureXmlFileEditor();
 
-      when(xmlFileEditor.elementWithCorrespondingValuesExists(usedDocument, PATH_TO_ADDRESS, VALID_ADDRESS.toString()))
+      when(xmlFileEditor.elementWithCorrespondingValueExists(usedDocument, PATH_TO_ADDRESS, VALID_ADDRESS.toString()))
             .thenReturn(true);
       when(xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(usedDocument, PATH_TO_ADDRESS,
             VALID_ADDRESS.toString())).thenReturn(attributes);

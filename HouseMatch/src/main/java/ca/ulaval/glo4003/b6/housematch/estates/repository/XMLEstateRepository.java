@@ -94,6 +94,7 @@ public class XMLEstateRepository implements EstateRepository {
    @Override
    public void addEstate(Estate estate) throws CouldNotAccessDataException {
       try {
+
          Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
@@ -119,7 +120,7 @@ public class XMLEstateRepository implements EstateRepository {
    }
 
    private boolean isEstatePersisted(Document existingDocument, String address) {
-      return xmlFileEditor.elementWithCorrespondingValuesExists(existingDocument, PATH_TO_ADDRESS, address);
+      return xmlFileEditor.elementWithCorrespondingValueExists(existingDocument, PATH_TO_ADDRESS, address);
    }
 
    private void addNewEstateToDocument(Document document, HashMap<String, String> attributes,
@@ -145,9 +146,6 @@ public class XMLEstateRepository implements EstateRepository {
          if (estate.isFromSeller(sellerName)) {
             estatesFromSeller.add(estate);
          }
-      }
-      if (estatesFromSeller.isEmpty()) {
-         throw new SellerNotFoundException("Wanted seller does not exist");
       }
       return estatesFromSeller;
 
@@ -185,5 +183,6 @@ public class XMLEstateRepository implements EstateRepository {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
       return estateAssembler.assembleEstate(estateDto);
+
    }
 }

@@ -4,47 +4,44 @@ public class User {
 
    private String username;
 
-   private String firstName;
-
-   private String lastName;
-
-   private String phoneNumber;
-
-   private String email;
-
    private String password;
 
-   public User(String username, String firstName, String lastName, String phoneNum, String email, String password) {
+   private ContactInformation contactInformation;
+
+   private Role role;
+
+   public User(String username, String password, ContactInformation contactInformation, Role role) {
       this.username = username;
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.phoneNumber = phoneNum;
-      this.email = email;
       this.password = password;
+      this.contactInformation = contactInformation;
+      this.role = role;
+   }
+
+   public boolean isSeller() {
+      return role.asSeller();
+   }
+
+   public boolean isBuyer() {
+      return role.asBuyer();
+   }
+
+   public boolean isAdmin() {
+      return role.asAdmin();
    }
 
    public String getUsername() {
       return username;
    }
 
-   public String getFirstName() {
-      return firstName;
-   }
-
-   public String getLastName() {
-      return lastName;
-   }
-
-   public String getPhoneNumber() {
-      return phoneNumber;
-   }
-
-   public String getEmail() {
-      return email;
-   }
-
    public String getPassword() {
       return password;
    }
 
+   public ContactInformation getContactInformation() {
+      return contactInformation;
+   }
+
+   public Role getRole() {
+      return role;
+   }
 }
