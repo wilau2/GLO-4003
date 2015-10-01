@@ -16,8 +16,6 @@ public class EstateValidatorTest {
 
    private static final String VALID_TYPE_ESTATE = "CONDO";
 
-   private static final String VALID_ADDRESS = "2-128 rue untel, Quebec";
-
    private static final Integer VALID_PRICE = 125000;
 
    private EstateValidator estateValidator;

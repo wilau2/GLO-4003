@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.web.converters;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -14,8 +13,6 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.EstateModel;
 
 public class EstateConverterTest {
-
-   private static final String ADDRESS = "ADDRESS";
 
    private static final String TYPE = "TYPE";
 
