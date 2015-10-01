@@ -18,15 +18,15 @@ public class Role {
       return role.toString();
    }
 
-   public boolean asSeller() {
+   public boolean hasSeller() {
       return role.equals(SELLER);
    }
 
-   public boolean asAdmin() {
+   public boolean hasAdmin() {
       return role.equals(ADMIN);
    }
 
-   public boolean asBuyer() {
+   public boolean hasBuyer() {
       return role.equals(BUYER);
    }
 

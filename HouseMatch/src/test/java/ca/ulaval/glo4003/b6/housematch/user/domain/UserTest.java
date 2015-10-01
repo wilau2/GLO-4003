@@ -109,15 +109,15 @@ public class UserTest {
    }
 
    private void configureAdminRole() {
-      given(role.asAdmin()).willReturn(true);
+      given(role.hasAdmin()).willReturn(true);
    }
 
    private void configureSellerRole() {
-      given(role.asSeller()).willReturn(true);
+      given(role.hasSeller()).willReturn(true);
    }
 
    private void configureBuyerRole() {
-      given(role.asBuyer()).willReturn(true);
+      given(role.hasBuyer()).willReturn(true);
    }
 
    private void configureUser() {
