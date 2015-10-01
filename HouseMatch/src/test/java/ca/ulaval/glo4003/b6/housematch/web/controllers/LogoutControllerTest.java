@@ -15,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorisationService;
+import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
 
 public class LogoutControllerTest {
 
@@ -26,7 +26,7 @@ public class LogoutControllerTest {
    private HttpServletRequest request;
 
    @Mock
-   private UserAuthorisationService userAuthorisationService;
+   private UserAuthorizationService userAuthorizationService;
 
    @InjectMocks
    public LogoutController controller;
@@ -45,11 +45,11 @@ public class LogoutControllerTest {
       controller.logout(request);
 
       // Then
-      verify(userAuthorisationService, times(1)).closeSession(request);
+      verify(userAuthorizationService, times(1)).closeSession(request);
    }
 
    private void configureUserAuthorisationService() {
-      given(userAuthorisationService.closeSession(request)).willReturn(request);
+      given(userAuthorizationService.closeSession(request)).willReturn(request);
 
    }
 

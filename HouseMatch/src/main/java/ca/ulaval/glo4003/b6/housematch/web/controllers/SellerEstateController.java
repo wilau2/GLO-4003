@@ -3,6 +3,8 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,9 @@ import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundExceptio
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
+import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.EstateConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.EstateModel;
 
@@ -30,18 +35,25 @@ public class SellerEstateController {
 
    private EstatesFetcher estatesFetcher;
 
+   private UserAuthorizationService userAuthorizationService;
+
+   private final static String expectedRole = Role.SELLER;
+
    @Autowired
    public SellerEstateController(EstateConverter estateConverter,
-         EstateCorruptionVerificator estateCorruptionVerificator, EstatesFetcher estatesFetcher) {
+         EstateCorruptionVerificator estateCorruptionVerificator, EstatesFetcher estatesFetcher,
+         UserAuthorizationService userAuthorizationService) {
       this.estateConverter = estateConverter;
       this.estateCorruptionVerificator = estateCorruptionVerificator;
       this.estatesFetcher = estatesFetcher;
+      this.userAuthorizationService = userAuthorizationService;
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.POST)
-   public String addEstate(EstateModel estateModel, @PathVariable("userId") String userId)
-         throws InvalidEstateFieldException, CouldNotAccessDataException {
+   public String addEstate(HttpServletRequest request, EstateModel estateModel, @PathVariable("userId") String userId)
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
 
+      userAuthorizationService.isSessionAloud(request, expectedRole);
       estateModel.setSeller(userId);
 
       EstateDto estateDto = estateConverter.convertToDto(estateModel);
@@ -51,14 +63,17 @@ public class SellerEstateController {
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.GET)
-   public String getSellEstatePage(Model model) {
+   public String getSellEstatePage(HttpServletRequest request, Model model) throws InvalidAccessException {
+      userAuthorizationService.isSessionAloud(request, expectedRole);
       model.addAttribute("estate", new EstateModel());
       return "sell_estate";
    }
 
    @RequestMapping(value = "/seller/{userId}/estates", method = RequestMethod.GET)
-   public ModelAndView getSellerEstates(@PathVariable("userId") String userId)
-         throws SellerNotFoundException, CouldNotAccessDataException {
+   public ModelAndView getSellerEstates(@PathVariable("userId") String userId, HttpServletRequest request)
+         throws SellerNotFoundException, CouldNotAccessDataException, InvalidAccessException {
+
+      userAuthorizationService.isSessionAloud(request, expectedRole);
 
       List<EstateDto> estatesFromSeller = estatesFetcher.getEstatesBySeller(userId);
 
@@ -74,9 +89,9 @@ public class SellerEstateController {
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.GET)
-   public ModelAndView getEstateByAddress(@PathVariable("address") String address)
-         throws EstateNotFoundException, CouldNotAccessDataException {
-
+   public ModelAndView getEstateByAddress(@PathVariable("address") String address, HttpServletRequest request)
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
+      userAuthorizationService.isSessionAloud(request, expectedRole);
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
       EstateModel estateModel = estateConverter.convertToModel(estateByAddress);
