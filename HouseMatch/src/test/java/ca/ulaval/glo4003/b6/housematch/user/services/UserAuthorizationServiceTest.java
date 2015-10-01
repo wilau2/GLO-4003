@@ -15,7 +15,7 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 
-public class UserAuthorisationServiceTest {
+public class UserAuthorizationServiceTest {
 
    @Mock
    User user;
@@ -24,7 +24,7 @@ public class UserAuthorisationServiceTest {
    HttpServletRequest request;
 
    @InjectMocks
-   UserAuthorisationService userAuthorisationService;
+   UserAuthorizationService userAuthorizationService;
 
    @Mock
    private HttpSession session;
@@ -43,10 +43,10 @@ public class UserAuthorisationServiceTest {
       // Given
       given(user.isSeller()).willReturn(true);
       // When
-      userAuthorisationService.setSessionUserAuthorisation(request, user);
+      userAuthorizationService.setSessionUserAuthorisation(request, user);
 
       // Then
-      verify(session).setAttribute(UserAuthorisationService.LOGGED_IN_USER_ROLE, Role.SELLER);
+      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE, Role.SELLER);
    }
 
    @Test
@@ -54,10 +54,10 @@ public class UserAuthorisationServiceTest {
       // Given
       given(user.isAdmin()).willReturn(true);
       // When
-      userAuthorisationService.setSessionUserAuthorisation(request, user);
+      userAuthorizationService.setSessionUserAuthorisation(request, user);
 
       // Then
-      verify(session).setAttribute(UserAuthorisationService.LOGGED_IN_USER_ROLE, Role.ADMIN);
+      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE, Role.ADMIN);
    }
 
    @Test
@@ -65,10 +65,10 @@ public class UserAuthorisationServiceTest {
       // Given
       given(user.isBuyer()).willReturn(true);
       // When
-      userAuthorisationService.setSessionUserAuthorisation(request, user);
+      userAuthorizationService.setSessionUserAuthorisation(request, user);
 
       // Then
-      verify(session).setAttribute(UserAuthorisationService.LOGGED_IN_USER_ROLE, Role.BUYER);
+      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE, Role.BUYER);
    }
 
    @Test
@@ -76,10 +76,10 @@ public class UserAuthorisationServiceTest {
       // Given
 
       // When
-      userAuthorisationService.setSessionUserAuthorisation(request, user);
+      userAuthorizationService.setSessionUserAuthorisation(request, user);
 
       // Then
-      verify(session).setAttribute(UserAuthorisationService.LOGGED_IN_USERNAME, USERNAME);
+      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USERNAME, USERNAME);
    }
 
    @Test
@@ -87,10 +87,10 @@ public class UserAuthorisationServiceTest {
       // Given
 
       // When
-      userAuthorisationService.closeSession(request);
+      userAuthorizationService.closeSession(request);
 
       // Then
-      verify(session).setAttribute(UserAuthorisationService.LOGGED_IN_USERNAME, null);
+      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USERNAME, null);
    }
 
    @Test
@@ -98,10 +98,10 @@ public class UserAuthorisationServiceTest {
       // Given
 
       // When
-      userAuthorisationService.closeSession(request);
+      userAuthorizationService.closeSession(request);
 
       // Then
-      verify(session).setAttribute(UserAuthorisationService.LOGGED_IN_USER_ROLE, null);
+      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE, null);
    }
 
    private void configureUser() {
