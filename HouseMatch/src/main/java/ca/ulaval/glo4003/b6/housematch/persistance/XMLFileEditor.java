@@ -41,11 +41,37 @@ public class XMLFileEditor {
          RepositoryToPersistenceDto receivedDto) {
       Element rootElement = existingDocument.getRootElement();
       Element parentElement = rootElement.element(parentElementName);
+      
       Element newElement = parentElement.addElement(receivedDto.getElementName());
 
       for (Entry<String, String> entry : receivedDto.getAttributes().entrySet()) {
          newElement.addElement(entry.getKey()).addText(entry.getValue());
       }
+   }
+   
+   public void addNewNestedElementToDocument2(Document existingDocument, RepositoryToPersistenceDto receivedDto, 
+                                             String wantedValue, String wantedValueName, String parentElementPath) {
+      
+      Element parentElement = getParentByValue(wantedValue, wantedValueName, existingDocument, parentElementPath);
+      Element newElement = parentElement.addElement(receivedDto.getElementName());
+
+      for (Entry<String, String> entry : receivedDto.getAttributes().entrySet()) {
+         newElement.addElement(entry.getKey()).addText(entry.getValue());
+      }
+   }
+   
+
+   private Element getParentByValue(String wantedValue, String wantedValueName, Document existingDocument, String parentElementPath) {
+      Element element = null;
+      List<Node> list = existingDocument.selectNodes(parentElementPath);
+      for (Node node : list) {
+         Node addressNode = node.selectSingleNode(wantedValueName);
+         if (addressNode.getStringValue().equals(wantedValue)){
+            element = (Element)node;
+            break;
+         }
+      }
+      return element;
    }
 
    public void formatAndWriteDocument(Document existingDocument, String pathToXML) throws IOException {
@@ -122,17 +148,15 @@ public class XMLFileEditor {
       return elements;
    }
    
-   public void replaceElement(Document existingDocument, String pathToValue, String matchingElement, RepositoryToPersistenceDto receivedDto){
+   public void replaceElement(Document existingDocument, String pathToValue, String matchingElement, String matchingElementName, RepositoryToPersistenceDto receivedDto){
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {
-         if (node.getStringValue().equals(matchingElement)) {
-              replaceAttributes(receivedDto, node);
+         Node addressNode = node.selectSingleNode(matchingElementName);
+         if (addressNode.getStringValue().equals(matchingElement)) {
+              node.detach();
+              addNewElementToDocument(existingDocument, receivedDto);
               break;
          }
       }
-   }
-   
-   private void replaceAttributes(RepositoryToPersistenceDto receivedDto, Node node){
-      //ici faudrait gosser avec le xml, le data de la node pis toute BORIS :) ?
    }
 }

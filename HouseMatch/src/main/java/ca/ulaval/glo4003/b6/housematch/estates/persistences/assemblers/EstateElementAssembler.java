@@ -17,6 +17,12 @@ public class EstateElementAssembler {
    private static final String TYPE = "type";
 
    private static final String ADDRESS = "address";
+   
+   private DescriptionElementAssembler descriptionElementAssembler;
+
+   public EstateElementAssembler(DescriptionElementAssembler descriptionElementAssembler) {
+      this.descriptionElementAssembler = descriptionElementAssembler;
+   }
 
    public EstateDto convertToDto(Element element) {
       EstateDto estateDto = new EstateDto();
@@ -62,7 +68,6 @@ public class EstateElementAssembler {
       attributes.put(SELLER, estate.getSeller());
       attributes.put(PRICE, estate.getPrice().toString());
       attributes.put(TYPE, estate.getType());
-
       attributes.put(ADDRESS, estate.getAddress().toString());
 
       return attributes;
@@ -81,6 +86,10 @@ public class EstateElementAssembler {
       estateDto.setAddress(addressDto);
 
       return estateDto;
+   }
+
+   public HashMap<String, String> convertDescriptionToAttributes(Estate estate) {
+      return descriptionElementAssembler.convertToAttributes(estate.getDescription());
    }
 
 }

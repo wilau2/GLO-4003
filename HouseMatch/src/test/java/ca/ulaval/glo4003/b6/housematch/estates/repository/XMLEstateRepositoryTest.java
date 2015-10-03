@@ -29,10 +29,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
@@ -40,6 +42,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundExceptio
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
@@ -97,18 +100,30 @@ public class XMLEstateRepositoryTest {
 
    @Mock
    private HashMap<String, String> attributes;
+   
+   @Mock
+   private HashMap<String, String> descriptionAttributes;
 
    @Mock
    private EstatePersistenceDto estatePersistenceDto;
 
    @Mock
    private AddressAssembler addressAssembler;
+   
+   @Mock
+   private DescriptionPersistenceDto descriptionPersistanceDto;
+   
+   @Mock
+   private Description description;
+   
 
    private List<Element> estateElementList;
 
 
    @InjectMocks
    private XMLEstateRepository xmlEstateRepository;
+
+   
 
    @Before
    public void setUp() throws DocumentException {
@@ -118,7 +133,7 @@ public class XMLEstateRepositoryTest {
 
       configureAssemblerBehavior();
 
-      when(estatePersistenceDtoFactory.newInstance(any(HashMap.class))).thenReturn(estatePersistenceDto);
+      when(estatePersistenceDtoFactory.newInstanceEstate(any(HashMap.class))).thenReturn(estatePersistenceDto);
    }
 
    private void configureAssemblerBehavior() {
@@ -191,7 +206,7 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.addEstate(estate);
 
       // Then
-      verify(estatePersistenceDtoFactory, times(1)).newInstance(attributes);
+      verify(estatePersistenceDtoFactory, times(1)).newInstanceEstate(attributes);
    }
 
    @Test
@@ -363,8 +378,24 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.editEstate(estate);
 
       // then
-      verify(xmlFileEditor, times(1)).replaceElement(usedDocument, ELEMENT_NAME, VALID_ADDRESS.toString(), estatePersistenceDto);
+      verify(xmlFileEditor, times(1)).replaceElement(usedDocument, ELEMENT_NAME, VALID_ADDRESS.toString(),"address", estatePersistenceDto);
    }
+   
+   @Test
+   public void editEstateWithNonNullDescriptionEstateShouldAddNestedElement() throws CouldNotAccessDataException {
+      //given
+      configureEstateWithCompleteDescription();
+      when(estateElementAssembler.convertToAttributes(estate)).thenReturn(attributes);
+      when(attributes.get(ADDRESS_KEY)).thenReturn(VALID_ADDRESS.toString());
+      when(estateElementAssembler.convertDescriptionToAttributes(estate)).thenReturn(descriptionAttributes);
+      when(estatePersistenceDtoFactory.newInstanceDescription(descriptionAttributes)).thenReturn(descriptionPersistanceDto);
+      //when
+      xmlEstateRepository.editEstate(estate);
+      //then
+      verify(xmlFileEditor, times(1)).addNewNestedElementToDocument2(usedDocument, descriptionPersistanceDto, VALID_ADDRESS.toString(), "address", ELEMENT_NAME);
+   }
+
+   
 
    @Test
    public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldNotThrowException()
@@ -529,6 +560,18 @@ public class XMLEstateRepositoryTest {
       attributes.put("price", estate.getPrice().toString());
 
       return attributes;
+   }
+   
+   private void configureEstateWithCompleteDescription() {
+      when(estate.getDescription()).thenReturn(description);
+      when(description.getMunicipalValuation()).thenReturn(200);
+      when(description.getDimensionsBuilding()).thenReturn("100x20");
+      when(description.getLivingSpaceAreaSquareMeter()).thenReturn(200);
+      when(description.getNumberOfBathrooms()).thenReturn(200);
+      when(description.getNumberOfBedRooms()).thenReturn(200);
+      when(description.getNumberOfLevel()).thenReturn(200);
+      when(description.getNumberOfRooms()).thenReturn(200);
+      when(description.getYearsOfConstruction()).thenReturn(200);    
    }
 
 }

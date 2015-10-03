@@ -31,10 +31,27 @@
     <price>1000</price>  
     <type>MULTIPLEX</type> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-4-lol-s-s-123123</address>  
+    <price>1000</price>  
+    <type>CONDO</type> 
+  </estate>  
   <estate>
-    <seller>seller</seller>
-    <address>0-4-lol-s-s-123123</address>
-    <price>1000</price>
+    <seller>gerals</seller>
+    <address>22-22-des pins-quebec-canada-g1l1s8</address>
+    <price>120000</price>
     <type>CONDO</type>
+    <description>
+      <number_of_levels>1</number_of_levels>
+      <number_of_bedrooms>1</number_of_bedrooms>
+      <number_of_bathrooms>1</number_of_bathrooms>
+      <living_space>222</living_space>
+      <building_dimensions>4x42</building_dimensions>
+      <municipal_valuation>125000</municipal_valuation>
+      <year_of_construction>2002</year_of_construction>
+      <number_of_rooms>1</number_of_rooms>
+      <backyard_faces>FRONT</backyard_faces>
+    </description>
   </estate>
 </estates>

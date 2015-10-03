@@ -12,6 +12,7 @@ import org.dom4j.Element;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
@@ -37,6 +38,7 @@ public class XMLEstateRepository implements EstateRepository {
    private EstateAssemblerFactory estateAssemblerFactory;
 
    private EstateElementAssemblerFactory estateElementAssemblerFactory;
+  
 
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
 
@@ -126,7 +128,7 @@ public class XMLEstateRepository implements EstateRepository {
    private void addNewEstateToDocument(Document document, HashMap<String, String> attributes,
          EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
 
-      EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
+      EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(attributes);
 
       xmlFileEditor.addNewElementToDocument(document, estatePersistenceDto);
    }
@@ -138,11 +140,28 @@ public class XMLEstateRepository implements EstateRepository {
          Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
-         EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
+         
+         String addressKey = attributes.get(ADDRESS_KEY);
+         
+         EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(attributes);
+         
          System.out.println(estateDocument);
-         xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, attributes.get(ADDRESS_KEY), estatePersistenceDto);
+         
+         xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, addressKey, "address" ,estatePersistenceDto);
+         
+         if(estate.getDescription()!= null){
+            HashMap<String, String> descriptionAttributes = estateElementAssembler.convertDescriptionToAttributes(estate);
+            DescriptionPersistenceDto descriptionPersistenceDto = estatePersistenceDtoFactory.newInstanceDescription(descriptionAttributes);
+            xmlFileEditor.addNewNestedElementToDocument2(estateDocument, descriptionPersistenceDto, addressKey, ADDRESS_KEY, PATH_TO_ESTATE );
+         }
+         
+         saveEstateDocument(estateDocument);
+      
       } catch (DocumentException e) {
          throw new CouldNotAccessDataException("Unable to edit the estate", e);
+      } catch (IOException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
       }
    }
 
