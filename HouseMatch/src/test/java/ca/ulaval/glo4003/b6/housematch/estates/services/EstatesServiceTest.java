@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -21,16 +20,20 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.DescriptionAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.AddressValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class EstatesServiceTest {
 
@@ -81,6 +84,15 @@ public class EstatesServiceTest {
    
    private String estateAddress = "VALID_ESTATE_ADDRESS";
 
+   @Mock
+   private AddressDto addressDto;
+
+   @Mock
+   private AddressValidator addressValidaor;
+
+   @Mock
+   private AddressValidatorFactory addressValidatorFactory;
+
    // @InjectMocks
    private EstatesService estatesService;
 
@@ -97,27 +109,35 @@ public class EstatesServiceTest {
       when(estateValidatorFactory.getValidator()).thenReturn(estateValidator);
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
-      when(estateRepositoryFactory.newInstance(estateAssemblerFactory, estatePersistenceDtoFactory))
-            .thenReturn(estateRepository);
+      when(estateRepositoryFactory.newInstance(estateAssemblerFactory)).thenReturn(estateRepository);
+      when(addressValidatorFactory.getValidator()).thenReturn(addressValidaor);
 
-      estatesService = new EstatesService(estateValidatorFactory, estateAssemblerFactory, estateRepositoryFactory,
-            estatePersistenceDtoFactory, descriptionValidatorFactory, descriptionAssemblerFactory);
+      when(estateDto.getAddress()).thenReturn(addressDto);
+
+      estatesService = new EstatesService( estateValidatorFactory, 
+                                             addressValidatorFactory,
+                                             estateAssemblerFactory,
+                                             estateRepositoryFactory, 
+                                             descriptionValidatorFactory, 
+                                             descriptionAssemblerFactory);
    }
 
    @Test
-   public void addingAnEstateWhenEstateIsValidShouldCallAddEstateAtRepository() throws InvalidEstateException {
+   public void addingAnEstateWhenEstateIsValidShouldCallAddEstateAtRepository()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When
       estatesService.addEstate(estateDto);
 
       // Then
-      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory, estatePersistenceDtoFactory);
+      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
       verify(estateRepository, times(1)).addEstate(estate);
    }
 
    @Test
-   public void whenAddingAnEstateShouldCallGetAssemblerFromAssemblerFactory() throws InvalidEstateException {
+   public void whenAddingAnEstateShouldCallGetAssemblerFromAssemblerFactory()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -128,9 +148,10 @@ public class EstatesServiceTest {
    }
 
    @Test(expected = InvalidEstateException.class)
-   public void addingEstateWhenValidatingInvalidEstateShouldThrowException() throws InvalidEstateException {
+   public void addingEstateWhenValidatingInvalidEstateShouldThrowException()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given
-      doThrow(new InvalidEstateException()).when(estateValidator).validate(estateDto);
+      doThrow(new InvalidEstateException("")).when(estateValidator).validate(estateDto);
 
       // When
       estatesService.addEstate(estateDto);
@@ -139,7 +160,7 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenAskedAllEstatesShouldCallAssembleEstate() {
+   public void whenAskedAllEstatesShouldCallAssembleEstate() throws CouldNotAccessDataException {
       // given
       List<Estate> dumbEstates = new ArrayList<Estate>();
       dumbEstates.add(estate);
@@ -153,7 +174,7 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() {
+   public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() throws CouldNotAccessDataException {
       // given
       List<Estate> dumbEstateDtoList = new ArrayList<Estate>();
       dumbEstateDtoList.add(estate);
@@ -168,7 +189,7 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenEditingEstateShouldCallEstateRepositoryEditEstate() throws InvalidEstateException {
+   public void whenEditingEstateShouldCallEstateRepositoryEditEstate() throws InvalidEstateException, CouldNotAccessDataException {
       // given no changes
       
       // when
@@ -219,7 +240,7 @@ public class EstatesServiceTest {
    }
    
    @Test
-   public void whenAddingDescriptionSchouldCallEstateRepositoryAddDescription() throws InvalidDescriptionException {
+   public void whenAddingDescriptionSchouldCallEstateRepositoryAddDescription() throws InvalidDescriptionException, CouldNotAccessDataException {
       //given
       
       //when
@@ -235,5 +256,17 @@ public class EstatesServiceTest {
       when(descriptionValidatorFactory.createValidator()).thenReturn(descriptionValidator);
       when(estateRepository.getEstate(estateAddress)).thenReturn(estate);
       when(descriptionDto.getEstateID()).thenReturn(estateAddress);
+   }
+
+   @Test
+   public void whenAddingAnEstateShouldValidateEstateAddress()
+         throws InvalidEstateException, CouldNotAccessDataException {
+      // Given
+
+      // When
+      estatesService.addEstate(estateDto);
+
+      // Then
+      verify(addressValidaor, times(1)).validate(addressDto);
    }
 }

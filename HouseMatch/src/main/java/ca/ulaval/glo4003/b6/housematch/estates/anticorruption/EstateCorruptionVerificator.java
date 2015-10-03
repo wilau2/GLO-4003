@@ -2,27 +2,32 @@ package ca.ulaval.glo4003.b6.housematch.estates.anticorruption;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.AddressFieldInvalidException;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class EstateCorruptionVerificator {
 
    private EstatesService estateService;
+   
+   private AddressCorruptionVerificator addressCorruptionVerificator;
 
    @Autowired
-   public EstateCorruptionVerificator(EstatesService estateService) {
+   public EstateCorruptionVerificator(EstatesService estateService, AddressCorruptionVerificator addressCorruptionVerificator) {
       this.estateService = estateService;
+      this.addressCorruptionVerificator = addressCorruptionVerificator;
    }
 
-   public void addEstate(EstateDto estateDto) throws InvalidEstateFieldException {
+   public void addEstate(EstateDto estateDto) throws InvalidEstateFieldException, CouldNotAccessDataException {
       validateEstateCorruption(estateDto);
 
       try {
          estateService.addEstate(estateDto);
       } catch (InvalidEstateException e) {
-         System.out.println(e.getMessage());
          throw new InvalidEstateFieldException(e.getMessage(), e);
       }
    }
@@ -56,9 +61,14 @@ public class EstateCorruptionVerificator {
    }
 
    private void validateAddress(EstateDto estateDto) throws InvalidEstateFieldException {
-      String address = estateDto.getAddress();
-      if (address == null || address.isEmpty()) {
+      AddressDto address = estateDto.getAddress();    
+      if (address == null) {
          throw new InvalidEstateFieldException("The entered address is empty");
+      }
+      try {
+         addressCorruptionVerificator.validate(address);
+      } catch (AddressFieldInvalidException exception) {
+         throw new InvalidEstateFieldException("addres fields are invalid", exception);
       }
    }
    

@@ -1,13 +1,21 @@
 package ca.ulaval.glo4003.b6.housematch.estates.domain.assembler;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class EstateAssembler {
 
+   private AddressAssembler addressAssembler;
+
+   public EstateAssembler(AddressAssembler addressAssembler) {
+      this.addressAssembler = addressAssembler;
+   }
+
    public Estate assembleEstate(EstateDto estateDto) {
-      String address = estateDto.getAddress();
+      Address address = addressAssembler.assembleAddress(estateDto.getAddress());
       String type = estateDto.getType();
       Integer price = estateDto.getPrice();
       String seller = estateDto.getSeller();
@@ -18,7 +26,7 @@ public class EstateAssembler {
    }
 
    public EstateDto assembleEstateDto(Estate estate) {
-      String address = estate.getAddress();
+      AddressDto address = addressAssembler.assembleAddressDto(estate.getAddress());
       String type = estate.getType();
       Integer price = estate.getPrice();
       String sellerId = estate.getSeller();

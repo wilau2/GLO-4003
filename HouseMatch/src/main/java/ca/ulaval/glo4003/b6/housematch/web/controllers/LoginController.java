@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
@@ -22,14 +25,17 @@ public class LoginController {
    private UserLoginCorruptionVerificator userCorruptionVerificator;
 
    @Autowired
-   public LoginController(LoginUserConverter loginUserConverter, UserLoginCorruptionVerificator userCorruptionVerificator) {
+   public LoginController(LoginUserConverter loginUserConverter,
+         UserLoginCorruptionVerificator userCorruptionVerificator) {
       this.loginUserConverter = loginUserConverter;
       this.userCorruptionVerificator = userCorruptionVerificator;
    }
 
    @RequestMapping(value = "/login", method = RequestMethod.POST)
-   public String login(HttpServletRequest request, LoginUserViewModel viewModel) throws InvalidUserLoginFieldException {
-      UserLoginDto userDto = loginUserConverter.convertToDto(viewModel);
+   public String login(HttpServletRequest request, LoginUserViewModel viewModel) throws InvalidUserLoginFieldException,
+         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+      UserLoginDto userDto = loginUserConverter.convertViewModelToDto(viewModel);
+
       userCorruptionVerificator.login(request, userDto);
       return "redirect:/";
    }

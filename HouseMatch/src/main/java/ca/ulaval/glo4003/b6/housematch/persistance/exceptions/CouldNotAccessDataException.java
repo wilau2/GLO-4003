@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.persistance.exceptions;
 
-public class CouldNotAccessDataException extends RuntimeException {
+public class CouldNotAccessDataException extends Exception {
 
    private static final long serialVersionUID = 1L;
 

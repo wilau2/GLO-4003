@@ -16,12 +16,15 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.AddressValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class EstatesService {
 
@@ -31,43 +34,50 @@ public class EstatesService {
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
-   private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
-   
    private DescriptionValidatorFactory descriptionValidatorFactory;
    
    private DescriptionAssemblerFactory descriptionAssemblerFactory;
-
+   private AddressValidatorFactory addressValidatorFactory;
+   
    @Autowired
-   public EstatesService(EstateValidatorFactory estateValidatorFactory, EstateAssemblerFactory estateAssemblerFactory,
-          EstateRepositoryFactory estateRepositoryFactory, EstatePersistenceDtoFactory estatePersistenceDtoFactory, 
-          DescriptionValidatorFactory descriptionValidatorFactory, DescriptionAssemblerFactory descriptionAssemblerFactory) {
+   public EstatesService(EstateValidatorFactory estateValidatorFactory, 
+                           AddressValidatorFactory addressValidatorFactory,
+                           EstateAssemblerFactory estateAssemblerFactory,
+                           EstateRepositoryFactory estateRepositoryFactory,
+                           DescriptionValidatorFactory descriptionValidatorFactory, 
+                           DescriptionAssemblerFactory descriptionAssemblerFactory) {
+
 
       this.estateValidatorFactory = estateValidatorFactory;
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepositoryFactory = estateRepositoryFactory;
-      this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
       this.descriptionValidatorFactory = descriptionValidatorFactory;
       this.descriptionAssemblerFactory = descriptionAssemblerFactory;
+      this.addressValidatorFactory = addressValidatorFactory;
    }
 
-   public void addEstate(EstateDto estateDto) throws InvalidEstateException {
-      EstateValidator estateValidator = estateValidatorFactory.getValidator();
-      estateValidator.validate(estateDto);
-
+   public void addEstate(EstateDto estateDto) throws InvalidEstateException, CouldNotAccessDataException {
+      validateEstate(estateDto);
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
       Estate estate = estateAssembler.assembleEstate(estateDto);
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
-            estatePersistenceDtoFactory);
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       estateRepository.addEstate(estate);
    }
 
-   public List<EstateDto> getAllEstates() {
+   private void validateEstate(EstateDto estateDto) throws InvalidEstateException {
+      EstateValidator estateValidator = estateValidatorFactory.getValidator();
+      estateValidator.validate(estateDto);
+
+      AddressValidator addressValidator = addressValidatorFactory.getValidator();
+      addressValidator.validate(estateDto.getAddress());
+   }
+
+   public List<EstateDto> getAllEstates() throws CouldNotAccessDataException {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
-            estatePersistenceDtoFactory);
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       List<Estate> estateList = estateRepository.getAllEstates();
 
       List<EstateDto> estatesDto = new ArrayList<EstateDto>();
@@ -87,9 +97,13 @@ public class EstatesService {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
       Estate estate = estateAssembler.assembleEstate(estateDto);
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
-            estatePersistenceDtoFactory);
-      estateRepository.editEstate(estate);
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
+      try {
+         estateRepository.editEstate(estate);
+      } catch (CouldNotAccessDataException e) {
+         // TODO bleh
+      }
+        
    }
    
    public void addDescription(DescriptionDto descriptionDto) throws InvalidDescriptionException{
@@ -101,13 +115,16 @@ public class EstatesService {
       DescriptionAssembler descriptionAssembler = descriptionAssemblerFactory.createDescriptionAssembler();
       Description description = descriptionAssembler.assembleDescription(descriptionDto);
       
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory,
-            estatePersistenceDtoFactory);
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       
       Estate estate = estateRepository.getEstate(estateAddress);
       estate.setDescription(description);
       
-      estateRepository.editEstate(estate);
+      try {
+         estateRepository.editEstate(estate);
+      } catch (CouldNotAccessDataException e) {
+         // TODO Auto-generated catch block
+      }
    }
 
 }

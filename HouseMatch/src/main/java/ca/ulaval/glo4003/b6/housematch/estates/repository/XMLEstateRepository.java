@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,18 +15,22 @@ import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAs
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssembler;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepository implements EstateRepository {
 
+   private static final String PATH_TO_ESTATE = "estates/estate";
+
+   private static final String PATH_TO_ADDRESS = "estates/estate/address";
+
    private static final String ADDRESS_KEY = "address";
 
-   private static final String ESTATE = "estate";
-
-   private static final String XML_FILE_PATH = "persistence/estates.xml";
+   private static final String XML_DIRECTORY_PATH = "persistence/estates.xml";
 
    private XMLFileEditor xmlFileEditor;
 
@@ -51,6 +54,7 @@ public class XMLEstateRepository implements EstateRepository {
    protected XMLEstateRepository(EstateAssemblerFactory estateAssemblerFactory,
          EstatePersistenceDtoFactory estatePersistenceDtoFactory,
          EstateElementAssemblerFactory estateElementAssemblerFactory, XMLFileEditor xmlFileEditor) {
+
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
       this.estateElementAssemblerFactory = estateElementAssemblerFactory;
@@ -58,12 +62,12 @@ public class XMLEstateRepository implements EstateRepository {
    }
 
    @Override
-   public List<Estate> getAllEstates() {
+   public List<Estate> getAllEstates() throws CouldNotAccessDataException {
       List<Estate> estates = new ArrayList<Estate>();
       try {
-         Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+         Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
-         Collection<Element> elementList = xmlFileEditor.getAllElementsFromDocument(estateDocument, ESTATE);
+         List<Element> elementList = xmlFileEditor.getAllElementsFromDocument(estateDocument, PATH_TO_ESTATE);
 
          EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
@@ -76,9 +80,8 @@ public class XMLEstateRepository implements EstateRepository {
       return estates;
    }
 
-   private List<Estate> getDtoListFromElements(Collection<Element> elementList, EstateAssembler estateAssembler,
+   private List<Estate> getDtoListFromElements(List<Element> elementList, EstateAssembler estateAssembler,
          EstateElementAssembler estateElementAssembler) {
-
       List<Estate> estates = new ArrayList<Estate>();
       for (Element element : elementList) {
          EstateDto convertedEstateDto = estateElementAssembler.convertToDto(element);
@@ -89,50 +92,55 @@ public class XMLEstateRepository implements EstateRepository {
    }
 
    @Override
-   public void addEstate(Estate estate) {
+   public void addEstate(Estate estate) throws CouldNotAccessDataException {
       try {
-         Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+
+         Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
-         if (isEstatePersisted(estateDocument, attributes)) {
+         if (isEstatePersisted(estateDocument, attributes.get(ADDRESS_KEY))) {
             return;
          }
+
          addNewEstateToDocument(estateDocument, attributes, estatePersistenceDtoFactory);
          saveEstateDocument(estateDocument);
+
       } catch (DocumentException e) {
          throw new CouldNotAccessDataException("Unable to add an estate", e);
+
       } catch (IOException e) {
          throw new CouldNotAccessDataException("Unable to save the added estate", e);
+
       }
    }
 
    private void saveEstateDocument(Document estateDocument) throws IOException {
-
-      xmlFileEditor.formatAndWriteDocument(estateDocument, XML_FILE_PATH);
+      xmlFileEditor.formatAndWriteDocument(estateDocument, XML_DIRECTORY_PATH);
    }
 
-   private boolean isEstatePersisted(Document existingDocument, HashMap<String, String> attributes) {
-      return xmlFileEditor.elementWithCorrespondingValuesExists(existingDocument, "estates/estate/address",
-            attributes.get(ADDRESS_KEY));
+   private boolean isEstatePersisted(Document existingDocument, String address) {
+      return xmlFileEditor.elementWithCorrespondingValueExists(existingDocument, PATH_TO_ADDRESS, address);
    }
 
    private void addNewEstateToDocument(Document document, HashMap<String, String> attributes,
          EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
-      // TODO BORIS doit faire l'integration
+
       EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
+
       xmlFileEditor.addNewElementToDocument(document, estatePersistenceDto);
    }
 
    @Override
-   public void editEstate(Estate estate) {
+   public void editEstate(Estate estate) throws CouldNotAccessDataException {
+
       try {
-         Document estateDocument = xmlFileEditor.readXMLFile(XML_FILE_PATH);
+         Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
          EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
          System.out.println(estateDocument);
-         xmlFileEditor.replaceElement(estateDocument, ESTATE, attributes.get(ADDRESS_KEY), estatePersistenceDto);
+         xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, attributes.get(ADDRESS_KEY), estatePersistenceDto);
       } catch (DocumentException e) {
          throw new CouldNotAccessDataException("Unable to edit the estate", e);
       }
@@ -142,5 +150,56 @@ public class XMLEstateRepository implements EstateRepository {
    public Estate getEstate(String estateAddress) {
       // Methode faite par will et boris
       return null;
+      // On fetch le estate puis on le re-persiste avec ses details?
+   }
+
+   @Override
+   public List<Estate> getEstateFromSeller(String sellerName)
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      List<Estate> allEstates = getAllEstates();
+
+      List<Estate> estatesFromSeller = new ArrayList<Estate>();
+      for (Estate estate : allEstates) {
+         if (estate.isFromSeller(sellerName)) {
+            estatesFromSeller.add(estate);
+         }
+      }
+      return estatesFromSeller;
+
+   }
+
+   @Override
+   public Estate getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException {
+      Estate estate = null;
+      try {
+         Document document = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
+
+         if (!isEstatePersisted(document, address)) {
+            throw new EstateNotFoundException("No estate found at this address : " + address);
+         }
+
+         EstateDto estateDto = assembleEstateDtoFromDocumentAttributes(address, document);
+         estate = assembleEstate(estateDto);
+
+      } catch (DocumentException e) {
+         throw new CouldNotAccessDataException("Unable to access data", e);
+      }
+      return estate;
+   }
+
+   private EstateDto assembleEstateDtoFromDocumentAttributes(String address, Document document) {
+      HashMap<String, String> estateAttributes = xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(document,
+            PATH_TO_ADDRESS, address);
+
+      EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+      EstateDto estateDto = estateElementAssembler.convertAttributesToDto(estateAttributes);
+      return estateDto;
+   }
+
+   private Estate assembleEstate(EstateDto estateDto) {
+      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
+
+      return estateAssembler.assembleEstate(estateDto);
+
    }
 }

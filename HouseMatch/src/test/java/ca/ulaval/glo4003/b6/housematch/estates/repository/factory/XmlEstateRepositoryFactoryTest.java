@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.EstateElementAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.XMLEstateRepository;
 
@@ -38,8 +38,7 @@ public class XmlEstateRepositoryFactoryTest {
       // Given
 
       // When
-      EstateRepository newInstance = xmlEstateRepositoryFactory.newInstance(estateAssemblerFactory,
-            estatePersistencDtoFactory);
+      EstateRepository newInstance = xmlEstateRepositoryFactory.newInstance(estateAssemblerFactory);
 
       // Then
       assertTrue(newInstance instanceof XMLEstateRepository);

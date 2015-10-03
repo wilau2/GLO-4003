@@ -22,8 +22,7 @@ public class LoginUserConverterTest {
 
    @Before
    public void setup() {
-      userDto = new UserLoginDto();
-      userDto.setUsername(USERNAME);
+      userDto = new UserLoginDto(USERNAME);
       userDto.setPassword(PASSWORD);
 
       viewModelUser = new LoginUserViewModel();
@@ -50,14 +49,14 @@ public class LoginUserConverterTest {
    @Test
    public void whenConvertingAUserModelIntoAUserItShouldKeepTheSameUsername() {
       UserLoginDto returnedUser;
-      returnedUser = converter.convertToDto(viewModelUser);
+      returnedUser = converter.convertViewModelToDto(viewModelUser);
       assertEquals(USERNAME, returnedUser.getUsername());
    }
 
    @Test
    public void whenConvertingAUserModelIntoAUserItShouldKeepTheSamePassword() {
       UserLoginDto returnedUser;
-      returnedUser = converter.convertToDto(viewModelUser);
+      returnedUser = converter.convertViewModelToDto(viewModelUser);
       assertEquals(PASSWORD, returnedUser.getPassword());
    }
 }

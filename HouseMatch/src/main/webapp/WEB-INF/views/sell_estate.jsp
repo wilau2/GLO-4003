@@ -16,6 +16,7 @@
 
 <link rel="stylesheet"
 	href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+<link rel="stylesheet" href="/resources/css/layouts/side-menu.css">
 <link rel="stylesheet"
 	href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
 <link rel="stylesheet"
@@ -27,6 +28,7 @@
 
 <body>
 	<jsp:include page="_menu.jsp" />
+	<jsp:include page="_seller_side_menu.jsp" />
 	<div class="splash">
 		<form:form method="post" modelAttribute="estate"
 			class="pure-form pure-form-aligned">
@@ -45,26 +47,49 @@
 						<option value="COMMERCIAL">Commercial</option>
 					</form:select>
 				</div>
+				<h3>Address</h3>
 				<div class="pure-control-group">
-					<form:label path="address">Address </form:label>
-					<div class="pure-u-13-24">
-						<form:input id="address" type="text" path="address" />
+					<div class="pure-control-group">
+
+						<form:label path="civicNumber">Civic No </form:label>
+						<div class="pure-u-13-24">
+							<form:input id="civicNumber" type="number" path="civicNumber" />
+						</div>
+					</div>
+					<div class="pure-control-group">
+						<form:label path="street">Street </form:label>
+						<div class="pure-u-13-24">
+							<form:input id="street" type="text" path="street" />
+						</div>
+					</div>
+					<div class="pure-control-group">
+						<form:label path="postalCode">Postal Code </form:label>
+						<div class="pure-u-13-24">
+							<form:input id="postalCode" type="text" path="postalCode" />
+						</div>
+					</div>
+					<div class="pure-control-group">
+						<form:label path="state">State </form:label>
+						<div class="pure-u-13-24">
+							<form:input id="state" type="text" path="state" />
+						</div>
+					</div>
+					<div class="pure-control-group">
+						<form:label path="country">Country </form:label>
+						<div class="pure-u-13-24">
+							<form:input id="country" type="text" path="country" />
+						</div>
 					</div>
 				</div>
 				<div class="pure-control-group">
 					<form:label path="price">Price </form:label>
 					<div class="pure-u-13-24">
-						<form:input id="price" type="number" path="price" value="1000" min="0" step="100"/>
+						<form:input id="price" type="number" path="price" value="1000"
+							min="0" step="100" />
 					</div>
 				</div>
-				<c:choose>
-					<c:when test ="%{estate.address == ''}">
-						<button type="submit" class="pure-button pure-button-primary" disabled="disabled">Add to sell</button>
-					</c:when>
-					<c:otherwise>
-						<button type="submit" class="pure-button pure-button-primary">Add to sell</button>
-					</c:otherwise>
-				</c:choose>
+				<button type="submit" class="pure-button pure-button-primary">Add
+					to sell</button>
 				<button type="reset" class="pure-button pure-button-cancel">Reset</button>
 			</fieldset>
 		</form:form>

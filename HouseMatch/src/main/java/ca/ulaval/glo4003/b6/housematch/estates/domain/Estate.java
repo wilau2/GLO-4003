@@ -4,7 +4,7 @@ public class Estate {
 
    private Integer price;
 
-   private String address;
+   private Address address;
 
    private String type;
 
@@ -12,7 +12,9 @@ public class Estate {
    
    private Description description;
 
-   public Estate(String type, String address, Integer price, String seller, Description description) {
+   
+   public Estate(String type, Address address, Integer price, String seller, Description description) {
+
       this.type = type;
       this.address = address;
       this.price = price;
@@ -24,7 +26,7 @@ public class Estate {
       return this.type;
    }
 
-   public String getAddress() {
+   public Address getAddress() {
       return this.address;
    }
 
@@ -42,5 +44,12 @@ public class Estate {
 
    public void setDescription(Description description) {
       this.description = description;
+   }
+
+   public boolean isFromSeller(String sellerName) {
+      if (seller.equals(sellerName)) {
+         return true;
+      }
+      return false;
    }
 }
