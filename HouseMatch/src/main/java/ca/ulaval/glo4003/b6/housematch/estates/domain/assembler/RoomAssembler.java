@@ -23,7 +23,13 @@ public class RoomAssembler {
    }
 
    public List<RoomDto> assembleRoomDto(List<Room> rooms){
+      
+      
       List<RoomDto> roomsDto = new ArrayList<RoomDto>();
+      
+      if ( rooms == null){
+         return roomsDto;
+      }
       
       for (Room room : rooms){
          String type = room.getType();

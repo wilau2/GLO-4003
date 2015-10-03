@@ -36,6 +36,10 @@ public class Description {
          this.land = land;  
    }
    
+   public Description() {
+
+   }
+
    public Integer getNumberOfBedRooms() {
       return numberOfBedRooms;
    }

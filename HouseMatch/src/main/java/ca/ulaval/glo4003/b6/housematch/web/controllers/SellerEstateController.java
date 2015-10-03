@@ -23,6 +23,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
@@ -114,8 +115,7 @@ public class SellerEstateController {
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
       
       EstateModel estateModel = estateConverter.convertToModel(estateByAddress);
-      //DescriptionModel descriptionModel = descriptionConverter.convertToModel(estateByAddress.getDescriptionDto());
-      DescriptionModel descriptionModel = descriptionConverter.convertToModel(descriptionConverter.createTestDescriptionDto());
+      DescriptionModel descriptionModel = descriptionConverter.convertToModel(estateByAddress.getDescriptionDto());
 
       ModelAndView estateViewModel = new ModelAndView("estate");
       estateViewModel.addObject("estate", estateModel);
@@ -125,13 +125,21 @@ public class SellerEstateController {
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.POST)
-   public String editEstate(HttpServletRequest request, DescriptionModel descriptionModel, @PathVariable("userId") String userId)
+   public String editEstate(HttpServletRequest request, EstateModel estateModel, DescriptionModel descriptionModel, @PathVariable("userId") String userId)
          throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException {
 
       userAuthorizationService.isSessionAloud(request, expectedRole);
  
+      EstateDto estateDto = estateConverter.convertToDto(estateModel);
       DescriptionDto descriptionDto = descriptionConverter.convertToDto(descriptionModel);
-      descriptionCorruptionVerificator.addDescription(descriptionDto);
+      
+      estateDto.setDescriptionDto(descriptionDto);
+      try {
+         descriptionCorruptionVerificator.editEstate(estateDto);
+      } catch (InvalidEstateException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
 
       return "redirect:/";
    }

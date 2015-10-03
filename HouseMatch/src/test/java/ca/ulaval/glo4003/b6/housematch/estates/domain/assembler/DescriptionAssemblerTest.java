@@ -84,7 +84,7 @@ public class DescriptionAssemblerTest {
       // Given 
 
       // When
-      DescriptionDto returnedDescriptionDto = descriptionAssembler.assembleDescriptionDto(description, ESTATE_ID);
+      DescriptionDto returnedDescriptionDto = descriptionAssembler.assembleDescriptionDto(description);
 
       // Then
       assertEquals(NUMBER_OF_BED_ROOMS, returnedDescriptionDto.getNumberOfBedRooms());

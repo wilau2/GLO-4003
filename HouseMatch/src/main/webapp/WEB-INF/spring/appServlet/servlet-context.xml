@@ -63,9 +63,9 @@
 	<beans:bean id="descriptionCorruptionVerificator"
 		class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.DescriptionCorruptionVerificator">
 		<beans:constructor-arg name="landCorruptionVerificator"
-			ref="addressCorruptionVerificator" />
+			ref="landCorruptionVerificator" />
 		<beans:constructor-arg name="roomCorruptionVerificator"
-			ref="addressCorruptionVerificator" />
+			ref="roomCorruptionVerificator" />
 		<beans:constructor-arg name="estateService" ref="estateService" />
 	</beans:bean>
 

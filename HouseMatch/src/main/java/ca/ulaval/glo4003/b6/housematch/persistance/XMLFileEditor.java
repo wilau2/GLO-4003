@@ -159,4 +159,17 @@ public class XMLFileEditor {
          }
       }
    }
+   
+   public HashMap<String, String> returnChildAttributesOfElementWithCorrespondingValue(Document existingDocument,
+         String pathToValue, String wantedValue, String childValue) {
+
+      List<Node> list = existingDocument.selectNodes(pathToValue);
+      for (Node node : list) {
+         if (node.getStringValue().equals(wantedValue)) {
+            return returnMapOfAttributes((Element)node.selectObject(childValue));
+         }
+      }
+
+      return new HashMap<String, String>();
+   }
 }

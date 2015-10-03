@@ -17,12 +17,11 @@ public class DescriptionDto {
    private List<RoomDto> roomsDto;
    private LandDto landDto;
    
-   private String estateID; 
    
    public DescriptionDto(Integer numberOfBedRooms, Integer numberOfBathrooms, Integer numberOfRooms,
          Integer numberOfLevel, Integer yearsOfConstruction, String dimensionsBuilding,
          Integer livingSpaceAreaSquareMeter, Integer municipalValuation, String backyardFaces,
-         List<RoomDto> roomsDto, LandDto landDto, String estateID) {
+         List<RoomDto> roomsDto, LandDto landDto) {
       
       this.numberOfBedRooms = numberOfBedRooms;
       this.numberOfBathrooms = numberOfBathrooms;
@@ -36,8 +35,6 @@ public class DescriptionDto {
       
       this.roomsDto = roomsDto;
       this.landDto = landDto;
-      
-      this.estateID = estateID;
           
    }
 
@@ -109,13 +106,5 @@ public class DescriptionDto {
    }
    public void setLandDto(LandDto landDto) {
       this.landDto = landDto;
-   }
-
-   public String getEstateID() {
-      return estateID;
-   }
-
-   public void setEstateID(String estateID) {
-      this.estateID = estateID;
    }
 }

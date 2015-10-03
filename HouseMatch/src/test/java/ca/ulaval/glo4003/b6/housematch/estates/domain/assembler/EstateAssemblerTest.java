@@ -12,8 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class EstateAssemblerTest {
@@ -32,12 +34,21 @@ public class EstateAssemblerTest {
 
    @Mock
    private AddressDto addressDto;
+   
+   @Mock
+   private DescriptionDto descriptionDto;
 
    @Mock
    private AddressAssembler addressAssembler;
 
    @Mock
    private Address address;
+   
+   @Mock
+   private Description description;
+   
+   @Mock
+   private DescriptionAssembler descriptionAssembler;
 
    private EstateAssembler estateAssembler;
 
@@ -46,8 +57,9 @@ public class EstateAssemblerTest {
       MockitoAnnotations.initMocks(this);
 
       when(addressAssembler.assembleAddressDto(address)).thenReturn(addressDto);
+      when(descriptionAssembler.assembleDescriptionDto(description)).thenReturn(descriptionDto);
 
-      estateAssembler = new EstateAssembler(addressAssembler);
+      estateAssembler = new EstateAssembler(addressAssembler, descriptionAssembler);
 
       configureEstate();
    }
@@ -57,6 +69,7 @@ public class EstateAssemblerTest {
       when(estate.getSeller()).thenReturn(SELLER);
       when(estate.getType()).thenReturn(TYPE);
       when(estate.getAddress()).thenReturn(address);
+      when(estate.getDescription()).thenReturn(description);
    }
 
    @Test

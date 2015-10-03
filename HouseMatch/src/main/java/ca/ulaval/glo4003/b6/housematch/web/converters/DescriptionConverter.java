@@ -80,7 +80,7 @@ public class DescriptionConverter {
    }
    
    public DescriptionDto createTestDescriptionDto(){
-      return new DescriptionDto(1,2,3,4,1900,"20x20",200,20000,"north",new ArrayList<RoomDto>(),new LandDto("Shit Land", "1x1"),"estateID");
+      return new DescriptionDto(1,2,3,4,1900,"20x20",200,20000,"north",new ArrayList<RoomDto>(),new LandDto("Shit Land", "1x1"));
    }
    
 }

@@ -113,6 +113,7 @@ public class EstatesServiceTest {
       when(addressValidatorFactory.getValidator()).thenReturn(addressValidaor);
 
       when(estateDto.getAddress()).thenReturn(addressDto);
+      when(estateDto.getDescriptionDto()).thenReturn(descriptionDto);
 
       estatesService = new EstatesService( estateValidatorFactory, 
                                              addressValidatorFactory,
@@ -200,51 +201,31 @@ public class EstatesServiceTest {
    }
    
    @Test
-   public void whenAddingDescriptionShouldValidateDescriptionDto() throws InvalidDescriptionException {
-      //given
-      
-      //when
-      estatesService.addDescription(descriptionDto);
-      //then
-      verify(descriptionValidator, times(1)).validate(descriptionDto);
-   }
-   
-   @Test
-   public void whenAddingDescriptionShouldAssembleTheDescription() throws InvalidDescriptionException {
+   public void whenAddingDescriptionShouldAssembleTheDescription() throws InvalidDescriptionException, InvalidEstateException {
       //given
 
       //when
-      estatesService.addDescription(descriptionDto);
+      estatesService.editEstate(estateDto);
       //then
-      verify(descriptionAssembler).assembleDescription(descriptionDto);
+      verify(estateAssembler).assembleEstate(estateDto);
    }
    
    @Test
-   public void whenAddingDescriptionRepositoryShouldFetchEstate() throws InvalidDescriptionException {
+   public void whenAddingDescriptionRepositoryShouldFetchEstate() throws InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       //given
 
       //when
-      estatesService.addDescription(descriptionDto);
+      estatesService.editEstate(estateDto);
       //then
-      verify(estateRepository, times(1)).getEstate(estateAddress);
+      verify(estateRepository, times(1)).editEstate(estate);
    }
    
    @Test
-   public void whenAddingDescriptionSetDescriptionOnEstateShouldBeCalled() throws InvalidDescriptionException {
-      //given
-         
-      //when
-      estatesService.addDescription(descriptionDto);
-      //then
-      verify(estate).setDescription(description);
-   }
-   
-   @Test
-   public void whenAddingDescriptionSchouldCallEstateRepositoryAddDescription() throws InvalidDescriptionException, CouldNotAccessDataException {
+   public void whenAddingDescriptionSchouldCallEstateRepositoryAddDescription() throws InvalidDescriptionException, CouldNotAccessDataException, InvalidEstateException {
       //given
       
       //when
-      estatesService.addDescription(descriptionDto);
+      estatesService.editEstate(estateDto);
 
       //then
       verify(estateRepository, times(1)).editEstate(estate);
@@ -255,7 +236,6 @@ public class EstatesServiceTest {
       when(descriptionAssembler.assembleDescription(descriptionDto)).thenReturn(description);
       when(descriptionValidatorFactory.createValidator()).thenReturn(descriptionValidator);
       when(estateRepository.getEstate(estateAddress)).thenReturn(estate);
-      when(descriptionDto.getEstateID()).thenReturn(estateAddress);
    }
 
    @Test

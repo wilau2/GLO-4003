@@ -12,6 +12,7 @@ import org.dom4j.Element;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
@@ -147,7 +148,7 @@ public class XMLEstateRepository implements EstateRepository {
          
          System.out.println(estateDocument);
          
-         xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, addressKey, "address" ,estatePersistenceDto);
+         xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, addressKey, "address" , estatePersistenceDto);
          
          if(estate.getDescription()!= null){
             HashMap<String, String> descriptionAttributes = estateElementAssembler.convertDescriptionToAttributes(estate);
@@ -198,12 +199,20 @@ public class XMLEstateRepository implements EstateRepository {
          }
 
          EstateDto estateDto = assembleEstateDtoFromDocumentAttributes(address, document);
+         DescriptionDto descriptionDto = assembleDescriptionDtoFromDocumentAttributes(address, document);
+         
+         estateDto.setDescriptionDto(descriptionDto);
          estate = assembleEstate(estateDto);
 
       } catch (DocumentException e) {
          throw new CouldNotAccessDataException("Unable to access data", e);
       }
       return estate;
+   }
+
+   private DescriptionDto assembleDescriptionDtoFromDocumentAttributes(String address, Document document) {
+      // TODO Auto-generated method stub
+      return null;
    }
 
    private EstateDto assembleEstateDtoFromDocumentAttributes(String address, Document document) {

@@ -21,6 +21,11 @@ public class DescriptionAssembler {
    }
    
    public Description assembleDescription(DescriptionDto descriptionDto){
+      
+      if(descriptionDto == null){
+         
+         return new Description();
+      }
      
       Integer numberOfBedRooms = descriptionDto.getNumberOfBedRooms();
       Integer numberOfBathrooms = descriptionDto.getNumberOfBathrooms();
@@ -42,7 +47,7 @@ public class DescriptionAssembler {
       return description;
    }
    
-   public DescriptionDto assembleDescriptionDto(Description description, String estateID){
+   public DescriptionDto assembleDescriptionDto(Description description){
       
       Integer numberOfBedRooms = description.getNumberOfBedRooms();
       Integer numberOfBathrooms = description.getNumberOfBathrooms();
@@ -58,7 +63,7 @@ public class DescriptionAssembler {
    
       DescriptionDto descriptionDto = new DescriptionDto(numberOfBedRooms, numberOfBathrooms, numberOfRooms,
             numberOfLevel, yearsOfConstruction, dimensionsBuilding, livingSpaceAreaSquareMeter,
-            municipalValuation, backyardFaces, roomDto, landDto, estateID);
+            municipalValuation, backyardFaces, roomDto, landDto);
       
       return descriptionDto;
    }

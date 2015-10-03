@@ -15,6 +15,9 @@ public class LandAssembler {
    }
    
    public LandDto assembleLandDto(Land land){
+      if (land == null){
+         return new LandDto();
+      }
       String aqueduct = land.getAqueduct();
       String dimensionsLot = land.getDimensionsLot();
       

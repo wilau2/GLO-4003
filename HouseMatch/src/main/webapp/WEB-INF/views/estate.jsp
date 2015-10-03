@@ -78,7 +78,7 @@
 				<div class="pure-control-group">
 					<form:label path="yearsOfConstruction">Year of construction</form:label>
 					<div class="pure-u-13-24">
-						<form:input disabled="true" id="yearsOfConstruction" type="text" path="yearsOfConstruction" />
+						<form:input disabled="false" id="yearsOfConstruction" type="text" path="yearsOfConstruction" />
 					</div>
 				</div>
 				<div class="pure-control-group">
