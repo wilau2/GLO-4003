@@ -14,7 +14,6 @@ public class Land {
    public String getAqueduct() {
       return aqueduct;
    }
-
    
    public String getDimensionsLot() {
       return dimensionsLot;

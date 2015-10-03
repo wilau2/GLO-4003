@@ -3,25 +3,25 @@ package ca.ulaval.glo4003.b6.housematch.web.viewModel;
 public class EstateModel {
 
    private static final String COMMA = ", ";
-
+   
    private static final String UNION = "-";
-
+   
    private String type;
-
+   
    private Integer price;
-
+   
    private String seller;
-
+   
    private String postalCode;
-
+   
    private Integer civicNumber;
-
+   
    private String country;
-
+   
    private String state;
-
+   
    private String street;
-
+   
    private int appartment;
 
    public String getType() {
