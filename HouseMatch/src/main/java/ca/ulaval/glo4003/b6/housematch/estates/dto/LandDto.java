@@ -11,6 +11,9 @@ public class LandDto {
       this.dimensionsLot = dimensionsLot;
    }
    
+   public LandDto() {
+   }
+
    public String getAqueduct() {
       return aqueduct;
    }

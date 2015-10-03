@@ -15,7 +15,6 @@ public class DescriptionCorruptionVerificator {
    private LandCorruptionVerificator landCorruptionVerificator;
    private EstatesService estateService;
    
-   //TODO a faire pour les beans
    @Autowired
    public DescriptionCorruptionVerificator(EstatesService estateService, 
          RoomCorruptionVerificator roomCorruptionVerificator, LandCorruptionVerificator landCorruptionVerificator ){

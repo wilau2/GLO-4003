@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
@@ -32,6 +33,7 @@ import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessData
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
+import ca.ulaval.glo4003.b6.housematch.web.converters.DescriptionConverter;
 import ca.ulaval.glo4003.b6.housematch.web.converters.EstateConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.EstateModel;
 
@@ -52,9 +54,15 @@ public class SellerEstateControllerTest {
 
    @Mock
    private EstateConverter estateConverter;
+   
+   @Mock
+   private DescriptionConverter descriptionConverter;
 
    @Mock
    private EstateDto estateDto;
+   
+   @Mock
+   private DescriptionDto descriptionDto;
 
    @Mock
    private EstatesFetcher estateFetcherService;
