@@ -1,0 +1,86 @@
+package ca.ulaval.glo4003.b6.housematch.web.converters;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.when;
+
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Land;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.LandDto;
+import ca.ulaval.glo4003.b6.housematch.web.viewModel.DescriptionModel;
+
+public class DescriptionConverterTest {
+   
+   private static final int CONST_NUMBER = 22;
+   private static final String CONST_STRING = "abcdef";
+   @Mock
+   DescriptionModel descriptionModel;
+   
+   @Mock
+   DescriptionDto descriptionDto;
+   
+   @Mock
+   private LandDto landDto;
+   
+   @InjectMocks
+   DescriptionConverter descriptionConverter;
+   
+   @Before
+   public void setUp(){
+      MockitoAnnotations.initMocks(this);
+      when(descriptionDto.getLandDto()).thenReturn(landDto);
+      configureDescriptionDto();
+      configureDescriptionModel();
+   }
+   
+
+   @Test
+   public void convertToDtoShoutCopyEachField() {
+      //given
+
+      //when
+      descriptionConverter.convertToDto(descriptionModel);
+      //then
+   }
+   
+   @Test
+   public void convertToModelShouldCopyEachField() {
+      //given
+
+      //when
+      descriptionConverter.convertToModel(descriptionDto);
+      //then
+   }
+   
+   private void configureDescriptionDto() {
+      when(descriptionDto.getDimensionsBuilding()).thenReturn(CONST_STRING);
+      when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(CONST_NUMBER);
+      when(descriptionDto.getMunicipalValuation()).thenReturn(CONST_NUMBER);
+      when(descriptionDto.getNumberOfBathrooms()).thenReturn(CONST_NUMBER);
+      when(descriptionDto.getNumberOfBedRooms()).thenReturn(CONST_NUMBER);
+      when(descriptionDto.getNumberOfLevel()).thenReturn(CONST_NUMBER);
+      when(descriptionDto.getNumberOfRooms()).thenReturn(CONST_NUMBER);
+      when(descriptionDto.getYearsOfConstruction()).thenReturn(CONST_NUMBER);    
+   }
+
+   private void configureDescriptionModel() {
+      when(descriptionModel.getDimensionsBuilding()).thenReturn(CONST_STRING);
+      when(descriptionModel.getLivingSpaceAreaSquareMeter()).thenReturn(CONST_NUMBER);
+      when(descriptionModel.getMunicipalValuation()).thenReturn(CONST_NUMBER);
+      when(descriptionModel.getNumberOfBathrooms()).thenReturn(CONST_NUMBER);
+      when(descriptionModel.getNumberOfBedRooms()).thenReturn(CONST_NUMBER);
+      when(descriptionModel.getNumberOfLevel()).thenReturn(CONST_NUMBER);
+      when(descriptionModel.getNumberOfRooms()).thenReturn(CONST_NUMBER);
+      when(descriptionModel.getYearsOfConstruction()).thenReturn(CONST_NUMBER);   
+      
+   }
+   
+   private void configureLandDto(){
+      when(landDto.getAqueduct()).thenReturn(CONST_STRING);
+      when(landDto.getDimensionsLot()).thenReturn(CONST_STRING);
+   }
+
+}

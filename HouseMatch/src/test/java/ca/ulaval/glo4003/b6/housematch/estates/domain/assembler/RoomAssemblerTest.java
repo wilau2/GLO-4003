@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.b6.housematch.estates.domain.assembler;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,9 @@ public class RoomAssemblerTest {
 
    @Mock
    private Room room;
+   
+   @Mock
+   private RoomDto roomDto;
    
    private ArrayList<Room> rooms = new ArrayList<Room>();
    
@@ -60,5 +65,17 @@ public class RoomAssemblerTest {
       assertEquals(FLOOR, returnedRoomDto.getFloor());
       assertEquals(DIMENSIONS, returnedRoomDto.getDimensions());
       assertEquals(SURFACE, returnedRoomDto.getSurface());
+   }
+   
+   @Test
+   public void assembleRoomsCallsGettersOnDtos() {
+      //given
+      List<RoomDto> roomDtoList = new ArrayList<>();
+      roomDtoList.add(roomDto);
+      //when
+      roomAssembler.assembleRooms(roomDtoList);
+
+      //then
+      verify(roomDto, times(1)).getFloor();
    }
 }
