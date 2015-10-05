@@ -96,6 +96,9 @@
 		class="ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter" />
 	<beans:bean id="userAuthorizationService"
 		class="ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService" />
+	<beans:bean id="profilUserConverter"
+		class="ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter" />
+	
 
 
 	<beans:bean id="userLoginService"
@@ -117,6 +120,12 @@
 		<beans:constructor-arg name="userAssemblerFactory"
 			ref="userAssemblerFactory" />
 
+	</beans:bean>
+	
+	<beans:bean id="userFetcher"
+		class="ca.ulaval.glo4003.b6.housematch.user.services.UserFetcher">
+		<beans:constructor-arg name="userRepository"
+			ref="userRepository" />
 	</beans:bean>
 
 	<beans:bean id="userLoginCorruptionVerificator"
@@ -157,6 +166,16 @@
 		<beans:constructor-arg name="userAuthorizationService"
 			ref="userAuthorizationService" />
 
+	</beans:bean>
+	
+	<beans:bean id="profilUserController"
+		class="ca.ulaval.glo4003.b6.housematch.web.controllers.ProfilUserController">
+		<beans:constructor-arg name="userAuthorizationService"
+			ref="userAuthorizationService" />
+		<beans:constructor-arg name="profilUserConverter"
+			ref="profilUserConverter" />
+		<beans:constructor-arg name="userFetcher"
+			ref="userFetcher" />
 	</beans:bean>
 
 

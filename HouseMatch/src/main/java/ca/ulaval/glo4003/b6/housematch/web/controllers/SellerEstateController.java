@@ -53,7 +53,7 @@ public class SellerEstateController {
    public String addEstate(HttpServletRequest request, EstateModel estateModel, @PathVariable("userId") String userId)
          throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
 
-      userAuthorizationService.isSessionAloud(request, expectedRole);
+      userAuthorizationService.isSessionAllowed(request, expectedRole);
       estateModel.setSeller(userId);
 
       EstateDto estateDto = estateConverter.convertToDto(estateModel);
@@ -64,7 +64,7 @@ public class SellerEstateController {
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.GET)
    public String getSellEstatePage(HttpServletRequest request, Model model) throws InvalidAccessException {
-      userAuthorizationService.isSessionAloud(request, expectedRole);
+      userAuthorizationService.isSessionAllowed(request, expectedRole);
       model.addAttribute("estate", new EstateModel());
       return "sell_estate";
    }
@@ -73,7 +73,7 @@ public class SellerEstateController {
    public ModelAndView getSellerEstates(@PathVariable("userId") String userId, HttpServletRequest request)
          throws SellerNotFoundException, CouldNotAccessDataException, InvalidAccessException {
 
-      userAuthorizationService.isSessionAloud(request, expectedRole);
+      userAuthorizationService.isSessionAllowed(request, expectedRole);
 
       List<EstateDto> estatesFromSeller = estatesFetcher.getEstatesBySeller(userId);
 
@@ -91,7 +91,7 @@ public class SellerEstateController {
    @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.GET)
    public ModelAndView getEstateByAddress(@PathVariable("address") String address, HttpServletRequest request)
          throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
-      userAuthorizationService.isSessionAloud(request, expectedRole);
+      userAuthorizationService.isSessionAllowed(request, expectedRole);
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
       EstateModel estateModel = estateConverter.convertToModel(estateByAddress);
