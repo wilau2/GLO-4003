@@ -5,7 +5,9 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:wrapper>
+
         <jsp:include page="_menu.jsp" />
+        
         <div class="splash">
      	
 			<c:if test="${loggedInUsername == null}">

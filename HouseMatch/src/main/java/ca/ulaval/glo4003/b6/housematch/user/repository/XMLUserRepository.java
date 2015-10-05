@@ -64,6 +64,12 @@ public class XMLUserRepository implements UserRepository {
       }
    }
 
+   @Override
+   public void updateUser(User user) {
+      // TODO Auto-generated method stub
+
+   }
+
    private void addNewUserToDocument(Document existingDocument, User newUser) {
 
       RepositoryToPersistenceDto userDto = dtoFactory.getRepositoryDto(newUser);
@@ -100,4 +106,5 @@ public class XMLUserRepository implements UserRepository {
    private Document readUsersXML() throws DocumentException {
       return fileEditor.readXMLFile(pathToXML);
    }
+
 }
