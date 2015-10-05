@@ -11,6 +11,7 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidator
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.BadEmailException;
 
 public class UserSignupService {
 
@@ -19,11 +20,14 @@ public class UserSignupService {
    private UserAssemblerFactory userAssemblerFactory;
 
    private UserRepository userRepository;
+   
+   private MailService mailService;
 
    @Autowired
    public UserSignupService(UserValidatorFactory userValidatorFactory, UserAssemblerFactory userAssemblerFactory,
          UserRepository userRepository) {
 
+      this.mailService = new MailService(); // TODO MS
       this.userValidatorFactory = userValidatorFactory;
       this.userAssemblerFactory = userAssemblerFactory;
       this.userRepository = userRepository;
@@ -31,7 +35,7 @@ public class UserSignupService {
    }
 
    public void signup(UserSignupDto userSignupDto)
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
 
       UserValidator userValidator = userValidatorFactory.getValidator();
       userValidator.validate(userSignupDto);
@@ -40,6 +44,7 @@ public class UserSignupService {
       User newUser = userAssembler.assembleUser(userSignupDto);
 
       userRepository.addUser(newUser);
+      mailService.sendMail(newUser.getContactInformation()); // TODO MS
 
    }
 }
