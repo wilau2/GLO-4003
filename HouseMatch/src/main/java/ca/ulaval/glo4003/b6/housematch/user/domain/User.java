@@ -9,6 +9,8 @@ public class User {
    private ContactInformation contactInformation;
 
    private Role role;
+   
+   private Boolean isActive = false;
 
    public User(String username, String password, ContactInformation contactInformation, Role role) {
       this.username = username;
@@ -43,5 +45,13 @@ public class User {
 
    public Role getRole() {
       return role;
+   }
+
+   public Boolean getIsActive() {
+      return isActive;
+   }
+
+   public void setIsActive(Boolean isActive) {
+      this.isActive = isActive;
    }
 }

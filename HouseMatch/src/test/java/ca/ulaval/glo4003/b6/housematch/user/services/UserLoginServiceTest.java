@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
 
 public class UserLoginServiceTest {
 
@@ -55,7 +56,7 @@ public class UserLoginServiceTest {
 
    @Test
    public void givenValidUsernameWhenLoginShouldDelateGettingExistingUser()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
       configureValidUsername();
       configureValidPassword();
@@ -68,7 +69,7 @@ public class UserLoginServiceTest {
 
    @Test
    public void givenValidUsernameWhenLoginShouldDelateSessionAuthentification()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
       configureValidUsername();
       configureValidPassword();
@@ -81,7 +82,7 @@ public class UserLoginServiceTest {
 
    @Test
    public void givenValidScenarioWhenLoginShouldNotThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
       configureValidUsername();
       configureValidPassword();
@@ -95,7 +96,7 @@ public class UserLoginServiceTest {
 
    @Test(expected = InvalidPasswordException.class)
    public void givenInvalidPasswordWhenLoginShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
       configureValidUsername();
       configureInvalidPassword();
@@ -109,7 +110,7 @@ public class UserLoginServiceTest {
 
    @Test(expected = CouldNotAccessUserDataException.class)
    public void givenInvalidDataAccesWhenLoginShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
       configureValidUsername();
 
@@ -122,7 +123,7 @@ public class UserLoginServiceTest {
 
    @Test(expected = UserNotFoundException.class)
    public void givenNotExistingUserWhenLoginShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
       configureValidUsername();
 

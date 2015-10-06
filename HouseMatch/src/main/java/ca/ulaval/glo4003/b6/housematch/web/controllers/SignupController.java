@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlready
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.BadEmailException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
@@ -41,15 +42,15 @@ public class SignupController {
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
    public String signup(HttpServletRequest request, SignupUserModel viewModel)
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException, BadEmailException {
+         InvalidPasswordException, UsernameAlreadyExistsException, BadEmailException, UserActivationException {
 
       UserSignupDto userSignupDto = converter.convertViewModelToSignupDto(viewModel);
       userSignupCorruptionVerificator.signup(userSignupDto);
 
-      UserLoginDto userLoginDto = converter.convertSignupDtoToLoginDto(userSignupDto);
-      userLoginService.login(request, userLoginDto);
+      //UserLoginDto userLoginDto = converter.convertSignupDtoToLoginDto(userSignupDto);
+      //userLoginService.login(request, userLoginDto);
 
-      return "redirect:/";
+      return "need_email_confirmation";
 
    }
 

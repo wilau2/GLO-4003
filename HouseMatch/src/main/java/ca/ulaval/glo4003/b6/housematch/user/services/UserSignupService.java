@@ -25,9 +25,9 @@ public class UserSignupService {
 
    @Autowired
    public UserSignupService(UserValidatorFactory userValidatorFactory, UserAssemblerFactory userAssemblerFactory,
-         UserRepository userRepository) {
+         UserRepository userRepository, MailService mailService) {
 
-      this.mailService = new MailService(); // TODO MS
+      this.mailService = mailService;
       this.userValidatorFactory = userValidatorFactory;
       this.userAssemblerFactory = userAssemblerFactory;
       this.userRepository = userRepository;
@@ -44,7 +44,7 @@ public class UserSignupService {
       User newUser = userAssembler.assembleUser(userSignupDto);
 
       userRepository.addUser(newUser);
-      mailService.sendMail(newUser.getContactInformation()); // TODO MS
+      mailService.sendMail(newUser); // TODO MS ici il peut y avoir un problème si l'adresse courriel n'est pas bonne !
 
    }
 }

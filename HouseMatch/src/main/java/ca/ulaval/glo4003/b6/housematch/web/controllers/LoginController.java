@@ -14,6 +14,7 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
@@ -33,7 +34,7 @@ public class LoginController {
 
    @RequestMapping(value = "/login", method = RequestMethod.POST)
    public String login(HttpServletRequest request, LoginUserViewModel viewModel) throws InvalidUserLoginFieldException,
-         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       UserLoginDto userDto = loginUserConverter.convertViewModelToDto(viewModel);
 
       userCorruptionVerificator.login(request, userDto);

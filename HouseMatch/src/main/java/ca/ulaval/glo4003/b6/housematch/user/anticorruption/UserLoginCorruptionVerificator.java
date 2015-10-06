@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessU
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
 
 public class UserLoginCorruptionVerificator {
 
@@ -21,7 +22,7 @@ public class UserLoginCorruptionVerificator {
    }
 
    public void login(HttpServletRequest request, UserLoginDto userDto) throws InvalidUserLoginFieldException,
-         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
 
       validateUserLoginCorruption(userDto);
       userLoginService.login(request, userDto);

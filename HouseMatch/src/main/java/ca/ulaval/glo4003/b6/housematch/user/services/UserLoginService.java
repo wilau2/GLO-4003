@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
 
 public class UserLoginService {
 
@@ -26,14 +27,22 @@ public class UserLoginService {
    }
 
    public void login(HttpServletRequest request, UserLoginDto userLoginDto)
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
 
       User user = userRepository.getUser(userLoginDto.getUsername());
 
       validatePassword(userLoginDto, user);
+      //validateActivation(user); // TODO en attendant que la persistence fonctionne!
 
       request = userAuthorisationService.setSessionUserAuthorisation(request, user);
 
+   }
+
+   private void validateActivation(User user) throws UserActivationException {
+      if(user.getIsActive() == false){
+         throw new UserActivationException("User is not confirm");
+      }
+      
    }
 
    private void validatePassword(UserLoginDto userLoginDto, User user) throws InvalidPasswordException {

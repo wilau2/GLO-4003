@@ -17,9 +17,10 @@ public class MailSender {
    private Properties properties; 
    private Session session;
    private Message message;
+   private String username;
    
    private final String from = "housematchconfirmation@gmail.com";  
-   private final String username = "housematchconfirmation@gmail.com";
+   private final String houseMatchUsername = "housematchconfirmation@gmail.com";
    private final String password = "houseglo4003";
    private final String host = "smtp.gmail.com";
    
@@ -27,27 +28,30 @@ public class MailSender {
       this.properties = new Properties();
    }
    
-   public void sendMail(String recipient) throws AddressException, MessagingException{
+   public void sendMail(User user) throws AddressException, MessagingException{
    
-      this.recipient  = recipient;
+      this.recipient  = user.getContactInformation().getEmail();
+      this.username = user.getUsername();
       
       fillProperties();      
       session = initiateSession();
-      message = initiateMessage(recipient);
+      message = initiateMessage(recipient, username);
       Transport.send(message);
-      
+
       
    }
 
-   private Message initiateMessage(String recipient) throws AddressException, MessagingException {
+   private Message initiateMessage(String recipient, String username) throws AddressException, MessagingException {
+      
+      String linkToSend = "<p>To confirm your email: <a href=\"http://localhost:8080/confirmation/" + username + "\">Click here!</a></p>";
       Message message = new MimeMessage(session);
 
       message.setFrom(new InternetAddress(from));
       message.setRecipients(Message.RecipientType.TO,
       InternetAddress.parse(recipient));
-      message.setSubject("Email confirmation from SellEstates!");
-      message.setContent("<a>Click this link to confirm your email!</a>", "text/html");
-      
+      message.setSubject("Email confirmation from HouseMatch!");
+      message.setContent(linkToSend, "text/html");
+ 
       return message;
    }
 
@@ -55,7 +59,7 @@ public class MailSender {
       Session session = Session.getInstance(properties,
             new javax.mail.Authenticator() {
                protected PasswordAuthentication getPasswordAuthentication() {
-                  return new PasswordAuthentication(username, password);
+                  return new PasswordAuthentication(houseMatchUsername, password);
                }
             });
       return session;

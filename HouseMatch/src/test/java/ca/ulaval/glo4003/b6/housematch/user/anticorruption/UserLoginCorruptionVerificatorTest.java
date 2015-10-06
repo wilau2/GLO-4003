@@ -17,6 +17,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessU
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
 
 public class UserLoginCorruptionVerificatorTest {
 
@@ -52,7 +53,7 @@ public class UserLoginCorruptionVerificatorTest {
    @Test
    public void verificatingUserLoginCorruptionWhenUserLoginIsValidShouldCallServiceLogin()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException {
+         InvalidPasswordException, UserActivationException {
 
       // Given
 
@@ -66,7 +67,7 @@ public class UserLoginCorruptionVerificatorTest {
    @Test(expected = InvalidUserLoginFieldException.class)
    public void verificatingUserLoginCorruptionWhenUserHasNoUsernameShouldThrowException()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException {
+         InvalidPasswordException, UserActivationException {
 
       // Given
       when(userDto.getUsername()).thenReturn(null);
@@ -80,7 +81,7 @@ public class UserLoginCorruptionVerificatorTest {
    @Test(expected = InvalidUserLoginFieldException.class)
    public void verificatingUserLoginCorruptionWhenUserHasEmptyUsernameShouldThrowException()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException {
+         InvalidPasswordException, UserActivationException {
 
       // Given
       when(userDto.getUsername()).thenReturn(EMPTY_FIELD);
@@ -94,7 +95,7 @@ public class UserLoginCorruptionVerificatorTest {
    @Test(expected = InvalidUserLoginFieldException.class)
    public void verificatingUserLoginCorruptionWhenUserHasNoPasswordShouldThrowException()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException {
+         InvalidPasswordException, UserActivationException {
 
       // Given
       when(userDto.getPassword()).thenReturn(null);
@@ -108,7 +109,7 @@ public class UserLoginCorruptionVerificatorTest {
    @Test(expected = InvalidUserLoginFieldException.class)
    public void verificatingUserLoginCorruptionWhenUserHasEmptyPasswordShouldThrowException()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException {
+         InvalidPasswordException, UserActivationException {
 
       // Given
       when(userDto.getPassword()).thenReturn(EMPTY_FIELD);

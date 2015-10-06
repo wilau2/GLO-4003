@@ -137,6 +137,9 @@
     <beans:bean
         id="userAuthorisationService"
         class="ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorisationService" />
+    <beans:bean
+    	id="mailService"
+    	class="ca.ulaval.glo4003.b6.housematch.user.services.MailService" />
     
     
     <beans:bean
@@ -165,7 +168,10 @@
 	        ref="userValidatorFactory" />
 	    <beans:constructor-arg
 	        name="userAssemblerFactory"
-	        ref="userAssemblerFactory" />    
+	        ref="userAssemblerFactory" />   
+        <beans:constructor-arg
+	        name="mailService"
+	        ref="mailService"/> 
 
     </beans:bean>
 
