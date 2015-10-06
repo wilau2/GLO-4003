@@ -2,9 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import static org.mockito.Matchers.any;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -31,6 +29,9 @@ import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundExceptio
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
+import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.EstateConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.EstateModel;
 
@@ -64,10 +65,14 @@ public class SellerEstateControllerTest {
    @Mock
    private Model model;
 
+   @Mock
+   private UserAuthorizationService userAuthorizationService;
+
    private List<EstateDto> estatesDto;
 
    @Before
-   public void setup() throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException {
+   public void setup()
+         throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException, InvalidAccessException {
       MockitoAnnotations.initMocks(this);
 
       when(estateConverter.convertToDto(any(EstateModel.class))).thenReturn(estateDto);
@@ -75,6 +80,13 @@ public class SellerEstateControllerTest {
       configureFetchingListOfEstateDto();
 
       configureFetchingEstateByAddress();
+
+      configureUserAuthorizationService();
+   }
+
+   private void configureUserAuthorizationService() throws InvalidAccessException {
+      when(userAuthorizationService.isSessionAllowed(request, Role.SELLER)).thenReturn(true);
+
    }
 
    private void configureFetchingEstateByAddress() throws EstateNotFoundException, CouldNotAccessDataException {
@@ -91,11 +103,11 @@ public class SellerEstateControllerTest {
 
    @Test
    public void addingEstateFromControllerWhenEstateIsValidShouldCallEstateService()
-         throws InvalidEstateFieldException, CouldNotAccessDataException {
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
       // Given no changes
 
       // When
-      estateController.addEstate(estateModel, USER_ID);
+      estateController.addEstate(request, estateModel, USER_ID);
 
       // Then
       verify(estateCorruptionVerificator, times(1)).addEstate(estateDto);
@@ -103,12 +115,12 @@ public class SellerEstateControllerTest {
 
    @Test
    public void addingEstateFromControllerWhenEstateIsValidShouldReturnRedirectToString()
-         throws InvalidEstateFieldException, CouldNotAccessDataException {
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
       // Given no changes
       String expectedRedirectTo = "redirect:/";
 
       // When
-      String returnedView = estateController.addEstate(estateModel, USER_ID);
+      String returnedView = estateController.addEstate(request, estateModel, USER_ID);
 
       // Then
       assertEquals(expectedRedirectTo, returnedView);
@@ -116,22 +128,22 @@ public class SellerEstateControllerTest {
 
    @Test(expected = InvalidEstateFieldException.class)
    public void addingEstateWhenEstateIsInvalidAddressShouldThrowException()
-         throws InvalidEstateFieldException, CouldNotAccessDataException {
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
       // Given
       doThrow(new InvalidEstateFieldException("")).when(estateCorruptionVerificator).addEstate(estateDto);
 
       // When
-      estateController.addEstate(estateModel, USER_ID);
+      estateController.addEstate(null, estateModel, USER_ID);
 
       // Then an InvalidEstateFieldException is thrown
    }
 
    @Test
-   public void whenGettingSellerPageShouldLinkToCorrectPage() {
+   public void whenGettingSellerPageShouldLinkToCorrectPage() throws InvalidAccessException {
       // Given
 
       // When
-      String redirectLink = estateController.getSellEstatePage(model);
+      String redirectLink = estateController.getSellEstatePage(null, model);
 
       // Then
       assertEquals("sell_estate", redirectLink);
@@ -139,11 +151,11 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenAddingAnEstateShouldSetSellerIdIntoModel()
-         throws InvalidEstateFieldException, CouldNotAccessDataException {
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
       // Given no changes
 
       // When
-      estateController.addEstate(estateModel, USER_ID);
+      estateController.addEstate(request, estateModel, USER_ID);
 
       // Then
       verify(estateModel, times(1)).setSeller(USER_ID);
@@ -151,11 +163,11 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenFetchingEstateByTheLoggedSellerShouldReturnModelAndView()
-         throws SellerNotFoundException, CouldNotAccessDataException {
+         throws SellerNotFoundException, CouldNotAccessDataException, InvalidAccessException {
       // Given
 
       // When
-      ModelAndView returnedViewModel = estateController.getSellerEstates(USER_ID);
+      ModelAndView returnedViewModel = estateController.getSellerEstates(USER_ID, request);
 
       // Then
       assertEquals("seller_estates", returnedViewModel.getViewName());
@@ -164,11 +176,11 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenFetchingEstateByTheLoggedSellerShouldCallFetchingMethodOfServiceLayer()
-         throws SellerNotFoundException, CouldNotAccessDataException {
+         throws SellerNotFoundException, CouldNotAccessDataException, InvalidAccessException {
       // Given
 
       // When
-      estateController.getSellerEstates(USER_ID);
+      estateController.getSellerEstates(USER_ID, request);
 
       // Then
       verify(estateFetcherService, times(1)).getEstatesBySeller(USER_ID);
@@ -176,11 +188,11 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenFetchingEstateByLoggedSellerShouldCallEstateConverterToModelForAllReturnedEstateDto()
-         throws SellerNotFoundException, CouldNotAccessDataException {
+         throws SellerNotFoundException, CouldNotAccessDataException, InvalidAccessException {
       // Given
       int numberOfReturnedEstateDto = estatesDto.size();
       // When
-      estateController.getSellerEstates(USER_ID);
+      estateController.getSellerEstates(USER_ID, request);
 
       // Then
       verify(estateConverter, times(numberOfReturnedEstateDto)).convertToModel(estateDto);
@@ -188,11 +200,11 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenFetchingEstateByAddressShouldCallFetchingMethodOfServiceLayer()
-         throws EstateNotFoundException, CouldNotAccessDataException {
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
       // Given no changes
 
       // When
-      estateController.getEstateByAddress(ADDRESS);
+      estateController.getEstateByAddress(ADDRESS, request);
 
       // Then
       verify(estateFetcherService, times(1)).getEstateByAddress(ADDRESS);
@@ -200,12 +212,12 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenFetchingEstateByAddressShouldReturnModelAndViewOfWantedEstate()
-         throws EstateNotFoundException, CouldNotAccessDataException {
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
       // Given
       String expectedViewName = "estate";
 
       // When
-      ModelAndView returnedModelAndView = estateController.getEstateByAddress(ADDRESS);
+      ModelAndView returnedModelAndView = estateController.getEstateByAddress(ADDRESS, request);
 
       // Then
       assertEquals(expectedViewName, returnedModelAndView.getViewName());
@@ -215,11 +227,11 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenFetchingEstateByAddressShouldConvertEstateDtoToModel()
-         throws EstateNotFoundException, CouldNotAccessDataException {
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
       // Given no changes
 
       // When
-      estateController.getEstateByAddress(ADDRESS);
+      estateController.getEstateByAddress(ADDRESS, request);
 
       // Then
       verify(estateConverter, times(1)).convertToModel(estateDto);

@@ -20,15 +20,15 @@ public class User {
    }
 
    public boolean isSeller() {
-      return role.asSeller();
+      return role.hasSeller();
    }
 
    public boolean isBuyer() {
-      return role.asBuyer();
+      return role.hasBuyer();
    }
 
    public boolean isAdmin() {
-      return role.asAdmin();
+      return role.hasAdmin();
    }
 
    public String getUsername() {

@@ -35,7 +35,7 @@ public class UserLoginServiceTest {
    private UserRepository userRepository;
 
    @Mock
-   private UserAuthorisationService userAuthorisationService;
+   private UserAuthorizationService userAuthorizationService;
 
    @InjectMocks
    private UserLoginService userLoginService;
@@ -77,7 +77,7 @@ public class UserLoginServiceTest {
       userLoginService.login(request, userLoginDto);
 
       // Then
-      verify(userAuthorisationService).setSessionUserAuthorisation(request, user);
+      verify(userAuthorizationService).setSessionUserAuthorisation(request, user);
    }
 
    @Test
@@ -154,7 +154,7 @@ public class UserLoginServiceTest {
    }
 
    private void configureUserAuthorisationService() {
-      given(userAuthorisationService.setSessionUserAuthorisation(request, user)).willReturn(request);
+      given(userAuthorizationService.setSessionUserAuthorisation(request, user)).willReturn(request);
    }
 
 }

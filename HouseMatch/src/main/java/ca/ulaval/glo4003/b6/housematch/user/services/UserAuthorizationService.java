@@ -4,12 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
 
-public class UserAuthorisationService {
+public class UserAuthorizationService {
 
-   protected final static String LOGGED_IN_USER_ROLE = "loggedInUserRole";
+   public final static String LOGGED_IN_USER_ROLE = "loggedInUserRole";
 
-   protected final static String LOGGED_IN_USERNAME = "loggedInUsername";
+   public final static String LOGGED_IN_USERNAME = "loggedInUsername";
 
    public HttpServletRequest setSessionUserAuthorisation(HttpServletRequest request, User user) {
 
@@ -33,5 +34,15 @@ public class UserAuthorisationService {
       request.getSession().setAttribute(LOGGED_IN_USER_ROLE, null);
 
       return request;
+   }
+
+   public boolean isSessionAllowed(HttpServletRequest request, String expectedRole) throws InvalidAccessException {
+      String sessionRole = request.getSession().getAttribute(LOGGED_IN_USER_ROLE).toString();
+      if (sessionRole.equals(expectedRole)) {
+         return true;
+      }
+      throw new InvalidAccessException(
+            "You don't have the access to do that, be a gentlement and stay in your field of work");
+
    }
 }

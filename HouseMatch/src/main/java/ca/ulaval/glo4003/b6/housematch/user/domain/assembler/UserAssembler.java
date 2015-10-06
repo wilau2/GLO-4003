@@ -24,14 +24,9 @@ public class UserAssembler {
       return user;
    }
 
-   public UserDetailedDto convertUserToDetailedDto(User user) {
-      UserDetailedDto userDetailedDto = new UserDetailedDto(user.getUsername());
-      userDetailedDto.setFirstName(user.getContactInformation().getFirstName());
-      userDetailedDto.setLastName(user.getContactInformation().getLastName());
-      userDetailedDto.setEmail(user.getContactInformation().getEmail());
-      userDetailedDto.setPhoneNumber(user.getContactInformation().getPhoneNumber());
-
-      return userDetailedDto;
+   public User assembleUser(UserDetailedDto userDto) {
+      // TODO Auto-generated method stub
+      return null;
    }
 
 }

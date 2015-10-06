@@ -2,22 +2,22 @@
 
 <users> 
   <user> 
-    <firstName>qwe</firstName>  
-    <lastName>qwe</lastName>  
+    <firstName>Kid</firstName>  
+    <lastName>Kiddy</lastName>  
     <password>123</password>  
     <role>buyer</role>  
-    <phoneNumber>qwe</phoneNumber>  
-    <email>qwe</email>  
-    <username>qwe</username> 
+    <phoneNumber>123-456-7890</phoneNumber>  
+    <email>kid@kiddy.com</email>  
+    <username>buyer</username> 
   </user>  
   <user> 
-    <firstName>123</firstName>  
-    <lastName>123</lastName>  
+    <firstName>Bruce</firstName>  
+    <lastName>Lee</lastName>  
     <password>123</password>  
     <role>seller</role>  
-    <phoneNumber>123</phoneNumber>  
-    <email>123</email>  
-    <username>123</username> 
+    <phoneNumber>123-123-1234</phoneNumber>  
+    <email>bruce@lee.com</email>  
+    <username>seller</username> 
   </user>  
   <user> 
     <firstName>bob</firstName>  
@@ -73,13 +73,4 @@
     <email>m.savoie@live.ca</email>  
     <username>rdftyguihoj</username> 
   </user>  
-  <user>
-    <firstName>dfchgvjkvkmj</firstName>
-    <lastName>xgfcjhf</lastName>
-    <password>123</password>
-    <role>seller</role>
-    <phoneNumber>458643</phoneNumber>
-    <email>m.savoie@live.ca</email>
-    <username>tfc7gvyikj</username>
-  </user>
 </users>

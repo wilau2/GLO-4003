@@ -25,7 +25,7 @@
 	            <c:if test="${loggedInUserRole == 'seller'}">
 	              <li class="pure-menu-item"><a href="${entryUrl}/seller/${loggedInUsername}/estates" class="pure-menu-link">Seller</a></li>
 	            </c:if>
-	            <li class="pure-menu-item"><a href="${entryUrl}/" class="pure-menu-link">${loggedInUsername}</a></li>
+	            <li class="pure-menu-item"><a href="${entryUrl}/profil" class="pure-menu-link">${loggedInUsername}</a></li>
 
 	            <li class="pure-menu-item"><a href="${entryUrl}/logout" class="pure-menu-link">Log out</a></li>
 	            

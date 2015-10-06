@@ -16,13 +16,13 @@ public class UserLoginService {
 
    private UserRepository userRepository;
 
-   private UserAuthorisationService userAuthorisationService;
+   private UserAuthorizationService userAuthorizationService;
 
    @Autowired
-   public UserLoginService(UserRepository userRepository, UserAuthorisationService userAuthorisationService) {
+   public UserLoginService(UserRepository userRepository, UserAuthorizationService userAuthorizationService) {
 
       this.userRepository = userRepository;
-      this.userAuthorisationService = userAuthorisationService;
+      this.userAuthorizationService = userAuthorizationService;
 
    }
 
@@ -34,7 +34,7 @@ public class UserLoginService {
       validatePassword(userLoginDto, user);
       //validateActivation(user); // TODO en attendant que la persistence fonctionne!
 
-      request = userAuthorisationService.setSessionUserAuthorisation(request, user);
+      request = userAuthorizationService.setSessionUserAuthorisation(request, user);
 
    }
 
