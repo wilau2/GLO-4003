@@ -28,6 +28,23 @@ public class XMLFileEditor {
       return reader.read(xml);
    }
 
+   public void deleteExistingElementWithCorrespondingValue(Document existingDocument, String pathToValue,
+         String wantedValue) {
+      List<Node> list = existingDocument.selectNodes(pathToValue);
+      for (Node node : list) {
+         if (node.getStringValue().equals(wantedValue)) {
+            node.getParent().detach();
+         }
+      }
+   }
+
+   public void replaceExistingElementWithCorrespondingValue(Document existingDocument, String pathToValue,
+         String wantedValue, RepositoryToPersistenceDto receivedDto) {
+      deleteExistingElementWithCorrespondingValue(existingDocument, pathToValue, wantedValue);
+      addNewElementToDocument(existingDocument, receivedDto);
+
+   }
+
    public void addNewElementToDocument(Document existingDocument, RepositoryToPersistenceDto receivedDto) {
       Element rootElement = existingDocument.getRootElement();
       Element newElement = rootElement.addElement(receivedDto.getElementName());
@@ -121,4 +138,5 @@ public class XMLFileEditor {
       }
       return elements;
    }
+
 }
