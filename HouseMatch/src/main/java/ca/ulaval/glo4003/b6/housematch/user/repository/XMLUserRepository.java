@@ -94,6 +94,12 @@ public class XMLUserRepository implements UserRepository {
       User user = new User(attributes.get("username"), attributes.get("password"), contactInformation,
             new Role(attributes.get("role")));
 
+      String isActive = attributes.get("isActive");
+
+      if (isActive.equals(true)) {
+         user.setIsActive(true);
+      }
+
       return user;
    }
 
