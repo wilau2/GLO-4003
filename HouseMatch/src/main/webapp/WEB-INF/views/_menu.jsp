@@ -7,7 +7,6 @@
 	        <ul class="pure-menu-list">
 	            <li class="pure-menu-item"><a href="${entryUrl}/login" class="pure-menu-link">Log In</a></li>
 	            <li class="pure-menu-item"><a href="${entryUrl}/signup"class="pure-menu-link">Sign Up</a></li>
-	            <li class="pure-menu-item"><a href="${entryUrl}/confirmation" class="pure-menu-link">Confirmation</a></li>
 	        </ul>
 	    </div>
     </c:if>
