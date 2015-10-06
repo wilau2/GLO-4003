@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -126,6 +127,30 @@ public class UserFetcherTest {
 
       // Then
       assertEquals(LAST_NAME, dto.getLastName());
+   }
+
+   @Test(expected = UserNotFoundException.class)
+   public void givenInvalidUsernameWhenGetUsetByNameShouldThrowException()
+         throws UserNotFoundException, CouldNotAccessUserDataException {
+      // Given
+      doThrow(new UserNotFoundException("")).when(userRepository).getUser(USERNAME);
+
+      // When
+      UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
+
+      // Then
+   }
+
+   @Test(expected = CouldNotAccessUserDataException.class)
+   public void givenInvalidDataBaseWhenGetUsetByNameShouldThrowException()
+         throws UserNotFoundException, CouldNotAccessUserDataException {
+      // Given
+      doThrow(new CouldNotAccessUserDataException("")).when(userRepository).getUser(USERNAME);
+
+      // When
+      UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
+
+      // Then
    }
 
 }
