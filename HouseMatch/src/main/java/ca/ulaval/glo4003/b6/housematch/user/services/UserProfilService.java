@@ -9,6 +9,7 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 
 public class UserProfilService {
 
@@ -26,7 +27,7 @@ public class UserProfilService {
       this.userAssemblerFactory = userAssemblerFactory;
    }
 
-   public void update(UserDetailedDto userDto) {
+   public void update(UserDetailedDto userDto) throws CouldNotAccessUserDataException {
 
       UserValidator userValidator = userValidatorFactory.getValidator();
       userValidator.validate(userDto);

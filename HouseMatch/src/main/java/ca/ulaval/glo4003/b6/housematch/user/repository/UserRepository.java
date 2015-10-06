@@ -11,5 +11,5 @@ public interface UserRepository {
 
    public void addUser(User user) throws UsernameAlreadyExistsException, CouldNotAccessUserDataException;
 
-   public void updateUser(User user);
+   public void updateUser(User user) throws CouldNotAccessUserDataException;
 }
