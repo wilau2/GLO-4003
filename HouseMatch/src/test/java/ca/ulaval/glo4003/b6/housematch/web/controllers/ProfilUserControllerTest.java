@@ -89,7 +89,7 @@ public class ProfilUserControllerTest {
 
    private void configureProfilUserConverter() {
       given(profilUserConverter.convertToViewModel(userDto)).willReturn(viewModel);
-
+      given(profilUserConverter.convertViewModelToDto(viewModel)).willReturn(userDto);
    }
 
    private void configureUserProfilCorruptionVerificator() {
@@ -204,12 +204,64 @@ public class ProfilUserControllerTest {
    }
 
    @Test
-   public void shouldDoThisWhenThat() {
+   public void givenValidViewModelWhenUpdateProfilShouldDelegateUpdate()
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
       // Given
 
       // When
+      profilUserController.updateProfil(request, viewModel);
 
       // Then
+      verify(userProfilCorruptionVerificator, times(1)).update(userDto);;
+   }
+
+   @Test
+   public void givenValidViewModelWhenUpdateProfilShouldDelegateConvertion()
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+      // Given
+
+      // When
+      profilUserController.updateProfil(request, viewModel);
+
+      // Then
+      verify(profilUserConverter, times(1)).convertViewModelToDto(viewModel);;
+   }
+
+   @Test
+   public void givenValidViewModelWhenUpdateProfilShouldDelegateAuthentification()
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+      // Given
+
+      // When
+      profilUserController.updateProfil(request, viewModel);
+
+      // Then
+      verify(userAuthorizationService, times(1)).isSessionAllowed(request, expectedRole);;
+   }
+
+   @Test
+   public void givenValidViewModelWhenUpdateProfilShouldRedirectToProfil()
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+      // Given
+
+      // When
+      String resp = profilUserController.updateProfil(request, viewModel);
+
+      // Then
+      assertEquals("redirect:/profil", resp);
+   }
+
+   @Test(expected = InvalidAccessException.class)
+   public void givenInvalidAccessWhenUpdateProfilShouldThrowException()
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidAccessException {
+
+      // Given
+      doThrow(new InvalidAccessException("")).when(userAuthorizationService).isSessionAllowed(request, expectedRole);
+
+      // When
+      profilUserController.updateProfil(request, viewModel);
+      // Then Exception is thrown
+
    }
 
 }
