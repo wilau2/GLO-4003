@@ -65,9 +65,15 @@ public class XMLUserRepository implements UserRepository {
    }
 
    @Override
-   public void updateUser(User user) {
-      // TODO Auto-generated method stub
-
+   public void updateUser(User user) throws CouldNotAccessUserDataException {
+      try {
+         Document usersXML = readUsersXML();
+         fileEditor.deleteExistingElementWithCorrespondingValue(usersXML, pathToUsernameValue, user.getUsername());
+         addNewUserToDocument(usersXML, user);
+         saveFile(usersXML);
+      } catch (DocumentException exception) {
+         throw new CouldNotAccessUserDataException("Something wrong happend trying acces the data");
+      }
    }
 
    private void addNewUserToDocument(Document existingDocument, User newUser) {
