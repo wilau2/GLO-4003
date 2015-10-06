@@ -62,6 +62,7 @@ public class RepositoryToPersistenceUserDtoTest {
    private void configureUser() {
       given(user.getUsername()).willReturn("username");
       given(user.getPassword()).willReturn("password");
+      given(user.getIsActive()).willReturn(true);
 
       given(user.getRole()).willReturn(role);
       given(role.getRoles()).willReturn("roles");
@@ -83,6 +84,7 @@ public class RepositoryToPersistenceUserDtoTest {
       attributes.put("phoneNumber", "phonenumber");
       attributes.put("email", "email");
       attributes.put("password", "password");
+      attributes.put("isActive", "true");
 
       return attributes;
    }

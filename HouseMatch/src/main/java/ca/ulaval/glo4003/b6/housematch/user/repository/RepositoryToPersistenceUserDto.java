@@ -20,6 +20,7 @@ public class RepositoryToPersistenceUserDto implements RepositoryToPersistenceDt
       attributes.put("lastName", user.getContactInformation().getLastName());
       attributes.put("phoneNumber", user.getContactInformation().getPhoneNumber());
       attributes.put("email", user.getContactInformation().getEmail());
+      attributes.put("isActive", user.getIsActive().toString());
       attributes.put("password", user.getPassword());
 
       this.attributes = attributes;
