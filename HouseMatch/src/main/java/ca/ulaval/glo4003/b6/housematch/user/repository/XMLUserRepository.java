@@ -96,7 +96,7 @@ public class XMLUserRepository implements UserRepository {
 
       String isActive = attributes.get("isActive");
 
-      if (isActive.equals(true)) {
+      if (isActive.equals("true")) {
          user.setIsActive(true);
       }
 
