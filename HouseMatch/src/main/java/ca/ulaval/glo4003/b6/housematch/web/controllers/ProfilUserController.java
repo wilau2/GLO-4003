@@ -62,15 +62,10 @@ public class ProfilUserController {
    @RequestMapping(value = "/profil/edit", method = RequestMethod.GET)
    public ModelAndView getProfilToEdit(HttpServletRequest request)
          throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
-      userAuthorizationService.isSessionAllowed(request, expectedRole);
 
-      UserDetailedDto userDto = userFetcher.getUserByUsername(
-            request.getSession().getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME).toString());
+      ModelAndView profilViewModel = getProfil(request);
 
-      ProfilUserViewModel viewModel = profilUserConverter.convertToViewModel(userDto);
-
-      ModelAndView profilViewModel = new ModelAndView("edit_profil");
-      profilViewModel.addObject("user", viewModel);
+      profilViewModel.setViewName("edit_profil");
 
       return profilViewModel;
    }
