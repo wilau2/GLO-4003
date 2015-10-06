@@ -32,7 +32,7 @@ public class UserLoginService {
       User user = userRepository.getUser(userLoginDto.getUsername());
 
       validatePassword(userLoginDto, user);
-      //validateActivation(user); // TODO en attendant que la persistence fonctionne!
+      validateActivation(user);
 
       request = userAuthorizationService.setSessionUserAuthorisation(request, user);
 
@@ -40,7 +40,7 @@ public class UserLoginService {
 
    private void validateActivation(User user) throws UserActivationException {
       if(user.getIsActive() == false){
-         throw new UserActivationException("User is not confirm");
+         throw new UserActivationException("User is not activate");
       }
       
    }

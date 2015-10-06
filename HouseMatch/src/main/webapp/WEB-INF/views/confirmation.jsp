@@ -21,9 +21,13 @@
         <div class="splash">
      			
 				<div class="l-box-lrg pure-u-1 pure-u-md-2-5">
-			 		<p>Click bellow to confirm your account</p>
-			 		<button type="submit" class="pure-button pure-button-primary">Confirm</button>
-				 </div>	  
+			 		<form:form method="post" class="pure-form pure-form-stacked">
+			     		<fieldset>
+				         <p>Click bellow to confirm your account</p>
+		 					<button type="submit" class="pure-button pure-button-primary">Confirm</button>
+					     </fieldset>
+				 	</form:form>
+				 </div>	  				 			 
 		</div>
     </body>
 
