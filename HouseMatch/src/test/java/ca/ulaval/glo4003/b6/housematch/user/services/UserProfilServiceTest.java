@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -22,6 +23,8 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessU
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
 public class UserProfilServiceTest {
+
+   private static final String USERNAME = "username";
 
    @Mock
    private UserRepository userRepository;
@@ -50,8 +53,6 @@ public class UserProfilServiceTest {
    @Mock
    private UserDetailedDto userDetailedDto;
 
-   private String username;
-
    @Before
    public void setup() throws UserNotFoundException, CouldNotAccessUserDataException {
       MockitoAnnotations.initMocks(this);
@@ -62,11 +63,12 @@ public class UserProfilServiceTest {
 
    private void configureUserDetailedDto() {
       given(userDetailedDto.getContactInformationDto()).willReturn(contactInformationDto);
+      given(userDetailedDto.getUsername()).willReturn(USERNAME);
 
    }
 
    private void configureUserRepository() throws UserNotFoundException, CouldNotAccessUserDataException {
-      given(userRepository.getUser(username)).willReturn(user);
+      given(userRepository.getUser(USERNAME)).willReturn(user);
 
    }
 
@@ -101,6 +103,40 @@ public class UserProfilServiceTest {
       verify(contactInformationAssembler).assembleContactInformation(contactInformationDto);
    }
 
-   // TODO TEST exceptions.
+   @Test(expected = CouldNotAccessUserDataException.class)
+   public void givenInvalidDataAccessWhenGettingUserShouldReturnException()
+         throws CouldNotAccessUserDataException, UserNotFoundException {
+      // Given
+      doThrow(new CouldNotAccessUserDataException("")).when(userRepository).getUser(USERNAME);
+
+      // When
+      userProfilService.update(userDetailedDto);
+
+      // Then Throws exception
+   }
+
+   @Test(expected = UserNotFoundException.class)
+   public void givenUsernameWhenGettingUserShouldReturnException()
+         throws CouldNotAccessUserDataException, UserNotFoundException {
+      // Given
+      doThrow(new UserNotFoundException("")).when(userRepository).getUser(USERNAME);
+
+      // When
+      userProfilService.update(userDetailedDto);
+
+      // Then Throws exception
+   }
+
+   @Test(expected = CouldNotAccessUserDataException.class)
+   public void givenInvalidDataAccessWhenUpdatingUserShouldReturnException()
+         throws CouldNotAccessUserDataException, UserNotFoundException {
+      // Given
+      doThrow(new CouldNotAccessUserDataException("")).when(userRepository).updateUser(user);
+
+      // When
+      userProfilService.update(userDetailedDto);
+
+      // Then Throws exception
+   }
 
 }

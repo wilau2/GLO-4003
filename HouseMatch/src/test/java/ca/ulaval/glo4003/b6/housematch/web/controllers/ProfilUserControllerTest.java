@@ -69,7 +69,6 @@ public class ProfilUserControllerTest {
    public void setup() throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
       MockitoAnnotations.initMocks(this);
       configureUserAuthorizationService();
-      configureUserProfilCorruptionVerificator();
       configureProfilUserConverter();
       configureUserFetcher();
       configureRequest();
@@ -92,11 +91,6 @@ public class ProfilUserControllerTest {
    private void configureProfilUserConverter() {
       given(profilUserConverter.convertToViewModel(userDto)).willReturn(viewModel);
       given(profilUserConverter.convertViewModelToDto(viewModel)).willReturn(userDto);
-   }
-
-   private void configureUserProfilCorruptionVerificator() {
-      // TODO Auto-generated method stub
-
    }
 
    private void configureUserAuthorizationService() throws InvalidAccessException {
