@@ -32,7 +32,17 @@ public class UserProfilService {
             .assembleContactInformation(userDetailedDto.getContactInformationDto());
 
       User user = userRepository.getUser(userDetailedDto.getUsername());
+      String oldEmail = user.getContactInformation().getEmail();
+      String newEmail = contactInformation.getEmail();
+      if (emailHasChanged(oldEmail, newEmail)) {
+         // TODO set userActivity to false
+         // TODO send confirmation email to the new email
+      }
       user.updateContactInformation(contactInformation);
       userRepository.updateUser(user);
+   }
+
+   private boolean emailHasChanged(String oldEmail, String newEmail) {
+      return !oldEmail.equals(newEmail);
    }
 }

@@ -136,7 +136,7 @@ public class UserFetcherTest {
       doThrow(new UserNotFoundException("")).when(userRepository).getUser(USERNAME);
 
       // When
-      UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
+      userFetcher.getUserByUsername(USERNAME);
 
       // Then
    }
@@ -148,7 +148,7 @@ public class UserFetcherTest {
       doThrow(new CouldNotAccessUserDataException("")).when(userRepository).getUser(USERNAME);
 
       // When
-      UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
+      userFetcher.getUserByUsername(USERNAME);
 
       // Then
    }

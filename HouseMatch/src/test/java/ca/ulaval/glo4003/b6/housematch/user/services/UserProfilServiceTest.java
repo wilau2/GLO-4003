@@ -26,6 +26,8 @@ public class UserProfilServiceTest {
 
    private static final String USERNAME = "username";
 
+   private static final String OLD_EMAIL = "old email";
+
    @Mock
    private UserRepository userRepository;
 
@@ -59,6 +61,16 @@ public class UserProfilServiceTest {
       configureUserAssembler();
       configureUserRepository();
       configureUserDetailedDto();
+      configureUser();
+      configureContactInformation();
+   }
+
+   private void configureContactInformation() {
+      given(contactInformation.getEmail()).willReturn(OLD_EMAIL);
+   }
+
+   private void configureUser() {
+      given(user.getContactInformation()).willReturn(contactInformation);
    }
 
    private void configureUserDetailedDto() {
