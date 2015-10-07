@@ -90,7 +90,7 @@ public class UserFetcherTest {
       UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
-      assertEquals(PHONE_NUMBER, dto.getPhoneNumber());
+      assertEquals(PHONE_NUMBER, dto.getContactInformationDto().getPhoneNumber());
    }
 
    @Test
@@ -102,7 +102,7 @@ public class UserFetcherTest {
       UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
-      assertEquals(EMAIL, dto.getEmail());
+      assertEquals(EMAIL, dto.getContactInformationDto().getEmail());
    }
 
    @Test
@@ -114,7 +114,7 @@ public class UserFetcherTest {
       UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
-      assertEquals(FIRST_NAME, dto.getFirstName());
+      assertEquals(FIRST_NAME, dto.getContactInformationDto().getFirstName());
    }
 
    @Test
@@ -126,7 +126,7 @@ public class UserFetcherTest {
       UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
-      assertEquals(LAST_NAME, dto.getLastName());
+      assertEquals(LAST_NAME, dto.getContactInformationDto().getLastName());
    }
 
    @Test(expected = UserNotFoundException.class)

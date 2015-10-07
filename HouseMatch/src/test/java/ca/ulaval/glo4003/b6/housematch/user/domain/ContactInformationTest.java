@@ -15,6 +15,14 @@ public class ContactInformationTest {
 
    private final static String EMAIL = "email";
 
+   private final static String NEW_FIRST_NAME = "new firsname";
+
+   private final static String NEW_LAST_NAME = "new lastname";
+
+   private final static String NEW_PHONE_NUMBER = "new phoneNumber";
+
+   private final static String NEW_EMAIL = "new email";
+
    private ContactInformation contactInformation;
 
    @Before
@@ -40,5 +48,57 @@ public class ContactInformationTest {
    @Test
    public void canGetTheCorrectEmail() {
       assertEquals(EMAIL, contactInformation.getEmail());
+   }
+
+   @Test
+   public void givenNewContactInformationWhenUpdateThenFirstNameIsUpdated() {
+      // Given
+      ContactInformation newContactInformation = new ContactInformation(NEW_FIRST_NAME, NEW_LAST_NAME, NEW_PHONE_NUMBER,
+            NEW_EMAIL);
+
+      // When
+      contactInformation.update(newContactInformation);
+
+      // Then
+      assertEquals(NEW_FIRST_NAME, contactInformation.getFirstName());
+   }
+
+   @Test
+   public void givenNewContactInformationWhenUpdateThenLastNameIsUpdated() {
+      // Given
+      ContactInformation newContactInformation = new ContactInformation(NEW_FIRST_NAME, NEW_LAST_NAME, NEW_PHONE_NUMBER,
+            NEW_EMAIL);
+
+      // When
+      contactInformation.update(newContactInformation);
+
+      // Then
+      assertEquals(NEW_LAST_NAME, contactInformation.getLastName());
+   }
+
+   @Test
+   public void givenNewContactInformationWhenUpdateThenPhoneNumberIsUpdated() {
+      // Given
+      ContactInformation newContactInformation = new ContactInformation(NEW_FIRST_NAME, NEW_LAST_NAME, NEW_PHONE_NUMBER,
+            NEW_EMAIL);
+
+      // When
+      contactInformation.update(newContactInformation);
+
+      // Then
+      assertEquals(NEW_PHONE_NUMBER, contactInformation.getPhoneNumber());
+   }
+
+   @Test
+   public void givenNewContactInformationWhenUpdateThenEmailIsUpdated() {
+      // Given
+      ContactInformation newContactInformation = new ContactInformation(NEW_FIRST_NAME, NEW_LAST_NAME, NEW_PHONE_NUMBER,
+            NEW_EMAIL);
+
+      // When
+      contactInformation.update(newContactInformation);
+
+      // Then
+      assertEquals(NEW_EMAIL, contactInformation.getEmail());
    }
 }

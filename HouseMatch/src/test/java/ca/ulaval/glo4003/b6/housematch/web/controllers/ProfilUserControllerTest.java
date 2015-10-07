@@ -18,6 +18,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -205,7 +207,8 @@ public class ProfilUserControllerTest {
 
    @Test
    public void givenValidViewModelWhenUpdateProfilShouldDelegateUpdate()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
       // Given
 
       // When
@@ -217,7 +220,8 @@ public class ProfilUserControllerTest {
 
    @Test
    public void givenValidViewModelWhenUpdateProfilShouldDelegateConvertion()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
       // Given
 
       // When
@@ -229,7 +233,8 @@ public class ProfilUserControllerTest {
 
    @Test
    public void givenValidViewModelWhenUpdateProfilShouldDelegateAuthentification()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
       // Given
 
       // When
@@ -241,7 +246,8 @@ public class ProfilUserControllerTest {
 
    @Test
    public void givenValidViewModelWhenUpdateProfilShouldRedirectToProfil()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
       // Given
 
       // When
@@ -253,7 +259,8 @@ public class ProfilUserControllerTest {
 
    @Test(expected = InvalidAccessException.class)
    public void givenInvalidAccessWhenUpdateProfilShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidAccessException {
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidAccessException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
 
       // Given
       doThrow(new InvalidAccessException("")).when(userAuthorizationService).isSessionAllowed(request, expectedRole);

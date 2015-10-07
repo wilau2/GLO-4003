@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.user.services;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
+import ca.ulaval.glo4003.b6.housematch.user.dto.ContactInformationDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
@@ -27,10 +28,10 @@ public class UserFetcher {
 
    private UserDetailedDto convertUserToDetailedDto(User user) {
       UserDetailedDto userDetailedDto = new UserDetailedDto(user.getUsername());
-      userDetailedDto.setFirstName(user.getContactInformation().getFirstName());
-      userDetailedDto.setLastName(user.getContactInformation().getLastName());
-      userDetailedDto.setEmail(user.getContactInformation().getEmail());
-      userDetailedDto.setPhoneNumber(user.getContactInformation().getPhoneNumber());
+      ContactInformationDto contactInformationDto = new ContactInformationDto(
+            user.getContactInformation().getFirstName(), user.getContactInformation().getLastName(),
+            user.getContactInformation().getPhoneNumber(), user.getContactInformation().getEmail());
+      userDetailedDto.setContactInformationDto(contactInformationDto);
 
       return userDetailedDto;
    }

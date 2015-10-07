@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
@@ -60,13 +62,15 @@ public class ProfilUserController {
    }
 
    @RequestMapping(value = "/profil", method = RequestMethod.POST)
-   public String updateProfil(HttpServletRequest request, ProfilUserViewModel viewModel) throws InvalidAccessException {
+   public String updateProfil(HttpServletRequest request, ProfilUserViewModel viewModel)
+         throws InvalidAccessException, CouldNotAccessUserDataException, UserNotFoundException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
 
       userAuthorizationService.isSessionAllowed(request, expectedRole);
 
-      UserDetailedDto userDto = profilUserConverter.convertViewModelToDto(viewModel);
+      UserDetailedDto userDetailedDto = profilUserConverter.convertViewModelToDto(viewModel);
 
-      userProfilCorruptionVerificator.update(userDto);
+      userProfilCorruptionVerificator.update(userDetailedDto);
 
       return "redirect:/profil";
    }

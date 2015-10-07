@@ -5,13 +5,20 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.b6.housematch.user.dto.ContactInformationDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
 public class SignupUserConverterTest {
 
+   private static final String EMAIL = "email";
+
+   private static final String USERNAME = "username";
+
    private UserSignupDto userSignupDto;
+
+   private ContactInformationDto contactInformationDto;
 
    private SignupUserModel viewUser;
 
@@ -19,8 +26,9 @@ public class SignupUserConverterTest {
 
    @Before
    public void setup() {
-      userSignupDto = new UserSignupDto("a username");
-      userSignupDto.setEmail("an Email");
+      userSignupDto = new UserSignupDto(USERNAME);
+      contactInformationDto = new ContactInformationDto("firstName", "lastName", "phoneNumber", EMAIL);
+      userSignupDto.setContactInformationDto(contactInformationDto);
       userSignupDto.setPassword("a Password");
 
       viewUser = new SignupUserModel();
@@ -39,7 +47,7 @@ public class SignupUserConverterTest {
       returnedViewUser = converter.convertSignupDtoToViewModel(userSignupDto);
 
       // Then
-      assertEquals("a username", returnedViewUser.getUsername());
+      assertEquals(USERNAME, returnedViewUser.getUsername());
    }
 
    @Test
@@ -51,7 +59,7 @@ public class SignupUserConverterTest {
       returnedViewUser = converter.convertSignupDtoToViewModel(userSignupDto);
 
       // Then
-      assertEquals("an Email", returnedViewUser.getEmail());
+      assertEquals(EMAIL, returnedViewUser.getEmail());
    }
 
    @Test
@@ -75,7 +83,7 @@ public class SignupUserConverterTest {
       returnedUser = converter.convertViewModelToSignupDto(viewUser);
 
       // Then
-      assertEquals("another Email", returnedUser.getEmail());
+      assertEquals("another Email", returnedUser.getContactInformationDto().getEmail());
    }
 
    @Test
