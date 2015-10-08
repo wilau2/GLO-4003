@@ -85,7 +85,7 @@ public class SellerEstateControllerTest {
    }
 
    private void configureUserAuthorizationService() throws InvalidAccessException {
-      when(userAuthorizationService.isSessionAloud(request, Role.SELLER)).thenReturn(true);
+      when(userAuthorizationService.isSessionAllowed(request, Role.SELLER)).thenReturn(true);
 
    }
 

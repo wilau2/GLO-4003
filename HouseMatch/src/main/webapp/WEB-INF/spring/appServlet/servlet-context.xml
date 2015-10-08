@@ -96,6 +96,9 @@
 		class="ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter" />
 	<beans:bean id="userAuthorizationService"
 		class="ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService" />
+	<beans:bean id="profilUserConverter"
+		class="ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter" />
+	
 
 
 	<beans:bean id="userLoginService"
@@ -118,6 +121,12 @@
 			ref="userAssemblerFactory" />
 
 	</beans:bean>
+	
+	<beans:bean id="userFetcher"
+		class="ca.ulaval.glo4003.b6.housematch.user.services.UserFetcher">
+		<beans:constructor-arg name="userRepository"
+			ref="userRepository" />
+	</beans:bean>
 
 	<beans:bean id="userLoginCorruptionVerificator"
 		class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator">
@@ -131,6 +140,8 @@
 		class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator">
 		<beans:constructor-arg name="userSignupService"
 			ref="userSignupService" />
+		<beans:constructor-arg name="contactInformationCorruptionVerificator"
+			ref="contactInformationCorruptionVerificator" />
 
 	</beans:bean>
 
@@ -157,6 +168,41 @@
 		<beans:constructor-arg name="userAuthorizationService"
 			ref="userAuthorizationService" />
 
+	</beans:bean>
+	
+	<beans:bean id="contactInformationCorruptionVerificator"
+		class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.ContactInformationCorruptionVerificator" />
+	
+	<beans:bean id="contactInformationAssemblerFactory"
+		class="ca.ulaval.glo4003.b6.housematch.user.domain.assembler.factory.ContactInformationAssemblerFactory" />
+	
+	<beans:bean id="userProfilService"
+		class="ca.ulaval.glo4003.b6.housematch.user.services.UserProfilService">
+		<beans:constructor-arg name="userRepository"
+			ref="userRepository" />
+		<beans:constructor-arg name="contactInformationAssemblerFactory"
+			ref="contactInformationAssemblerFactory" />
+
+	</beans:bean>
+		
+	<beans:bean id="userProfilCorruptionVerificator"
+		class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator">
+		<beans:constructor-arg name="userProfilService"
+			ref="userProfilService" />
+		<beans:constructor-arg name="contactInformationCorruptionVerificator"
+			ref="contactInformationCorruptionVerificator" />
+	</beans:bean>
+	
+	<beans:bean id="profilUserController"
+		class="ca.ulaval.glo4003.b6.housematch.web.controllers.ProfilUserController">
+		<beans:constructor-arg name="userAuthorizationService"
+			ref="userAuthorizationService" />
+		<beans:constructor-arg name="profilUserConverter"
+			ref="profilUserConverter" />
+		<beans:constructor-arg name="userFetcher"
+			ref="userFetcher" />
+		<beans:constructor-arg name="userProfilCorruptionVerificator"
+			ref="userProfilCorruptionVerificator"/>
 	</beans:bean>
 
 

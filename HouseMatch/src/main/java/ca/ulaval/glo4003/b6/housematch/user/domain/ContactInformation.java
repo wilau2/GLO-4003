@@ -33,4 +33,11 @@ public class ContactInformation {
       return email;
    }
 
+   public void update(ContactInformation newContactInformation) {
+      this.firstName = newContactInformation.firstName;
+      this.lastName = newContactInformation.lastName;
+      this.phoneNumber = newContactInformation.phoneNumber;
+      this.email = newContactInformation.email;
+   }
+
 }

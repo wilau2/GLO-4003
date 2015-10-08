@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.validation.support.BindingAwareModelMap;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
@@ -86,10 +87,10 @@ public class SignupControllerTest {
    }
 
    @Test
-   public void postRequestSignupRedirectToRoot() throws InvalidUserSignupFieldException, UserNotFoundException,
-         CouldNotAccessUserDataException, InvalidPasswordException, UsernameAlreadyExistsException {
+   public void postRequestSignupRedirectToRoot()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
       // Given
-
       model = new BindingAwareModelMap();
 
       // When
@@ -100,8 +101,9 @@ public class SignupControllerTest {
    }
 
    @Test
-   public void postRequestSignupShouldUseTheConverter() throws InvalidUserSignupFieldException, UserNotFoundException,
-         CouldNotAccessUserDataException, InvalidPasswordException, UsernameAlreadyExistsException {
+   public void postRequestSignupShouldUseTheConverter()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
       // Given
 
       // When
@@ -114,7 +116,7 @@ public class SignupControllerTest {
    @Test
    public void postRequestShouldSignupUsingUserSignupCorruptionVerificator()
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException {
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
       // Given
 
       // When
@@ -127,7 +129,7 @@ public class SignupControllerTest {
    @Test
    public void postRequestShouldConvertSignupDtoToLoginDtoUsingConverter()
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException {
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
       // Given
 
       // When
@@ -140,7 +142,7 @@ public class SignupControllerTest {
    @Test
    public void postRequestShouldLoginUsingUserLoginService()
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException {
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
       // Given
 
       // When
@@ -154,9 +156,10 @@ public class SignupControllerTest {
    @Test(expected = InvalidUserSignupFieldException.class)
    public void givenInvalidFieldsWhenSignupShouldThrowException()
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException {
-
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
+      // Given
       doThrow(new InvalidUserSignupFieldException(null)).when(userSignupCorruptionVerificator).signup(userSignupDto);
+
       // When
       controller.signup(request, userSignupViewModel);
 
@@ -166,9 +169,10 @@ public class SignupControllerTest {
    @Test(expected = UserNotFoundException.class)
    public void givenInvalidUserWhenSignupShouldThrowException()
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException {
-
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
+      // Given
       doThrow(new UserNotFoundException(null)).when(userLoginService).login(request, userLoginDto);
+
       // When
       controller.signup(request, userSignupViewModel);
 
@@ -178,9 +182,10 @@ public class SignupControllerTest {
    @Test(expected = CouldNotAccessUserDataException.class)
    public void givenInvalidDataAccessWhenSignupShouldThrowException()
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException {
-
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
+      // Given
       doThrow(new CouldNotAccessUserDataException(null)).when(userSignupCorruptionVerificator).signup(userSignupDto);
+
       // When
       controller.signup(request, userSignupViewModel);
 
@@ -190,9 +195,10 @@ public class SignupControllerTest {
    @Test(expected = InvalidPasswordException.class)
    public void givenInvalidPasswordWhenSignupShouldThrowException()
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException {
-
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
+      // Given
       doThrow(new InvalidPasswordException(null)).when(userLoginService).login(request, userLoginDto);
+
       // When
       controller.signup(request, userSignupViewModel);
 
@@ -202,9 +208,10 @@ public class SignupControllerTest {
    @Test(expected = UsernameAlreadyExistsException.class)
    public void givenAlreadyUsedUsernameWhenSignupShouldThrowException()
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException {
-
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
+      // Given
       doThrow(new UsernameAlreadyExistsException(null)).when(userSignupCorruptionVerificator).signup(userSignupDto);
+
       // When
       controller.signup(request, userSignupViewModel);
 
@@ -212,8 +219,9 @@ public class SignupControllerTest {
    }
 
    @Test
-   public void givenValidSignupShouldNotThrowException() throws InvalidUserSignupFieldException, UserNotFoundException,
-         CouldNotAccessUserDataException, InvalidPasswordException, UsernameAlreadyExistsException {
+   public void givenValidSignupShouldNotThrowException()
+         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
       // Given
 
       // When

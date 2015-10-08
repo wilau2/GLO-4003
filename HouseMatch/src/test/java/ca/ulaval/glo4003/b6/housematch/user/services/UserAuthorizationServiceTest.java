@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -14,8 +15,13 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
 
 public class UserAuthorizationServiceTest {
+
+   private static final String expectedBuyerRole = "buyer";
+
+   private static final String expectedSellerRole = "seller";
 
    @Mock
    User user;
@@ -28,6 +34,9 @@ public class UserAuthorizationServiceTest {
 
    @Mock
    private HttpSession session;
+
+   @Mock
+   private Object roleObject;
 
    private static String USERNAME = "username";
 
@@ -102,6 +111,38 @@ public class UserAuthorizationServiceTest {
 
       // Then
       verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE, null);
+   }
+
+   @Test
+   public void givenExpectedRoleSameAsSessionRoleWhenIsSessionAllowedThenReturnTrue() throws InvalidAccessException {
+
+      // Given
+      configureBuyerSession();
+
+      // When
+      boolean resp = userAuthorizationService.isSessionAllowed(request, expectedBuyerRole);
+
+      // Then
+      assertTrue(resp);
+
+   }
+
+   @Test(expected = InvalidAccessException.class)
+   public void givenExpectedRoleDifferentTehnSessionRoleWhenIsSessionAllowedThenShouldThrowException()
+         throws InvalidAccessException {
+
+      // Given
+      configureBuyerSession();
+
+      // When
+      userAuthorizationService.isSessionAllowed(request, expectedSellerRole);
+
+   }
+
+   private void configureBuyerSession() {
+      given(session.getAttribute(userAuthorizationService.LOGGED_IN_USER_ROLE)).willReturn(roleObject);
+      given(roleObject.toString()).willReturn("buyer");
+
    }
 
    private void configureUser() {

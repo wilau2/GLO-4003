@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 
 @ControllerAdvice
 public class ExceptionHandlingController {
@@ -17,4 +20,27 @@ public class ExceptionHandlingController {
       modelAndView.addObject("errorMessage", exception.getMessage());
       return modelAndView;
    }
+
+   @ExceptionHandler(InvalidUserLoginFieldException.class)
+   public ModelAndView handleInvalidUserLoginFieldException(HttpServletRequest servletRequest, Exception exception) {
+      ModelAndView modelAndView = new ModelAndView("exception");
+      modelAndView.addObject("errorMessage", exception.getMessage());
+      return modelAndView;
+   }
+
+   @ExceptionHandler(InvalidUserSignupFieldException.class)
+   public ModelAndView handleInvalidUserSignupFieldException(HttpServletRequest servletRequest, Exception exception) {
+      ModelAndView modelAndView = new ModelAndView("exception");
+      modelAndView.addObject("errorMessage", exception.getMessage());
+      return modelAndView;
+   }
+
+   @ExceptionHandler(InvalidContactInformationFieldException.class)
+   public ModelAndView handleInvalidContactInformationFieldException(HttpServletRequest servletRequest,
+         Exception exception) {
+      ModelAndView modelAndView = new ModelAndView("exception");
+      modelAndView.addObject("errorMessage", exception.getMessage());
+      return modelAndView;
+   }
+
 }

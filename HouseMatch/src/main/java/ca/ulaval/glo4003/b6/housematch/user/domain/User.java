@@ -29,6 +29,10 @@ public class User {
       return role.hasAdmin();
    }
 
+   public void updateContactInformation(ContactInformation newContactInformation) {
+      this.contactInformation.update(newContactInformation);
+   }
+
    public String getUsername() {
       return username;
    }
