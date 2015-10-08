@@ -32,7 +32,6 @@ public class XMLUserRepository implements UserRepository {
    public XMLUserRepository() {
       this.fileEditor = new XMLFileEditor();
       this.dtoFactory = new RepositoryToPersistenceDtoFactory();
-
    }
 
    @Override
@@ -41,7 +40,7 @@ public class XMLUserRepository implements UserRepository {
       try {
          usersXML = readUsersXML();
       } catch (DocumentException exception) {
-         throw new CouldNotAccessUserDataException("Something wrong happend trying to acces the data");
+         throw new CouldNotAccessUserDataException("Something wrong happened trying to access the data");
       }
       if (!usernameAlreadyExists(usersXML, username)) {
          throw new UserNotFoundException("No user with this username was found");
@@ -84,7 +83,6 @@ public class XMLUserRepository implements UserRepository {
    }
 
    private User returnUserWithGivenUsername(Document existingDocument, String username) {
-
       HashMap<String, String> attributes = fileEditor.returnAttributesOfElementWithCorrespondingValue(existingDocument,
             pathToUsernameValue, username);
 
@@ -112,5 +110,4 @@ public class XMLUserRepository implements UserRepository {
    private Document readUsersXML() throws DocumentException {
       return fileEditor.readXMLFile(pathToXML);
    }
-
 }

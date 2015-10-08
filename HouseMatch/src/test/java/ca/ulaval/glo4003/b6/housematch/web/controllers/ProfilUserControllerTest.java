@@ -121,7 +121,7 @@ public class ProfilUserControllerTest {
    }
 
    @Test
-   public void givenValidUserWhenGetProfilShouldConvertingUserDto()
+   public void givenValidUserWhenGetProfilShouldDelegateConvertingUserDto()
          throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
       // Given
 

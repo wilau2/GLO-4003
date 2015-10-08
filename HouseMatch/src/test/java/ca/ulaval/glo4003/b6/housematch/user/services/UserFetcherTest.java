@@ -29,12 +29,6 @@ public class UserFetcherTest {
 
    private static final String USERNAME = "username";
 
-   @Mock
-   private User user;
-
-   @Mock
-   private ContactInformation contactInformation;
-
    private static final String EMAIL = "email";
 
    private static final String PHONE_NUMBER = "1231231";
@@ -42,6 +36,12 @@ public class UserFetcherTest {
    private static final String FIRST_NAME = "firstname";
 
    private static final String LAST_NAME = "lastname";
+
+   @Mock
+   private User user;
+
+   @Mock
+   private ContactInformation contactInformation;
 
    @Before
    public void setup() throws UserNotFoundException, CouldNotAccessUserDataException {
@@ -138,7 +138,7 @@ public class UserFetcherTest {
       // When
       userFetcher.getUserByUsername(USERNAME);
 
-      // Then
+      // Then a UserNotFoundException is thrown
    }
 
    @Test(expected = CouldNotAccessUserDataException.class)
@@ -150,7 +150,7 @@ public class UserFetcherTest {
       // When
       userFetcher.getUserByUsername(USERNAME);
 
-      // Then
+      // Then a CouldNotAccessUserDataException is thrown
    }
 
 }
