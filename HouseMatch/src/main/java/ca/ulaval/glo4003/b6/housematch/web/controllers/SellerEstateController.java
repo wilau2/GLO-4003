@@ -17,8 +17,6 @@ import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.DescriptionCorrupt
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidLandFieldException;
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidRoomFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
@@ -125,11 +123,10 @@ public class SellerEstateController {
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.POST)
-   public String editEstate(HttpServletRequest request, EstateModel estateModel, DescriptionModel descriptionModel, @PathVariable("userId") String userId)
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException {
-
-      userAuthorizationService.isSessionAloud(request, expectedRole);
- 
+   public String editEstate(@PathVariable("address") String address, HttpServletRequest request, EstateModel estateModel, DescriptionModel descriptionModel, @PathVariable("userId") String userId)
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException, InvalidDescriptionException, EstateNotFoundException {
+      userAuthorizationService.isSessionAloud(request, expectedRole);      
+      
       EstateDto estateDto = estateConverter.convertToDto(estateModel);
       DescriptionDto descriptionDto = descriptionConverter.convertToDto(descriptionModel);
       
@@ -137,10 +134,9 @@ public class SellerEstateController {
       try {
          descriptionCorruptionVerificator.editEstate(estateDto);
       } catch (InvalidEstateException e) {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
 
-      return "redirect:/";
+      return "redirect:/seller/{userId}/estates/{address}";
    }
 }

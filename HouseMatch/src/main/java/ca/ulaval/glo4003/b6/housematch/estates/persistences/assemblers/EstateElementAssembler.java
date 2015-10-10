@@ -19,6 +19,8 @@ public class EstateElementAssembler {
 
    private static final String ADDRESS = "address";
    
+   private static final String DESCRIPTION = "description";
+   
    private DescriptionElementAssembler descriptionElementAssembler;
 
    public EstateElementAssembler(DescriptionElementAssembler descriptionElementAssembler) {
@@ -70,6 +72,7 @@ public class EstateElementAssembler {
       attributes.put(PRICE, estate.getPrice().toString());
       attributes.put(TYPE, estate.getType());
       attributes.put(ADDRESS, estate.getAddress().toString());
+      attributes.put(DESCRIPTION, "");
 
       return attributes;
    }

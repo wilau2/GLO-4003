@@ -14,12 +14,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidDescriptionFieldException;
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidLandFieldException;
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidRoomFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.LandDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.RoomDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
@@ -43,12 +39,6 @@ public class DescriptionCorruptionVerificatorTest {
    private DescriptionDto descriptionDto;
    
    @Mock
-   private List<RoomDto> roomsDto;
-   
-   @Mock
-   private LandDto landDto;
-   
-   @Mock
    private EstateDto estateDto;
 
    @Mock
@@ -59,13 +49,13 @@ public class DescriptionCorruptionVerificatorTest {
    private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
    
    @Before
-   public void setup() throws InvalidRoomFieldException, InvalidLandFieldException {
+   public void setup(){
       MockitoAnnotations.initMocks(this);
 
       configureValidDescriptionModel();
    }
 
-   private void configureValidDescriptionModel() throws InvalidRoomFieldException, InvalidLandFieldException {
+   private void configureValidDescriptionModel() {
       when(estateDto.getDescriptionDto()).thenReturn(descriptionDto);
       when(descriptionDto.getNumberOfBedRooms()).thenReturn(NUMBER_OF_BEDROOMS);
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(NUMBER_OF_BATHROOMS);
@@ -81,7 +71,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test
    public void verificatingDescriptionCorruptionWhenDescriptionHasNoCorruptionSouldCallAddDescription() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
 
       // When
@@ -93,7 +83,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullNumberOfBedroomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getNumberOfBedRooms()).thenReturn(null);
       // When
@@ -104,7 +94,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeNumberOfBedroomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getNumberOfBedRooms()).thenReturn(NEGATIVE_NUMBER);
       // When
@@ -115,7 +105,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullNumberOfBathroomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(null);
       // When
@@ -126,7 +116,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeNumberOfBathroomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(NEGATIVE_NUMBER);
       // When
@@ -137,7 +127,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullNumberOfRoomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getNumberOfRooms()).thenReturn(null);
       // When
@@ -148,7 +138,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeNumberOfRoomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getNumberOfRooms()).thenReturn(NEGATIVE_NUMBER);
       // When
@@ -159,7 +149,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullNumberOfLevelShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getNumberOfLevel()).thenReturn(null);
       // When
@@ -170,7 +160,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeNumberOfLevelShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getNumberOfLevel()).thenReturn(NEGATIVE_NUMBER);
       // When
@@ -181,7 +171,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullYearsOfConstructionShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getYearsOfConstruction()).thenReturn(null);
       // When
@@ -192,7 +182,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeYearsOfConstructionShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getYearsOfConstruction()).thenReturn(NEGATIVE_NUMBER);
       // When
@@ -203,7 +193,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullDimensionBuildingShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getDimensionsBuilding()).thenReturn(null);
       // When
@@ -214,7 +204,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasEmptyDimensionBuildingShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getDimensionsBuilding()).thenReturn(EMPTY_FIELD);
       // When
@@ -225,7 +215,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullLivingSpaceAreaShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(null);
       // When
@@ -236,7 +226,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeLivingSpaceAreaShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(NEGATIVE_NUMBER);
       // When
@@ -247,7 +237,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullMunicipalValuationShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getMunicipalValuation()).thenReturn(null);
       // When
@@ -258,7 +248,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeMunicipalValuationShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getMunicipalValuation()).thenReturn(NEGATIVE_NUMBER);
       // When
@@ -269,7 +259,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullBackyardFacesShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getBackyardFaces()).thenReturn(null);
       // When
@@ -280,7 +270,7 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasEmptyBackyardFacesShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given
       when(descriptionDto.getBackyardFaces()).thenReturn(EMPTY_FIELD);
       // When

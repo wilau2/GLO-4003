@@ -14,10 +14,6 @@ public class DescriptionDto {
    private Integer municipalValuation;
    private String backyardFaces;
    
-   private List<RoomDto> roomsDto;
-   private LandDto landDto;
-   
-   
    public DescriptionDto(Integer numberOfBedRooms, Integer numberOfBathrooms, Integer numberOfRooms,
          Integer numberOfLevel, Integer yearsOfConstruction, String dimensionsBuilding,
          Integer livingSpaceAreaSquareMeter, Integer municipalValuation, String backyardFaces) {
@@ -89,17 +85,5 @@ public class DescriptionDto {
    }
    public void setBackyardFaces(String backyardFaces) {
       this.backyardFaces = backyardFaces;
-   }
-   public List<RoomDto> getRoomsDto() {
-      return roomsDto;
-   }
-   public void setRoomsDto(List<RoomDto> roomsDto) {
-      this.roomsDto = roomsDto;
-   }
-   public LandDto getLandDto() {
-      return landDto;
-   }
-   public void setLandDto(LandDto landDto) {
-      this.landDto = landDto;
    }
 }

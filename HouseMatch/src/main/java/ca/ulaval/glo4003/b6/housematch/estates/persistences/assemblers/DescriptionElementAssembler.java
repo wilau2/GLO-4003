@@ -40,14 +40,14 @@ public class DescriptionElementAssembler {
    public DescriptionDto convertAttributesToDto(HashMap<String, String> attributes){
       DescriptionDto descriptionDto = new DescriptionDto();
       
-         Integer numberOfBedRooms = Integer.parseInt(attributes.get(NUMBER_OF_BEDROOMS));
-         Integer numberOfBathrooms = Integer.parseInt(attributes.get(NUMBER_OF_BATHROOMS));
-         Integer numberOfRooms = Integer.parseInt(attributes.get(NUMBER_OF_ROOMS));
-         Integer numberOfLevel = Integer.parseInt(attributes.get(NUMBER_OF_LEVELS));
-         Integer yearsOfConstruction = Integer.parseInt(attributes.get(YEAR_OF_CONSTRUCTION));
+         Integer numberOfBedRooms = tryParseInt(attributes.get(NUMBER_OF_BEDROOMS));
+         Integer numberOfBathrooms = tryParseInt(attributes.get(NUMBER_OF_BATHROOMS));
+         Integer numberOfRooms = tryParseInt(attributes.get(NUMBER_OF_ROOMS));
+         Integer numberOfLevel = tryParseInt(attributes.get(NUMBER_OF_LEVELS));
+         Integer yearsOfConstruction = tryParseInt(attributes.get(YEAR_OF_CONSTRUCTION));
          String dimensionsBuilding = attributes.get(BUILDING_DIMENSIONS);
-         Integer livingSpaceAreaSquareMeter = Integer.parseInt(attributes.get(LIVING_SPACE));
-         Integer municipalValuation = Integer.parseInt(attributes.get(MUNICIPAL_VALUATION));
+         Integer livingSpaceAreaSquareMeter = tryParseInt(attributes.get(LIVING_SPACE));
+         Integer municipalValuation = tryParseInt(attributes.get(MUNICIPAL_VALUATION));
          String backyardFaces = attributes.get(BACKYARD_FACES);
          
          descriptionDto.setNumberOfBedRooms(numberOfBedRooms);
@@ -62,4 +62,15 @@ public class DescriptionElementAssembler {
       
       return descriptionDto;
    }
+   
+   
+   public Integer tryParseInt(String element) {
+      Integer retVal;
+      try {
+        retVal = Integer.parseInt(element);
+      } catch (NumberFormatException nfe) {
+        retVal = 0; 
+      }
+      return retVal;
+    }
 }

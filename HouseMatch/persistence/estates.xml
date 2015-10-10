@@ -5,49 +5,43 @@
     <seller>seller</seller>  
     <address>0-123-1edawfe-efwaf-sregwa-wfearaf</address>  
     <price>1000</price>  
-    <type>MULTIPLEX</type>
-    <description>
-    <numberOfLevel></numberOfLevel>  
-      <numberOfBedRooms></numberOfBedRooms>  
-      <numberOfBathrooms></numberOfBathrooms>  
-      <numberOfRooms></numberOfRooms>  
-      <livingSpaceAreaSquareMeter></livingSpaceAreaSquareMeter>  
-      <dimensionsBuilding></dimensionsBuilding>  
-      <municipal_valuation></municipal_valuation>  
-      <yearsOfConstruction></yearsOfConstruction>  
-      <municipalValuation></municipalValuation>  
-      <backyardFaces></backyardFaces> 
-      </description> 
+    <type>MULTIPLEX</type>  
+    <description/> 
   </estate>  
   <estate> 
     <seller>seller</seller>  
     <address>0-12414-123214-14221-124-1241</address>  
     <price>1000</price>  
-    <type>MULTIPLEX</type> 
+    <type>MULTIPLEX</type>  
+    <description/> 
   </estate>  
   <estate> 
     <seller>seller</seller>  
     <address>0-232-fwafwafeaewtea-23weaf-fwaef-aewfeawfwa</address>  
     <price>1000</price>  
-    <type>CONDO</type> 
+    <type>CONDO</type>  
+    <description/> 
   </estate>  
   <estate> 
     <seller>seller</seller>  
     <address>0-809-2134-23-Canada-G1B 3r3</address>  
     <price>600000</price>  
-    <type>CONDO</type> 
+    <type>CONDO</type>  
+    <description/> 
   </estate>  
   <estate> 
     <seller>seller</seller>  
     <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
     <price>1000</price>  
-    <type>MULTIPLEX</type> 
+    <type>MULTIPLEX</type>  
+    <description/> 
   </estate>  
   <estate> 
     <seller>seller</seller>  
     <address>0-4-lol-s-s-123123</address>  
     <price>1000</price>  
-    <type>CONDO</type> 
+    <type>CONDO</type>  
+    <description/> 
   </estate>  
   <estate> 
     <seller>seller</seller>  
@@ -71,29 +65,39 @@
     <seller>seller</seller>  
     <address>0-123-123-123-123-123</address>  
     <price>1000</price>  
-    <type>CONDO</type> 
+    <type>CONDO</type>  
+    <description/> 
   </estate>  
   <estate> 
-    <seller>gerals</seller>  
-    <address>22-22-des pins-quebec-canada-g1l1s8</address>  
-    <price>120000</price>  
+    <seller>seller</seller>  
+    <address>0-132-3123-123-123-123</address>  
+    <price>1000</price>  
     <type>CONDO</type>  
-    <description> 
-      <numberOfBedRooms>1</numberOfBedRooms>  
-      <municipalValuation>125000</municipalValuation>  
-      <dimensionsBuilding>4x42</dimensionsBuilding>  
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>1</numberOfRooms>  
-      <yearsOfConstruction>2002</yearsOfConstruction>  
-      <backyardFaces>FRONT</backyardFaces>  
-      <numberOfLevel>1</numberOfLevel>  
-      <numberOfBathrooms>1</numberOfBathrooms> 
-    </description> 
+    <description/> 
+  </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-123-1aaaaa-aaaaaaaaaaa-aaaaaaa-aaaaaaa</address>  
+    <price>1000</price>  
+    <description/>  
+    <type>CONDO</type> 
   </estate>  
   <estate>
-    <seller>seller</seller>
-    <address>0-132-3123-123-123-123</address>
-    <price>1000</price>
+    <seller>gerals</seller>
+    <address>22-22-des pins-quebec-canada-g1l1s8</address>
+    <price>120000</price>
+    <description></description>
     <type>CONDO</type>
+    <description>
+      <numberOfBedRooms>1</numberOfBedRooms>
+      <municipalValuation>125000</municipalValuation>
+      <dimensionsBuilding>4x42</dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
+      <numberOfRooms>1</numberOfRooms>
+      <yearsOfConstruction>2002</yearsOfConstruction>
+      <backyardFaces>FRONT</backyardFaces>
+      <numberOfLevel>1</numberOfLevel>
+      <numberOfBathrooms>1</numberOfBathrooms>
+    </description>
   </estate>
 </estates>

@@ -3,8 +3,6 @@ package ca.ulaval.glo4003.b6.housematch.estates.anticorruption;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidDescriptionFieldException;
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidLandFieldException;
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidRoomFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
@@ -20,13 +18,13 @@ public class DescriptionCorruptionVerificator {
       this.estateService = estateService;
    }
    
-   public void editEstate(EstateDto estateDto) throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException, InvalidDescriptionException, InvalidEstateException{
+   public void editEstate(EstateDto estateDto) throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException{
       validateDescriptionCorruption(estateDto.getDescriptionDto());
       estateService.editEstate(estateDto);
       
    }
 
-   private void validateDescriptionCorruption(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException, InvalidRoomFieldException, InvalidLandFieldException {
+   private void validateDescriptionCorruption(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
       validateNumberOfBedrooms(descriptionDto);      
       validateNumberOfBathrooms(descriptionDto);      
       validateNumberOfRooms(descriptionDto);      

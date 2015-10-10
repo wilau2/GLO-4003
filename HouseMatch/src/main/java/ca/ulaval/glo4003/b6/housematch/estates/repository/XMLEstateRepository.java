@@ -130,7 +130,7 @@ public class XMLEstateRepository implements EstateRepository {
 
    private void addNewEstateToDocument(Document document, HashMap<String, String> attributes,
          EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
-
+      
       EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(attributes);
 
       xmlFileEditor.addNewElementToDocument(document, estatePersistenceDto);
