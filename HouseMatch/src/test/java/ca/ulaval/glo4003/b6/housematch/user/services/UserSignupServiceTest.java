@@ -21,7 +21,7 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidator
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.BadEmailException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
 
 public class UserSignupServiceTest {
 
@@ -61,7 +61,7 @@ public class UserSignupServiceTest {
 
    @Test
    public void whenSignupShouldDelegateValidationToUserValidator()
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
       // Given
 
       // When
@@ -73,7 +73,7 @@ public class UserSignupServiceTest {
 
    @Test
    public void whenSignupShouldDelegateUserValidatorCreationToFactory()
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
       // Given
 
       // When
@@ -85,7 +85,7 @@ public class UserSignupServiceTest {
 
    @Test
    public void whenSignupShouldDelegateUserAssemblerCreationToFactory()
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
       // Given
 
       // When
@@ -97,7 +97,7 @@ public class UserSignupServiceTest {
 
    @Test
    public void whenSignupShouldDelegateAssemblingToUserAssembler()
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
       // Given
 
       // When
@@ -109,7 +109,7 @@ public class UserSignupServiceTest {
 
    @Test
    public void whenSignupShouldDelegateSavingUserToRepository()
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
       // Given
 
       // When
@@ -121,7 +121,7 @@ public class UserSignupServiceTest {
 
    @Test
    public void givenValidScenarioWhenSignupShouldNotThrowException()
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
       // Given
 
       // When
@@ -132,7 +132,7 @@ public class UserSignupServiceTest {
 
    @Test(expected = CouldNotAccessUserDataException.class)
    public void givenInvalidDataAccesScenarioWhenSignupShouldThrowException()
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
       // Given
 
       // When
@@ -144,7 +144,7 @@ public class UserSignupServiceTest {
 
    @Test(expected = UsernameAlreadyExistsException.class)
    public void givenAlreadyUsedUsernameWhenSignupShouldThrowException()
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
       // Given
 
       // When

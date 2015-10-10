@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserSignupService;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.BadEmailException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
 
 public class UserSignupCorruptionVerificator {
 
@@ -19,7 +19,7 @@ public class UserSignupCorruptionVerificator {
    }
 
    public void signup(UserSignupDto userDto)
-         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
+         throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
       validateUserSignupCorruption(userDto);
       userSignupService.signup(userDto);
    }

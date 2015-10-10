@@ -1,5 +1,11 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
@@ -11,7 +17,9 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidator
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.BadEmailException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
+import ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderObserver;
+import ca.ulaval.glo4003.b6.housematch.user.services.observer.UserObserver;
 
 public class UserSignupService {
 
@@ -20,22 +28,22 @@ public class UserSignupService {
    private UserAssemblerFactory userAssemblerFactory;
 
    private UserRepository userRepository;
+ 
    
-   private MailService mailService;
+   private List<UserObserver> observers; 
 
    @Autowired
    public UserSignupService(UserValidatorFactory userValidatorFactory, UserAssemblerFactory userAssemblerFactory,
-         UserRepository userRepository, MailService mailService) {
+         UserRepository userRepository, List<UserObserver> observers) {
 
-      this.mailService = mailService;
       this.userValidatorFactory = userValidatorFactory;
       this.userAssemblerFactory = userAssemblerFactory;
       this.userRepository = userRepository;
-
+      this.observers = observers;
    }
 
    public void signup(UserSignupDto userSignupDto)
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, BadEmailException {
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException{
 
       UserValidator userValidator = userValidatorFactory.getValidator();
       userValidator.validate(userSignupDto);
@@ -44,7 +52,13 @@ public class UserSignupService {
       User newUser = userAssembler.assembleUser(userSignupDto);
 
       userRepository.addUser(newUser);
-      mailService.sendMail(newUser); // TODO MS ici il peut y avoir un problème si l'adresse courriel n'est pas bonne !
+      notifyAllObservers(newUser);
 
    }
+   
+   public void notifyAllObservers(User user) throws UserNotifyingException{
+      for (UserObserver observer : observers) {
+         observer.update(user);
+      }
+   }    
 }

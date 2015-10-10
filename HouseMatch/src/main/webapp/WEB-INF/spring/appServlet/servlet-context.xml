@@ -25,6 +25,7 @@
 	</beans:bean>
 
 
+	
 	<beans:bean id="estateValidatorFactory"
 		class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactoryImpl" />
 	<beans:bean id="estateAssemblerFactory"
@@ -83,6 +84,9 @@
 		class="ca.ulaval.glo4003.b6.housematch.user.domain.User" scope="session">
 		<aop:scoped-proxy />
 	</beans:bean>
+	
+	<beans:bean id="mailSenderObserver"
+		class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderObserver"/>
 
 	<beans:bean id="userRepository"
 		class="ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository" />
@@ -98,9 +102,6 @@
 		class="ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService" />
 	<beans:bean id="profilUserConverter"
 		class="ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter" />
-	<beans:bean
-    	id="mailService"
-    	class="ca.ulaval.glo4003.b6.housematch.user.services.MailService" />
    	<beans:bean
     	id="activationService"
     	class="ca.ulaval.glo4003.b6.housematch.user.services.ActivationService" />
@@ -125,10 +126,11 @@
 			ref="userValidatorFactory" />
 		<beans:constructor-arg name="userAssemblerFactory"
 			ref="userAssemblerFactory" />
-		<beans:constructor-arg
-	        name="mailService"
-	        ref="mailService"/> 
-
+		<beans:constructor-arg> 
+			<beans:list>
+				<beans:ref bean="mailSenderObserver"/>
+			</beans:list>
+		</beans:constructor-arg>
 	</beans:bean>
 	
 	<beans:bean id="userFetcher"
@@ -139,7 +141,6 @@
 
 	<beans:bean id="userLoginCorruptionVerificator"
 		class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator">
-
 		<beans:constructor-arg name="userLoginService"
 			ref="userLoginService" />
 	</beans:bean>
@@ -149,7 +150,6 @@
 		class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator">
 		<beans:constructor-arg name="userSignupService"
 			ref="userSignupService" />
-
 	</beans:bean>
 
 	<beans:bean id="loginController"
@@ -166,8 +166,6 @@
 			ref="signupUserConverter" />
 		<beans:constructor-arg name="userSignupCorruptionVerificator"
 			ref="userSignupCorruptionVerificator" />
-		<beans:constructor-arg name="userLoginService"
-			ref="userLoginService" />
 	</beans:bean>
 	
 	<beans:bean id="activationController"

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.user.domain;
+package ca.ulaval.glo4003.b6.housematch.user.common;
 
 import java.util.Properties;
 
@@ -6,16 +6,18 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class MailSender {
+import ca.ulaval.glo4003.b6.housematch.user.domain.User;
+
+public class MailBuilder implements MessageBuilder{
+
    
    private String recipient;
    private Properties properties; 
-   private Session session;
+
    private Message message;
    private String username;
    
@@ -24,24 +26,44 @@ public class MailSender {
    private final String password = "houseglo4003";
    private final String host = "smtp.gmail.com";
    
-   public MailSender(){
+   
+   public MailBuilder() {
       this.properties = new Properties();
    }
    
-   public void sendMail(User user) throws AddressException, MessagingException{
-   
+   public MessageBuilder withRecipient(User user) {
       this.recipient  = user.getContactInformation().getEmail();
       this.username = user.getUsername();
-      
-      fillProperties();      
-      session = initiateSession();
-      message = initiateMessage(recipient, username);
-      Transport.send(message);
-
-      
+      return this;
    }
 
-   private Message initiateMessage(String recipient, String username) throws AddressException, MessagingException {
+   public MessageBuilder withMessage() throws MessageBuilderException{
+      fillProperties();
+      Session session = initiateSession();
+      try {
+         this.message = initiateMessage(recipient, username, session);
+      } catch (MessagingException e) {
+         throw new MessageBuilderException("Problem when building message for user: " + username, e);
+      }
+      return this;
+   }
+
+   public Message build(){
+      
+      return this.message;
+   } 
+   
+   private Session initiateSession() {
+      Session session = Session.getInstance(properties,
+            new javax.mail.Authenticator() {
+               protected PasswordAuthentication getPasswordAuthentication() {
+                  return new PasswordAuthentication(houseMatchUsername, password);
+               }
+            });
+      return session;
+   }
+   
+   private Message initiateMessage(String recipient, String username, Session session) throws AddressException, MessagingException {
       
       String linkToSend = "<p>To confirm your email: <a href=\"http://localhost:8080/confirmation/" + username + "\">Click here!</a></p>";
       Message message = new MimeMessage(session);
@@ -54,22 +76,15 @@ public class MailSender {
  
       return message;
    }
-
-   private Session initiateSession() {
-      Session session = Session.getInstance(properties,
-            new javax.mail.Authenticator() {
-               protected PasswordAuthentication getPasswordAuthentication() {
-                  return new PasswordAuthentication(houseMatchUsername, password);
-               }
-            });
-      return session;
-   }
-
+   
    private void fillProperties() {
       properties.put("mail.smtp.auth", "true");
       properties.put("mail.smtp.starttls.enable", "true");
       properties.put("mail.smtp.host", host);
       properties.put("mail.smtp.port", "587");    
    }
+
+
+  
 
 }

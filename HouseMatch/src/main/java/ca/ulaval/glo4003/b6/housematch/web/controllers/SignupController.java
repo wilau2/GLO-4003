@@ -16,7 +16,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessU
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.BadEmailException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
@@ -29,26 +29,22 @@ public class SignupController {
 
    private UserSignupCorruptionVerificator userSignupCorruptionVerificator;
 
-   private UserLoginService userLoginService;
 
    @Autowired
    public SignupController(SignupUserConverter converter,
-         UserSignupCorruptionVerificator userSignupCorruptionVerificator, UserLoginService userLoginService) {
+         UserSignupCorruptionVerificator userSignupCorruptionVerificator) {
       this.converter = converter;
       this.userSignupCorruptionVerificator = userSignupCorruptionVerificator;
-      this.userLoginService = userLoginService;
+
    }
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
    public String signup(HttpServletRequest request, SignupUserModel viewModel)
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException, BadEmailException, UserActivationException {
+         InvalidPasswordException, UsernameAlreadyExistsException, UserNotifyingException, UserActivationException {
 
       UserSignupDto userSignupDto = converter.convertViewModelToSignupDto(viewModel);
       userSignupCorruptionVerificator.signup(userSignupDto);
-
-      //UserLoginDto userLoginDto = converter.convertSignupDtoToLoginDto(userSignupDto);
-      //userLoginService.login(request, userLoginDto);
 
       return "need_email_confirmation";
 

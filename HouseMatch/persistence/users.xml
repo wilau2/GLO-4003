@@ -2,24 +2,6 @@
 
 <users> 
   <user> 
-    <firstName>Kid</firstName>  
-    <lastName>Kiddy</lastName>  
-    <password>123</password>  
-    <role>buyer</role>  
-    <phoneNumber>123-456-7890</phoneNumber>  
-    <email>kid@kiddy.com</email>  
-    <username>buyer</username> 
-  </user>  
-  <user> 
-    <firstName>Bruce</firstName>  
-    <lastName>Lee</lastName>  
-    <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>123-123-1234</phoneNumber>  
-    <email>bruce@lee.com</email>  
-    <username>seller</username> 
-  </user>  
-  <user> 
     <firstName>bob</firstName>  
     <lastName>bob</lastName>  
     <password>bob</password>  
@@ -38,77 +20,73 @@
     <username>a</username> 
   </user>  
   <user> 
-    <firstName>b</firstName>  
-    <lastName>b</lastName>  
+    <firstName>dfxhgxdgh</firstName>  
+    <lastName>fghgfxh</lastName>  
     <password>123</password>  
     <role>seller</role>  
-    <phoneNumber>55555</phoneNumber>  
-    <email>m.savoie@live.ca</email>  
-    <username>b</username> 
-  </user>  
-  <user> 
-    <firstName>c</firstName>  
-    <lastName>c</lastName>  
-    <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>555555</phoneNumber>  
-    <email>m.savoie@live.ca</email>  
-    <username>c</username> 
-  </user>  
-  <user> 
-    <firstName>d</firstName>  
-    <lastName>d</lastName>  
-    <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>555555</phoneNumber>  
-    <email>m.savoie@live.ca</email>  
-    <username>e</username> 
-  </user>  
-  <user> 
-    <firstName>drgh</firstName>  
-    <lastName>tgfycjgh</lastName>  
-    <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>574678464</phoneNumber>  
-    <email>m.savoie@live.ca</email>  
-    <username>rdftyguihoj</username> 
-  </user>  
-  <user> 
-    <firstName>rtdfygjuhikl</firstName>  
-    <lastName>uighklj</lastName>  
-    <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>8974653</phoneNumber>  
-    <email>m.savoie@live.ca</email>  
-    <username>rtyujhgstrdhj</username> 
-  </user>  
-  <user> 
-    <firstName>ewrtydui</firstName>  
-    <lastName>trdyfugiho</lastName>  
-    <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>67437436458</phoneNumber>  
-    <email>m.savoie@live.ca</email>  
-    <username>rtsdfyguhijok</username> 
-  </user>  
-  <user> 
-    <firstName>ewartyfugi</firstName>  
-    <lastName>estd5ryfugihkjl</lastName>  
-    <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>4556685</phoneNumber>  
+    <phoneNumber>56456</phoneNumber>  
     <isActive>false</isActive>  
     <email>m.savoie@live.ca</email>  
-    <username>erst56yuijkhgfsdtyfucghvjgf</username> 
+    <username>seller32345</username> 
+  </user>  
+  <user> 
+    <firstName>Martin</firstName>  
+    <lastName>Sa</lastName>  
+    <password>123456789</password>  
+    <role>seller</role>  
+    <phoneNumber>46743543</phoneNumber>  
+    <isActive>false</isActive>  
+    <email>m.savoie@live.ca</email>  
+    <username>joeblouion</username> 
+  </user>  
+  <user> 
+    <firstName>restdy</firstName>  
+    <lastName>rdxtyfuc</lastName>  
+    <password>123</password>  
+    <role>seller</role>  
+    <phoneNumber>85643</phoneNumber>  
+    <isActive>false</isActive>  
+    <email>m.savoie@live.ca</email>  
+    <username>seller673fgdh</username> 
+  </user>  
+  <user> 
+    <firstName>dfszgh</firstName>  
+    <lastName>zrftgh</lastName>  
+    <password>123123</password>  
+    <role>seller</role>  
+    <phoneNumber>465</phoneNumber>  
+    <isActive>false</isActive>  
+    <email>m.savoie@live.ca</email>  
+    <username>sellerbbbbbb</username> 
+  </user>  
+  <user> 
+    <firstName>fhgjgcjk</firstName>  
+    <lastName>xyjucg</lastName>  
+    <password>123456</password>  
+    <role>seller</role>  
+    <phoneNumber>56456</phoneNumber>  
+    <isActive>true</isActive>  
+    <email>sellerrdtxuyjcvgk</email>  
+    <username>sellerrdtxuyjcvgk</username> 
+  </user>  
+  <user> 
+    <firstName>srtdty</firstName>  
+    <lastName>zdtyxhg</lastName>  
+    <password>1231235</password>  
+    <role>seller</role>  
+    <phoneNumber>45656</phoneNumber>  
+    <isActive>false</isActive>  
+    <email>m.savoie@live.ca</email>  
+    <username>sellerthycfyjh</username> 
   </user>  
   <user>
-    <firstName>efdgxcvjh</firstName>
-    <lastName>fdghjvkb</lastName>
-    <password>123</password>
+    <firstName>esrtdyghu</firstName>
+    <lastName>dfgyujhk</lastName>
+    <password>123rzdtyxfucg</password>
     <role>seller</role>
-    <phoneNumber>785643</phoneNumber>
+    <phoneNumber>564</phoneNumber>
     <isActive>false</isActive>
     <email>m.savoie@live.ca</email>
-    <username>rset5dyukvjydfzxgjch</username>
+    <username>dxtgfcjyghvkhi</username>
   </user>
 </users>
