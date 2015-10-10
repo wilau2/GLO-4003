@@ -36,10 +36,10 @@ public class UserAuthorizationService {
       return request;
    }
 
-   public boolean isSessionAllowed(HttpServletRequest request, String expectedRole) throws InvalidAccessException {
+   public void verifySessionIsAllowed(HttpServletRequest request, String expectedRole) throws InvalidAccessException {
       String sessionRole = request.getSession().getAttribute(LOGGED_IN_USER_ROLE).toString();
       if (sessionRole.equals(expectedRole)) {
-         return true;
+         return;
       }
       throw new InvalidAccessException(
             "You don't have the access to do that, be a gentlement and stay in your field of work");

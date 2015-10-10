@@ -2,7 +2,9 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import static org.mockito.Matchers.any;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -24,12 +26,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
+import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcherFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.EstateConverter;
@@ -70,6 +74,15 @@ public class SellerEstateControllerTest {
 
    private List<EstateDto> estatesDto;
 
+   @Mock
+   private EstatesFetcherFactory estatesFetcherFactory;
+
+   @Mock
+   private EstateRepositoryFactory estateRepositoryFactory;
+
+   @Mock
+   private EstateAssemblerFactory estateAssemblerFactory;
+
    @Before
    public void setup()
          throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException, InvalidAccessException {
@@ -77,16 +90,16 @@ public class SellerEstateControllerTest {
 
       when(estateConverter.convertToDto(any(EstateModel.class))).thenReturn(estateDto);
 
+      configureEstateFetcher();
       configureFetchingListOfEstateDto();
 
       configureFetchingEstateByAddress();
 
-      configureUserAuthorizationService();
    }
 
-   private void configureUserAuthorizationService() throws InvalidAccessException {
-      when(userAuthorizationService.isSessionAllowed(request, Role.SELLER)).thenReturn(true);
-
+   private void configureEstateFetcher() {
+      when(estatesFetcherFactory.newInstance(estateAssemblerFactory, estateRepositoryFactory))
+            .thenReturn(estateFetcherService);
    }
 
    private void configureFetchingEstateByAddress() throws EstateNotFoundException, CouldNotAccessDataException {
@@ -235,5 +248,17 @@ public class SellerEstateControllerTest {
 
       // Then
       verify(estateConverter, times(1)).convertToModel(estateDto);
+   }
+
+   @Test
+   public void whenFetchingEstateByAddressShouldCallEstateFetcherFactory()
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
+      // Given no changes
+
+      // When
+      estateController.getEstateByAddress(ADDRESS, request);
+
+      // Then
+      verify(estatesFetcherFactory, times(1)).newInstance(estateAssemblerFactory, estateRepositoryFactory);
    }
 }

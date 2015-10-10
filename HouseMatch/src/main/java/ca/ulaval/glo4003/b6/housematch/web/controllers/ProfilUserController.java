@@ -47,7 +47,7 @@ public class ProfilUserController {
    public ModelAndView getProfil(HttpServletRequest request)
          throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
 
-      userAuthorizationService.isSessionAllowed(request, expectedRole);
+      userAuthorizationService.verifySessionIsAllowed(request, expectedRole);
 
       UserDetailedDto userDto = userFetcher.getUserByUsername(
             request.getSession().getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME).toString());
@@ -64,7 +64,7 @@ public class ProfilUserController {
    public String updateProfil(HttpServletRequest request, ProfilUserViewModel viewModel) throws InvalidAccessException,
          CouldNotAccessUserDataException, UserNotFoundException, InvalidContactInformationFieldException {
 
-      userAuthorizationService.isSessionAllowed(request, expectedRole);
+      userAuthorizationService.verifySessionIsAllowed(request, expectedRole);
 
       UserDetailedDto userDetailedDto = profilUserConverter.convertViewModelToDto(viewModel);
 

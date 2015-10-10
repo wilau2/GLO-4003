@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.web.viewModel;
+package ca.ulaval.glo4003.b6.housematch.estates.dto;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
 
-public class EstateModelTest {
+public class AddressDtoTest {
 
    private static final Integer APPARTMENT = 1;
 
@@ -23,22 +23,22 @@ public class EstateModelTest {
 
    private static final Address ADDRESS = new Address(APPARTMENT, CIVI_NUMBER, STREET, POSTAL_CODE, PROVINCE, COUNTRY);
 
-   private EstateModel estateModel;
+   private AddressDto addressDto;
 
    @Before
    public void setup() {
-      estateModel = new EstateModel();
+      addressDto = new AddressDto();
 
-      setAddressToEstateModel();
+      setAddressToaddressDto();
    }
 
-   private void setAddressToEstateModel() {
-      estateModel.setAppartment(APPARTMENT);
-      estateModel.setCivicNumber(CIVI_NUMBER);
-      estateModel.setCountry(COUNTRY);
-      estateModel.setPostalCode(POSTAL_CODE);
-      estateModel.setStreet(STREET);
-      estateModel.setState(PROVINCE);
+   private void setAddressToaddressDto() {
+      addressDto.setAppartment(APPARTMENT);
+      addressDto.setCivicNumber(CIVI_NUMBER);
+      addressDto.setCountry(COUNTRY);
+      addressDto.setPostalCode(POSTAL_CODE);
+      addressDto.setStreet(STREET);
+      addressDto.setState(PROVINCE);
    }
 
    @Test
@@ -46,7 +46,7 @@ public class EstateModelTest {
       // Given
 
       // When
-      String addressToString = estateModel.addressToString();
+      String addressToString = addressDto.addressToString();
 
       // Then
       String addressObjectAsString = ADDRESS.toString();
@@ -59,7 +59,7 @@ public class EstateModelTest {
       // Given no changes
 
       // When
-      String addressToUrl = estateModel.addressToUrl();
+      String addressToUrl = addressDto.addressToUrl();
 
       // Then
       assertEquals(ADDRESS.toString(), addressToUrl);

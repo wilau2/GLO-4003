@@ -3,8 +3,6 @@ package ca.ulaval.glo4003.b6.housematch.estates.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
@@ -21,7 +19,6 @@ public class EstatesFetcher {
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
-   @Autowired
    public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory,
          EstateRepositoryFactory estateRepositoryFactory) {
       this.estateAssemblerFactory = estateAssemblerFactory;
@@ -34,19 +31,7 @@ public class EstatesFetcher {
 
       List<Estate> sellerEstates = estateRepository.getEstateFromSeller(sellerName);
 
-      List<EstateDto> sellerEstatesDto = convertEstatesToEstatesDto(sellerEstates);
-
-      return sellerEstatesDto;
-   }
-
-   private List<EstateDto> convertEstatesToEstatesDto(List<Estate> sellerEstates) {
-      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-
-      List<EstateDto> sellerEstatesDto = new ArrayList<EstateDto>();
-      for (Estate estate : sellerEstates) {
-         EstateDto assembledEstateDto = estateAssembler.assembleEstateDto(estate);
-         sellerEstatesDto.add(assembledEstateDto);
-      }
+      List<EstateDto> sellerEstatesDto = assembleEstatesDto(sellerEstates);
 
       return sellerEstatesDto;
    }
@@ -62,9 +47,27 @@ public class EstatesFetcher {
       return estateDto;
    }
 
-   public List<EstateDto> getAllEstates() {
-      // TODO Auto-generated method stub
-      return null;
+   public List<EstateDto> getAllEstates() throws CouldNotAccessDataException {
+
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
+      List<Estate> estates = estateRepository.getAllEstates();
+
+      List<EstateDto> estatesDto = assembleEstatesDto(estates);
+
+      return estatesDto;
+
+   }
+
+   private List<EstateDto> assembleEstatesDto(List<Estate> estates) {
+      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
+
+      List<EstateDto> estatesDto = new ArrayList<EstateDto>();
+      for (Estate estate : estates) {
+         EstateDto assembledEstateDto = estateAssembler.assembleEstateDto(estate);
+         estatesDto.add(assembledEstateDto);
+      }
+
+      return estatesDto;
    }
 
 }

@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -67,7 +68,7 @@ public class ProfilUserControllerTest {
    @Before
    public void setup() throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
       MockitoAnnotations.initMocks(this);
-      configureUserAuthorizationService();
+
       configureProfilUserConverter();
       configureUserFetcher();
       configureRequest();
@@ -92,10 +93,6 @@ public class ProfilUserControllerTest {
       given(profilUserConverter.convertViewModelToDto(viewModel)).willReturn(userDto);
    }
 
-   private void configureUserAuthorizationService() throws InvalidAccessException {
-      given(userAuthorizationService.isSessionAllowed(request, expectedRole)).willReturn(true);
-   }
-
    @Test
    public void givenValidAccessWhenGetProfilShouldDelegateAccessValidation()
          throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
@@ -105,7 +102,7 @@ public class ProfilUserControllerTest {
       profilUserController.getProfil(request);
 
       // Then
-      verify(userAuthorizationService, times(1)).isSessionAllowed(request, expectedRole);
+      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, expectedRole);
    }
 
    @Test
@@ -161,7 +158,8 @@ public class ProfilUserControllerTest {
          throws UserNotFoundException, CouldNotAccessUserDataException, InvalidAccessException {
 
       // Given
-      doThrow(new InvalidAccessException("")).when(userAuthorizationService).isSessionAllowed(request, expectedRole);
+      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
+            expectedRole);
 
       // When
       profilUserController.getProfil(request);
@@ -234,7 +232,7 @@ public class ProfilUserControllerTest {
       profilUserController.updateProfil(request, viewModel);
 
       // Then
-      verify(userAuthorizationService, times(1)).isSessionAllowed(request, expectedRole);;
+      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, expectedRole);;
    }
 
    @Test
@@ -256,7 +254,8 @@ public class ProfilUserControllerTest {
          InvalidUserSignupFieldException, InvalidContactInformationFieldException {
 
       // Given
-      doThrow(new InvalidAccessException("")).when(userAuthorizationService).isSessionAllowed(request, expectedRole);
+      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
+            expectedRole);
 
       // When
       profilUserController.updateProfil(request, viewModel);
