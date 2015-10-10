@@ -62,4 +62,9 @@ public class EstatesFetcher {
       return estateDto;
    }
 
+   public List<EstateDto> getAllEstates() {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
 }
