@@ -1,32 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description"
-	content="A layout example that shows off a responsive product landing page.">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
-<title>Landing Page &ndash; Layout Examples &ndash; Pure</title>
-
-<link rel="stylesheet"
-	href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-<link rel="stylesheet" href="/resources/css/layouts/side-menu.css">
-<link rel="stylesheet"
-	href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
-<link rel="stylesheet"
-	href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-<link rel="stylesheet" href="/resources/css/layouts/marketing.css">
-</head>
-
-</head>
-
-<body>
+<t:wrapper>
 	<jsp:include page="_menu.jsp" />
 	<jsp:include page="_seller_side_menu.jsp" />
 	<div class="splash">
@@ -51,33 +29,34 @@
 				<div class="pure-control-group">
 					<div class="pure-control-group">
 
-						<form:label path="civicNumber">Civic No </form:label>
+						<form:label path="address.civicNumber">Civic No </form:label>
 						<div class="pure-u-13-24">
-							<form:input id="civicNumber" type="number" path="civicNumber" />
+							<form:input id="civicNumber" type="number"
+								path="address.civicNumber" />
 						</div>
 					</div>
 					<div class="pure-control-group">
-						<form:label path="street">Street </form:label>
+						<form:label path="address.street">Street </form:label>
 						<div class="pure-u-13-24">
-							<form:input id="street" type="text" path="street" />
+							<form:input id="street" type="text" path="address.street" />
 						</div>
 					</div>
 					<div class="pure-control-group">
-						<form:label path="postalCode">Postal Code </form:label>
+						<form:label path="address.postalCode">Postal Code </form:label>
 						<div class="pure-u-13-24">
-							<form:input id="postalCode" type="text" path="postalCode" />
+							<form:input id="postalCode" type="text" path="address.postalCode" />
 						</div>
 					</div>
 					<div class="pure-control-group">
-						<form:label path="state">State </form:label>
+						<form:label path="address.state">State </form:label>
 						<div class="pure-u-13-24">
-							<form:input id="state" type="text" path="state" />
+							<form:input id="state" type="text" path="address.state" />
 						</div>
 					</div>
 					<div class="pure-control-group">
-						<form:label path="country">Country </form:label>
+						<form:label path="address.country">Country </form:label>
 						<div class="pure-u-13-24">
-							<form:input id="country" type="text" path="country" />
+							<form:input id="country" type="text" path="address.country" />
 						</div>
 					</div>
 				</div>
@@ -94,5 +73,4 @@
 			</fieldset>
 		</form:form>
 	</div>
-</body>
-</html>
+</t:wrapper>

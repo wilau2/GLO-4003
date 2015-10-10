@@ -18,13 +18,14 @@ import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateReposito
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcherFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
 
 @Controller
 public class BuyerSearchEstatesController {
 
-   private static final String EXPECTED_ROLE = "buyer";
+   private static final String EXPECTED_ROLE = Role.BUYER;
 
    private EstatesFetcherFactory estatesFetcherFactory;
 

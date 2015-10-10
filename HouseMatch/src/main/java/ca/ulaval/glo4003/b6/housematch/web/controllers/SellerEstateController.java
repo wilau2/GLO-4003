@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,15 +25,11 @@ import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessData
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
-import ca.ulaval.glo4003.b6.housematch.web.converters.EstateConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.EstateModel;
 
 @Controller
 public class SellerEstateController {
 
    private static final String EXPECTED_ROLE = Role.SELLER;
-
-   private EstateConverter estateConverter;
 
    private EstateCorruptionVerificator estateCorruptionVerificator;
 
@@ -47,11 +42,9 @@ public class SellerEstateController {
    private EstatesFetcherFactory estatesFetcherFactory;
 
    @Autowired
-   public SellerEstateController(EstateConverter estateConverter,
-         EstateCorruptionVerificator estateCorruptionVerificator, UserAuthorizationService userAuthorizationService,
-         EstateAssemblerFactory estateAssembleFactory, EstatesFetcherFactory estatesFetcherFactory,
-         EstateRepositoryFactory estateRepositoryFactory) {
-      this.estateConverter = estateConverter;
+   public SellerEstateController(EstateCorruptionVerificator estateCorruptionVerificator,
+         UserAuthorizationService userAuthorizationService, EstateAssemblerFactory estateAssembleFactory,
+         EstatesFetcherFactory estatesFetcherFactory, EstateRepositoryFactory estateRepositoryFactory) {
       this.estateCorruptionVerificator = estateCorruptionVerificator;
       this.userAuthorizationService = userAuthorizationService;
       this.estateAssembleFactory = estateAssembleFactory;
@@ -60,13 +53,12 @@ public class SellerEstateController {
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.POST)
-   public String addEstate(HttpServletRequest request, EstateModel estateModel, @PathVariable("userId") String userId)
+   public String addEstate(HttpServletRequest request, EstateDto estateDto, @PathVariable("userId") String userId)
          throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
-      estateModel.setSeller(userId);
+      estateDto.setSellerId(userId);
 
-      EstateDto estateDto = estateConverter.convertToDto(estateModel);
       estateCorruptionVerificator.addEstate(estateDto);
 
       return "redirect:/";
@@ -75,7 +67,7 @@ public class SellerEstateController {
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.GET)
    public String getSellEstatePage(HttpServletRequest request, Model model) throws InvalidAccessException {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
-      model.addAttribute("estate", new EstateModel());
+      model.addAttribute("estate", new EstateDto());
       return "sell_estate";
    }
 
@@ -88,13 +80,8 @@ public class SellerEstateController {
       EstatesFetcher estatesFetcher = estatesFetcherFactory.newInstance(estateAssembleFactory, estateRepositoryFactory);
       List<EstateDto> estatesFromSeller = estatesFetcher.getEstatesBySeller(userId);
 
-      List<EstateModel> estatesModel = new ArrayList<EstateModel>();
-      for (EstateDto estateDto : estatesFromSeller) {
-         estatesModel.add(estateConverter.convertToModel(estateDto));
-      }
-
       ModelAndView sellerEstatesViewModel = new ModelAndView("seller_estates");
-      sellerEstatesViewModel.addObject("estates", estatesModel);
+      sellerEstatesViewModel.addObject("estates", estatesFromSeller);
 
       return sellerEstatesViewModel;
    }
@@ -107,10 +94,8 @@ public class SellerEstateController {
       EstatesFetcher estatesFetcher = estatesFetcherFactory.newInstance(estateAssembleFactory, estateRepositoryFactory);
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
-      EstateModel estateModel = estateConverter.convertToModel(estateByAddress);
-
       ModelAndView estateViewModel = new ModelAndView("estate");
-      estateViewModel.addObject("estate", estateModel);
+      estateViewModel.addObject("estate", estateByAddress);
 
       return estateViewModel;
    }

@@ -26,12 +26,20 @@
 <body>
 
 	<jsp:include page="_menu.jsp" />
-	<jsp:include page="_buyer_side_menu.jsp" />
+	<c:if test="${loggedInUserRole == 'buyer'}">
+		<jsp:include page="_buyer_side_menu.jsp" />
+	</c:if>
+	<c:if test="${loggedInUserRole == 'seller'}">
+		<jsp:include page="_seller_side_menu.jsp" />
+	</c:if>
+	
+	
 	<div class="splash">
 		<form:form method="post" modelAttribute="estate"
 			class="pure-form pure-form-aligned">
 			<fieldset>
-				<legend>${estate.type} at ${estate.address.addressToString()}</legend>
+				<legend>${estate.type} at
+					${estate.address.addressToString()}</legend>
 				<div class="pure-control-group">
 					<form:label path="type">Type </form:label>
 					<div class="pure-u-13-24">

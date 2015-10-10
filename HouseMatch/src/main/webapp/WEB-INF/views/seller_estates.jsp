@@ -1,28 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Estates from seller">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
-<title>HouseMatch - Seller page</title>
-
-<link rel="stylesheet"
-	href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-<link rel="stylesheet" href="/resources/css/layouts/side-menu.css">
-<link rel="stylesheet"
-	href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
-<link rel="stylesheet"
-	href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-<link rel="stylesheet" href="/resources/css/layouts/marketing.css">
-</head>
-<body>
+<t:wrapper>
 	<jsp:include page="_menu.jsp" />
 	<jsp:include page="_seller_side_menu.jsp" />
 	<div class="splash">
@@ -42,10 +24,10 @@
 					<c:forEach var="estate" items="${estates}">
 						<tr>
 							<td>${estate.type}</td>
-							<td>${estate.addressToString()}</td>
+							<td>${estate.address.addressToString()}</td>
 							<td>${estate.price}</td>
 							<td><a class="pure-button"
-								href="${entryUrl}/seller/${loggedInUsername}/estates/${estate.addressToUrl()}">Select</a></td>
+								href="${entryUrl}/seller/${loggedInUsername}/estates/${estate.address.addressToUrl()}">Select</a></td>
 						</tr>
 
 					</c:forEach>
@@ -61,5 +43,4 @@
 			</h3>
 		</c:if>
 	</div>
-</body>
-</html>
+</t:wrapper>
