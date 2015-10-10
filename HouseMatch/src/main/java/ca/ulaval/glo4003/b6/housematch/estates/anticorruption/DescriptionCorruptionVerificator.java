@@ -12,17 +12,11 @@ import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
 
 public class DescriptionCorruptionVerificator {
-   
-   private RoomCorruptionVerificator roomCorruptionVerificator;
-   private LandCorruptionVerificator landCorruptionVerificator;
+ 
    private EstatesService estateService;
    
    @Autowired
-   public DescriptionCorruptionVerificator(EstatesService estateService, 
-         RoomCorruptionVerificator roomCorruptionVerificator, LandCorruptionVerificator landCorruptionVerificator ){
-      
-      this.roomCorruptionVerificator = roomCorruptionVerificator;
-      this.landCorruptionVerificator = landCorruptionVerificator;
+   public DescriptionCorruptionVerificator(EstatesService estateService){    
       this.estateService = estateService;
    }
    
@@ -42,9 +36,6 @@ public class DescriptionCorruptionVerificator {
       validateLivingSpaceArea(descriptionDto);      
       validateMunicipalValuation(descriptionDto);      
       validateBackyardFaces(descriptionDto);
-      
-      roomCorruptionVerificator.validateRoomCorruption(descriptionDto.getRoomsDto());
-      landCorruptionVerificator.validateLandCorruption(descriptionDto.getLandDto());
       
    }
 

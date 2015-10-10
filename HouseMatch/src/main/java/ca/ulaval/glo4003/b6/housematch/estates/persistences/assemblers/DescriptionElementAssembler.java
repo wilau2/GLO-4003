@@ -2,19 +2,24 @@ package ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers;
 
 import java.util.HashMap;
 
+import org.dom4j.Element;
+
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class DescriptionElementAssembler {
 
-   private static final String NUMBER_OF_BEDROOMS = "number_of_bedrooms";
-   private static final String NUMBER_OF_BATHROOMS = "number_of_bathrooms";
-   private static final String NUMBER_OF_ROOMS = "number_of_rooms";
-   private static final String NUMBER_OF_LEVELS = "number_of_levels";
-   private static final String YEAR_OF_CONSTRUCTION = "year_of_construction";
-   private static final String BUILDING_DIMENSIONS = "building_dimensions";
-   private static final String LIVING_SPACE = "living_space";
-   private static final String MUNICIPAL_VALUATION = "municipal_valuation";
-   private static final String BACKYARD_FACES = "backyard_faces";
+   private static final String NUMBER_OF_BEDROOMS = "numberOfBedRooms";
+   private static final String NUMBER_OF_BATHROOMS = "numberOfBathrooms";
+   private static final String NUMBER_OF_ROOMS = "numberOfRooms";
+   private static final String NUMBER_OF_LEVELS = "numberOfLevel";
+   private static final String YEAR_OF_CONSTRUCTION = "yearsOfConstruction";
+   private static final String BUILDING_DIMENSIONS = "dimensionsBuilding";
+   private static final String LIVING_SPACE = "livingSpaceAreaSquareMeter";
+   private static final String MUNICIPAL_VALUATION = "municipalValuation";
+   private static final String BACKYARD_FACES = "backyardFaces";
 
    public HashMap<String, String> convertToAttributes(Description description) {
       HashMap<String, String> attributes = new HashMap<String, String>();
@@ -31,5 +36,30 @@ public class DescriptionElementAssembler {
 
       return attributes;
    }
-
+   
+   public DescriptionDto convertAttributesToDto(HashMap<String, String> attributes){
+      DescriptionDto descriptionDto = new DescriptionDto();
+      
+         Integer numberOfBedRooms = Integer.parseInt(attributes.get(NUMBER_OF_BEDROOMS));
+         Integer numberOfBathrooms = Integer.parseInt(attributes.get(NUMBER_OF_BATHROOMS));
+         Integer numberOfRooms = Integer.parseInt(attributes.get(NUMBER_OF_ROOMS));
+         Integer numberOfLevel = Integer.parseInt(attributes.get(NUMBER_OF_LEVELS));
+         Integer yearsOfConstruction = Integer.parseInt(attributes.get(YEAR_OF_CONSTRUCTION));
+         String dimensionsBuilding = attributes.get(BUILDING_DIMENSIONS);
+         Integer livingSpaceAreaSquareMeter = Integer.parseInt(attributes.get(LIVING_SPACE));
+         Integer municipalValuation = Integer.parseInt(attributes.get(MUNICIPAL_VALUATION));
+         String backyardFaces = attributes.get(BACKYARD_FACES);
+         
+         descriptionDto.setNumberOfBedRooms(numberOfBedRooms);
+         descriptionDto.setNumberOfBathrooms(numberOfBathrooms);
+         descriptionDto.setNumberOfRooms(numberOfRooms);
+         descriptionDto.setNumberOfLevel(numberOfLevel);
+         descriptionDto.setYearsOfConstruction(yearsOfConstruction);
+         descriptionDto.setDimensionsBuilding(dimensionsBuilding);
+         descriptionDto.setLivingSpaceAreaSquareMeter(livingSpaceAreaSquareMeter);
+         descriptionDto.setMunicipalValuation(municipalValuation);
+         descriptionDto.setBackyardFaces(backyardFaces);
+      
+      return descriptionDto;
+   }
 }

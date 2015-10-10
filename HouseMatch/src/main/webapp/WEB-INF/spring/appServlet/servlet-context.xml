@@ -55,17 +55,8 @@
 			ref="descriptionAssemblerFactory" />
 	</beans:bean>
 	
-	<beans:bean id="landCorruptionVerificator"
-		class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.LandCorruptionVerificator" />
-	<beans:bean id="roomCorruptionVerificator"
-		class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.RoomCorruptionVerificator" />
-	
 	<beans:bean id="descriptionCorruptionVerificator"
 		class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.DescriptionCorruptionVerificator">
-		<beans:constructor-arg name="landCorruptionVerificator"
-			ref="landCorruptionVerificator" />
-		<beans:constructor-arg name="roomCorruptionVerificator"
-			ref="roomCorruptionVerificator" />
 		<beans:constructor-arg name="estateService" ref="estateService" />
 	</beans:bean>
 

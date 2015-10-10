@@ -53,12 +53,7 @@ public class DescriptionCorruptionVerificatorTest {
 
    @Mock
    private EstatesService estateService;
-   
-   @Mock
-   private RoomCorruptionVerificator roomCorruptionVerificator;
-   
-   @Mock
-   private LandCorruptionVerificator landCorruptionVerificator;
+
 
    @InjectMocks
    private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
@@ -81,11 +76,6 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(LIVING_SPACE_AREA);
       when(descriptionDto.getMunicipalValuation()).thenReturn(MUNICIPAL_VALUATION);
       when(descriptionDto.getBackyardFaces()).thenReturn(BACKYARD_FACES);
-      when(descriptionDto.getRoomsDto()).thenReturn(roomsDto);
-      when(descriptionDto.getLandDto()).thenReturn(landDto);
-      
-      doNothing().when(roomCorruptionVerificator).validateRoomCorruption(roomsDto);
-      doNothing().when(landCorruptionVerificator).validateLandCorruption(landDto);
       
    }
    

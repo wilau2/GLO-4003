@@ -7,9 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.when;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Land;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.LandDto;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.DescriptionModel;
 
 public class DescriptionConverterTest {
@@ -22,23 +20,19 @@ public class DescriptionConverterTest {
    @Mock
    DescriptionDto descriptionDto;
    
-   @Mock
-   private LandDto landDto;
-   
    @InjectMocks
    DescriptionConverter descriptionConverter;
    
    @Before
    public void setUp(){
       MockitoAnnotations.initMocks(this);
-      when(descriptionDto.getLandDto()).thenReturn(landDto);
       configureDescriptionDto();
       configureDescriptionModel();
    }
    
 
    @Test
-   public void convertToDtoShoutCopyEachField() {
+   public void convertToDtoShouldCopyEachField() {
       //given
 
       //when
@@ -76,11 +70,6 @@ public class DescriptionConverterTest {
       when(descriptionModel.getNumberOfRooms()).thenReturn(CONST_NUMBER);
       when(descriptionModel.getYearsOfConstruction()).thenReturn(CONST_NUMBER);   
       
-   }
-   
-   private void configureLandDto(){
-      when(landDto.getAqueduct()).thenReturn(CONST_STRING);
-      when(landDto.getDimensionsLot()).thenReturn(CONST_STRING);
    }
 
 }

@@ -13,14 +13,10 @@ public class Description {
    private Integer livingSpaceAreaSquareMeter;
    private Integer municipalValuation;
    private String backyardFaces;
-   
-   private List<Room> rooms;
-   private Land land;
 
    public Description(Integer numberOfBedRooms, Integer numberOfBathrooms, Integer numberOfRooms,
           Integer numberOfLevel, Integer yearsOfConstruction, String dimensionsBuilding,
-          Integer livingSpaceAreaSquareMeter, Integer municipalValuation, String backyardFaces,
-          List<Room> rooms, Land land) {
+          Integer livingSpaceAreaSquareMeter, Integer municipalValuation, String backyardFaces) {
          
          this.numberOfBedRooms = numberOfBedRooms;
          this.numberOfBathrooms = numberOfBathrooms;
@@ -30,14 +26,10 @@ public class Description {
          this.dimensionsBuilding = dimensionsBuilding;
          this.livingSpaceAreaSquareMeter = livingSpaceAreaSquareMeter;
          this.municipalValuation = municipalValuation;
-         this.backyardFaces = backyardFaces;
-         
-         this.rooms = rooms;
-         this.land = land;  
+         this.backyardFaces = backyardFaces;     
    }
    
    public Description() {
-
    }
 
    public Integer getNumberOfBedRooms() {
@@ -82,15 +74,5 @@ public class Description {
    
    public String getBackyardFaces() {
       return backyardFaces;
-   }
-
-   
-   public List<Room> getRooms() {
-      return rooms;
-   }
-
-   
-   public Land getLand() {
-      return land;
    }
 }

@@ -9,7 +9,6 @@ public class DescriptionDtoTest {
    
    DescriptionDto descriptionDto;
    
-   
    private Integer numberOfBedRooms = 22;
    private Integer numberOfBathrooms = 22;
    private Integer numberOfRooms = 22;
@@ -23,7 +22,7 @@ public class DescriptionDtoTest {
    @Before
    public void setUp(){
       
-      descriptionDto = new DescriptionDto(0, 0, 0, 0, 0, "", 0, 0, "", null, null);
+      descriptionDto = new DescriptionDto(0, 0, 0, 0, 0, "", 0, 0, "");
       
       configureDto();
    }
@@ -37,6 +36,7 @@ public class DescriptionDtoTest {
       descriptionDto.setNumberOfLevel(numberOfLevel);
       descriptionDto.setNumberOfRooms(numberOfRooms);
       descriptionDto.setYearsOfConstruction(yearsOfConstruction);
+      descriptionDto.setBackyardFaces(backyardFaces);
    }
 
    @Test
@@ -50,6 +50,7 @@ public class DescriptionDtoTest {
       assertTrue(descriptionDto.getNumberOfLevel() == this.numberOfLevel);
       assertTrue(descriptionDto.getNumberOfRooms() == this.numberOfRooms);
       assertTrue(descriptionDto.getYearsOfConstruction() == this.yearsOfConstruction);
+      assertTrue(descriptionDto.getBackyardFaces() == this.backyardFaces);
    }
 
 }

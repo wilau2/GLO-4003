@@ -3,8 +3,6 @@ package ca.ulaval.glo4003.b6.housematch.estates.domain.assembler;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -12,12 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Land;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Room;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.LandDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.RoomDto;
 
 public class DescriptionAssemblerTest {
 
@@ -30,14 +23,6 @@ public class DescriptionAssemblerTest {
    private static final Integer LIVING_SPACE = 400;
    private static final Integer MUNICIPAL_VALUATION = 200000;
    private static final String BACKYARD_FACE = "North";
-   
-   private static final String ESTATE_ID = "123falsestreetG3K1P5"; 
-   
-   @Mock
-   private RoomAssembler roomAssembler;
-   
-   @Mock
-   private LandAssembler landAssembler;
    
    @Mock
    private DescriptionDto descriptionDto;

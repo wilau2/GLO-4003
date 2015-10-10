@@ -6,6 +6,7 @@ import org.dom4j.Element;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class EstateElementAssembler {
@@ -84,7 +85,7 @@ public class EstateElementAssembler {
 
       AddressDto addressDto = constructAddressDtoFromString(attributes.get(ADDRESS));
       estateDto.setAddress(addressDto);
-
+      
       return estateDto;
    }
 
@@ -92,4 +93,7 @@ public class EstateElementAssembler {
       return descriptionElementAssembler.convertToAttributes(estate.getDescription());
    }
 
+   public DescriptionDto convertDescriptionAttributesToDto(HashMap<String, String> attributes) {
+      return descriptionElementAssembler.convertAttributesToDto(attributes);
+   }
 }

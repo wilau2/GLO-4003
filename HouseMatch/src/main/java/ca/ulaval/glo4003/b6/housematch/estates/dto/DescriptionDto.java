@@ -20,8 +20,7 @@ public class DescriptionDto {
    
    public DescriptionDto(Integer numberOfBedRooms, Integer numberOfBathrooms, Integer numberOfRooms,
          Integer numberOfLevel, Integer yearsOfConstruction, String dimensionsBuilding,
-         Integer livingSpaceAreaSquareMeter, Integer municipalValuation, String backyardFaces,
-         List<RoomDto> roomsDto, LandDto landDto) {
+         Integer livingSpaceAreaSquareMeter, Integer municipalValuation, String backyardFaces) {
       
       this.numberOfBedRooms = numberOfBedRooms;
       this.numberOfBathrooms = numberOfBathrooms;
@@ -32,10 +31,6 @@ public class DescriptionDto {
       this.livingSpaceAreaSquareMeter = livingSpaceAreaSquareMeter;
       this.municipalValuation = municipalValuation;
       this.backyardFaces = backyardFaces;
-      
-      this.roomsDto = roomsDto;
-      this.landDto = landDto;
-          
    }
 
    public DescriptionDto() {

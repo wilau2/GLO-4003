@@ -166,7 +166,7 @@ public class XMLFileEditor {
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {
          if (node.getStringValue().equals(wantedValue)) {
-            return returnMapOfAttributes((Element)node.selectObject(childValue));
+            return returnMapOfAttributes((Element) node.getParent().selectSingleNode(childValue));
          }
       }
 

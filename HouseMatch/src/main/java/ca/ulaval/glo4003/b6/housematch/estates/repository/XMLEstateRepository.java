@@ -31,6 +31,8 @@ public class XMLEstateRepository implements EstateRepository {
    private static final String PATH_TO_ADDRESS = "estates/estate/address";
 
    private static final String ADDRESS_KEY = "address";
+   
+   private static final String CHILD_DESCRIPTION_KEY = "description";
 
    private static final String XML_DIRECTORY_PATH = "persistence/estates.xml";
 
@@ -198,10 +200,8 @@ public class XMLEstateRepository implements EstateRepository {
             throw new EstateNotFoundException("No estate found at this address : " + address);
          }
 
-         EstateDto estateDto = assembleEstateDtoFromDocumentAttributes(address, document);
-         DescriptionDto descriptionDto = assembleDescriptionDtoFromDocumentAttributes(address, document);
+         EstateDto estateDto = assembleDtoFromDocumentAttributes(address, document);      
          
-         estateDto.setDescriptionDto(descriptionDto);
          estate = assembleEstate(estateDto);
 
       } catch (DocumentException e) {
@@ -210,20 +210,22 @@ public class XMLEstateRepository implements EstateRepository {
       return estate;
    }
 
-   private DescriptionDto assembleDescriptionDtoFromDocumentAttributes(String address, Document document) {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
-   private EstateDto assembleEstateDtoFromDocumentAttributes(String address, Document document) {
+   private EstateDto assembleDtoFromDocumentAttributes(String address, Document document) {
       HashMap<String, String> estateAttributes = xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(document,
             PATH_TO_ADDRESS, address);
+      
+      HashMap<String, String> descriptionAttributes = xmlFileEditor.returnChildAttributesOfElementWithCorrespondingValue(document,
+            PATH_TO_ADDRESS, address, CHILD_DESCRIPTION_KEY);
 
       EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
       EstateDto estateDto = estateElementAssembler.convertAttributesToDto(estateAttributes);
+      DescriptionDto descriptionDto = estateElementAssembler.convertDescriptionAttributesToDto(descriptionAttributes);
+      
+      estateDto.setDescriptionDto(descriptionDto);
+      
       return estateDto;
    }
-
+   
    private Estate assembleEstate(EstateDto estateDto) {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 

@@ -116,7 +116,7 @@ public class SellerEstateController {
       
       EstateModel estateModel = estateConverter.convertToModel(estateByAddress);
       DescriptionModel descriptionModel = descriptionConverter.convertToModel(estateByAddress.getDescriptionDto());
-
+      
       ModelAndView estateViewModel = new ModelAndView("estate");
       estateViewModel.addObject("estate", estateModel);
       estateViewModel.addObject("description", descriptionModel);
