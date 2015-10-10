@@ -86,21 +86,5 @@ public class DescriptionModel {
    public void setBackyardFaces(String backyardFaces) {
       this.backyardFaces = backyardFaces;
    }
-   
-   public String getAqueduct() {
-      return aqueduct;
-   }
-   
-   public void setAqueduct(String aqueduct) {
-      this.aqueduct = aqueduct;
-   }
- 
-   public String getDimensionsLot() {
-      return dimensionsLot;
-   }
-
-   public void setDimensionsLot(String dimensionsLot) {
-      this.dimensionsLot = dimensionsLot;
-   }
 
 }

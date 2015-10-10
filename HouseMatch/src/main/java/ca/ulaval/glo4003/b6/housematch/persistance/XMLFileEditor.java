@@ -132,7 +132,6 @@ public class XMLFileEditor {
 
       for (Iterator i = element.elementIterator(); i.hasNext();) {
          Element attribute = (Element) i.next();
-
          attributes.put(attribute.getQualifiedName(), attribute.getStringValue());
       }
       return attributes;

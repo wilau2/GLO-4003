@@ -45,7 +45,6 @@
 					</div>
 				</div>
 			</fieldset>
-			<button type="submit" class="pure-button">Save</button>
 		</form:form>
 		
 		<form:form method="post" modelAttribute="description" class="pure-form pure-form-aligned" id="dForm">
@@ -103,18 +102,6 @@
 					<form:label path="backyardFaces">Backyard Faces</form:label>
 					<div class="pure-u-13-24">
 						<form:input id="backyardFaces" type="text" path="backyardFaces" />
-					</div>
-				</div>
-				<div class="pure-control-group">
-					<form:label path="aqueduct">Acqueduct</form:label>
-					<div class="pure-u-13-24">
-						<form:input id="aqueduct" type="text" path="aqueduct" />
-					</div>
-				</div>
-				<div class="pure-control-group">
-					<form:label path="DimensionsLot">Lot Dimension</form:label>
-					<div class="pure-u-13-24">
-						<form:input id="DimensionsLot" type="text" path="DimensionsLot" />
 					</div>
 				</div>
 				</fieldset>	

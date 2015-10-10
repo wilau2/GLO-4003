@@ -2,102 +2,72 @@
 
 <estates> 
   <estate> 
-    <seller>seller</seller>  
-    <address>0-123-1edawfe-efwaf-sregwa-wfearaf</address>  
-    <price>1000</price>  
-    <type>MULTIPLEX</type>  
-    <description/> 
+    <seller>gerals</seller>  
+    <address>22-22-des pins-quebec-canada-g1l1s8</address>  
+    <price>120000</price>  
+    <type>CONDO</type>  
+    <description> 
+      <numberOfBedRooms>1</numberOfBedRooms>  
+      <municipalValuation>125000</municipalValuation>  
+      <dimensionsBuilding>4x42</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>1</numberOfRooms>  
+      <yearsOfConstruction>2002</yearsOfConstruction>  
+      <backyardFaces>FRONT</backyardFaces>  
+      <numberOfLevel>1</numberOfLevel>  
+      <numberOfBathrooms>1</numberOfBathrooms> 
+    </description> 
   </estate>  
   <estate> 
     <seller>seller</seller>  
     <address>0-12414-123214-14221-124-1241</address>  
     <price>1000</price>  
     <type>MULTIPLEX</type>  
-    <description/> 
+    <description> 
+      <numberOfBedRooms>100</numberOfBedRooms>  
+      <municipalValuation>10</municipalValuation>  
+      <dimensionsBuilding>"20x20"</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>10</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>10</numberOfRooms>  
+      <yearsOfConstruction>1990</yearsOfConstruction>  
+      <backyardFaces>"North"</backyardFaces>  
+      <numberOfLevel>20</numberOfLevel>  
+      <numberOfBathrooms>20</numberOfBathrooms> 
+    </description> 
   </estate>  
   <estate> 
     <seller>seller</seller>  
     <address>0-232-fwafwafeaewtea-23weaf-fwaef-aewfeawfwa</address>  
     <price>1000</price>  
     <type>CONDO</type>  
-    <description/> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-809-2134-23-Canada-G1B 3r3</address>  
-    <price>600000</price>  
-    <type>CONDO</type>  
-    <description/> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
-    <price>1000</price>  
-    <type>MULTIPLEX</type>  
-    <description/> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-4-lol-s-s-123123</address>  
-    <price>1000</price>  
-    <type>CONDO</type>  
-    <description/> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-12-rue des pins-Quebec-Canada-g1l 1s8</address>  
-    <price>1000</price>  
-    <type>APPARTMENT</type>  
     <description> 
-      <numberOfLevel>2</numberOfLevel>  
-      <numberOfBedRooms>2</numberOfBedRooms>  
-      <numberOfBathrooms>2</numberOfBathrooms>  
-      <numberOfRooms>2</numberOfRooms>  
-      <livingSpaceAreaSquareMeter>333</livingSpaceAreaSquareMeter>  
-      <dimensionsBuilding>5x42</dimensionsBuilding>  
-      <municipal_valuation>325000</municipal_valuation>  
-      <yearsOfConstruction>2022</yearsOfConstruction>  
-      <municipalValuation>2323</municipalValuation>  
-      <backyardFaces>SOUTH</backyardFaces> 
+      <numberOfBedRooms>1000</numberOfBedRooms>  
+      <municipalValuation>10</municipalValuation>  
+      <dimensionsBuilding>"20x20"</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>10</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>10</numberOfRooms>  
+      <yearsOfConstruction>1990</yearsOfConstruction>  
+      <backyardFaces>"North"</backyardFaces>  
+      <numberOfLevel>20</numberOfLevel>  
+      <numberOfBathrooms>20</numberOfBathrooms> 
     </description> 
   </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-123-123-123-123-123</address>  
-    <price>1000</price>  
-    <type>CONDO</type>  
-    <description/> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-132-3123-123-123-123</address>  
-    <price>1000</price>  
-    <type>CONDO</type>  
-    <description/> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-123-1aaaaa-aaaaaaaaaaa-aaaaaaa-aaaaaaa</address>  
-    <price>1000</price>  
-    <description/>  
-    <type>CONDO</type> 
-  </estate>  
   <estate>
-    <seller>gerals</seller>
-    <address>22-22-des pins-quebec-canada-g1l1s8</address>
-    <price>120000</price>
+    <seller>seller</seller>
+    <address>0-432-qweqwe-123-123-123</address>
+    <price>1000</price>
     <description></description>
     <type>CONDO</type>
     <description>
-      <numberOfBedRooms>1</numberOfBedRooms>
-      <municipalValuation>125000</municipalValuation>
-      <dimensionsBuilding>4x42</dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
-      <numberOfRooms>1</numberOfRooms>
-      <yearsOfConstruction>2002</yearsOfConstruction>
-      <backyardFaces>FRONT</backyardFaces>
-      <numberOfLevel>1</numberOfLevel>
-      <numberOfBathrooms>1</numberOfBathrooms>
+      <numberOfBedRooms>1000</numberOfBedRooms>
+      <municipalValuation>10</municipalValuation>
+      <dimensionsBuilding>"20x20"</dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>10</livingSpaceAreaSquareMeter>
+      <numberOfRooms>10</numberOfRooms>
+      <yearsOfConstruction>1990</yearsOfConstruction>
+      <backyardFaces>"North"</backyardFaces>
+      <numberOfLevel>20</numberOfLevel>
+      <numberOfBathrooms>20</numberOfBathrooms>
     </description>
   </estate>
 </estates>

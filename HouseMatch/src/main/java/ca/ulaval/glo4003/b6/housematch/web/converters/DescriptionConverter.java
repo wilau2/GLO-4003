@@ -36,9 +36,4 @@ public class DescriptionConverter {
 
       return descriptionModel;
    }
-   
-   public DescriptionDto createTestDescriptionDto(){
-      return new DescriptionDto(1,2,3,4,1900,"20x20",200,20000,"north");
-   }
-   
 }

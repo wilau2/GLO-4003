@@ -89,7 +89,6 @@ public class EstatesService {
 
    }
 
-   //TODO a faire pour la 2e itération car c'est dans la story 7
    public void editEstate(EstateDto estateDto) throws InvalidEstateException {
       EstateValidator estateValidator = estateValidatorFactory.getValidator();
       estateValidator.validate(estateDto);

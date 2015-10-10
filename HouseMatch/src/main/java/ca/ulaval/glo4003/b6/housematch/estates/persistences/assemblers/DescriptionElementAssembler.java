@@ -2,12 +2,8 @@ package ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers;
 
 import java.util.HashMap;
 
-import org.dom4j.Element;
-
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class DescriptionElementAssembler {
 
@@ -64,10 +60,10 @@ public class DescriptionElementAssembler {
    }
    
    
-   public Integer tryParseInt(String element) {
+   public Integer tryParseInt(String str) {
       Integer retVal;
       try {
-        retVal = Integer.parseInt(element);
+        retVal = Integer.parseInt(str);
       } catch (NumberFormatException nfe) {
         retVal = 0; 
       }
