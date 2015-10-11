@@ -89,7 +89,6 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-
    public void whenFindingByUsernameShouldReturnAUserWithTheCorrectUsername()
          throws CouldNotAccessUserDataException, UserNotFoundException {
 

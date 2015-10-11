@@ -60,6 +60,7 @@ public class UserLoginServiceTest {
       // Given
       configureValidUsername();
       configureValidPassword();
+      configureUserIsValidate();
       // When
       userLoginService.login(request, userLoginDto);
 
@@ -73,6 +74,7 @@ public class UserLoginServiceTest {
       // Given
       configureValidUsername();
       configureValidPassword();
+      configureUserIsValidate();
       // When
       userLoginService.login(request, userLoginDto);
 
@@ -86,7 +88,7 @@ public class UserLoginServiceTest {
       // Given
       configureValidUsername();
       configureValidPassword();
-
+      configureUserIsValidate();
       // When
       userLoginService.login(request, userLoginDto);
 
@@ -133,6 +135,19 @@ public class UserLoginServiceTest {
 
       // Then throws UserNotFoundException
    }
+   
+   @Test(expected = UserActivationException.class)
+   public void whenExistingUserIsNotActiveShouldThrow() throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+      // Given
+      configureValidUsername();
+      configureValidPassword();
+      configureUserIsNotValidate();
+      
+      // When
+      userLoginService.login(request, userLoginDto);
+      
+      // Then exception is thrown
+   }
 
    private void configureValidPassword() {
       given(user.getPassword()).willReturn(PASSWORD);
@@ -155,6 +170,15 @@ public class UserLoginServiceTest {
 
    private void configureUserAuthorisationService() {
       given(userAuthorizationService.setSessionUserAuthorisation(request, user)).willReturn(request);
+   }
+   
+   private void configureUserIsValidate() {
+      given(user.getIsActive()).willReturn(true);
+      
+   }
+   
+   private void configureUserIsNotValidate(){
+      given(user.getIsActive()).willReturn(false);
    }
 
 }

@@ -11,7 +11,7 @@ import ca.ulaval.glo4003.b6.housematch.user.common.MessageSender;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
 
-public class MailSenderObserver extends UserObserver{
+public class MailSenderObserver implements UserObserver{
    
    private MessageBuilder messageBuilder;
    private Message message;

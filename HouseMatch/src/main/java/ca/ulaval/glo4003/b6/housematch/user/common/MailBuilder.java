@@ -21,10 +21,10 @@ public class MailBuilder implements MessageBuilder{
    private Message message;
    private String username;
    
-   private final String from = "housematchconfirmation@gmail.com";  
-   private final String houseMatchUsername = "housematchconfirmation@gmail.com";
-   private final String password = "houseglo4003";
-   private final String host = "smtp.gmail.com";
+   private final String FROM = "housematchconfirmation@gmail.com";  
+   private final String HOUSE_MATCH_USERNAME = "housematchconfirmation@gmail.com";
+   private final String PASSWORD = "houseglo4003";
+   private final String HOST = "smtp.gmail.com";
    
    
    public MailBuilder() {
@@ -57,7 +57,7 @@ public class MailBuilder implements MessageBuilder{
       Session session = Session.getInstance(properties,
             new javax.mail.Authenticator() {
                protected PasswordAuthentication getPasswordAuthentication() {
-                  return new PasswordAuthentication(houseMatchUsername, password);
+                  return new PasswordAuthentication(HOUSE_MATCH_USERNAME, PASSWORD);
                }
             });
       return session;
@@ -68,7 +68,7 @@ public class MailBuilder implements MessageBuilder{
       String linkToSend = "<p>To confirm your email: <a href=\"http://localhost:8080/confirmation/" + username + "\">Click here!</a></p>";
       Message message = new MimeMessage(session);
 
-      message.setFrom(new InternetAddress(from));
+      message.setFrom(new InternetAddress(FROM));
       message.setRecipients(Message.RecipientType.TO,
       InternetAddress.parse(recipient));
       message.setSubject("Email confirmation from HouseMatch!");
@@ -80,7 +80,7 @@ public class MailBuilder implements MessageBuilder{
    private void fillProperties() {
       properties.put("mail.smtp.auth", "true");
       properties.put("mail.smtp.starttls.enable", "true");
-      properties.put("mail.smtp.host", host);
+      properties.put("mail.smtp.host", HOST);
       properties.put("mail.smtp.port", "587");    
    }
 
