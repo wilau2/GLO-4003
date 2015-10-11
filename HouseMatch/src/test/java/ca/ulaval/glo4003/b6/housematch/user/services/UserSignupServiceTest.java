@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -30,6 +31,9 @@ import ca.ulaval.glo4003.b6.housematch.user.services.observer.UserObserver;
 
 public class UserSignupServiceTest {
 
+   @InjectMocks
+   public UserSignupService userSignupService;
+
    @Mock
    private UserValidatorFactory userValidatorFactory;
 
@@ -41,7 +45,6 @@ public class UserSignupServiceTest {
    
 
    private List<UserObserver> observers;
-
 
    public UserSignupService userSignupService;
 

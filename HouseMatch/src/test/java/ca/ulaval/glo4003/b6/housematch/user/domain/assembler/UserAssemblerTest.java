@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
+import ca.ulaval.glo4003.b6.housematch.user.dto.ContactInformationDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 
 public class UserAssemblerTest {
@@ -35,6 +36,9 @@ public class UserAssemblerTest {
    UserAssembler userAssembler;
 
    @Mock
+   private ContactInformationAssembler contactInformationAssembler;
+
+   @Mock
    private UserSignupDto userSignupDto;
 
    @Mock
@@ -46,6 +50,9 @@ public class UserAssemblerTest {
    @Mock
    private Role role;
 
+   @Mock
+   private ContactInformationDto contactInformationDto;
+
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
@@ -53,36 +60,14 @@ public class UserAssemblerTest {
    }
 
    @Test
-   public void givenValidUserSignupDtoWhenAssembleUserShouldGetFirstName() {
+   public void givenValidUserSignupDtoWhenAssembleUserShouldGetContactInformation() {
       // Given
 
       // When
       userAssembler.assembleUser(userSignupDto);
 
       // Then
-      verify(userSignupDto).getFirstName();
-   }
-
-   @Test
-   public void givenValidUserSignupDtoWhenAssembleUserShouldGetLastName() {
-      // Given
-
-      // When
-      userAssembler.assembleUser(userSignupDto);
-
-      // Then
-      verify(userSignupDto).getLastName();
-   }
-
-   @Test
-   public void givenValidUserSignupDtoWhenAssembleUserShouldGetEmail() {
-      // Given
-
-      // When
-      userAssembler.assembleUser(userSignupDto);
-
-      // Then
-      verify(userSignupDto).getEmail();
+      verify(userSignupDto).getContactInformationDto();
    }
 
    @Test
@@ -94,17 +79,6 @@ public class UserAssemblerTest {
 
       // Then
       verify(userSignupDto).getUsername();
-   }
-
-   @Test
-   public void givenValidUserSignupDtoWhenAssembleUserShouldGetPhoneNumber() {
-      // Given
-
-      // When
-      userAssembler.assembleUser(userSignupDto);
-
-      // Then
-      verify(userSignupDto).getPhoneNumber();
    }
 
    @Test
@@ -130,47 +104,13 @@ public class UserAssemblerTest {
    }
 
    @Test
-   public void givenValidUserSignupDtoWhenAssemblerUserShouldReturnValidUserFirstName() {
+   public void givenValidUserSignupDtoWhenAssembleUserShouldDelagateContactInformationAssembling() {
       // Given
 
       // When
-      User user = userAssembler.assembleUser(userSignupDto);
-
+      userAssembler.assembleUser(userSignupDto);
       // Then
-      assertEquals(FIRST_NAME, user.getContactInformation().getFirstName());
-   }
-
-   @Test
-   public void givenValidUserSignupDtoWhenAssemblerUserShouldReturnValidUserLasttName() {
-      // Given
-
-      // When
-      User user = userAssembler.assembleUser(userSignupDto);
-
-      // Then
-      assertEquals(LAST_NAME, user.getContactInformation().getLastName());
-   }
-
-   @Test
-   public void givenValidUserSignupDtoWhenAssemblerUserShouldReturnValidUserEmail() {
-      // Given
-
-      // When
-      User user = userAssembler.assembleUser(userSignupDto);
-
-      // Then
-      assertEquals(EMAIL, user.getContactInformation().getEmail());
-   }
-
-   @Test
-   public void givenValidUserSignupDtoWhenAssemblerUserShouldReturnValidUserPhoneNumber() {
-      // Given
-
-      // When
-      User user = userAssembler.assembleUser(userSignupDto);
-
-      // Then
-      assertEquals(PHONE_NUMBER, user.getContactInformation().getPhoneNumber());
+      verify(contactInformationAssembler).assembleContactInformation(contactInformationDto);
    }
 
    @Test
@@ -206,23 +146,12 @@ public class UserAssemblerTest {
       assertEquals(PASSWORD, user.getPassword());
    }
 
-   private void configureUserToConvert() {
-      given(contactInformation.getFirstName()).willReturn(FIRST_NAME);
-      given(contactInformation.getLastName()).willReturn(LAST_NAME);
-      given(contactInformation.getEmail()).willReturn(EMAIL);
-      given(contactInformation.getPhoneNumber()).willReturn(PHONE_NUMBER);
-
-      given(userToConvert.getContactInformation()).willReturn(contactInformation);
-
-      given(userToConvert.getUsername()).willReturn(USERNAME);
-
-   }
-
    private void configureValidUserSignupDto() {
-      given(userSignupDto.getFirstName()).willReturn(FIRST_NAME);
-      given(userSignupDto.getLastName()).willReturn(LAST_NAME);
-      given(userSignupDto.getEmail()).willReturn(EMAIL);
-      given(userSignupDto.getPhoneNumber()).willReturn(PHONE_NUMBER);
+      given(userSignupDto.getContactInformationDto()).willReturn(contactInformationDto);
+      given(contactInformationDto.getFirstName()).willReturn(FIRST_NAME);
+      given(contactInformationDto.getLastName()).willReturn(LAST_NAME);
+      given(contactInformationDto.getEmail()).willReturn(EMAIL);
+      given(contactInformationDto.getPhoneNumber()).willReturn(PHONE_NUMBER);
       given(userSignupDto.getUsername()).willReturn(USERNAME);
       given(userSignupDto.getPassword()).willReturn(PASSWORD);
       given(userSignupDto.getRole()).willReturn(ROLE);

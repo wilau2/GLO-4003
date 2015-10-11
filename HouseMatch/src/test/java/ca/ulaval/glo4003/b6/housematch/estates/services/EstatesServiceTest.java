@@ -5,9 +5,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -120,35 +117,6 @@ public class EstatesServiceTest {
       estatesService.addEstate(estateDto);
 
       // Then InvalidEstateException is thrown
-   }
-
-   @Test
-   public void whenAskedAllEstatesShouldCallAssembleEstate() throws CouldNotAccessDataException {
-      // given
-      List<Estate> dumbEstates = new ArrayList<Estate>();
-      dumbEstates.add(estate);
-      when(estateRepository.getAllEstates()).thenReturn(dumbEstates);
-
-      // when
-      estatesService.getAllEstates();
-
-      // then
-      verify(estateRepository, times(1)).getAllEstates();
-   }
-
-   @Test
-   public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() throws CouldNotAccessDataException {
-      // given
-      List<Estate> dumbEstateDtoList = new ArrayList<Estate>();
-      dumbEstateDtoList.add(estate);
-      when(estateRepository.getAllEstates()).thenReturn(dumbEstateDtoList);
-      when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
-
-      // when
-      estatesService.getAllEstates();
-
-      // then
-      verify(estateAssembler, times(1)).assembleEstateDto(estate);
    }
 
    @Test

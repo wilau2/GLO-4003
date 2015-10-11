@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
@@ -22,7 +23,7 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.ProfilUserViewModel;
 @Controller
 public class ProfilUserController {
 
-   private final static String expectedRole = Role.BUYER;
+   private static final String EXPECTED_ROLE = Role.BUYER;
 
    private UserAuthorizationService userAuthorizationService;
 
@@ -46,7 +47,7 @@ public class ProfilUserController {
    public ModelAndView getProfil(HttpServletRequest request)
          throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
 
-      userAuthorizationService.isSessionAllowed(request, expectedRole);
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       UserDetailedDto userDto = userFetcher.getUserByUsername(
             request.getSession().getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME).toString());
@@ -59,26 +60,15 @@ public class ProfilUserController {
       return profilViewModel;
    }
 
-   @RequestMapping(value = "/profil/edit", method = RequestMethod.GET)
-   public ModelAndView getProfilToEdit(HttpServletRequest request)
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+   @RequestMapping(value = "/profil", method = RequestMethod.POST)
+   public String updateProfil(HttpServletRequest request, ProfilUserViewModel viewModel) throws InvalidAccessException,
+         CouldNotAccessUserDataException, UserNotFoundException, InvalidContactInformationFieldException {
 
-      ModelAndView profilViewModel = getProfil(request);
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      profilViewModel.setViewName("edit_profil");
+      UserDetailedDto userDetailedDto = profilUserConverter.convertViewModelToDto(viewModel);
 
-      return profilViewModel;
-   }
-
-   @RequestMapping(value = "/profil/edit", method = RequestMethod.POST)
-   public String updateProfil(HttpServletRequest request, ProfilUserViewModel viewModel)
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
-
-      userAuthorizationService.isSessionAllowed(request, expectedRole);
-
-      UserDetailedDto userDto = profilUserConverter.convertViewModelToDto(viewModel);
-
-      userProfilCorruptionVerificator.update(userDto);
+      userProfilCorruptionVerificator.update(userDetailedDto);
 
       return "redirect:/profil";
    }

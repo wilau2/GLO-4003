@@ -7,9 +7,9 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlready
 
 public interface UserRepository {
 
-   public User getUser(String username) throws UserNotFoundException, CouldNotAccessUserDataException;
+   User getUser(String username) throws UserNotFoundException, CouldNotAccessUserDataException;
 
-   public void addUser(User user) throws UsernameAlreadyExistsException, CouldNotAccessUserDataException;
+   void addUser(User user) throws UsernameAlreadyExistsException, CouldNotAccessUserDataException;
 
-   public void updateUser(User user) throws CouldNotAccessUserDataException;
+   void updateUser(User user) throws CouldNotAccessUserDataException;
 }

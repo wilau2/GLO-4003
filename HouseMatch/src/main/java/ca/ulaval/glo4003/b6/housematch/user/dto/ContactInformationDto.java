@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.b6.housematch.user.domain;
+package ca.ulaval.glo4003.b6.housematch.user.dto;
 
-public class ContactInformation {
+public class ContactInformationDto {
 
    private String firstName;
 
@@ -10,7 +10,7 @@ public class ContactInformation {
 
    private String email;
 
-   public ContactInformation(String firstName, String lastName, String phoneNumber, String email) {
+   public ContactInformationDto(String firstName, String lastName, String phoneNumber, String email) {
       this.firstName = firstName;
       this.lastName = lastName;
       this.phoneNumber = phoneNumber;
@@ -31,13 +31,6 @@ public class ContactInformation {
 
    public String getEmail() {
       return email;
-   }
-
-   public void update(ContactInformation newContactInformation) {
-      this.firstName = newContactInformation.firstName;
-      this.lastName = newContactInformation.lastName;
-      this.phoneNumber = newContactInformation.phoneNumber;
-      this.email = newContactInformation.email;
    }
 
 }

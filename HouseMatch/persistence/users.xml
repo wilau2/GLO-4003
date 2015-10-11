@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <users> 
-  <user> 
-    <firstName>bob</firstName>  
-    <lastName>bob</lastName>  
-    <password>bob</password>  
-    <role>seller</role>  
-    <phoneNumber>111</phoneNumber>  
-    <email>bob</email>  
-    <username>bob</username> 
-  </user>  
-  <user> 
+   <user>
     <firstName>a</firstName>  
     <lastName>a</lastName>  
     <password>123</password>  
@@ -88,7 +79,7 @@
     <isActive>false</isActive>  
     <email>m.savoie@live.ca</email>  
     <username>dxtgfcjyghvkhi</username> 
-  </user>  
+  </user>   
   <user>
     <firstName>wertdyfu</firstName>
     <lastName>tyfujk</lastName>

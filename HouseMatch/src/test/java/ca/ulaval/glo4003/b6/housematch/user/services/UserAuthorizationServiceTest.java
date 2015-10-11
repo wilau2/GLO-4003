@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +19,11 @@ import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessExc
 
 public class UserAuthorizationServiceTest {
 
-   private static final String expectedBuyerRole = "buyer";
+   private static final String EXPECTED_BUYER_ROLE = "buyer";
 
-   private static final String expectedSellerRole = "seller";
+   private static final String EXPECTED_SELLER_ROLE = "seller";
+
+   private static final String USERNAME = "username";
 
    @Mock
    User user;
@@ -37,8 +39,6 @@ public class UserAuthorizationServiceTest {
 
    @Mock
    private Object roleObject;
-
-   private static String USERNAME = "username";
 
    @Before
    public void setup() {
@@ -120,10 +120,9 @@ public class UserAuthorizationServiceTest {
       configureBuyerSession();
 
       // When
-      boolean resp = userAuthorizationService.isSessionAllowed(request, expectedBuyerRole);
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_BUYER_ROLE);
 
-      // Then
-      assertTrue(resp);
+      // Then no exception is thrown
 
    }
 
@@ -135,7 +134,9 @@ public class UserAuthorizationServiceTest {
       configureBuyerSession();
 
       // When
-      userAuthorizationService.isSessionAllowed(request, expectedSellerRole);
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_SELLER_ROLE);
+
+      // Then an InvalidAccessException is thrown
 
    }
 

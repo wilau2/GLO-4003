@@ -2,13 +2,13 @@ package ca.ulaval.glo4003.b6.housematch.user.dto;
 
 public class UserSignupDto extends UserDetailedDto {
 
-   public UserSignupDto(String username) {
-      super(username);
-   }
+   private String role;
 
    private String password;
 
-   private String role;
+   public UserSignupDto(String username) {
+      super(username);
+   }
 
    public String getPassword() {
       return password;

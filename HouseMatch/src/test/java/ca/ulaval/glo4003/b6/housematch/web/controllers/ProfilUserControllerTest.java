@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -18,6 +18,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
+import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -28,6 +30,11 @@ import ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.ProfilUserViewModel;
 
 public class ProfilUserControllerTest {
+
+   private static final String USERNAME = "username";
+
+   @InjectMocks
+   public ProfilUserController profilUserController;
 
    @Mock
    private UserAuthorizationService userAuthorizationService;
@@ -52,22 +59,16 @@ public class ProfilUserControllerTest {
    @Mock
    private ProfilUserViewModel viewModel;
 
-   @InjectMocks
-   public ProfilUserController profilUserController;
-
    @Mock
    private HttpSession session;
 
    @Mock
    private Object username;
 
-   private final static String USERNAME = "username";
-
    @Before
    public void setup() throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
       MockitoAnnotations.initMocks(this);
-      configureUserAuthorizationService();
-      configureUserProfilCorruptionVerificator();
+
       configureProfilUserConverter();
       configureUserFetcher();
       configureRequest();
@@ -89,16 +90,7 @@ public class ProfilUserControllerTest {
 
    private void configureProfilUserConverter() {
       given(profilUserConverter.convertToViewModel(userDto)).willReturn(viewModel);
-
-   }
-
-   private void configureUserProfilCorruptionVerificator() {
-      // TODO Auto-generated method stub
-
-   }
-
-   private void configureUserAuthorizationService() throws InvalidAccessException {
-      given(userAuthorizationService.isSessionAllowed(request, expectedRole)).willReturn(true);
+      given(profilUserConverter.convertViewModelToDto(viewModel)).willReturn(userDto);
    }
 
    @Test
@@ -110,7 +102,7 @@ public class ProfilUserControllerTest {
       profilUserController.getProfil(request);
 
       // Then
-      verify(userAuthorizationService, times(1)).isSessionAllowed(request, expectedRole);
+      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, expectedRole);
    }
 
    @Test
@@ -126,7 +118,7 @@ public class ProfilUserControllerTest {
    }
 
    @Test
-   public void givenValidUserWhenGetProfilShouldConvertingUserDto()
+   public void givenValidUserWhenGetProfilShouldDelegateConvertingUserDto()
          throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
       // Given
 
@@ -166,7 +158,8 @@ public class ProfilUserControllerTest {
          throws UserNotFoundException, CouldNotAccessUserDataException, InvalidAccessException {
 
       // Given
-      doThrow(new InvalidAccessException("")).when(userAuthorizationService).isSessionAllowed(request, expectedRole);
+      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
+            expectedRole);
 
       // When
       profilUserController.getProfil(request);
@@ -204,12 +197,70 @@ public class ProfilUserControllerTest {
    }
 
    @Test
-   public void shouldDoThisWhenThat() {
+   public void givenValidViewModelWhenUpdateProfilShouldDelegateUpdate()
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
       // Given
 
       // When
+      profilUserController.updateProfil(request, viewModel);
 
       // Then
+      verify(userProfilCorruptionVerificator, times(1)).update(userDto);;
+   }
+
+   @Test
+   public void givenValidViewModelWhenUpdateProfilShouldDelegateConvertion()
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
+      // Given
+
+      // When
+      profilUserController.updateProfil(request, viewModel);
+
+      // Then
+      verify(profilUserConverter, times(1)).convertViewModelToDto(viewModel);;
+   }
+
+   @Test
+   public void givenValidViewModelWhenUpdateProfilShouldDelegateAuthentification()
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
+      // Given
+
+      // When
+      profilUserController.updateProfil(request, viewModel);
+
+      // Then
+      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, expectedRole);;
+   }
+
+   @Test
+   public void givenValidViewModelWhenUpdateProfilShouldRedirectToProfil()
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
+      // Given
+
+      // When
+      String resp = profilUserController.updateProfil(request, viewModel);
+
+      // Then
+      assertEquals("redirect:/profil", resp);
+   }
+
+   @Test(expected = InvalidAccessException.class)
+   public void givenInvalidAccessWhenUpdateProfilShouldThrowException()
+         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidAccessException,
+         InvalidUserSignupFieldException, InvalidContactInformationFieldException {
+
+      // Given
+      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
+            expectedRole);
+
+      // When
+      profilUserController.updateProfil(request, viewModel);
+      // Then Exception is thrown
+
    }
 
 }

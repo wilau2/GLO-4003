@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.user.dto.ContactInformationDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.ProfilUserViewModel;
 
@@ -33,6 +34,9 @@ public class ProfilUserConverterTest {
    @Mock
    private ProfilUserViewModel profilUserViewModel;
 
+   @Mock
+   private ContactInformationDto contactInformationDto;
+
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
@@ -41,10 +45,11 @@ public class ProfilUserConverterTest {
 
    private void configureValidUser() {
       given(user.getUsername()).willReturn(USERNAME);
-      given(user.getPhoneNumber()).willReturn(PHONE_NUMBER);
-      given(user.getEmail()).willReturn(EMAIL);
-      given(user.getFirstName()).willReturn(FIRST_NAME);
-      given(user.getLastName()).willReturn(LAST_NAME);
+      given(user.getContactInformationDto()).willReturn(contactInformationDto);
+      given(contactInformationDto.getPhoneNumber()).willReturn(PHONE_NUMBER);
+      given(contactInformationDto.getEmail()).willReturn(EMAIL);
+      given(contactInformationDto.getFirstName()).willReturn(FIRST_NAME);
+      given(contactInformationDto.getLastName()).willReturn(LAST_NAME);
    }
 
    private void configureValidViewModel() {
@@ -129,7 +134,7 @@ public class ProfilUserConverterTest {
       UserDetailedDto dto = profilUserConverter.convertViewModelToDto(profilUserViewModel);
 
       // Then
-      assertEquals(PHONE_NUMBER, dto.getPhoneNumber());
+      assertEquals(PHONE_NUMBER, dto.getContactInformationDto().getPhoneNumber());
    }
 
    @Test
@@ -140,7 +145,7 @@ public class ProfilUserConverterTest {
       UserDetailedDto dto = profilUserConverter.convertViewModelToDto(profilUserViewModel);
 
       // Then
-      assertEquals(EMAIL, dto.getEmail());
+      assertEquals(EMAIL, dto.getContactInformationDto().getEmail());
    }
 
    @Test
@@ -151,7 +156,7 @@ public class ProfilUserConverterTest {
       UserDetailedDto dto = profilUserConverter.convertViewModelToDto(profilUserViewModel);
 
       // Then
-      assertEquals(FIRST_NAME, dto.getFirstName());
+      assertEquals(FIRST_NAME, dto.getContactInformationDto().getFirstName());
    }
 
    @Test
@@ -162,7 +167,7 @@ public class ProfilUserConverterTest {
       UserDetailedDto dto = profilUserConverter.convertViewModelToDto(profilUserViewModel);
 
       // Then
-      assertEquals(LAST_NAME, dto.getLastName());
+      assertEquals(LAST_NAME, dto.getContactInformationDto().getLastName());
    }
 
 }

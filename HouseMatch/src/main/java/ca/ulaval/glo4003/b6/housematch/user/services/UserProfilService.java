@@ -2,39 +2,47 @@ package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.UserAssembler;
-import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.factory.UserAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.ContactInformationAssembler;
+import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.factory.ContactInformationAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
-import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
-import ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
+import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 
 public class UserProfilService {
 
    private UserRepository userRepository;
 
-   private UserValidatorFactory userValidatorFactory;
-
-   private UserAssemblerFactory userAssemblerFactory;
+   private ContactInformationAssemblerFactory contactInformationAssemblerFactory;
 
    @Autowired
-   public UserProfilService(UserRepository userRepository, UserValidatorFactory userValidatorFactory,
-         UserAssemblerFactory userAssemblerFactory) {
+   public UserProfilService(UserRepository userRepository,
+         ContactInformationAssemblerFactory contactInformationAssemblerFactory) {
       this.userRepository = userRepository;
-      this.userValidatorFactory = userValidatorFactory;
-      this.userAssemblerFactory = userAssemblerFactory;
+      this.contactInformationAssemblerFactory = contactInformationAssemblerFactory;
    }
 
-   public void update(UserDetailedDto userDto) throws CouldNotAccessUserDataException {
+   public void update(UserDetailedDto userDetailedDto) throws CouldNotAccessUserDataException, UserNotFoundException {
 
-      UserValidator userValidator = userValidatorFactory.getValidator();
-      userValidator.validate(userDto);
+      ContactInformationAssembler contactInformationAssembler = contactInformationAssemblerFactory
+            .createContactInformationAssembler();
+      ContactInformation contactInformation = contactInformationAssembler
+            .assembleContactInformation(userDetailedDto.getContactInformationDto());
 
-      UserAssembler userAssembler = userAssemblerFactory.createUserAssembler();
-      User newUser = userAssembler.assembleUser(userDto);
+      User user = userRepository.getUser(userDetailedDto.getUsername());
+      String oldEmail = user.getContactInformation().getEmail();
+      String newEmail = contactInformation.getEmail();
+      if (emailHasChanged(oldEmail, newEmail)) {
+         // TODO set userActivity to false
+         // TODO send confirmation email to the new email
+      }
+      user.updateContactInformation(contactInformation);
+      userRepository.updateUser(user);
+   }
 
-      userRepository.updateUser(newUser);
+   private boolean emailHasChanged(String oldEmail, String newEmail) {
+      return !oldEmail.equals(newEmail);
    }
 }

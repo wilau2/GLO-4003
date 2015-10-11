@@ -1,8 +1,5 @@
 package ca.ulaval.glo4003.b6.housematch.estates.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
@@ -54,21 +51,6 @@ public class EstatesService {
 
       AddressValidator addressValidator = addressValidatorFactory.getValidator();
       addressValidator.validate(estateDto.getAddress());
-   }
-
-   public List<EstateDto> getAllEstates() throws CouldNotAccessDataException {
-      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
-      List<Estate> estateList = estateRepository.getAllEstates();
-
-      List<EstateDto> estatesDto = new ArrayList<EstateDto>();
-      for (Estate estate : estateList) {
-         estatesDto.add(estateAssembler.assembleEstateDto(estate));
-      }
-
-      return estatesDto;
-
    }
 
    public void editEstate(EstateDto estateDto) throws InvalidEstateException {

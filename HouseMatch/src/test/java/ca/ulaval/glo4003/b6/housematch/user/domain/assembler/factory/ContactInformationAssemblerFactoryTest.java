@@ -8,15 +8,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.UserAssembler;
+import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.ContactInformationAssembler;
 
-public class UserAssemblerFactoryTest {
+public class ContactInformationAssemblerFactoryTest {
 
    @InjectMocks
-   UserAssemblerFactory userAssemblerFactory;
+   ContactInformationAssemblerFactory contactInformationAssemblerFactory;
 
    @Mock
-   private UserAssembler userAssembler;
+   private ContactInformationAssembler contactInformationAssembler;
 
    @Before
    public void setup() {
@@ -28,9 +28,9 @@ public class UserAssemblerFactoryTest {
       // Given
 
       // When
-      userAssembler = userAssemblerFactory.createUserAssembler();
+      contactInformationAssembler = contactInformationAssemblerFactory.createContactInformationAssembler();
 
       // Then
-      assertTrue(userAssembler instanceof UserAssembler);
+      assertTrue(contactInformationAssembler instanceof ContactInformationAssembler);
    }
 }

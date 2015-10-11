@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -21,19 +22,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundExc
 
 public class UserFetcherTest {
 
-   @InjectMocks
-   private UserFetcher userFetcher;
-
-   @Mock
-   private UserRepository userRepository;
-
    private static final String USERNAME = "username";
-
-   @Mock
-   private User user;
-
-   @Mock
-   private ContactInformation contactInformation;
 
    private static final String EMAIL = "email";
 
@@ -42,6 +31,18 @@ public class UserFetcherTest {
    private static final String FIRST_NAME = "firstname";
 
    private static final String LAST_NAME = "lastname";
+
+   @InjectMocks
+   private UserFetcher userFetcher;
+
+   @Mock
+   private UserRepository userRepository;
+
+   @Mock
+   private User user;
+
+   @Mock
+   private ContactInformation contactInformation;
 
    @Before
    public void setup() throws UserNotFoundException, CouldNotAccessUserDataException {
@@ -90,7 +91,7 @@ public class UserFetcherTest {
       UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
-      assertEquals(PHONE_NUMBER, dto.getPhoneNumber());
+      assertEquals(PHONE_NUMBER, dto.getContactInformationDto().getPhoneNumber());
    }
 
    @Test
@@ -102,7 +103,7 @@ public class UserFetcherTest {
       UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
-      assertEquals(EMAIL, dto.getEmail());
+      assertEquals(EMAIL, dto.getContactInformationDto().getEmail());
    }
 
    @Test
@@ -114,7 +115,7 @@ public class UserFetcherTest {
       UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
-      assertEquals(FIRST_NAME, dto.getFirstName());
+      assertEquals(FIRST_NAME, dto.getContactInformationDto().getFirstName());
    }
 
    @Test
@@ -126,7 +127,7 @@ public class UserFetcherTest {
       UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
-      assertEquals(LAST_NAME, dto.getLastName());
+      assertEquals(LAST_NAME, dto.getContactInformationDto().getLastName());
    }
 
    @Test(expected = UserNotFoundException.class)
@@ -136,9 +137,9 @@ public class UserFetcherTest {
       doThrow(new UserNotFoundException("")).when(userRepository).getUser(USERNAME);
 
       // When
-      UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
+      userFetcher.getUserByUsername(USERNAME);
 
-      // Then
+      // Then a UserNotFoundException is thrown
    }
 
    @Test(expected = CouldNotAccessUserDataException.class)
@@ -148,9 +149,9 @@ public class UserFetcherTest {
       doThrow(new CouldNotAccessUserDataException("")).when(userRepository).getUser(USERNAME);
 
       // When
-      UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
+      userFetcher.getUserByUsername(USERNAME);
 
-      // Then
+      // Then a CouldNotAccessUserDataException is thrown
    }
 
 }
