@@ -8,9 +8,9 @@ import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessExc
 
 public class UserAuthorizationService {
 
-   public final static String LOGGED_IN_USER_ROLE = "loggedInUserRole";
+   public static final String LOGGED_IN_USER_ROLE = "loggedInUserRole";
 
-   public final static String LOGGED_IN_USERNAME = "loggedInUsername";
+   public static final String LOGGED_IN_USERNAME = "loggedInUsername";
 
    public HttpServletRequest setSessionUserAuthorisation(HttpServletRequest request, User user) {
 

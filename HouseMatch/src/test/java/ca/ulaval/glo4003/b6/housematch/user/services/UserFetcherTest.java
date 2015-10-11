@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -21,12 +22,6 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundExc
 
 public class UserFetcherTest {
 
-   @InjectMocks
-   private UserFetcher userFetcher;
-
-   @Mock
-   private UserRepository userRepository;
-
    private static final String USERNAME = "username";
 
    private static final String EMAIL = "email";
@@ -36,6 +31,12 @@ public class UserFetcherTest {
    private static final String FIRST_NAME = "firstname";
 
    private static final String LAST_NAME = "lastname";
+
+   @InjectMocks
+   private UserFetcher userFetcher;
+
+   @Mock
+   private UserRepository userRepository;
 
    @Mock
    private User user;

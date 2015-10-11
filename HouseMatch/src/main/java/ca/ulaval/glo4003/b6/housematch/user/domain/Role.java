@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.b6.housematch.user.domain;
 
 public class Role {
 
-   public final static String SELLER = "seller";
+   public static final String SELLER = "seller";
 
-   public final static String BUYER = "buyer";
+   public static final String BUYER = "buyer";
 
-   public final static String ADMIN = "admin";
+   public static final String ADMIN = "admin";
 
    private String role;
 

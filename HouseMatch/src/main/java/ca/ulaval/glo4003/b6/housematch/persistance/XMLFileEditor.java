@@ -77,8 +77,9 @@ public class XMLFileEditor {
          String wantedValue) {
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {
-         if (node.getStringValue().equals(wantedValue))
+         if (node.getStringValue().equals(wantedValue)) {
             return true;
+         }
       }
       return false;
    }

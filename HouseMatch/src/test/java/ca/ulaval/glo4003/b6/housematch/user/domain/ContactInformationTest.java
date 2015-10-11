@@ -7,21 +7,21 @@ import org.junit.Test;
 
 public class ContactInformationTest {
 
-   private final static String FIRST_NAME = "firsname";
+   private static final String FIRST_NAME = "firsname";
 
-   private final static String LAST_NAME = "lastname";
+   private static final String LAST_NAME = "lastname";
 
-   private final static String PHONE_NUMBER = "phoneNumber";
+   private static final String PHONE_NUMBER = "phoneNumber";
 
-   private final static String EMAIL = "email";
+   private static final String EMAIL = "email";
 
-   private final static String NEW_FIRST_NAME = "new firsname";
+   private static final String NEW_FIRST_NAME = "new firsname";
 
-   private final static String NEW_LAST_NAME = "new lastname";
+   private static final String NEW_LAST_NAME = "new lastname";
 
-   private final static String NEW_PHONE_NUMBER = "new phoneNumber";
+   private static final String NEW_PHONE_NUMBER = "new phoneNumber";
 
-   private final static String NEW_EMAIL = "new email";
+   private static final String NEW_EMAIL = "new email";
 
    private ContactInformation contactInformation;
 

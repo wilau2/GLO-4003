@@ -116,8 +116,19 @@ public class BuyerSearchEstatesControllerTest {
       buyerSearchEstatesController.searchAllEstates(request);
 
       // Then
-      verify(estatesFetcherFactory, times(1)).newInstance(estateAssemblerFactory, estateRepositoryFactory);
       verify(estatesFetcherService, times(1)).getAllEstates();
+   }
+
+   @Test
+   public void whenSearchingForAllEstateShouldDelegateServiceCreation()
+         throws CouldNotAccessDataException, InvalidAccessException {
+      // Given no changes
+
+      // When
+      buyerSearchEstatesController.searchAllEstates(request);
+
+      // Then
+      verify(estatesFetcherFactory, times(1)).newInstance(estateAssemblerFactory, estateRepositoryFactory);
    }
 
    @Test

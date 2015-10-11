@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,7 +31,7 @@ public class UserValidatorFactoryTest {
       userValidator = userValidatorFactory.getValidator();
 
       // Then
-      assert(userValidator instanceof UserValidator);
+      assertTrue(userValidator instanceof UserValidator);
    }
 
 }

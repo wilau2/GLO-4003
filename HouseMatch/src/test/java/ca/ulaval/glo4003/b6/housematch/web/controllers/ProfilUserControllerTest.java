@@ -31,6 +31,11 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.ProfilUserViewModel;
 
 public class ProfilUserControllerTest {
 
+   private static final String USERNAME = "username";
+
+   @InjectMocks
+   public ProfilUserController profilUserController;
+
    @Mock
    private UserAuthorizationService userAuthorizationService;
 
@@ -54,16 +59,11 @@ public class ProfilUserControllerTest {
    @Mock
    private ProfilUserViewModel viewModel;
 
-   @InjectMocks
-   public ProfilUserController profilUserController;
-
    @Mock
    private HttpSession session;
 
    @Mock
    private Object username;
-
-   private final static String USERNAME = "username";
 
    @Before
    public void setup() throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {

@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.b6.housematch.user.dto;
 
 public class UserDetailedDto extends BaseUserDto {
 
+   private ContactInformationDto contactInformationDto;
+
    public UserDetailedDto(String username) {
       super(username);
    }
-
-   private ContactInformationDto contactInformationDto;
 
    public ContactInformationDto getContactInformationDto() {
       return contactInformationDto;

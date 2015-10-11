@@ -181,8 +181,19 @@ public class EstatesFetcherTest {
       estateFetcher.getAllEstates();
 
       // then
-      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
+
       verify(estateRepository, times(1)).getAllEstates();
+   }
+
+   @Test
+   public void whenAskedAllEstatesShouldDelegateTheAssemblerCreation() throws CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      estateFetcher.getAllEstates();
+
+      // Then
+      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
    }
 
    @Test
