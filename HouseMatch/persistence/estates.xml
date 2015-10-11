@@ -3,26 +3,20 @@
 <estates> 
   <estate> 
     <seller>seller</seller>  
-    <address>0-432-qweqwe-123-123-123</address>  
-    <price>1000</price>  
-    <type>CONDO</type>  
-    <description> 
-      <numberOfBedRooms>2</numberOfBedRooms>  
-      <municipalValuation>10</municipalValuation>  
-      <dimensionsBuilding>"20x20"</dimensionsBuilding>  
-      <livingSpaceAreaSquareMeter>10</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>10</numberOfRooms>  
-      <yearsOfConstruction>1990</yearsOfConstruction>  
-      <backyardFaces>South</backyardFaces>  
-      <numberOfLevel>20</numberOfLevel>  
-      <numberOfBathrooms>20</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
     <address>0-123-Test Sans Description 2-ada-asd-asdasd</address>  
     <price>1000</price>  
-    <type>SINGLE_FAMILY</type> 
+    <type>SINGLE_FAMILY</type>  
+    <description> 
+      <numberOfBedRooms>1000</numberOfBedRooms>  
+      <municipalValuation>0</municipalValuation>  
+      <dimensionsBuilding/>  
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>0</numberOfRooms>  
+      <yearsOfConstruction>0</yearsOfConstruction>  
+      <backyardFaces/>  
+      <numberOfLevel>0</numberOfLevel>  
+      <numberOfBathrooms>0</numberOfBathrooms> 
+    </description> 
   </estate>  
   <estate> 
     <seller>gerals</seller>  
@@ -43,23 +37,6 @@
   </estate>  
   <estate> 
     <seller>seller</seller>  
-    <address>0-1-Test Sans Description-qc-qc-g12022</address>  
-    <price>500</price>  
-    <type>COMMERCIAL</type>  
-    <description> 
-      <numberOfBedRooms>100</numberOfBedRooms>  
-      <municipalValuation>0</municipalValuation>  
-      <dimensionsBuilding/>  
-      <livingSpaceAreaSquareMeter>10</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>0</numberOfRooms>  
-      <yearsOfConstruction>0</yearsOfConstruction>  
-      <backyardFaces/>  
-      <numberOfLevel>0</numberOfLevel>  
-      <numberOfBathrooms>0</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
     <address>0-12414-123214-14221-124-1241</address>  
     <price>1000</price>  
     <type>MULTIPLEX</type>  
@@ -75,21 +52,55 @@
       <numberOfBathrooms>20</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-232-fwafwafeaewtea-23weaf-fwaef-aewfeawfwa</address>  
+    <price>1000</price>  
+    <type>CONDO</type>  
+    <description> 
+      <numberOfBedRooms>10020</numberOfBedRooms>  
+      <municipalValuation>10</municipalValuation>  
+      <dimensionsBuilding>10</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>10</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>10</numberOfRooms>  
+      <yearsOfConstruction>1990</yearsOfConstruction>  
+      <backyardFaces>"North"</backyardFaces>  
+      <numberOfLevel>20</numberOfLevel>  
+      <numberOfBathrooms>20</numberOfBathrooms> 
+    </description> 
+  </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-432-qweqwe-123-123-123</address>  
+    <price>1000</price>  
+    <type>CONDO</type>  
+    <description> 
+      <numberOfBedRooms>200</numberOfBedRooms>  
+      <municipalValuation>10</municipalValuation>  
+      <dimensionsBuilding>"20x20"</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>10</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>10</numberOfRooms>  
+      <yearsOfConstruction>1990</yearsOfConstruction>  
+      <backyardFaces>South</backyardFaces>  
+      <numberOfLevel>20</numberOfLevel>  
+      <numberOfBathrooms>20</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-232-fwafwafeaewtea-23weaf-fwaef-aewfeawfwa</address>
-    <price>1000</price>
-    <type>CONDO</type>
+    <address>0-1-Test Sans Description-qc-qc-g12022</address>
+    <price>500</price>
+    <type>COMMERCIAL</type>
     <description>
-      <numberOfBedRooms>10020</numberOfBedRooms>
-      <municipalValuation>10</municipalValuation>
-      <dimensionsBuilding>"20x20"</dimensionsBuilding>
+      <numberOfBedRooms>100</numberOfBedRooms>
+      <municipalValuation>0</municipalValuation>
+      <dimensionsBuilding>asd</dimensionsBuilding>
       <livingSpaceAreaSquareMeter>10</livingSpaceAreaSquareMeter>
-      <numberOfRooms>10</numberOfRooms>
-      <yearsOfConstruction>1990</yearsOfConstruction>
-      <backyardFaces>"North"</backyardFaces>
-      <numberOfLevel>20</numberOfLevel>
-      <numberOfBathrooms>20</numberOfBathrooms>
+      <numberOfRooms>0</numberOfRooms>
+      <yearsOfConstruction>0</yearsOfConstruction>
+      <backyardFaces>test</backyardFaces>
+      <numberOfLevel>0</numberOfLevel>
+      <numberOfBathrooms>0</numberOfBathrooms>
     </description>
   </estate>
 </estates>

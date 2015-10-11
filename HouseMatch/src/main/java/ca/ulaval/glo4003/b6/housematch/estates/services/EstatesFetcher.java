@@ -61,5 +61,15 @@ public class EstatesFetcher {
 
       return estateDto;
    }
+   
+   public List<EstateDto> getAllEstates() throws CouldNotAccessDataException {
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
+
+      List<Estate> allEstates = estateRepository.getAllEstates();
+
+      List<EstateDto> allEstatesDto = convertEstatesToEstatesDto(allEstates);
+
+      return allEstatesDto;
+   }
 
 }

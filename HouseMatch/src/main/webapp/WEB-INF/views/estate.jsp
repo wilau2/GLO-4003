@@ -29,15 +29,16 @@
 
 	<jsp:include page="_menu.jsp" />
 	<jsp:include page="_seller_side_menu.jsp" />
+	<jsp:include page="estate_button.jsp" />
 	<div class="splash">
 	
-		<form:form method="post" modelAttribute="estate" class="pure-form pure-form-aligned" id="eForm">
+	<form:form method="post" modelAttribute="estate" class="pure-form pure-form-aligned content-head" id="eForm">
 			<fieldset>
 				<legend>${estate.type} at ${estate.addressToString()}</legend>
 				<div class="pure-control-group">
 					<form:label path="type">Type </form:label>
 					<div class="pure-u-13-24">
-						<form:input id="type" type="text" path="type" />
+						<form:input id="type" type="text" path="type"/>
 					</div>
 				</div>
 				<div class="pure-control-group">
@@ -46,13 +47,13 @@
 						<form:input id="price" type="number" path="price" />
 					</div>
 				</div>
-			</fieldset>
-			<button type="submit" class="pure-button" style="display: none;">Save</button>
+			</fieldset>	
+			<button id="btn_edit_estate" type="button" class="pure-button">Edit</button>
+			<button id="btn_save_estate" type="submit" class="pure-button">Save</button>
+			<button id="btn_cancel_estate" type="button" class="pure-button">Cancel</button>
 		</form:form>
-		
-		<form:form method="post" modelAttribute="description" class="pure-form pure-form-aligned" id="dForm">
-			<fieldset>
-			<legend>Description</legend>
+		<form:form method="post" modelAttribute="description" class="pure-form pure-form-aligned content-subhead" id="dForm">
+				<legend>Description</legend>
 				<div class="pure-control-group">
 					<form:label path="numberOfBedRooms">Number of bedrooms</form:label>
 					<div class="pure-u-13-24">
@@ -110,22 +111,10 @@
 				</fieldset>	
 				<button id="btn_edit_description" type="button" class="pure-button">Edit</button>
 				<button id="btn_save_description" type="submit" class="pure-button">Save</button>
+				<button id="btn_cancel_description" type="button" class="pure-button">Cancel</button>
+			</div>		
 			</form:form>	
 		</div>		
 </body>
 </html>
-
-<script>
- $("#btn_save_description").hide();
- $("#dForm input").prop('disabled', true)
- 
-$(function() {
-    $("#btn_edit_description").click(function() {
-        $("#btn_save_description").toggle("slow");
-        $("#btn_edit_description").prop('disabled', true);
-        $("#dForm input").prop('disabled', false)
-        
-    });
-});
-</script>
 

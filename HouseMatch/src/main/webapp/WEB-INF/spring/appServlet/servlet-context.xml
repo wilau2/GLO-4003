@@ -99,6 +99,18 @@
 		<beans:constructor-arg name="descriptionCorruptionVerificator"
 			ref="descriptionCorruptionVerificator" />
 	</beans:bean>
+	
+	<beans:bean id="buyerEstateController"
+		class="ca.ulaval.glo4003.b6.housematch.web.controllers.BuyerEstateController">
+		<beans:constructor-arg name="estateConverter"
+			ref="estateConverter" />
+		<beans:constructor-arg name="estatesFetcher"
+			ref="estatesFetcher" />
+		<beans:constructor-arg name="userAuthorizationService"
+			ref="userAuthorizationService" />
+		<beans:constructor-arg name="descriptionConverter"
+			ref="descriptionConverter" />
+	</beans:bean>
 
 	<beans:bean id="loggedUser"
 		class="ca.ulaval.glo4003.b6.housematch.user.domain.User" scope="session">

@@ -202,16 +202,6 @@ public class DescriptionCorruptionVerificatorTest {
       // Then expected InvalidDescriptionFieldException
    }
    
-   @Test(expected = InvalidDescriptionFieldException.class)
-   public void verificatingDescriptionCorruptionWhenDescriptionHasEmptyDimensionBuildingShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
-      // Given
-      when(descriptionDto.getDimensionsBuilding()).thenReturn(EMPTY_FIELD);
-      // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
-      
-      // Then expected InvalidDescriptionFieldException
-   }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullLivingSpaceAreaShouldThrowInvalidDescriptionFieldException() 
@@ -267,17 +257,4 @@ public class DescriptionCorruptionVerificatorTest {
       
       // Then expected InvalidDescriptionFieldException
    }
-   
-   @Test(expected = InvalidDescriptionFieldException.class)
-   public void verificatingDescriptionCorruptionWhenDescriptionHasEmptyBackyardFacesShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
-      // Given
-      when(descriptionDto.getBackyardFaces()).thenReturn(EMPTY_FIELD);
-      // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
-      
-      // Then expected InvalidDescriptionFieldException
-   }
-   
-
 }

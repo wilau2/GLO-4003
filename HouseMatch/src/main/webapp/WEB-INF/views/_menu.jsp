@@ -19,7 +19,7 @@
 	            </c:if>
 
 	            <c:if test="${loggedInUserRole == 'buyer'}">
-	              <li class="pure-menu-item"><a href="${entryUrl}/" class="pure-menu-link">Buyer</a></li>
+	              <li class="pure-menu-item"><a href="${entryUrl}/buyer/${loggedInUsername}/estates" class="pure-menu-link">Buyer</a></li>
 	            </c:if>
 	            <c:if test="${loggedInUserRole == 'seller'}">
 	              <li class="pure-menu-item"><a href="${entryUrl}/seller/${loggedInUsername}/estates" class="pure-menu-link">Seller</a></li>

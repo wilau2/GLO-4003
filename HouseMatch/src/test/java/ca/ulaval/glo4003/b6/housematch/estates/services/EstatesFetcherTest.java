@@ -169,5 +169,18 @@ public class EstatesFetcherTest {
       verify(estateAssemblerFactory, times(1)).createEstateAssembler();
       verify(estateAssembler, times(1)).assembleEstateDto(estate);
    }
+   
+   @Test
+   public void whenFetchingAllEstatesShouldConvertAllEstatesToEstateDto()
+         throws EstateNotFoundException, CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      estateFetcher.getAllEstates();
+
+      // Then
+      verify(estateAssemblerFactory, times(1)).createEstateAssembler();
+      verify(estateAssembler, times(1)).assembleEstateDto(estate);
+   }
 
 }

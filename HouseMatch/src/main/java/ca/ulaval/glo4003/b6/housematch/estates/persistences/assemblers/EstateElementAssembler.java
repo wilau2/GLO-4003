@@ -72,8 +72,7 @@ public class EstateElementAssembler {
       attributes.put(PRICE, estate.getPrice().toString());
       attributes.put(TYPE, estate.getType());
       attributes.put(ADDRESS, estate.getAddress().toString());
-      //attributes.put(DESCRIPTION, "");
-
+      
       return attributes;
    }
 

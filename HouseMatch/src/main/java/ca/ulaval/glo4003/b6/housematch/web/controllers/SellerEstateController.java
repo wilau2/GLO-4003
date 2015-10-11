@@ -31,6 +31,7 @@ import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessExc
 import ca.ulaval.glo4003.b6.housematch.web.converters.DescriptionConverter;
 import ca.ulaval.glo4003.b6.housematch.web.converters.EstateConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.DescriptionModel;
+
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.EstateModel;
 
 @Controller
@@ -115,26 +116,27 @@ public class SellerEstateController {
       EstateModel estateModel = estateConverter.convertToModel(estateByAddress);
       DescriptionModel descriptionModel = descriptionConverter.convertToModel(estateByAddress.getDescriptionDto());
       
-      ModelAndView estateViewModel = new ModelAndView("estate");
-      estateViewModel.addObject("estate", estateModel);
-      estateViewModel.addObject("description", descriptionModel);
-      
-      return estateViewModel;
-   }
+      ModelAndView sellerEstateViewModel = new ModelAndView("estate");
+      sellerEstateViewModel.addObject("estate", estateModel);
+      sellerEstateViewModel.addObject("description", descriptionModel);
 
+      return sellerEstateViewModel;
+   }
+   
    @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.POST)
-   public String editEstate(@PathVariable("address") String address, HttpServletRequest request, DescriptionModel descriptionModel, @PathVariable("userId") String userId)
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException, InvalidDescriptionException, EstateNotFoundException {
+   public String editDescription(@PathVariable("address") String address, HttpServletRequest request, EstateModel estateModel, DescriptionModel descriptionModel, @PathVariable("userId") String userId)
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException, InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {
       userAuthorizationService.isSessionAloud(request, expectedRole); 
       
       EstateDto estateDto = estatesFetcher.getEstateByAddress(address);
-
-      DescriptionDto descriptionDto = descriptionConverter.convertToDto(descriptionModel);
       
+      DescriptionDto descriptionDto = descriptionConverter.convertToDto(descriptionModel);
       estateDto.setDescriptionDto(descriptionDto);
+      
+      //TODO handle it !
       try {
          descriptionCorruptionVerificator.editEstate(estateDto);
-      } catch (InvalidEstateException e) {
+      } catch (InvalidDescriptionFieldException e) {
          e.printStackTrace();
       }
 

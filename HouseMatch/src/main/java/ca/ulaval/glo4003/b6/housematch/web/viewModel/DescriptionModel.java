@@ -12,9 +12,6 @@ public class DescriptionModel {
    private Integer municipalValuation;
    private String backyardFaces;
    
-   private String aqueduct; 
-   private String dimensionsLot;
-   
    public Integer getNumberOfBedRooms() {
       return numberOfBedRooms;
    }

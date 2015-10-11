@@ -19,9 +19,9 @@ public class DescriptionCorruptionVerificator {
    }
    
    public void editEstate(EstateDto estateDto) throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException{
+
       validateDescriptionCorruption(estateDto.getDescriptionDto());
-      estateService.editEstate(estateDto);
-      
+      estateService.editEstate(estateDto);  
    }
 
    private void validateDescriptionCorruption(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
@@ -38,7 +38,7 @@ public class DescriptionCorruptionVerificator {
    }
 
    private void validateBackyardFaces(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getBackyardFaces() == null || descriptionDto.getBackyardFaces() == ""){
+      if(descriptionDto.getBackyardFaces() == null){
          throw new InvalidDescriptionFieldException("The entered backyard faces is not valid");
       }
    }
@@ -56,7 +56,7 @@ public class DescriptionCorruptionVerificator {
    }
 
    private void validateDimensionsBuilding(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getDimensionsBuilding() == null || descriptionDto.getDimensionsBuilding() == ""){
+      if(descriptionDto.getDimensionsBuilding() == null){
          throw new InvalidDescriptionFieldException("The entered building dimension is not valid");
       }
    }
