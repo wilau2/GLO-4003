@@ -79,6 +79,7 @@ public class EstatesFetcherTest {
       estates.add(estate);
       when(estateRepositoryFactory.newInstance(estateAssemblerFactory)).thenReturn(estateRepository);
       when(estateRepository.getEstateFromSeller(SELLER_NAME)).thenReturn(estates);
+      when(estateRepository.getAllEstates()).thenReturn(estates);
    }
 
    @Test
@@ -171,16 +172,15 @@ public class EstatesFetcherTest {
    }
    
    @Test
-   public void whenFetchingAllEstatesShouldConvertAllEstatesToEstateDto()
+   public void whenFetchingAllEstatesShouldReturnListEstateDto()
          throws EstateNotFoundException, CouldNotAccessDataException {
       // Given no changes
 
       // When
-      estateFetcher.getAllEstates();
+      List<?> estates = estateFetcher.getAllEstates();
 
       // Then
-      verify(estateAssemblerFactory, times(1)).createEstateAssembler();
-      verify(estateAssembler, times(1)).assembleEstateDto(estate);
+      assertTrue(estates.get(0) instanceof EstateDto);
    }
 
 }

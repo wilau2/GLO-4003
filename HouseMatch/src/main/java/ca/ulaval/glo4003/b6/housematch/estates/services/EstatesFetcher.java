@@ -66,7 +66,6 @@ public class EstatesFetcher {
       EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
 
       List<Estate> allEstates = estateRepository.getAllEstates();
-
       List<EstateDto> allEstatesDto = convertEstatesToEstatesDto(allEstates);
 
       return allEstatesDto;
