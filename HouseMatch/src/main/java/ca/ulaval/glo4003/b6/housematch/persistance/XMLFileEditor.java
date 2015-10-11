@@ -166,10 +166,12 @@ public class XMLFileEditor {
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {
          if (node.getStringValue().equals(wantedValue)) {
-            return returnMapOfAttributes((Element) node.getParent().selectSingleNode(childValue));
+            Element childElement = (Element) node.getParent().selectSingleNode(childValue);
+            if (childElement != null){
+               return returnMapOfAttributes(childElement);
+            }
          }
       }
-
       return new HashMap<String, String>();
    }
 }

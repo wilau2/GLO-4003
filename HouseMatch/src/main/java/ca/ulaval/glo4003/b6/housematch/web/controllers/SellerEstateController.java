@@ -76,7 +76,7 @@ public class SellerEstateController {
       EstateDto estateDto = estateConverter.convertToDto(estateModel);
       estateCorruptionVerificator.addEstate(estateDto);
 
-      return "redirect:/";
+      return "redirect:/seller/seller/estates";
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.GET)

@@ -10,6 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description"
 	content="A layout example that shows off a responsive product landing page.">
+	
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
 <title>HouseMatch - Estate Description</title>
 
@@ -45,6 +47,7 @@
 					</div>
 				</div>
 			</fieldset>
+			<button type="submit" class="pure-button" style="display: none;">Save</button>
 		</form:form>
 		
 		<form:form method="post" modelAttribute="description" class="pure-form pure-form-aligned" id="dForm">
@@ -105,10 +108,24 @@
 					</div>
 				</div>
 				</fieldset>	
-				<button type="submit" class="pure-button">Save</button>
+				<button id="btn_edit_description" type="button" class="pure-button">Edit</button>
+				<button id="btn_save_description" type="submit" class="pure-button">Save</button>
 			</form:form>	
 		</div>		
 </body>
 </html>
 
+<script>
+ $("#btn_save_description").hide();
+ $("#dForm input").prop('disabled', true)
+ 
+$(function() {
+    $("#btn_edit_description").click(function() {
+        $("#btn_save_description").toggle("slow");
+        $("#btn_edit_description").prop('disabled', true);
+        $("#dForm input").prop('disabled', false)
+        
+    });
+});
+</script>
 
