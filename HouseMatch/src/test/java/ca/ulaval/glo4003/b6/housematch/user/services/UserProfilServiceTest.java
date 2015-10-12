@@ -5,6 +5,9 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -21,6 +24,8 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
+import ca.ulaval.glo4003.b6.housematch.user.services.observer.UserObserver;
 
 public class UserProfilServiceTest {
 
@@ -53,7 +58,15 @@ public class UserProfilServiceTest {
    private ContactInformation contactInformation;
 
    @Mock
+   private ContactInformation contactInformationNewEmail;
+
+   @Mock
    private UserDetailedDto userDetailedDto;
+
+   @Mock
+   private UserObserver userObserver;
+
+   private List<UserObserver> observers;
 
    @Before
    public void setup() throws UserNotFoundException, CouldNotAccessUserDataException {
@@ -63,6 +76,10 @@ public class UserProfilServiceTest {
       configureUserDetailedDto();
       configureUser();
       configureContactInformation();
+      observers = new ArrayList<>();
+      observers.add(userObserver);
+
+      userProfilService = new UserProfilService(userRepository, contactInformationAssemblerFactory, observers);
    }
 
    private void configureContactInformation() {
@@ -76,12 +93,10 @@ public class UserProfilServiceTest {
    private void configureUserDetailedDto() {
       given(userDetailedDto.getContactInformationDto()).willReturn(contactInformationDto);
       given(userDetailedDto.getUsername()).willReturn(USERNAME);
-
    }
 
    private void configureUserRepository() throws UserNotFoundException, CouldNotAccessUserDataException {
       given(userRepository.getUser(USERNAME)).willReturn(user);
-
    }
 
    private void configureUserAssembler() {
@@ -93,7 +108,7 @@ public class UserProfilServiceTest {
 
    @Test
    public void givenValidUserDtoWhenUpdateThenShouldDelegateToUserRepository()
-         throws CouldNotAccessUserDataException, UserNotFoundException {
+         throws CouldNotAccessUserDataException, UserNotFoundException, UserNotifyingException {
       // Given
 
       // When
@@ -105,7 +120,7 @@ public class UserProfilServiceTest {
 
    @Test
    public void givenValidUserDtoWhenUpdateThenShouldDelegateAssembling()
-         throws CouldNotAccessUserDataException, UserNotFoundException {
+         throws CouldNotAccessUserDataException, UserNotFoundException, UserNotifyingException {
       // Given
 
       // When
@@ -115,9 +130,41 @@ public class UserProfilServiceTest {
       verify(contactInformationAssembler).assembleContactInformation(contactInformationDto);
    }
 
+   @Test
+   public void givenValidUserDtoWithNewEmailShouldCallSetUserInactive()
+         throws UserNotifyingException, CouldNotAccessUserDataException, UserNotFoundException {
+      // Given
+      configureUpdateWithNewEmail();
+
+      // When
+      userProfilService.update(userDetailedDto);
+
+      // Then
+      verify(user).setIsActive(false);
+   }
+
+   @Test
+   public void givenValidUserDtoWithNewEmailShouldCallUpdateOnObserver()
+         throws UserNotifyingException, CouldNotAccessUserDataException, UserNotFoundException {
+      // Given
+      configureUpdateWithNewEmail();
+
+      // When
+      userProfilService.update(userDetailedDto);
+
+      // Then
+      verify(userObserver).update(user);
+   }
+
+   private void configureUpdateWithNewEmail() {
+      given(contactInformationNewEmail.getEmail()).willReturn("new Email");
+      given(contactInformationAssembler.assembleContactInformation(contactInformationDto))
+            .willReturn(contactInformationNewEmail);
+   }
+
    @Test(expected = CouldNotAccessUserDataException.class)
    public void givenInvalidDataAccessWhenGettingUserShouldReturnException()
-         throws CouldNotAccessUserDataException, UserNotFoundException {
+         throws CouldNotAccessUserDataException, UserNotFoundException, UserNotifyingException {
       // Given
       doThrow(new CouldNotAccessUserDataException("")).when(userRepository).getUser(USERNAME);
 
@@ -129,7 +176,7 @@ public class UserProfilServiceTest {
 
    @Test(expected = UserNotFoundException.class)
    public void givenUsernameWhenGettingUserShouldReturnException()
-         throws CouldNotAccessUserDataException, UserNotFoundException {
+         throws CouldNotAccessUserDataException, UserNotFoundException, UserNotifyingException {
       // Given
       doThrow(new UserNotFoundException("")).when(userRepository).getUser(USERNAME);
 
@@ -141,7 +188,7 @@ public class UserProfilServiceTest {
 
    @Test(expected = CouldNotAccessUserDataException.class)
    public void givenInvalidDataAccessWhenUpdatingUserShouldReturnException()
-         throws CouldNotAccessUserDataException, UserNotFoundException {
+         throws CouldNotAccessUserDataException, UserNotFoundException, UserNotifyingException {
       // Given
       doThrow(new CouldNotAccessUserDataException("")).when(userRepository).updateUser(user);
 

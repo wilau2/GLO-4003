@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <users> 
-   <user>
+  <user> 
     <firstName>a</firstName>  
     <lastName>a</lastName>  
     <password>123</password>  
@@ -79,15 +79,25 @@
     <isActive>false</isActive>  
     <email>m.savoie@live.ca</email>  
     <username>dxtgfcjyghvkhi</username> 
-  </user>   
-  <user>
-    <firstName>wertdyfu</firstName>
-    <lastName>tyfujk</lastName>
-    <password>123xtdfyu</password>
-    <role>seller</role>
-    <phoneNumber>xtdyfucj</phoneNumber>
-    <isActive>false</isActive>
-    <email>m.savoie@live.ca</email>
-    <username>rtyujgkcxf6dtyufc</username>
-  </user>
+  </user>  
+  <user> 
+    <firstName>wertdyfu</firstName>  
+    <lastName>tyfujk</lastName>  
+    <password>123xtdfyu</password>  
+    <role>seller</role>  
+    <phoneNumber>xtdyfucj</phoneNumber>  
+    <isActive>false</isActive>  
+    <email>m.savoie@live.ca</email>  
+    <username>rtyujgkcxf6dtyufc</username> 
+  </user>  
+  <user> 
+    <firstName>baba</firstName>  
+    <lastName>baba</lastName>  
+    <password>baba</password>  
+    <role>buyer</role>  
+    <phoneNumber>123</phoneNumber>  
+    <isActive>false</isActive>  
+    <email>baba@baba</email>  
+    <username>baba</username> 
+  </user>  
 </users>

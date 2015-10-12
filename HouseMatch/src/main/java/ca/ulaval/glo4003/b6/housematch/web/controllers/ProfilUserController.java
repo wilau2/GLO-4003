@@ -17,6 +17,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundExc
 import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserFetcher;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.ProfilUserViewModel;
 
@@ -61,8 +62,9 @@ public class ProfilUserController {
    }
 
    @RequestMapping(value = "/profil", method = RequestMethod.POST)
-   public String updateProfil(HttpServletRequest request, ProfilUserViewModel viewModel) throws InvalidAccessException,
-         CouldNotAccessUserDataException, UserNotFoundException, InvalidContactInformationFieldException {
+   public String updateProfil(HttpServletRequest request, ProfilUserViewModel viewModel)
+         throws InvalidAccessException, CouldNotAccessUserDataException, UserNotFoundException,
+         InvalidContactInformationFieldException, UserNotifyingException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 

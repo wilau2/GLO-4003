@@ -23,8 +23,8 @@ public class UserSignupService {
    private UserAssemblerFactory userAssemblerFactory;
 
    private UserRepository userRepository;
- 
-   private List<UserObserver> observers; 
+
+   private List<UserObserver> observers;
 
    @Autowired
    public UserSignupService(UserValidatorFactory userValidatorFactory, UserAssemblerFactory userAssemblerFactory,
@@ -37,7 +37,7 @@ public class UserSignupService {
    }
 
    public void signup(UserSignupDto userSignupDto)
-         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException{
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
 
       UserValidator userValidator = userValidatorFactory.getValidator();
       userValidator.validate(userSignupDto);
@@ -47,12 +47,11 @@ public class UserSignupService {
 
       userRepository.addUser(newUser);
       notifyAllObservers(newUser);
-
    }
-   
-   private void notifyAllObservers(User user) throws UserNotifyingException{
+
+   private void notifyAllObservers(User user) throws UserNotifyingException {
       for (UserObserver observer : observers) {
          observer.update(user);
       }
-   }    
+   }
 }

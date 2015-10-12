@@ -31,6 +31,7 @@
             value=".jsp" />
     </beans:bean>
 
+
     <beans:bean
         id="estateValidatorFactory"
         class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactoryImpl" />
@@ -58,7 +59,6 @@
         <beans:constructor-arg
             name="addressValidatorFactory"
             ref="addressValidatorFactory" />
-
     </beans:bean>
     <beans:bean
         id="addressCorruptionVerificator"
@@ -78,17 +78,10 @@
 
     <beans:bean
         id="estatesFetcherFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcherFactory"
-     />
-    <beans:bean
-        id="estateConverter"
-        class="ca.ulaval.glo4003.b6.housematch.web.converters.EstateConverter" />
+        class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcherFactory" />
     <beans:bean
         id="sellerEstateController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.SellerEstateController">
-        <beans:constructor-arg
-            name="estateConverter"
-            ref="estateConverter" />
         <beans:constructor-arg
             name="estateCorruptionVerificator"
             ref="estateCorruptionVerificator" />
@@ -150,14 +143,15 @@
     <beans:bean
         id="profilUserConverter"
         class="ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter" />
-
+        
+	<beans:bean 
+		id="mailSenderObserver"
+		class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderObserver"/>
+	
 	<beans:bean
-    	id="mailService"
-    	class="ca.ulaval.glo4003.b6.housematch.user.services.MailService" />
-    	
-   	<beans:bean
-    	id="activationService"
-    	class="ca.ulaval.glo4003.b6.housematch.user.services.ActivationService" />
+		id="activationService"
+		class="ca.ulaval.glo4003.b6.housematch.user.services.ActivationService" />
+
 
     <beans:bean
         id="userLoginService"
@@ -171,6 +165,16 @@
             ref="userAuthorizationService" />
 
     </beans:bean>
+    
+	<beans:bean 
+		id="activationController"
+		class="ca.ulaval.glo4003.b6.housematch.web.controllers.ActivationController">
+	
+		<beans:constructor-arg 
+			name="activationService"
+			ref="activationService" />
+			
+	</beans:bean>
 
     <beans:bean
         id="userSignupService"
@@ -184,10 +188,12 @@
         <beans:constructor-arg
             name="userAssemblerFactory"
             ref="userAssemblerFactory" />
-		<beans:constructor-arg
-	        name="mailService"
-	        ref="mailService"/> 
-	        
+        <beans:constructor-arg> 
+			<beans:list>
+				<beans:ref bean="mailSenderObserver"/>
+			</beans:list>
+		</beans:constructor-arg>
+
     </beans:bean>
     <beans:bean
         id="userFetcher"
@@ -270,6 +276,11 @@
         <beans:constructor-arg
             name="contactInformationAssemblerFactory"
             ref="contactInformationAssemblerFactory" />
+        <beans:constructor-arg> 
+			<beans:list>
+				<beans:ref bean="mailSenderObserver"/>
+			</beans:list>
+		</beans:constructor-arg>
 
     </beans:bean>
 
@@ -300,6 +311,6 @@
             name="userProfilCorruptionVerificator"
             ref="userProfilCorruptionVerificator" />
     </beans:bean>
-	
+
 
 </beans:beans>

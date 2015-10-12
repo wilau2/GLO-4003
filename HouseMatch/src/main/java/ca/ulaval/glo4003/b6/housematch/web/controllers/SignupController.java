@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -48,9 +47,6 @@ public class SignupController {
 
       UserSignupDto userSignupDto = converter.convertViewModelToSignupDto(viewModel);
       userSignupCorruptionVerificator.signup(userSignupDto);
-
-      UserLoginDto userLoginDto = converter.convertSignupDtoToLoginDto(userSignupDto);
-      userLoginService.login(request, userLoginDto);
 
       return "need_email_confirmation";
 

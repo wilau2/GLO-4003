@@ -16,6 +16,7 @@ import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserProfilService;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
 
 public class UserProfilCorruptionVerificatorTest {
 
@@ -43,7 +44,7 @@ public class UserProfilCorruptionVerificatorTest {
    @Test
    public void givenValidUserDetailedDtoWhenUpdateContactInformationShouldDelagateUpdating()
          throws CouldNotAccessUserDataException, UserNotFoundException, InvalidUserSignupFieldException,
-         InvalidContactInformationFieldException {
+         InvalidContactInformationFieldException, UserNotifyingException {
       // Given
 
       // When
@@ -56,7 +57,7 @@ public class UserProfilCorruptionVerificatorTest {
    @Test
    public void givenValidUserDetailedDtoWhenUpdateContactInformationShouldDelageCorruptionValidation()
          throws CouldNotAccessUserDataException, UserNotFoundException, InvalidUserSignupFieldException,
-         InvalidContactInformationFieldException {
+         InvalidContactInformationFieldException, UserNotifyingException {
       // Given
 
       // When
