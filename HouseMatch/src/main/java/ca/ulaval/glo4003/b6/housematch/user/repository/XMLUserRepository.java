@@ -87,7 +87,7 @@ public class XMLUserRepository implements UserRepository {
             pathToUsernameValue, username);
 
       ContactInformation contactInformation = new ContactInformation(attributes.get("firstName"),
-            attributes.get("lastName"), attributes.get("phoneNumber"), attributes.get("username"));
+            attributes.get("lastName"), attributes.get("phoneNumber"), attributes.get("email"));
 
       User user = new User(attributes.get("username"), attributes.get("password"), contactInformation,
             new Role(attributes.get("role")));

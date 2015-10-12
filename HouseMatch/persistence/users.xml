@@ -100,4 +100,14 @@
     <email>baba@baba</email>  
     <username>baba</username> 
   </user>  
+  <user>
+    <firstName>carki1</firstName>
+    <lastName>carki2</lastName>
+    <password>carki4</password>
+    <role>buyer</role>
+    <phoneNumber>123</phoneNumber>
+    <isActive>true</isActive>
+    <email>carki3</email>
+    <username>carki3</username>
+  </user>
 </users>
