@@ -124,21 +124,12 @@ public class SellerEstateController {
    }
    
    @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.POST)
-   public String editDescription(@PathVariable("address") String address, HttpServletRequest request, EstateModel estateModel, DescriptionModel descriptionModel, @PathVariable("userId") String userId)
+   public String editDescription(@PathVariable("address") String address, HttpServletRequest request, DescriptionModel descriptionModel, @PathVariable("userId") String userId)
          throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException, InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {
       userAuthorizationService.isSessionAloud(request, expectedRole); 
-      
-      EstateDto estateDto = estatesFetcher.getEstateByAddress(address);
-      
+     
       DescriptionDto descriptionDto = descriptionConverter.convertToDto(descriptionModel);
-      estateDto.setDescriptionDto(descriptionDto);
-      
-      //TODO handle it !
-      try {
-         descriptionCorruptionVerificator.editEstate(estateDto);
-      } catch (InvalidDescriptionFieldException e) {
-         e.printStackTrace();
-      }
+      descriptionCorruptionVerificator.editDescription(address, descriptionDto);
 
       return "redirect:/seller/{userId}/estates/{address}";
    }

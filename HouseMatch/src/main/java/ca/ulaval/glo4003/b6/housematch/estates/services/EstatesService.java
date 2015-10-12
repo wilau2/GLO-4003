@@ -86,44 +86,16 @@ public class EstatesService {
       }
 
       return estatesDto;
-
    }
 
-   public void editEstate(EstateDto estateDto) throws InvalidEstateException {
-      EstateValidator estateValidator = estateValidatorFactory.getValidator();
-      estateValidator.validate(estateDto);
+   public void editDescription(String address, DescriptionDto descriptionDto) throws InvalidEstateException, CouldNotAccessDataException {
 
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-      Estate estate = estateAssembler.assembleEstate(estateDto);
+      Description description = estateAssembler.assembleDescription(descriptionDto);
 
       EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
-      try {
-         estateRepository.editEstate(estate);
-      } catch (CouldNotAccessDataException e) {
-         // TODO bleh
-      }
+
+      estateRepository.editDescription(address, description);
         
    }
-   
-   public void addDescription(EstateDto estateDto) throws InvalidDescriptionException{
-      DescriptionValidator descriptionValidator = descriptionValidatorFactory.createValidator();
-      descriptionValidator.validate(estateDto.getDescriptionDto());
-      
-      String estateAddress = estateDto.getAddress().toString();
-      
-      DescriptionAssembler descriptionAssembler = descriptionAssemblerFactory.createDescriptionAssembler();
-      Description description = descriptionAssembler.assembleDescription(estateDto.getDescriptionDto());
-      
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
-      
-      Estate estate = estateRepository.getEstate(estateAddress);
-      estate.setDescription(description);
-      
-      try {
-         estateRepository.editEstate(estate);
-      } catch (CouldNotAccessDataException e) {
-         // TODO Auto-generated catch block
-      }
-   }
-
 }

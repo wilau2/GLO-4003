@@ -67,6 +67,8 @@ public class XMLEstateRepositoryTest {
    private static final String ESTATE = "estates";
 
    private static final String ADDRESS_KEY = "address";
+   
+   private static final String ADDRESS_STRING = "address";
 
    @Mock
    private Element element;
@@ -344,14 +346,14 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void editingEstateShouldAskXmlForDocument() throws DocumentException, CouldNotAccessDataException {
+   public void editingDescriptonShouldAskXmlForDocument() throws DocumentException, CouldNotAccessDataException {
       // given
       configureGetEstatesFromSeller();
 
       // when
-      xmlEstateRepository.editEstate(estate);
+      xmlEstateRepository.editDescription(ADDRESS_STRING, description);
       // then
-      verify(xmlFileEditor, times(1)).readXMLFile(XML_FILE_PATH);
+      verify(xmlFileEditor, times(2)).readXMLFile(XML_FILE_PATH);
    }
    
    @Test
@@ -369,33 +371,30 @@ public class XMLEstateRepositoryTest {
    }
    
    @Test
-   public void editingEstateShouldCallReplaceEstateFromXmlFileEditor() throws DocumentException, CouldNotAccessDataException {
+   public void editingDescriptionShouldCallReplaceEstateFromXmlFileEditor() throws DocumentException, CouldNotAccessDataException {
       // given
       when(estateElementAssembler.convertToAttributes(estate)).thenReturn(attributes);
       when(attributes.get(ADDRESS_KEY)).thenReturn(VALID_ADDRESS.toString());
 
       // when
-      xmlEstateRepository.editEstate(estate);
+      xmlEstateRepository.editDescription(ADDRESS_STRING, description);
 
       // then
       verify(xmlFileEditor, times(1)).replaceElement(usedDocument, ELEMENT_NAME, VALID_ADDRESS.toString(),"address", estatePersistenceDto);
    }
    
    @Test
-   public void editEstateWithNonNullDescriptionEstateShouldAddNestedElement() throws CouldNotAccessDataException {
+   public void editDescriptionWithNonNullDescriptionEstateShouldAddNestedElement() throws CouldNotAccessDataException {
       //given
       configureEstateWithCompleteDescription();
       when(estateElementAssembler.convertToAttributes(estate)).thenReturn(attributes);
-      when(attributes.get(ADDRESS_KEY)).thenReturn(VALID_ADDRESS.toString());
-      when(estateElementAssembler.convertDescriptionToAttributes(estate)).thenReturn(descriptionAttributes);
+      when(estateElementAssembler.convertDescriptionToAttributes(description)).thenReturn(descriptionAttributes);
       when(estatePersistenceDtoFactory.newInstanceDescription(descriptionAttributes)).thenReturn(descriptionPersistanceDto);
       //when
-      xmlEstateRepository.editEstate(estate);
+      xmlEstateRepository.editDescription(ADDRESS_STRING, description);
       //then
       verify(xmlFileEditor, times(1)).addNewNestedElementToDocument2(usedDocument, descriptionPersistanceDto, VALID_ADDRESS.toString(), "address", ELEMENT_NAME);
    }
-
-   
 
    @Test
    public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldNotThrowException()

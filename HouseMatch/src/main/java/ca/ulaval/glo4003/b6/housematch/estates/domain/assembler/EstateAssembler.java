@@ -38,4 +38,14 @@ public class EstateAssembler {
       EstateDto estateDto = new EstateDto(type, address, price, sellerId, descriptionDto);
       return estateDto;
    }
+   
+   public Description assembleDescription(DescriptionDto descriptionDto) {
+      Description description = descriptionAssembler.assembleDescription(descriptionDto);
+      return description;
+   }
+   
+   public DescriptionDto assembleDescriptionDto(Description description) {
+      DescriptionDto descriptionDto = descriptionAssembler.assembleDescriptionDto(description);
+      return descriptionDto;
+   }
 }

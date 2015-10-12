@@ -11,15 +11,13 @@ import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessData
 public interface EstateRepository {
 
    void addEstate(Estate estate) throws CouldNotAccessDataException;
-
-   void editEstate(Estate estate) throws CouldNotAccessDataException;
+   
+   void editDescription(String address, Description description) throws CouldNotAccessDataException;
 
    List<Estate> getAllEstates() throws CouldNotAccessDataException;
 
    List<Estate> getEstateFromSeller(String sellerName) throws SellerNotFoundException, CouldNotAccessDataException;
 
    Estate getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException;
-
-   Estate getEstate(String estateAddress);
 
 }

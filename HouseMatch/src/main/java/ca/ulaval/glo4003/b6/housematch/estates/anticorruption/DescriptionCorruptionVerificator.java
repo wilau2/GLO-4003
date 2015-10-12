@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class DescriptionCorruptionVerificator {
  
@@ -18,10 +19,10 @@ public class DescriptionCorruptionVerificator {
       this.estateService = estateService;
    }
    
-   public void editEstate(EstateDto estateDto) throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException{
-
-      validateDescriptionCorruption(estateDto.getDescriptionDto());
-      estateService.editEstate(estateDto);  
+   public void editDescription(String address, DescriptionDto descriptionDto) throws InvalidDescriptionFieldException, InvalidDescriptionException, 
+   InvalidEstateException, CouldNotAccessDataException {
+      validateDescriptionCorruption(descriptionDto);
+      estateService.editDescription(address, descriptionDto);  
    }
 
    private void validateDescriptionCorruption(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {

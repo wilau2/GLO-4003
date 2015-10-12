@@ -9,6 +9,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
@@ -135,44 +136,38 @@ public class XMLEstateRepository implements EstateRepository {
 
       xmlFileEditor.addNewElementToDocument(document, estatePersistenceDto);
    }
-
+   
    @Override
-   public void editEstate(Estate estate) throws CouldNotAccessDataException {
-
+   public void editDescription(String address, Description description) throws CouldNotAccessDataException {
+      
       try {
+         Estate estate = getEstateByAddress(address);
          Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
          EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
-         
-         String addressKey = attributes.get(ADDRESS_KEY);
-         
+             
          EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(attributes);
-         
-         System.out.println(estateDocument);
-         
-         xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, addressKey, "address" , estatePersistenceDto);
-         
-         if(estate.getDescription()!= null){
-            HashMap<String, String> descriptionAttributes = estateElementAssembler.convertDescriptionToAttributes(estate);
+         xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, address, ADDRESS_KEY , estatePersistenceDto);
+            
+         if(description != null){
+            HashMap<String, String> descriptionAttributes = estateElementAssembler.convertDescriptionToAttributes(description);
             DescriptionPersistenceDto descriptionPersistenceDto = estatePersistenceDtoFactory.newInstanceDescription(descriptionAttributes);
-            xmlFileEditor.addNewNestedElementToDocument2(estateDocument, descriptionPersistenceDto, addressKey, ADDRESS_KEY, PATH_TO_ESTATE );
+            xmlFileEditor.addNewNestedElementToDocument2(estateDocument, descriptionPersistenceDto, address, ADDRESS_KEY, PATH_TO_ESTATE );
          }
          
-         saveEstateDocument(estateDocument);
-      
-      } catch (DocumentException e) {
-         throw new CouldNotAccessDataException("Unable to edit the estate", e);
-      } catch (IOException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
-   }
-
-   @Override
-   public Estate getEstate(String estateAddress) {
-      // Methode faite par will et boris
-      return null;
-      // On fetch le estate puis on le re-persiste avec ses details?
+         try {
+            saveEstateDocument(estateDocument);
+         } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }         
+         } catch (DocumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         } catch (EstateNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+         }   
    }
 
    @Override
@@ -231,5 +226,23 @@ public class XMLEstateRepository implements EstateRepository {
 
       return estateAssembler.assembleEstate(estateDto);
 
+   }
+   
+   private EstateDto getEstateDtoByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException {
+      EstateDto estateDto = null;
+      try {
+         Document document = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
+
+         if (!isEstatePersisted(document, address)) {
+            throw new EstateNotFoundException("No estate found at this address : " + address);
+         }
+
+         estateDto = assembleDtoFromDocumentAttributes(address, document);      
+         
+
+      } catch (DocumentException e) {
+         throw new CouldNotAccessDataException("Unable to access data", e);
+      }
+      return estateDto;
    }
 }

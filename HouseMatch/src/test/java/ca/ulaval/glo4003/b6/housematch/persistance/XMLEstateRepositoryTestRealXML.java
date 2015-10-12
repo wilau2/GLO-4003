@@ -16,24 +16,21 @@ public class XMLEstateRepositoryTestRealXML {
    
    XMLEstateRepository xmlEstateRepository;
    
-   Estate estate;
-   
    Description description;
    
-   Address address;
+   String address;
    
    @Before
    public void setUp(){
       xmlEstateRepository = new XMLEstateRepository(new EstateAssemblerFactory(), new EstatePersistenceDtoFactory(), new EstateElementAssemblerFactory());
    
-      address = new Address(22, 22, "des pins", "g1l1s8", "quebec", "canada");
-      description= new Description(1, 1, 1, 1, 2002, "4x42", 222, 125000, "FRONT");
-      estate = new Estate("CONDO", address, 120000, "gerals", description);
+      address = "0-1-Test Sans Description-qc-qc-g12022";
+      description= new Description(20, 1, 1, 1, 2002, "4x42", 222, 125000, "FRONT");
    }
    
    @Test
-   public void editEstate() throws CouldNotAccessDataException{
-      xmlEstateRepository.editEstate(estate);
+   public void editDescription() throws CouldNotAccessDataException{
+      xmlEstateRepository.editDescription(address, description);
    }
 
 }

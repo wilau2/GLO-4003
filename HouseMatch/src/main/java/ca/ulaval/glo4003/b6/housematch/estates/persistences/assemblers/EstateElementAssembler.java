@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.dom4j.Element;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
@@ -91,8 +92,8 @@ public class EstateElementAssembler {
       return estateDto;
    }
 
-   public HashMap<String, String> convertDescriptionToAttributes(Estate estate) {
-      return descriptionElementAssembler.convertToAttributes(estate.getDescription());
+   public HashMap<String, String> convertDescriptionToAttributes(Description description) {
+      return descriptionElementAssembler.convertToAttributes(description);
    }
 
    public DescriptionDto convertDescriptionAttributesToDto(HashMap<String, String> attributes) {

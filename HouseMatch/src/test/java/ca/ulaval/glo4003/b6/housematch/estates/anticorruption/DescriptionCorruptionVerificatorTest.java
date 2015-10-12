@@ -3,9 +3,6 @@ package ca.ulaval.glo4003.b6.housematch.estates.anticorruption;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doNothing;
-
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,10 +12,10 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class DescriptionCorruptionVerificatorTest {
    
@@ -35,11 +32,11 @@ public class DescriptionCorruptionVerificatorTest {
    private static final Integer MUNICIPAL_VALUATION = 200000;
    private static final String BACKYARD_FACES = "North"; 
    
+   private static final String ADDRESS = "address";
+   
    @Mock
    private DescriptionDto descriptionDto;
    
-   @Mock
-   private EstateDto estateDto;
 
    @Mock
    private EstatesService estateService;
@@ -56,7 +53,6 @@ public class DescriptionCorruptionVerificatorTest {
    }
 
    private void configureValidDescriptionModel() {
-      when(estateDto.getDescriptionDto()).thenReturn(descriptionDto);
       when(descriptionDto.getNumberOfBedRooms()).thenReturn(NUMBER_OF_BEDROOMS);
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(NUMBER_OF_BATHROOMS);
       when(descriptionDto.getNumberOfRooms()).thenReturn(NUMBER_OF_ROOMS);
@@ -71,133 +67,133 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test
    public void verificatingDescriptionCorruptionWhenDescriptionHasNoCorruptionSouldCallAddDescription() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
 
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then
-      verify(estateService, times(1)).editEstate(estateDto);
+      verify(estateService, times(1)).editDescription(ADDRESS, descriptionDto);
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullNumberOfBedroomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getNumberOfBedRooms()).thenReturn(null);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeNumberOfBedroomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getNumberOfBedRooms()).thenReturn(NEGATIVE_NUMBER);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullNumberOfBathroomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(null);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeNumberOfBathroomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(NEGATIVE_NUMBER);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullNumberOfRoomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getNumberOfRooms()).thenReturn(null);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeNumberOfRoomsShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getNumberOfRooms()).thenReturn(NEGATIVE_NUMBER);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullNumberOfLevelShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getNumberOfLevel()).thenReturn(null);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeNumberOfLevelShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getNumberOfLevel()).thenReturn(NEGATIVE_NUMBER);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullYearsOfConstructionShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getYearsOfConstruction()).thenReturn(null);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeYearsOfConstructionShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getYearsOfConstruction()).thenReturn(NEGATIVE_NUMBER);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullDimensionBuildingShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getDimensionsBuilding()).thenReturn(null);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
@@ -205,55 +201,55 @@ public class DescriptionCorruptionVerificatorTest {
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullLivingSpaceAreaShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(null);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeLivingSpaceAreaShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(NEGATIVE_NUMBER);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullMunicipalValuationShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getMunicipalValuation()).thenReturn(null);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeMunicipalValuationShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getMunicipalValuation()).thenReturn(NEGATIVE_NUMBER);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullBackyardFacesShouldThrowInvalidDescriptionFieldException() 
-         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+         throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getBackyardFaces()).thenReturn(null);
       // When
-      descriptionCorruptionVerificator.editEstate(estateDto);
+      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       
       // Then expected InvalidDescriptionFieldException
    }

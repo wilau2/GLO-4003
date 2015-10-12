@@ -48,9 +48,6 @@
 					</div>
 				</div>
 			</fieldset>	
-			<button id="btn_edit_estate" type="button" class="pure-button">Edit</button>
-			<button id="btn_save_estate" type="submit" class="pure-button">Save</button>
-			<button id="btn_cancel_estate" type="button" class="pure-button">Cancel</button>
 		</form:form>
 		<form:form method="post" modelAttribute="description" class="pure-form pure-form-aligned content-subhead" id="dForm">
 				<legend>Description</legend>

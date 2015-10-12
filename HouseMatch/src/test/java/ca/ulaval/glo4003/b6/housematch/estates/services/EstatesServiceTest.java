@@ -27,6 +27,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidat
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.AddressValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactory;
@@ -36,6 +37,8 @@ import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateReposito
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class EstatesServiceTest {
+   
+   private final static String ADDRESS = "address";
 
    @Mock
    private EstateValidatorFactory estateValidatorFactory;
@@ -92,13 +95,11 @@ public class EstatesServiceTest {
 
    @Mock
    private AddressValidatorFactory addressValidatorFactory;
+   
+
 
    // @InjectMocks
    private EstatesService estatesService;
-
-   
-
-   
 
    @Before
    public void setUp() {
@@ -188,54 +189,21 @@ public class EstatesServiceTest {
       // then
       verify(estateAssembler, times(1)).assembleEstateDto(estate);
    }
-
-   @Test
-   public void whenEditingEstateShouldCallEstateRepositoryEditEstate() throws InvalidEstateException, CouldNotAccessDataException {
-      // given no changes
-      
-      // when
-      estatesService.editEstate(estateDto);
-
-      // then
-      verify(estateRepository, times(1)).editEstate(estate);
-   }
    
    @Test
-   public void whenAddingDescriptionShouldAssembleTheDescription() throws InvalidDescriptionException, InvalidEstateException {
+   public void whenAddingDescriptionShouldAssembleTheDescription() throws InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       //given
 
       //when
-      estatesService.editEstate(estateDto);
+      estatesService.editDescription(ADDRESS, descriptionDto);
       //then
-      verify(estateAssembler).assembleEstate(estateDto);
+      verify(estateAssembler).assembleDescription(descriptionDto);
    }
-   
-   @Test
-   public void whenAddingDescriptionRepositoryShouldFetchEstate() throws InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
-      //given
 
-      //when
-      estatesService.editEstate(estateDto);
-      //then
-      verify(estateRepository, times(1)).editEstate(estate);
-   }
-   
-   @Test
-   public void whenAddingDescriptionSchouldCallEstateRepositoryAddDescription() throws InvalidDescriptionException, CouldNotAccessDataException, InvalidEstateException {
-      //given
-      
-      //when
-      estatesService.editEstate(estateDto);
-
-      //then
-      verify(estateRepository, times(1)).editEstate(estate);
-   }
-   
    private void configureDescriptionTests(){
       when(descriptionAssemblerFactory.createDescriptionAssembler()).thenReturn(descriptionAssembler);
       when(descriptionAssembler.assembleDescription(descriptionDto)).thenReturn(description);
       when(descriptionValidatorFactory.createValidator()).thenReturn(descriptionValidator);
-      when(estateRepository.getEstate(estateAddress)).thenReturn(estate);
    }
 
    @Test
