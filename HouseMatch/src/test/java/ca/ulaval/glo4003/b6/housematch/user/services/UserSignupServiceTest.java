@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -26,7 +25,6 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
-import ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderObserver;
 import ca.ulaval.glo4003.b6.housematch.user.services.observer.UserObserver;
 
 public class UserSignupServiceTest {
@@ -42,11 +40,8 @@ public class UserSignupServiceTest {
 
    @Mock
    private UserRepository userRepository;
-   
 
    private List<UserObserver> observers;
-
-   public UserSignupService userSignupService;
 
    @Mock
    private UserValidator userValidator;
@@ -62,7 +57,7 @@ public class UserSignupServiceTest {
 
    @Mock
    private User user;
-   
+
    @Mock
    private UserObserver userObserver;
 
@@ -135,14 +130,15 @@ public class UserSignupServiceTest {
       // Then
       verify(userRepository).addUser(user);
    }
-   
+
    @Test
-   public void whenSignupShouldCallUpdateOnObserver() throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
+   public void whenSignupShouldCallUpdateOnObserver()
+         throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
       // Given
 
       // When
       userSignupService.signup(userSignupDto);
-      
+
       // Then
       verify(userObserver).update(user);
    }
