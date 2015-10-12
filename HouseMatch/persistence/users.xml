@@ -102,12 +102,12 @@
   </user>  
   <user>
     <firstName>carki1</firstName>
-    <lastName>carki2</lastName>
-    <password>carki4</password>
+    <lastName>carki1</lastName>
+    <password>carki</password>
     <role>buyer</role>
     <phoneNumber>123</phoneNumber>
     <isActive>true</isActive>
-    <email>carki3</email>
-    <username>carki3</username>
+    <email>bofoc52@gmail.com</email>
+    <username>carki</username>
   </user>
 </users>

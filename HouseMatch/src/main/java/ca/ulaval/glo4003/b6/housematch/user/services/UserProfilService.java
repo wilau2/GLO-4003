@@ -34,27 +34,30 @@ public class UserProfilService {
    public void update(UserDetailedDto userDetailedDto)
          throws CouldNotAccessUserDataException, UserNotFoundException, UserNotifyingException {
 
-      ContactInformationAssembler contactInformationAssembler = contactInformationAssemblerFactory
-            .createContactInformationAssembler();
-      ContactInformation contactInformation = contactInformationAssembler
-            .assembleContactInformation(userDetailedDto.getContactInformationDto());
+      User existingUser = userRepository.getUser(userDetailedDto.getUsername());
 
-      User user = userRepository.getUser(userDetailedDto.getUsername());
+      ContactInformation newInfos = getNewContactInformations(userDetailedDto);
+      ContactInformation oldInfos = existingUser.getContactInformation();
 
-      needConfirmationIfEmailWasChanged(user, contactInformation.getEmail());
+      boolean emailIsChanged = emailHasChanged(oldInfos.getEmail(), newInfos.getEmail());
 
-      user.updateContactInformation(contactInformation);
+      if (emailIsChanged) {
+         existingUser.setIsActive(false);
+      }
 
-      userRepository.updateUser(user);
+      existingUser.updateContactInformation(newInfos);
+
+      userRepository.updateUser(existingUser);
+
+      if (emailIsChanged) {
+         notifyAllObservers(existingUser);
+      }
    }
 
-   private void needConfirmationIfEmailWasChanged(User user, String newEmail) throws UserNotifyingException {
-      String oldEmail = user.getContactInformation().getEmail();
-
-      if (emailHasChanged(oldEmail, newEmail)) {
-         user.setIsActive(false);
-         notifyAllObservers(user);
-      }
+   private ContactInformation getNewContactInformations(UserDetailedDto userDetailedDto) {
+      ContactInformationAssembler contactInformationAssembler = contactInformationAssemblerFactory
+            .createContactInformationAssembler();
+      return contactInformationAssembler.assembleContactInformation(userDetailedDto.getContactInformationDto());
    }
 
    private boolean emailHasChanged(String oldEmail, String newEmail) {
