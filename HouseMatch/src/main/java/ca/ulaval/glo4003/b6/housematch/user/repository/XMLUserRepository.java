@@ -11,8 +11,6 @@ import org.dom4j.DocumentException;
 import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
-import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
-import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -25,6 +23,8 @@ public class XMLUserRepository implements UserRepository {
 
    private RepositoryToPersistenceDtoFactory dtoFactory;
 
+   private RepositoryUserAssembler assembler;
+
    private final String pathToXML = "persistence/users.xml";
 
    private final String pathToUsernameValue = "users/user/username";
@@ -32,6 +32,7 @@ public class XMLUserRepository implements UserRepository {
    public XMLUserRepository() {
       this.fileEditor = new XMLFileEditor();
       this.dtoFactory = new RepositoryToPersistenceDtoFactory();
+      this.assembler = new RepositoryUserAssembler();
    }
 
    @Override
@@ -86,17 +87,10 @@ public class XMLUserRepository implements UserRepository {
       HashMap<String, String> attributes = fileEditor.returnAttributesOfElementWithCorrespondingValue(existingDocument,
             pathToUsernameValue, username);
 
-      ContactInformation contactInformation = new ContactInformation(attributes.get("firstName"),
-            attributes.get("lastName"), attributes.get("phoneNumber"), attributes.get("email"));
+      User user = assembler.assembleUserFromAttributes(attributes);
 
-      User user = new User(attributes.get("username"), attributes.get("password"), contactInformation,
-            new Role(attributes.get("role")));
-
-      String isActive = attributes.get("isActive");
-
-      if (isActive.equals("true")) {
-         user.setIsActive(true);
-      }
+      boolean isUserActive = Boolean.parseBoolean(attributes.get("isActive"));
+      user.setIsActive(isUserActive);
 
       return user;
    }
