@@ -10,6 +10,6 @@ public interface MessageBuilder {
 
    public Message build();
    public MessageBuilder withRecipient(User user);
-   public MessageBuilder withMessage() throws  MessageBuilderException;
+   public MessageBuilder withMessage() throws MessageBuilderException;
 
 }

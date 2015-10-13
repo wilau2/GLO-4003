@@ -12,7 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.user.common.MailSender;
 import ca.ulaval.glo4003.b6.housematch.user.common.MessageBuilder;
+import ca.ulaval.glo4003.b6.housematch.user.common.MailBuilder;
 import ca.ulaval.glo4003.b6.housematch.user.common.MessageBuilderException;
 import ca.ulaval.glo4003.b6.housematch.user.common.MessageCantBeSentException;
 import ca.ulaval.glo4003.b6.housematch.user.common.MessageSender;
@@ -22,10 +24,10 @@ import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingExc
 public class MailSenderObserverTest {
 
    @Mock
-   private MessageBuilder messageBuilder;
+   private MessageBuilderFactory messageBuilderFactory;
    
-   @Mock 
-   private MessageSender messageSender;
+   @Mock
+   private MessageSenderFactory messageSenderFactory;
    
    @InjectMocks
    private MailSenderObserver mailSenderObserver;
@@ -36,16 +38,30 @@ public class MailSenderObserverTest {
    @Mock
    private User user;
    
+   @Mock
+   private MailSender mailSender;
+   
+   @Mock 
+   private MailBuilder mailBuilder;
+   
+   
    @Before
    public void setup() throws MessageBuilderException{
       MockitoAnnotations.initMocks(this);
+      configureFactory();
       configureMessageBuilder();
    }
 
+   private void configureFactory() {
+      given(messageBuilderFactory.newInstance()).willReturn(mailBuilder);
+      given(messageSenderFactory.newInstance()).willReturn(mailSender);
+      
+   }
+
    private void configureMessageBuilder() throws MessageBuilderException {
-      given(messageBuilder.withRecipient(user)).willReturn(messageBuilder);
-      given(messageBuilder.withMessage()).willReturn(messageBuilder);
-      given(messageBuilder.build()).willReturn(message);
+      given(mailBuilder.withRecipient(user)).willReturn(mailBuilder);
+      given(mailBuilder.withMessage()).willReturn(mailBuilder);
+      given(mailBuilder.build()).willReturn(message);
       
    }
    
@@ -54,31 +70,31 @@ public class MailSenderObserverTest {
       // Given
 
       // When
-      mailSenderObserver.update(user);
+      mailSenderObserver.notifyUserChanged(user);
       
       // Then
-      verify(messageSender).sendMessage(message);
+      verify(mailSender).sendMessage(message);
    }
    
    @Test(expected = UserNotifyingException.class)
    public void whenMailObserverUpdateShouldThrowUserNotifyingExceptionByMessageBuilder() throws MessageBuilderException, UserNotifyingException {
       // Given
-      doThrow(new MessageBuilderException(null, null)).when(messageBuilder).withMessage();
+      doThrow(new MessageBuilderException(null, null)).when(mailBuilder).withMessage();
       
       // When
-      mailSenderObserver.update(user);
+      mailSenderObserver.notifyUserChanged(user);
       
-      // Then handle by expectedException
+      // Then handle throw UserNotifyingException
    }
    
    @Test(expected = UserNotifyingException.class)
    public void whenMailObserverUpdateShouldThrowUserNotifyingExceptionByMessageSender() throws MessageBuilderException, UserNotifyingException, MessageCantBeSentException {
       // Given
-      doThrow(new MessageCantBeSentException(null, null)).when(messageSender).sendMessage(message);
+      doThrow(new MessageCantBeSentException(null, null)).when(mailSender).sendMessage(message);
       
       // When
-      mailSenderObserver.update(user);
+      mailSenderObserver.notifyUserChanged(user);
       
-      // Then handle by expectedException
+      // Then throw UserNotifyingException
    }
 }

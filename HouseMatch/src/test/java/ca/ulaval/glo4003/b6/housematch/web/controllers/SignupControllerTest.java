@@ -34,6 +34,10 @@ import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
 
 public class SignupControllerTest {
 
+   private static final String NEED_EMAIL_CONFIRMATION = "need_email_confirmation";
+
+   private static final String SIGNUP = "signup";
+
    @Mock
    private SignupUserConverter converter;
 
@@ -85,7 +89,7 @@ public class SignupControllerTest {
       String view = controller.signup(model);
 
       // Then
-      assertEquals("signup", view);
+      assertEquals(SIGNUP, view);
    }
 
    @Test
@@ -99,7 +103,7 @@ public class SignupControllerTest {
       String view = controller.signup(request, userSignupViewModel);
 
       // Then
-      assertEquals("need_email_confirmation", view);
+      assertEquals(NEED_EMAIL_CONFIRMATION, view);
    }
 
    @Test

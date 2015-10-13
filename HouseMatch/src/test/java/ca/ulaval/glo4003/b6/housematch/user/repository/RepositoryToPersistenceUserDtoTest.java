@@ -62,7 +62,7 @@ public class RepositoryToPersistenceUserDtoTest {
    private void configureUser() {
       given(user.getUsername()).willReturn("username");
       given(user.getPassword()).willReturn("password");
-      given(user.getIsActive()).willReturn(true);
+      given(user.isActive()).willReturn(true);
 
       given(user.getRole()).willReturn(role);
       given(role.getRoles()).willReturn("roles");

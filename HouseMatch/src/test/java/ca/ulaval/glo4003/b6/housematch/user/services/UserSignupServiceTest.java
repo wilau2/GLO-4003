@@ -140,7 +140,7 @@ public class UserSignupServiceTest {
       userSignupService.signup(userSignupDto);
 
       // Then
-      verify(userObserver).update(user);
+      verify(userObserver).notifyUserChanged(user);
    }
 
    @Test

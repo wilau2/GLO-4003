@@ -19,8 +19,6 @@ public class MailBuilderTest {
    
    private MailBuilder mailBuilder;
    
-   private MessageBuilder secondMailBuilder;
-   
    @Mock
    private User user;
    
@@ -37,17 +35,23 @@ public class MailBuilderTest {
       mailBuilder = new MailBuilder();
       configureUser();
    }
-
+    
+   private void configureUser() {
+      given(user.getContactInformation()).willReturn(contactInformation);
+      given(contactInformation.getEmail()).willReturn(EMAIL);
+      given(user.getUsername()).willReturn(USERNAME);
+   
+}
 
       @Test
       public void whenMessageBuilderWithRecipientShouldReturnMailBuilder() {
          // Given
       
          // When
-         secondMailBuilder = mailBuilder.withRecipient(user);
+         MessageBuilder returnedMailBuilder = mailBuilder.withRecipient(user);
          
          // Then
-         assertTrue(secondMailBuilder.getClass() == MailBuilder.class);
+         assertTrue(returnedMailBuilder.getClass() == MailBuilder.class);
       }
       
       @Test
@@ -55,20 +59,10 @@ public class MailBuilderTest {
          // Given
 
          // When
-         secondMailBuilder = mailBuilder.withRecipient(user).withMessage();
+         MessageBuilder returnedMailBuilder = mailBuilder.withRecipient(user).withMessage();
          
          // Then
-         assertTrue(secondMailBuilder.getClass() == MailBuilder.class);
-      }
-      
-      @Test(expected = NullPointerException.class)
-      public void whenMessageBuilderWithoutRecipientShouldThrowNullPointerException() throws MessageBuilderException{
-         //Given
-         
-         //When
-         secondMailBuilder = mailBuilder.withMessage();
-         
-         //Then handle by ExpectedException
+         assertTrue(returnedMailBuilder.getClass() == MailBuilder.class);
       }
       
       @Test
@@ -79,18 +73,9 @@ public class MailBuilderTest {
          Message message = mailBuilder.withRecipient(user).withMessage().build();
          
          // Then
-
          String emailReceived = message.getAllRecipients()[0].toString();
 
-         assertTrue(emailReceived.equals(EMAIL));
+         assertEquals(emailReceived, EMAIL);
       }
-      
-      
-      private void configureUser() {
-         given(user.getContactInformation()).willReturn(contactInformation);
-         given(contactInformation.getEmail()).willReturn(EMAIL);
-         given(user.getUsername()).willReturn(USERNAME);
-      
-   }
 
 }

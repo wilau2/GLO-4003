@@ -13,19 +13,20 @@ import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingExc
 
 public class MailSenderObserver implements UserObserver{
    
-   private MessageBuilder messageBuilder;
-   private Message message;
-   private MessageSender messageSender;
+
+   private MessageBuilderFactory messageBuilderFactory;
+   private MessageSenderFactory messageSenderFactory;
    
-   public MailSenderObserver() {
-      this.messageBuilder = new MailBuilder();
-      this.messageSender = new MailSender();
+   public MailSenderObserver(MessageBuilderFactory messageBuilderFactory, MessageSenderFactory messageSenderFactory) {
+      this.messageBuilderFactory = messageBuilderFactory;
+      this.messageSenderFactory = messageSenderFactory;
    }
 
-   public void update(User user) throws UserNotifyingException{
-         
+   public synchronized void notifyUserChanged(User user) throws UserNotifyingException{
+        MessageBuilder messageBuilder = messageBuilderFactory.newInstance();
+        MessageSender messageSender = messageSenderFactory.newInstance();
       try {
-        message = messageBuilder.withRecipient(user).withMessage().build();
+        Message message = messageBuilder.withRecipient(user).withMessage().build();
         messageSender.sendMessage(message);
       } catch (MessageBuilderException e) {
          throw new UserNotifyingException(e.toString(), e);

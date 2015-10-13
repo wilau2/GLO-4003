@@ -42,7 +42,7 @@ public class UserProfilService {
       boolean emailIsChanged = emailHasChanged(oldInfos.getEmail(), newInfos.getEmail());
 
       if (emailIsChanged) {
-         existingUser.setIsActive(false);
+         existingUser.setActive(false);
       }
 
       existingUser.updateContactInformation(newInfos);
@@ -66,7 +66,7 @@ public class UserProfilService {
 
    private void notifyAllObservers(User user) throws UserNotifyingException {
       for (UserObserver observer : observers) {
-         observer.update(user);
+         observer.notifyUserChanged(user);
       }
    }
 }

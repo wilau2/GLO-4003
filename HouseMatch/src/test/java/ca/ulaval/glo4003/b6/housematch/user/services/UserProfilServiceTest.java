@@ -140,7 +140,7 @@ public class UserProfilServiceTest {
       userProfilService.update(userDetailedDto);
 
       // Then
-      verify(user).setIsActive(false);
+      verify(user).setActive(false);
    }
 
    @Test
@@ -153,7 +153,7 @@ public class UserProfilServiceTest {
       userProfilService.update(userDetailedDto);
 
       // Then
-      verify(userObserver).update(user);
+      verify(userObserver).notifyUserChanged(user);
    }
 
    private void configureUpdateWithNewEmail() {

@@ -37,6 +37,7 @@ public class ActivationServiceTest {
    @InjectMocks
    private ActivationService activationService;
    
+   @Mock
    private User user;
 
    @Before
@@ -44,29 +45,29 @@ public class ActivationServiceTest {
    {
       MockitoAnnotations.initMocks(this);
       configureUserRepository();
+
    }
 
    private void configureUserRepository() throws UserNotFoundException, CouldNotAccessUserDataException {
 
-      user = new User(CORRECT_USERNAME, PASSWORD, CONTACT_INFORMATION, ONE_ROLE);
       given(userRepository.getUser(CORRECT_USERNAME)).willReturn(user);  
    }
    
    @Test
    public void whenActivateUserIsActiveShouldBeTrue() throws UserNotFoundException, CouldNotAccessUserDataException {
       // Given
-
+      given(user.isActive()).willReturn(true);
       // When
       activationService.activateAccount(CORRECT_USERNAME);
       
       // Then
-      assertEquals(user.getIsActive(), true);
+      assertEquals(user.isActive(), true);
    }
    
    @Test
    public void whenActivateAccountShouldCallUpdateUser() throws UserNotFoundException, CouldNotAccessUserDataException {
       // Given
-
+      given(user.isActive()).willReturn(true);
       // When
       activationService.activateAccount(CORRECT_USERNAME);
       

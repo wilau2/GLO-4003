@@ -27,13 +27,13 @@ public class ActivationController {
       this.activationService = activationService;
    }
    
-   @RequestMapping(value = "/confirmation/{username}")
+   @RequestMapping(value = "/{username}/confirmation")
    public String confirmation(@PathVariable("username") String username) throws UserNotFoundException, CouldNotAccessUserDataException {
       
       return "confirmation";
     }
    
-   @RequestMapping(value = "/confirmation/{username}", method = RequestMethod.POST)
+   @RequestMapping(value = "/{username}/confirmation", method = RequestMethod.POST)
    public String confirmation(HttpServletRequest request, @PathVariable("username") String username) throws UserNotFoundException, CouldNotAccessUserDataException{
    activationService.activateAccount(username);
       return "redirect:/";

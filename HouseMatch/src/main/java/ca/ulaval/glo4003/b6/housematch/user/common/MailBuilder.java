@@ -14,6 +14,10 @@ import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 
 public class MailBuilder implements MessageBuilder{
 
+   private final String FROM = "housematchconfirmation@gmail.com";  
+   private final String HOUSE_MATCH_USERNAME = "housematchconfirmation@gmail.com";
+   private final String PASSWORD = "houseglo4003";
+   private final String HOST = "smtp.gmail.com";
    
    private String recipient;
    private Properties properties; 
@@ -21,10 +25,6 @@ public class MailBuilder implements MessageBuilder{
    private Message message;
    private String username;
    
-   private final String FROM = "housematchconfirmation@gmail.com";  
-   private final String HOUSE_MATCH_USERNAME = "housematchconfirmation@gmail.com";
-   private final String PASSWORD = "houseglo4003";
-   private final String HOST = "smtp.gmail.com";
    
    
    public MailBuilder() {
@@ -38,7 +38,9 @@ public class MailBuilder implements MessageBuilder{
    }
 
    public MessageBuilder withMessage() throws MessageBuilderException{
-      fillProperties();
+      
+      properties = getMailProperties();
+      
       Session session = initiateSession();
       try {
          this.message = initiateMessage(recipient, username, session);
@@ -77,11 +79,15 @@ public class MailBuilder implements MessageBuilder{
       return message;
    }
    
-   private void fillProperties() {
+   private Properties getMailProperties() {
+      
+      Properties properties = new Properties();
       properties.put("mail.smtp.auth", "true");
       properties.put("mail.smtp.starttls.enable", "true");
       properties.put("mail.smtp.host", HOST);
-      properties.put("mail.smtp.port", "587");    
+      properties.put("mail.smtp.port", "587"); 
+      
+      return properties;
    }
 
 

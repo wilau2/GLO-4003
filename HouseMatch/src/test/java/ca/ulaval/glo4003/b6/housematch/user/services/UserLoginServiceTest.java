@@ -51,6 +51,9 @@ public class UserLoginServiceTest {
       MockitoAnnotations.initMocks(this);
       configureUserRepository();
       configureUserAuthorisationService();
+      configureValidUsername();
+      configureValidPassword();
+      configureUserIsValidate();
 
    }
 
@@ -58,9 +61,7 @@ public class UserLoginServiceTest {
    public void givenValidUsernameWhenLoginShouldDelateGettingExistingUser()
          throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
-      configureValidUsername();
-      configureValidPassword();
-      configureUserIsValidate();
+
       // When
       userLoginService.login(request, userLoginDto);
 
@@ -72,9 +73,7 @@ public class UserLoginServiceTest {
    public void givenValidUsernameWhenLoginShouldDelateSessionAuthentification()
          throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
-      configureValidUsername();
-      configureValidPassword();
-      configureUserIsValidate();
+
       // When
       userLoginService.login(request, userLoginDto);
 
@@ -86,9 +85,7 @@ public class UserLoginServiceTest {
    public void givenValidScenarioWhenLoginShouldNotThrowException()
          throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
-      configureValidUsername();
-      configureValidPassword();
-      configureUserIsValidate();
+
       // When
       userLoginService.login(request, userLoginDto);
 
@@ -100,7 +97,6 @@ public class UserLoginServiceTest {
    public void givenInvalidPasswordWhenLoginShouldThrowException()
          throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
-      configureValidUsername();
       configureInvalidPassword();
 
       // When
@@ -114,10 +110,10 @@ public class UserLoginServiceTest {
    public void givenInvalidDataAccesWhenLoginShouldThrowException()
          throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
-      configureValidUsername();
-
-      // When
       doThrow(new CouldNotAccessUserDataException(null)).when(userRepository).getUser(USERNAME);
+      
+      // When
+
       userLoginService.login(request, userLoginDto);
 
       // Then throws CouldNotAccessUserDataException
@@ -127,7 +123,6 @@ public class UserLoginServiceTest {
    public void givenNotExistingUserWhenLoginShouldThrowException()
          throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
-      configureValidUsername();
 
       // When
       doThrow(new UserNotFoundException(null)).when(userRepository).getUser(USERNAME);
@@ -139,8 +134,6 @@ public class UserLoginServiceTest {
    @Test(expected = UserActivationException.class)
    public void whenExistingUserIsNotActiveShouldThrow() throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
-      configureValidUsername();
-      configureValidPassword();
       configureUserIsNotValidate();
       
       // When
@@ -173,12 +166,12 @@ public class UserLoginServiceTest {
    }
    
    private void configureUserIsValidate() {
-      given(user.getIsActive()).willReturn(true);
+      given(user.isActive()).willReturn(true);
       
    }
    
    private void configureUserIsNotValidate(){
-      given(user.getIsActive()).willReturn(false);
+      given(user.isActive()).willReturn(false);
    }
 
 }

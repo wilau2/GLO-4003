@@ -144,9 +144,28 @@
         id="profilUserConverter"
         class="ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter" />
         
+    <beans:bean
+        id="mailBuilderFactory"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailBuilderFactory" />  
+        
+    <beans:bean
+        id="mailSenderFactory"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderFactory" />  
+        
+        
+        
 	<beans:bean 
 		id="mailSenderObserver"
-		class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderObserver"/>
+		class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderObserver">
+		
+		<beans:constructor-arg
+            name="mailBuilderFactory"
+            ref="mailBuilderFactory" />
+        <beans:constructor-arg
+            name="mailSenderFactory"
+            ref="mailSenderFactory" />
+
+    </beans:bean>
 	
 	<beans:bean
 		id="activationService"

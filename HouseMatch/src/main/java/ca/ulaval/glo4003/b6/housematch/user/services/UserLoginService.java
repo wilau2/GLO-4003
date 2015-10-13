@@ -39,8 +39,8 @@ public class UserLoginService {
    }
 
    private void validateActivation(User user) throws UserActivationException {
-      if(user.getIsActive() == false){
-         throw new UserActivationException("User is not activate");
+      if(!user.isActive()){
+         throw new UserActivationException("User is not active");
       }
       
    }

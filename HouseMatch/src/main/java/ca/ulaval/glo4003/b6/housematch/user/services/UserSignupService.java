@@ -51,7 +51,7 @@ public class UserSignupService {
 
    private void notifyAllObservers(User user) throws UserNotifyingException {
       for (UserObserver observer : observers) {
-         observer.update(user);
+         observer.notifyUserChanged(user);
       }
    }
 }

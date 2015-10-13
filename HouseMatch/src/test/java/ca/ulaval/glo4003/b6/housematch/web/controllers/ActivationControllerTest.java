@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doThrow;
 
@@ -18,6 +19,10 @@ import ca.ulaval.glo4003.b6.housematch.user.services.ActivationService;
 
 public class ActivationControllerTest {
    
+   private static final String CONFIRMATION = "confirmation";
+
+   private static final String REDIRECT = "redirect:/";
+
    @InjectMocks
    private ActivationController activationController;
 
@@ -40,6 +45,7 @@ public class ActivationControllerTest {
 
       // When
       activationController.confirmation(request, USERNAME);
+      
       // Then
       verify(activationService, times(1)).activateAccount(USERNAME);
    }
@@ -52,7 +58,7 @@ public class ActivationControllerTest {
       String received = activationController.confirmation(request, USERNAME);
       
       // Then
-      assertTrue(received.equals("redirect:/"));
+      assertEquals(received, REDIRECT);
    }
    
    @Test(expected = UserNotFoundException.class)
@@ -63,7 +69,7 @@ public class ActivationControllerTest {
       // When
       activationController.confirmation(request, USERNAME);
       
-      // Then
+      // Then throw UserNotFoundException
    }
    
    @Test(expected = CouldNotAccessUserDataException.class)
@@ -74,7 +80,7 @@ public class ActivationControllerTest {
       // When
       activationController.confirmation(request, USERNAME);
       
-      // Then
+      // Then throw CouldNotAccessUserDataException
    }
    
    @Test
@@ -85,7 +91,7 @@ public class ActivationControllerTest {
       String received = activationController.confirmation(USERNAME);
       
       // Then
-      assertTrue(received.equals("confirmation"));
+      assertEquals(received, CONFIRMATION);
    }
   
 }

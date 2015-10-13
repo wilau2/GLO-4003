@@ -90,7 +90,7 @@ public class XMLUserRepository implements UserRepository {
       User user = assembler.assembleUserFromAttributes(attributes);
 
       boolean isUserActive = Boolean.parseBoolean(attributes.get("isActive"));
-      user.setIsActive(isUserActive);
+      user.setActive(isUserActive);
 
       return user;
    }
