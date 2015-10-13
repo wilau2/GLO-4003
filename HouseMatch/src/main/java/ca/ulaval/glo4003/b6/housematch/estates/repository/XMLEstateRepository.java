@@ -139,35 +139,32 @@ public class XMLEstateRepository implements EstateRepository {
    
    @Override
    public void editDescription(String address, Description description) throws CouldNotAccessDataException {
-      
-      try {
-         Estate estate = getEstateByAddress(address);
-         Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
-         EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
-         HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
-             
-         EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(attributes);
-         xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, address, ADDRESS_KEY , estatePersistenceDto);
-            
-         if(description != null){
-            HashMap<String, String> descriptionAttributes = estateElementAssembler.convertDescriptionToAttributes(description);
-            DescriptionPersistenceDto descriptionPersistenceDto = estatePersistenceDtoFactory.newInstanceDescription(descriptionAttributes);
-            xmlFileEditor.addNewNestedElementToDocument2(estateDocument, descriptionPersistenceDto, address, ADDRESS_KEY, PATH_TO_ESTATE );
-         }
-         
+         Document estateDocument;
          try {
-            saveEstateDocument(estateDocument);
-         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-         }         
-         } catch (DocumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-         } catch (EstateNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-         }   
+            estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
+            
+            EstateDto estateDto = assembleDtoFromDocumentAttributes(address, estateDocument); 
+            Estate estate = assembleEstate(estateDto);
+            EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+            HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);  
+            EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(attributes);
+            
+            xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, address, ADDRESS_KEY , estatePersistenceDto);
+               
+            if(description != null){
+               HashMap<String, String> descriptionAttributes = estateElementAssembler.convertDescriptionToAttributes(description);
+               DescriptionPersistenceDto descriptionPersistenceDto = estatePersistenceDtoFactory.newInstanceDescription(descriptionAttributes);
+               xmlFileEditor.addNewNestedElementToDocument2(estateDocument, descriptionPersistenceDto, address, ADDRESS_KEY, PATH_TO_ESTATE );
+            }
+            
+             try {
+                saveEstateDocument(estateDocument);
+             } catch (IOException e1) {
+               throw new CouldNotAccessDataException("Unable to save estate to document", e1);
+            }
+         } catch (DocumentException e2) {
+               throw new CouldNotAccessDataException("Unable to edit description", e2);
+         }
    }
 
    @Override
@@ -226,23 +223,5 @@ public class XMLEstateRepository implements EstateRepository {
 
       return estateAssembler.assembleEstate(estateDto);
 
-   }
-   
-   private EstateDto getEstateDtoByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException {
-      EstateDto estateDto = null;
-      try {
-         Document document = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
-
-         if (!isEstatePersisted(document, address)) {
-            throw new EstateNotFoundException("No estate found at this address : " + address);
-         }
-
-         estateDto = assembleDtoFromDocumentAttributes(address, document);      
-         
-
-      } catch (DocumentException e) {
-         throw new CouldNotAccessDataException("Unable to access data", e);
-      }
-      return estateDto;
    }
 }

@@ -3,36 +3,36 @@
 <estates> 
   <estate> 
     <seller>seller</seller>  
-    <address>0-1-Test Sans Description-qc-qc-g12022</address>  
-    <price>500</price>  
-    <type>COMMERCIAL</type>  
+    <address>0-123-Test Sans Description-Quebec-Canada-g3j 0h3</address>  
+    <price>1000</price>  
+    <type>CONDO</type>  
     <description> 
-      <numberOfBedRooms>200</numberOfBedRooms>  
-      <municipalValuation>125000</municipalValuation>  
-      <dimensionsBuilding>4x42</dimensionsBuilding>  
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>1</numberOfRooms>  
-      <yearsOfConstruction>2002</yearsOfConstruction>  
-      <backyardFaces>None</backyardFaces>  
-      <numberOfLevel>1</numberOfLevel>  
-      <numberOfBathrooms>1</numberOfBathrooms> 
+      <numberOfBedRooms>1000</numberOfBedRooms>  
+      <municipalValuation>0</municipalValuation>  
+      <dimensionsBuilding/>  
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>0</numberOfRooms>  
+      <yearsOfConstruction>0</yearsOfConstruction>  
+      <backyardFaces/>  
+      <numberOfLevel>0</numberOfLevel>  
+      <numberOfBathrooms>0</numberOfBathrooms> 
     </description> 
   </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-123-Test Sans Description-Quebec-Canada-g3j 0h3</address>
-    <price>1000</price>
-    <type>CONDO</type>
+    <address>0-1-Test Sans Description-qc-qc-g12022</address>
+    <price>500</price>
+    <type>COMMERCIAL</type>
     <description>
-      <numberOfBedRooms>1000</numberOfBedRooms>
-      <municipalValuation>0</municipalValuation>
-      <dimensionsBuilding></dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
-      <numberOfRooms>0</numberOfRooms>
-      <yearsOfConstruction>0</yearsOfConstruction>
-      <backyardFaces></backyardFaces>
-      <numberOfLevel>0</numberOfLevel>
-      <numberOfBathrooms>0</numberOfBathrooms>
+      <numberOfBedRooms>20</numberOfBedRooms>
+      <municipalValuation>125000</municipalValuation>
+      <dimensionsBuilding>4x42</dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
+      <numberOfRooms>1</numberOfRooms>
+      <yearsOfConstruction>2002</yearsOfConstruction>
+      <backyardFaces>FRONT</backyardFaces>
+      <numberOfLevel>1</numberOfLevel>
+      <numberOfBathrooms>1</numberOfBathrooms>
     </description>
   </estate>
 </estates>
