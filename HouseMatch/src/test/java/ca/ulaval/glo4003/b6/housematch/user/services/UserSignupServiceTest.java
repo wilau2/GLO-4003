@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -16,7 +15,7 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.UserAssembler;
 import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.factory.UserAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
@@ -44,7 +43,7 @@ public class UserSignupServiceTest {
    private HttpServletRequest request;
 
    @Mock
-   private UserSignupDto userSignupDto;
+   private UserDto userDto;
 
    @Mock
    private UserAssembler userAssembler;
@@ -65,10 +64,10 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(userSignupDto);
+      userSignupService.signup(userDto);
 
       // Then
-      verify(userValidator).validate(userSignupDto);
+      verify(userValidator).validate(userDto);
    }
 
    @Test
@@ -77,7 +76,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(userSignupDto);
+      userSignupService.signup(userDto);
 
       // Then
       verify(userValidatorFactory).getValidator();
@@ -89,7 +88,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(userSignupDto);
+      userSignupService.signup(userDto);
 
       // Then
       verify(userAssemblerFactory).createUserAssembler();
@@ -101,10 +100,10 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(userSignupDto);
+      userSignupService.signup(userDto);
 
       // Then
-      verify(userAssembler).assembleUser(userSignupDto);
+      verify(userAssembler).assembleUser(userDto);
    }
 
    @Test
@@ -113,7 +112,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(userSignupDto);
+      userSignupService.signup(userDto);
 
       // Then
       verify(userRepository).addUser(user);
@@ -125,7 +124,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      userSignupService.signup(userSignupDto);
+      userSignupService.signup(userDto);
 
       // Then does not throw exception
    }
@@ -137,7 +136,7 @@ public class UserSignupServiceTest {
 
       // When
       doThrow(new CouldNotAccessUserDataException(null)).when(userRepository).addUser(user);
-      userSignupService.signup(userSignupDto);
+      userSignupService.signup(userDto);
 
       // Then throw CouldNotAccessUserDataException
    }
@@ -149,14 +148,14 @@ public class UserSignupServiceTest {
 
       // When
       doThrow(new UsernameAlreadyExistsException(null)).when(userRepository).addUser(user);
-      userSignupService.signup(userSignupDto);
+      userSignupService.signup(userDto);
 
       // Then throw UsernameAlreadyExistsException
    }
 
    private void configureAssemblerFactory() {
       given(userAssemblerFactory.createUserAssembler()).willReturn(userAssembler);
-      given(userAssembler.assembleUser(userSignupDto)).willReturn(user);
+      given(userAssembler.assembleUser(userDto)).willReturn(user);
    }
 
    private void configureValidatorFactory() {

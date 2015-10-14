@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -15,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -88,7 +87,7 @@ public class UserFetcherTest {
       // Given
 
       // When
-      UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
+      UserDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
       assertEquals(PHONE_NUMBER, dto.getContactInformationDto().getPhoneNumber());
@@ -100,7 +99,7 @@ public class UserFetcherTest {
       // Given
 
       // When
-      UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
+      UserDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
       assertEquals(EMAIL, dto.getContactInformationDto().getEmail());
@@ -112,7 +111,7 @@ public class UserFetcherTest {
       // Given
 
       // When
-      UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
+      UserDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
       assertEquals(FIRST_NAME, dto.getContactInformationDto().getFirstName());
@@ -124,7 +123,7 @@ public class UserFetcherTest {
       // Given
 
       // When
-      UserDetailedDto dto = userFetcher.getUserByUsername(USERNAME);
+      UserDto dto = userFetcher.getUserByUsername(USERNAME);
 
       // Then
       assertEquals(LAST_NAME, dto.getContactInformationDto().getLastName());

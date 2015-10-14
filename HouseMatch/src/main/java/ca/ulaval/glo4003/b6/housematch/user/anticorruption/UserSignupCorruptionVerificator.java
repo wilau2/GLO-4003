@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserSignupService;
@@ -22,14 +22,14 @@ public class UserSignupCorruptionVerificator {
       this.contactInformationCorruptionVerificator = contactInformationCorruptionVerificator;
    }
 
-   public void signup(UserSignupDto userDto) throws InvalidUserSignupFieldException, UsernameAlreadyExistsException,
+   public void signup(UserDto userDto) throws InvalidUserSignupFieldException, UsernameAlreadyExistsException,
          CouldNotAccessUserDataException, InvalidContactInformationFieldException {
       validateUserSignupCorruption(userDto);
       contactInformationCorruptionVerificator.validateContactInformationCorruption(userDto.getContactInformationDto());
       userSignupService.signup(userDto);
    }
 
-   private void validateUserSignupCorruption(UserSignupDto userDto) throws InvalidUserSignupFieldException {
+   private void validateUserSignupCorruption(UserDto userDto) throws InvalidUserSignupFieldException {
 
       String username = userDto.getUsername();
       if (username == null || username.isEmpty()) {

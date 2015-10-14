@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.ContactInformationDto;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 
 public class UserAssembler {
 
@@ -14,7 +14,7 @@ public class UserAssembler {
       this.contactInformationAssembler = contactInformationAssembler;
    }
 
-   public User assembleUser(UserSignupDto userSignupDto) {
+   public User assembleUser(UserDto userSignupDto) {
       String username = userSignupDto.getUsername();
       ContactInformationDto contactInformationDto = userSignupDto.getContactInformationDto();
       String password = userSignupDto.getPassword();
