@@ -89,7 +89,7 @@ public class DescriptionValidatorTest {
    @Test(expected = InvalidDescriptionException.class)
    public void whenYearOfConstructionIsUnderOneThrowsException() throws InvalidDescriptionException {
       //given
-      when(descriptionDto.getYearsOfConstruction()).thenReturn(0);
+      when(descriptionDto.getYearOfConstruction()).thenReturn(0);
       //when
       descriptionValidator.validate(descriptionDto);
       //then
@@ -110,7 +110,7 @@ public class DescriptionValidatorTest {
    @Test(expected = InvalidDescriptionException.class)
    public void whenMunicipalValueUnderOneThrowsException() throws InvalidDescriptionException {
       //given
-      when(descriptionDto.getMunicipalValuation()).thenReturn(0);
+      when(descriptionDto.getMunicipalAssessment()).thenReturn(0);
       //when
       descriptionValidator.validate(descriptionDto);
       //then
@@ -136,10 +136,10 @@ public class DescriptionValidatorTest {
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(2);
       when(descriptionDto.getNumberOfRooms()).thenReturn(2);
       when(descriptionDto.getNumberOfLevel()).thenReturn(2);
-      when(descriptionDto.getYearsOfConstruction()).thenReturn(2000);
-      when(descriptionDto.getDimensionsBuilding()).thenReturn("valid dimension");
+      when(descriptionDto.getYearOfConstruction()).thenReturn(2000);
+      when(descriptionDto.getBuildingDimensions()).thenReturn("valid dimension");
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(150);
-      when(descriptionDto.getMunicipalValuation()).thenReturn(160000);
+      when(descriptionDto.getMunicipalAssessment()).thenReturn(160000);
       when(descriptionDto.getBackyardFaces()).thenReturn("valid backyardFaces");
    }
    

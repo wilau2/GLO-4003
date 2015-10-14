@@ -381,7 +381,7 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.editDescription(VALID_ADDRESS.toString(), description);
       
       //then
-      verify(xmlFileEditor, times(1)).addNewNestedElementToDocument2(usedDocument, descriptionPersistanceDto, VALID_ADDRESS.toString(), "address", ELEMENT_NAME);
+      verify(xmlFileEditor, times(1)).addNewNestedElementToDocumentFromParentPath(usedDocument, descriptionPersistanceDto, VALID_ADDRESS.toString(), "address", ELEMENT_NAME);
    }
 
    @Test
@@ -551,14 +551,14 @@ public class XMLEstateRepositoryTest {
    
    private void configureEstateWithCompleteDescription() {
       when(estate.getDescription()).thenReturn(description);
-      when(description.getMunicipalValuation()).thenReturn(200);
-      when(description.getDimensionsBuilding()).thenReturn("100x20");
+      when(description.getMunicipalAssessment()).thenReturn(200);
+      when(description.getBuildingDimensions()).thenReturn("100x20");
       when(description.getLivingSpaceAreaSquareMeter()).thenReturn(200);
       when(description.getNumberOfBathrooms()).thenReturn(200);
       when(description.getNumberOfBedRooms()).thenReturn(200);
       when(description.getNumberOfLevel()).thenReturn(200);
       when(description.getNumberOfRooms()).thenReturn(200);
-      when(description.getYearsOfConstruction()).thenReturn(200);    
+      when(description.getYearOfConstruction()).thenReturn(200);    
    }
 
 }

@@ -8,10 +8,10 @@ public class DescriptionDto {
    private Integer numberOfBathrooms;
    private Integer numberOfRooms;
    private Integer numberOfLevel;
-   private Integer yearsOfConstruction;
-   private String dimensionsBuilding;
+   private Integer yearOfConstruction;
+   private String buildingDimension;
    private Integer livingSpaceAreaSquareMeter;
-   private Integer municipalValuation;
+   private Integer municipalAssessment;
    private String backyardFaces;
    
    public DescriptionDto(Integer numberOfBedRooms, Integer numberOfBathrooms, Integer numberOfRooms,
@@ -22,10 +22,10 @@ public class DescriptionDto {
       this.numberOfBathrooms = numberOfBathrooms;
       this.numberOfRooms = numberOfRooms;
       this.numberOfLevel = numberOfLevel;
-      this.yearsOfConstruction = yearsOfConstruction;
-      this.dimensionsBuilding = dimensionsBuilding;
+      this.yearOfConstruction = yearsOfConstruction;
+      this.buildingDimension = dimensionsBuilding;
       this.livingSpaceAreaSquareMeter = livingSpaceAreaSquareMeter;
-      this.municipalValuation = municipalValuation;
+      this.municipalAssessment = municipalValuation;
       this.backyardFaces = backyardFaces;
    }
 
@@ -56,17 +56,17 @@ public class DescriptionDto {
    public void setNumberOfLevel(Integer numberOfLevel) {
       this.numberOfLevel = numberOfLevel;
    }
-   public Integer getYearsOfConstruction() {
-      return yearsOfConstruction;
+   public Integer getYearOfConstruction() {
+      return yearOfConstruction;
    }
    public void setYearsOfConstruction(Integer yearsOfConstruction) {
-      this.yearsOfConstruction = yearsOfConstruction;
+      this.yearOfConstruction = yearsOfConstruction;
    }
-   public String getDimensionsBuilding() {
-      return dimensionsBuilding;
+   public String getBuildingDimensions() {
+      return buildingDimension;
    }
    public void setDimensionsBuilding(String dimensionsBuilding) {
-      this.dimensionsBuilding = dimensionsBuilding;
+      this.buildingDimension = dimensionsBuilding;
    }
    public Integer getLivingSpaceAreaSquareMeter() {
       return livingSpaceAreaSquareMeter;
@@ -74,11 +74,11 @@ public class DescriptionDto {
    public void setLivingSpaceAreaSquareMeter(Integer livingSpaceAreaSquareMeter) {
       this.livingSpaceAreaSquareMeter = livingSpaceAreaSquareMeter;
    }
-   public Integer getMunicipalValuation() {
-      return municipalValuation;
+   public Integer getMunicipalAssessment() {
+      return municipalAssessment;
    }
    public void setMunicipalValuation(Integer municipalValuation) {
-      this.municipalValuation = municipalValuation;
+      this.municipalAssessment = municipalValuation;
    }
    public String getBackyardFaces() {
       return backyardFaces;

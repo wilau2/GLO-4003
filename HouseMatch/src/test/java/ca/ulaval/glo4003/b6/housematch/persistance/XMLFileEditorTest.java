@@ -174,7 +174,7 @@ public class XMLFileEditorTest {
       Document estateDocument = editor.readXMLFile("persistenceTestData/estates.xml");
       
       //when
-      editor.addNewNestedElementToDocument2(estateDocument, dtoContainingExistingElement, "0-809-2134-23-Canada-G1B 3r3", "address", "estates/estate");
+      editor.addNewNestedElementToDocumentFromParentPath(estateDocument, dtoContainingExistingElement, "0-809-2134-23-Canada-G1B 3r3", "address", "estates/estate");
 
       //then
    }

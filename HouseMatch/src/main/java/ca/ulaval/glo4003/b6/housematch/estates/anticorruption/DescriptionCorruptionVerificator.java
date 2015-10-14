@@ -30,10 +30,10 @@ public class DescriptionCorruptionVerificator {
       validateNumberOfBathrooms(descriptionDto);      
       validateNumberOfRooms(descriptionDto);      
       validateNumberOfLevel(descriptionDto);     
-      validateYearsOfContruction(descriptionDto);      
-      validateDimensionsBuilding(descriptionDto);      
+      validateYearOfContruction(descriptionDto);      
+      validateBuildingDimensions(descriptionDto);      
       validateLivingSpaceArea(descriptionDto);      
-      validateMunicipalValuation(descriptionDto);      
+      validateMunicipalAssessment(descriptionDto);      
       validateBackyardFaces(descriptionDto);
       
    }
@@ -44,8 +44,8 @@ public class DescriptionCorruptionVerificator {
       }
    }
 
-   private void validateMunicipalValuation(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getMunicipalValuation() == null || descriptionDto.getMunicipalValuation() < 0){
+   private void validateMunicipalAssessment(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
+      if(descriptionDto.getMunicipalAssessment() == null || descriptionDto.getMunicipalAssessment() < 0){
          throw new InvalidDescriptionFieldException("The entered municipal valuation is not valid");
       }
    }
@@ -56,15 +56,15 @@ public class DescriptionCorruptionVerificator {
       }
    }
 
-   private void validateDimensionsBuilding(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getDimensionsBuilding() == null){
+   private void validateBuildingDimensions(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
+      if(descriptionDto.getBuildingDimensions() == null){
          throw new InvalidDescriptionFieldException("The entered building dimension is not valid");
       }
    }
 
-   private void validateYearsOfContruction(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getYearsOfConstruction() == null || descriptionDto.getYearsOfConstruction() < 0){
-         throw new InvalidDescriptionFieldException("The entered years of construction is not valid");
+   private void validateYearOfContruction(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
+      if(descriptionDto.getYearOfConstruction() == null || descriptionDto.getYearOfConstruction() < 0){
+         throw new InvalidDescriptionFieldException("The entered year of construction is not valid");
       }
    }
 

@@ -55,11 +55,8 @@ public class BuyerEstateController {
       userAuthorizationService.isSessionAloud(request, expectedRole);
       
       List<EstateDto> allEstates = estatesFetcher.getAllEstates();
-      List<EstateModel> estatesModel = new ArrayList<EstateModel>();
+      List<EstateModel> estatesModel = estateConverter.convertToModelList(allEstates);
       
-      for (EstateDto estateDto : allEstates) {
-         estatesModel.add(estateConverter.convertToModel(estateDto));
-      }
       ModelAndView buyerEstatesViewModel = new ModelAndView("buyer_estates");
       buyerEstatesViewModel.addObject("estates", estatesModel);
       

@@ -42,14 +42,14 @@ public class DescriptionDtoTest {
    @Test
    public void settersWorksCorrectly() {
 
-      assertTrue(descriptionDto.getDimensionsBuilding() == this.dimensionsBuilding);
+      assertTrue(descriptionDto.getBuildingDimensions() == this.dimensionsBuilding);
       assertTrue(descriptionDto.getLivingSpaceAreaSquareMeter() == this.livingSpaceAreaSquareMeter);
-      assertTrue(descriptionDto.getMunicipalValuation() == this.municipalValuation);
+      assertTrue(descriptionDto.getMunicipalAssessment() == this.municipalValuation);
       assertTrue(descriptionDto.getNumberOfBathrooms() == this.numberOfBathrooms);
       assertTrue(descriptionDto.getNumberOfBedRooms() == this.numberOfBedRooms);
       assertTrue(descriptionDto.getNumberOfLevel() == this.numberOfLevel);
       assertTrue(descriptionDto.getNumberOfRooms() == this.numberOfRooms);
-      assertTrue(descriptionDto.getYearsOfConstruction() == this.yearsOfConstruction);
+      assertTrue(descriptionDto.getYearOfConstruction() == this.yearsOfConstruction);
       assertTrue(descriptionDto.getBackyardFaces() == this.backyardFaces);
    }
 

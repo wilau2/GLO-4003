@@ -46,10 +46,10 @@ public class DescriptionAssemblerTest {
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(NUMBER_OF_BATHROOMS);
       when(descriptionDto.getNumberOfRooms()).thenReturn(NUMBER_OF_ROOMS);
       when(descriptionDto.getNumberOfLevel()).thenReturn(NUMBER_OF_FLOOR);
-      when(descriptionDto.getYearsOfConstruction()).thenReturn(YEAR_OF_CONSTRUCTION);
-      when(descriptionDto.getDimensionsBuilding()).thenReturn(DIMENSION_BUILDING);
+      when(descriptionDto.getYearOfConstruction()).thenReturn(YEAR_OF_CONSTRUCTION);
+      when(descriptionDto.getBuildingDimensions()).thenReturn(DIMENSION_BUILDING);
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(LIVING_SPACE);
-      when(descriptionDto.getMunicipalValuation()).thenReturn(MUNICIPAL_VALUATION);
+      when(descriptionDto.getMunicipalAssessment()).thenReturn(MUNICIPAL_VALUATION);
       when(descriptionDto.getBackyardFaces()).thenReturn(BACKYARD_FACE);
    }
    private void configureDescription() {
@@ -57,10 +57,10 @@ public class DescriptionAssemblerTest {
       when(description.getNumberOfBathrooms()).thenReturn(NUMBER_OF_BATHROOMS);
       when(description.getNumberOfRooms()).thenReturn(NUMBER_OF_ROOMS);
       when(description.getNumberOfLevel()).thenReturn(NUMBER_OF_FLOOR);
-      when(description.getYearsOfConstruction()).thenReturn(YEAR_OF_CONSTRUCTION);
-      when(description.getDimensionsBuilding()).thenReturn(DIMENSION_BUILDING);
+      when(description.getYearOfConstruction()).thenReturn(YEAR_OF_CONSTRUCTION);
+      when(description.getBuildingDimensions()).thenReturn(DIMENSION_BUILDING);
       when(description.getLivingSpaceAreaSquareMeter()).thenReturn(LIVING_SPACE);
-      when(description.getMunicipalValuation()).thenReturn(MUNICIPAL_VALUATION);
+      when(description.getMunicipalAssessment()).thenReturn(MUNICIPAL_VALUATION);
       when(description.getBackyardFaces()).thenReturn(BACKYARD_FACE);
    }
    
@@ -76,10 +76,10 @@ public class DescriptionAssemblerTest {
       assertEquals(NUMBER_OF_BATHROOMS, returnedDescriptionDto.getNumberOfBathrooms());
       assertEquals(NUMBER_OF_ROOMS, returnedDescriptionDto.getNumberOfRooms());
       assertEquals(NUMBER_OF_FLOOR, returnedDescriptionDto.getNumberOfLevel());
-      assertEquals(YEAR_OF_CONSTRUCTION, returnedDescriptionDto.getYearsOfConstruction());
-      assertEquals(DIMENSION_BUILDING, returnedDescriptionDto.getDimensionsBuilding());
+      assertEquals(YEAR_OF_CONSTRUCTION, returnedDescriptionDto.getYearOfConstruction());
+      assertEquals(DIMENSION_BUILDING, returnedDescriptionDto.getBuildingDimensions());
       assertEquals(LIVING_SPACE, returnedDescriptionDto.getLivingSpaceAreaSquareMeter());
-      assertEquals(MUNICIPAL_VALUATION, returnedDescriptionDto.getMunicipalValuation());
+      assertEquals(MUNICIPAL_VALUATION, returnedDescriptionDto.getMunicipalAssessment());
       assertEquals(BACKYARD_FACE, returnedDescriptionDto.getBackyardFaces());
    }
    
@@ -95,10 +95,10 @@ public class DescriptionAssemblerTest {
       assertEquals(NUMBER_OF_BATHROOMS, description.getNumberOfBathrooms());
       assertEquals(NUMBER_OF_ROOMS, description.getNumberOfRooms());
       assertEquals(NUMBER_OF_FLOOR, description.getNumberOfLevel());
-      assertEquals(YEAR_OF_CONSTRUCTION, description.getYearsOfConstruction());
-      assertEquals(DIMENSION_BUILDING, description.getDimensionsBuilding());
+      assertEquals(YEAR_OF_CONSTRUCTION, description.getYearOfConstruction());
+      assertEquals(DIMENSION_BUILDING, description.getBuildingDimensions());
       assertEquals(LIVING_SPACE, description.getLivingSpaceAreaSquareMeter());
-      assertEquals(MUNICIPAL_VALUATION, description.getMunicipalValuation());
+      assertEquals(MUNICIPAL_VALUATION, description.getMunicipalAssessment());
       assertEquals(BACKYARD_FACE, description.getBackyardFaces());
    }
 

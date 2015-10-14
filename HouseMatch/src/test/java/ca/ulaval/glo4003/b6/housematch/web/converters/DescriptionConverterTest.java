@@ -50,14 +50,14 @@ public class DescriptionConverterTest {
    }
    
    private void configureDescriptionDto() {
-      when(descriptionDto.getDimensionsBuilding()).thenReturn(CONST_STRING);
+      when(descriptionDto.getBuildingDimensions()).thenReturn(CONST_STRING);
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(CONST_NUMBER);
-      when(descriptionDto.getMunicipalValuation()).thenReturn(CONST_NUMBER);
+      when(descriptionDto.getMunicipalAssessment()).thenReturn(CONST_NUMBER);
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(CONST_NUMBER);
       when(descriptionDto.getNumberOfBedRooms()).thenReturn(CONST_NUMBER);
       when(descriptionDto.getNumberOfLevel()).thenReturn(CONST_NUMBER);
       when(descriptionDto.getNumberOfRooms()).thenReturn(CONST_NUMBER);
-      when(descriptionDto.getYearsOfConstruction()).thenReturn(CONST_NUMBER);    
+      when(descriptionDto.getYearOfConstruction()).thenReturn(CONST_NUMBER);    
    }
 
    private void configureDescriptionModel() {

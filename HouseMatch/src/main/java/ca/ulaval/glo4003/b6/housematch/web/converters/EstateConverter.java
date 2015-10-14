@@ -1,5 +1,8 @@
 package ca.ulaval.glo4003.b6.housematch.web.converters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.EstateModel;
@@ -49,6 +52,14 @@ public class EstateConverter {
       estateModel.setPostalCode(addressDto.getPostalCode());
 
       return estateModel;
+   }
+   
+   public List<EstateModel> convertToModelList(List<EstateDto> estateDtoList){
+      List<EstateModel> estatesModel = new ArrayList<EstateModel>();
+      for (EstateDto estateDto : estateDtoList) {
+         estatesModel.add(convertToModel(estateDto));
+      }
+      return estatesModel;
    }
 
 }

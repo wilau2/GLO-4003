@@ -8,10 +8,10 @@ public class Description {
    private Integer numberOfBathrooms;
    private Integer numberOfRooms;
    private Integer numberOfLevel;
-   private Integer yearsOfConstruction;
-   private String dimensionsBuilding;
+   private Integer yearOfConstruction;
+   private String buildingDimensions;
    private Integer livingSpaceAreaSquareMeter;
-   private Integer municipalValuation;
+   private Integer municipalAssessment;
    private String backyardFaces;
 
    public Description(Integer numberOfBedRooms, Integer numberOfBathrooms, Integer numberOfRooms,
@@ -22,10 +22,10 @@ public class Description {
          this.numberOfBathrooms = numberOfBathrooms;
          this.numberOfRooms = numberOfRooms;
          this.numberOfLevel = numberOfLevel;
-         this.yearsOfConstruction = yearsOfConstruction;
-         this.dimensionsBuilding = dimensionsBuilding;
+         this.yearOfConstruction = yearsOfConstruction;
+         this.buildingDimensions = dimensionsBuilding;
          this.livingSpaceAreaSquareMeter = livingSpaceAreaSquareMeter;
-         this.municipalValuation = municipalValuation;
+         this.municipalAssessment = municipalValuation;
          this.backyardFaces = backyardFaces;     
    }
    
@@ -52,13 +52,13 @@ public class Description {
    }
 
    
-   public Integer getYearsOfConstruction() {
-      return yearsOfConstruction;
+   public Integer getYearOfConstruction() {
+      return yearOfConstruction;
    }
 
    
-   public String getDimensionsBuilding() {
-      return dimensionsBuilding;
+   public String getBuildingDimensions() {
+      return buildingDimensions;
    }
 
    
@@ -67,8 +67,8 @@ public class Description {
    }
 
    
-   public Integer getMunicipalValuation() {
-      return municipalValuation;
+   public Integer getMunicipalAssessment() {
+      return municipalAssessment;
    }
 
    

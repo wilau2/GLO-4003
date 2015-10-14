@@ -24,10 +24,10 @@ public class DescriptionElementAssembler {
       attributes.put(NUMBER_OF_BATHROOMS, description.getNumberOfBathrooms().toString());
       attributes.put(NUMBER_OF_ROOMS, description.getNumberOfRooms().toString());
       attributes.put(NUMBER_OF_LEVELS, description.getNumberOfLevel().toString());
-      attributes.put(YEAR_OF_CONSTRUCTION, description.getYearsOfConstruction().toString());
-      attributes.put(BUILDING_DIMENSIONS, description.getDimensionsBuilding());
+      attributes.put(YEAR_OF_CONSTRUCTION, description.getYearOfConstruction().toString());
+      attributes.put(BUILDING_DIMENSIONS, description.getBuildingDimensions());
       attributes.put(LIVING_SPACE, description.getLivingSpaceAreaSquareMeter().toString());
-      attributes.put(MUNICIPAL_VALUATION, description.getMunicipalValuation().toString());
+      attributes.put(MUNICIPAL_VALUATION, description.getMunicipalAssessment().toString());
       attributes.put(BACKYARD_FACES, description.getBackyardFaces());
 
       return attributes;

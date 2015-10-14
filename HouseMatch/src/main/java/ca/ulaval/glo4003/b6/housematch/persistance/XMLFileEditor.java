@@ -49,7 +49,7 @@ public class XMLFileEditor {
       }
    }
    
-   public void addNewNestedElementToDocument2(Document existingDocument, RepositoryToPersistenceDto receivedDto, 
+   public void addNewNestedElementToDocumentFromParentPath(Document existingDocument, RepositoryToPersistenceDto receivedDto, 
                                              String wantedValue, String wantedValueName, String parentElementPath) {
       
       Element parentElement = getParentByValue(wantedValue, wantedValueName, existingDocument, parentElementPath);

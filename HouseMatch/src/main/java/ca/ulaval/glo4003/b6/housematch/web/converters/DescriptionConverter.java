@@ -28,10 +28,10 @@ public class DescriptionConverter {
       descriptionModel.setNumberOfBathrooms(descriptionDto.getNumberOfBathrooms());
       descriptionModel.setNumberOfRooms(descriptionDto.getNumberOfRooms());
       descriptionModel.setNumberOfLevel(descriptionDto.getNumberOfLevel());
-      descriptionModel.setYearsOfConstruction(descriptionDto.getYearsOfConstruction());
-      descriptionModel.setDimensionsBuilding(descriptionDto.getDimensionsBuilding());
+      descriptionModel.setYearsOfConstruction(descriptionDto.getYearOfConstruction());
+      descriptionModel.setDimensionsBuilding(descriptionDto.getBuildingDimensions());
       descriptionModel.setLivingSpaceAreaSquareMeter(descriptionDto.getLivingSpaceAreaSquareMeter());
-      descriptionModel.setMunicipalValuation(descriptionDto.getMunicipalValuation());
+      descriptionModel.setMunicipalValuation(descriptionDto.getMunicipalAssessment());
       descriptionModel.setBackyardFaces(descriptionDto.getBackyardFaces());
 
       return descriptionModel;

@@ -154,7 +154,7 @@ public class XMLEstateRepository implements EstateRepository {
             if(description != null){
                HashMap<String, String> descriptionAttributes = estateElementAssembler.convertDescriptionToAttributes(description);
                DescriptionPersistenceDto descriptionPersistenceDto = estatePersistenceDtoFactory.newInstanceDescription(descriptionAttributes);
-               xmlFileEditor.addNewNestedElementToDocument2(estateDocument, descriptionPersistenceDto, address, ADDRESS_KEY, PATH_TO_ESTATE );
+               xmlFileEditor.addNewNestedElementToDocumentFromParentPath(estateDocument, descriptionPersistenceDto, address, ADDRESS_KEY, PATH_TO_ESTATE );
             }
             
              try {

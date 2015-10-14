@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.b6.housematch.estates.dto.validators;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
 
-//TODO eventuellement regarder la validité des information dans le domaines
 public class DescriptionValidator {
 
    public void validate(DescriptionDto descriptionDto) throws InvalidDescriptionException {
@@ -13,7 +12,7 @@ public class DescriptionValidator {
       if(isNumberSmallerThanOne(descriptionDto.getLivingSpaceAreaSquareMeter())){
          throw new InvalidDescriptionException("invalid area square meter");
       }
-      if(isNumberSmallerThanOne(descriptionDto.getMunicipalValuation())){
+      if(isNumberSmallerThanOne(descriptionDto.getMunicipalAssessment())){
          throw new InvalidDescriptionException("invalid municipal valuation");
       }
       if(isNumberSmallerThanOne(descriptionDto.getNumberOfBedRooms())){
@@ -25,7 +24,7 @@ public class DescriptionValidator {
       if(isNumberSmallerThanOne(descriptionDto.getNumberOfRooms())){
          throw new InvalidDescriptionException("invalid number of rooms");
       }
-      if(isNumberSmallerThanOne(descriptionDto.getYearsOfConstruction())){
+      if(isNumberSmallerThanOne(descriptionDto.getYearOfConstruction())){
          throw new InvalidDescriptionException("invalid year of construction");
       }
    }
