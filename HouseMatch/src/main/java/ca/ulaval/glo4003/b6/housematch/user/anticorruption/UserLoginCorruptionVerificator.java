@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService;
@@ -20,14 +20,14 @@ public class UserLoginCorruptionVerificator {
       this.userLoginService = userLoginService;
    }
 
-   public void login(HttpServletRequest request, UserLoginDto userDto) throws InvalidUserLoginFieldException,
+   public void login(HttpServletRequest request, UserDto userDto) throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException {
 
       validateUserLoginCorruption(userDto);
       userLoginService.login(request, userDto);
    }
 
-   private void validateUserLoginCorruption(UserLoginDto userDto) throws InvalidUserLoginFieldException {
+   private void validateUserLoginCorruption(UserDto userDto) throws InvalidUserLoginFieldException {
       String username = userDto.getUsername();
       if (username == null || username.isEmpty()) {
          throw new InvalidUserLoginFieldException("Username is mandatory");

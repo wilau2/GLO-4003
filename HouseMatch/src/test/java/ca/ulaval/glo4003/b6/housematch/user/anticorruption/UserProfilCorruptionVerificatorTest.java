@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.dto.ContactInformationDto;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserProfilService;
@@ -29,7 +29,7 @@ public class UserProfilCorruptionVerificatorTest {
    private UserProfilCorruptionVerificator userProfilCorruptionVerificator;
 
    @Mock
-   private UserDetailedDto userDetailedDto;
+   private UserDto userDetailedDto;
 
    @Mock
    private ContactInformationDto contactInformationDto;

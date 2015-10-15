@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
@@ -43,11 +42,10 @@ public class SignupController {
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException {
 
-      UserSignupDto userSignupDto = converter.convertViewModelToSignupDto(viewModel);
-      userSignupCorruptionVerificator.signup(userSignupDto);
+      UserDto userDto = converter.convertViewModelToSignupDto(viewModel);
+      userSignupCorruptionVerificator.signup(userDto);
 
-      UserLoginDto userLoginDto = converter.convertSignupDtoToLoginDto(userSignupDto);
-      userLoginService.login(request, userLoginDto);
+      userLoginService.login(request, userDto);
 
       return "redirect:/";
 
