@@ -32,8 +32,7 @@ public class DescriptionValidatorTest {
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(-1);
       //when
       descriptionValidator.validate(descriptionDto);
-      //then
-      //exception is catched
+      //then InvalidDescriptionException is catched
    }
    
    @Test(expected = InvalidDescriptionException.class)
@@ -42,8 +41,7 @@ public class DescriptionValidatorTest {
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(0);
       //when
       descriptionValidator.validate(descriptionDto);
-      //then
-      //exception is catched
+      //then InvalidDescriptionException is catched
    }
    
    @Test(expected = InvalidDescriptionException.class)
@@ -82,8 +80,7 @@ public class DescriptionValidatorTest {
       when(descriptionDto.getNumberOfLevel()).thenReturn(0);
       //when
       descriptionValidator.validate(descriptionDto);
-      //then
-      //exception is catched
+      //then InvalidDescriptionException is catched
    }
    
    @Test(expected = InvalidDescriptionException.class)
@@ -92,8 +89,7 @@ public class DescriptionValidatorTest {
       when(descriptionDto.getYearOfConstruction()).thenReturn(0);
       //when
       descriptionValidator.validate(descriptionDto);
-      //then
-      //exception is catched
+      //then InvalidDescriptionException is catched
    }
    
    
@@ -103,8 +99,7 @@ public class DescriptionValidatorTest {
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(0);
       //when
       descriptionValidator.validate(descriptionDto);
-      //then
-      //exception is catched
+      //then InvalidDescriptionException is catched
    }
    
    @Test(expected = InvalidDescriptionException.class)
@@ -113,8 +108,7 @@ public class DescriptionValidatorTest {
       when(descriptionDto.getMunicipalAssessment()).thenReturn(0);
       //when
       descriptionValidator.validate(descriptionDto);
-      //then
-      //exception is catched
+      //then InvalidDescriptionException is catched
    }
    
    @Test
@@ -140,7 +134,7 @@ public class DescriptionValidatorTest {
       when(descriptionDto.getBuildingDimensions()).thenReturn("valid dimension");
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(150);
       when(descriptionDto.getMunicipalAssessment()).thenReturn(160000);
-      when(descriptionDto.getBackyardFaces()).thenReturn("valid backyardFaces");
+      when(descriptionDto.getBackyardOrientation()).thenReturn("valid backyardFaces");
    }
    
    

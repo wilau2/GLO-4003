@@ -7,25 +7,25 @@ public class DescriptionValidator {
 
    public void validate(DescriptionDto descriptionDto) throws InvalidDescriptionException {
       if (isNumberSmallerThanOne(descriptionDto.getNumberOfBathrooms())){
-         throw new InvalidDescriptionException("invalid number of bathrooms");
+         throw new InvalidDescriptionException("Invalid number of bathrooms");
       }
       if(isNumberSmallerThanOne(descriptionDto.getLivingSpaceAreaSquareMeter())){
-         throw new InvalidDescriptionException("invalid area square meter");
+         throw new InvalidDescriptionException("Invalid area square meter");
       }
       if(isNumberSmallerThanOne(descriptionDto.getMunicipalAssessment())){
-         throw new InvalidDescriptionException("invalid municipal valuation");
+         throw new InvalidDescriptionException("Invalid municipal assessment");
       }
       if(isNumberSmallerThanOne(descriptionDto.getNumberOfBedRooms())){
-         throw new InvalidDescriptionException("invalid number of bed rooms");
+         throw new InvalidDescriptionException("Invalid number of bed rooms");
       }
       if(isNumberSmallerThanOne(descriptionDto.getNumberOfLevel())){
-         throw new InvalidDescriptionException("invalid number of levels");
+         throw new InvalidDescriptionException("Invalid number of levels");
       }
       if(isNumberSmallerThanOne(descriptionDto.getNumberOfRooms())){
-         throw new InvalidDescriptionException("invalid number of rooms");
+         throw new InvalidDescriptionException("Invalid number of rooms");
       }
       if(isNumberSmallerThanOne(descriptionDto.getYearOfConstruction())){
-         throw new InvalidDescriptionException("invalid year of construction");
+         throw new InvalidDescriptionException("Invalid year of construction");
       }
    }
    

@@ -138,23 +138,22 @@ public class XMLEstateRepository implements EstateRepository {
    }
    
    @Override
-   public void editDescription(String address, Description description) throws CouldNotAccessDataException {
+   public void editDescription(String targetAddressKey, Description description) throws CouldNotAccessDataException {
          Document estateDocument;
          try {
             estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
-            
-            EstateDto estateDto = assembleDtoFromDocumentAttributes(address, estateDocument); 
+            EstateDto estateDto = assembleDtoFromDocumentAttributes(targetAddressKey, estateDocument); 
             Estate estate = assembleEstate(estateDto);
             EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
             HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);  
             EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(attributes);
             
-            xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, address, ADDRESS_KEY , estatePersistenceDto);
+            xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, targetAddressKey, ADDRESS_KEY , estatePersistenceDto);
                
             if(description != null){
                HashMap<String, String> descriptionAttributes = estateElementAssembler.convertDescriptionToAttributes(description);
                DescriptionPersistenceDto descriptionPersistenceDto = estatePersistenceDtoFactory.newInstanceDescription(descriptionAttributes);
-               xmlFileEditor.addNewNestedElementToDocumentFromParentPath(estateDocument, descriptionPersistenceDto, address, ADDRESS_KEY, PATH_TO_ESTATE );
+               xmlFileEditor.addNewNestedElementToDocumentFromParentPath(estateDocument, descriptionPersistenceDto, targetAddressKey, ADDRESS_KEY, PATH_TO_ESTATE );
             }
             
              try {

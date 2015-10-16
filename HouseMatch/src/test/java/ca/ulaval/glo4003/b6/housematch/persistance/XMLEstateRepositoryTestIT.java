@@ -12,7 +12,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateEle
 import ca.ulaval.glo4003.b6.housematch.estates.repository.XMLEstateRepository;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
-public class XMLEstateRepositoryTestRealXML {
+public class XMLEstateRepositoryTestIT {
    
    XMLEstateRepository xmlEstateRepository;
    

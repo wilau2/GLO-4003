@@ -30,7 +30,7 @@ public class DescriptionCorruptionVerificatorTest {
    private static final String DIMENSION_OF_BUILDING = "20x20";
    private static final Integer LIVING_SPACE_AREA = 400;
    private static final Integer MUNICIPAL_VALUATION = 200000;
-   private static final String BACKYARD_FACES = "North"; 
+   private static final String BACKYARD_ORIENTATION = "North"; 
    
    private static final String ADDRESS = "address";
    
@@ -61,7 +61,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getBuildingDimensions()).thenReturn(DIMENSION_OF_BUILDING);
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(LIVING_SPACE_AREA);
       when(descriptionDto.getMunicipalAssessment()).thenReturn(MUNICIPAL_VALUATION);
-      when(descriptionDto.getBackyardFaces()).thenReturn(BACKYARD_FACES);
+      when(descriptionDto.getBackyardOrientation()).thenReturn(BACKYARD_ORIENTATION);
       
    }
    
@@ -166,7 +166,7 @@ public class DescriptionCorruptionVerificatorTest {
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
-   public void verificatingDescriptionCorruptionWhenDescriptionHasNullYearsOfConstructionShouldThrowInvalidDescriptionFieldException() 
+   public void verificatingDescriptionCorruptionWhenDescriptionHasNullYearOfConstructionShouldThrowInvalidDescriptionFieldException() 
          throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getYearOfConstruction()).thenReturn(null);
@@ -177,7 +177,7 @@ public class DescriptionCorruptionVerificatorTest {
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
-   public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeYearsOfConstructionShouldThrowInvalidDescriptionFieldException() 
+   public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeYearOfConstructionShouldThrowInvalidDescriptionFieldException() 
          throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getYearOfConstruction()).thenReturn(NEGATIVE_NUMBER);
@@ -222,7 +222,7 @@ public class DescriptionCorruptionVerificatorTest {
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
-   public void verificatingDescriptionCorruptionWhenDescriptionHasNullMunicipalValuationShouldThrowInvalidDescriptionFieldException() 
+   public void verificatingDescriptionCorruptionWhenDescriptionHasNullMunicipalAssessmentShouldThrowInvalidDescriptionFieldException() 
          throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getMunicipalAssessment()).thenReturn(null);
@@ -233,7 +233,7 @@ public class DescriptionCorruptionVerificatorTest {
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
-   public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeMunicipalValuationShouldThrowInvalidDescriptionFieldException() 
+   public void verificatingDescriptionCorruptionWhenDescriptionHasNegativeMunicipalAssessmentShouldThrowInvalidDescriptionFieldException() 
          throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
       when(descriptionDto.getMunicipalAssessment()).thenReturn(NEGATIVE_NUMBER);
@@ -244,10 +244,10 @@ public class DescriptionCorruptionVerificatorTest {
    }
    
    @Test(expected = InvalidDescriptionFieldException.class)
-   public void verificatingDescriptionCorruptionWhenDescriptionHasNullBackyardFacesShouldThrowInvalidDescriptionFieldException() 
+   public void verificatingDescriptionCorruptionWhenDescriptionHasNullBackyardOrientationShouldThrowInvalidDescriptionFieldException() 
          throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
-      when(descriptionDto.getBackyardFaces()).thenReturn(null);
+      when(descriptionDto.getBackyardOrientation()).thenReturn(null);
       // When
       descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       

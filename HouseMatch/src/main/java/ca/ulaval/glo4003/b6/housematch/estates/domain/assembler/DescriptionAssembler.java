@@ -6,9 +6,6 @@ import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 
 public class DescriptionAssembler {
    
-   public DescriptionAssembler(){
-   }
-   
    public Description assembleDescription(DescriptionDto descriptionDto){
       
       if(descriptionDto == null){    
@@ -26,12 +23,12 @@ public class DescriptionAssembler {
       String dimensionsBuilding = descriptionDto.getBuildingDimensions();
       Integer livingSpaceAreaSquareMeter = descriptionDto.getLivingSpaceAreaSquareMeter();
       Integer municipalValuation = descriptionDto.getMunicipalAssessment();
-      String backyardFaces = descriptionDto.getBackyardFaces();
+      String backyardOrientation = descriptionDto.getBackyardOrientation();
       
       
-      return descriptionBuilder.setNewBackyardFaces(backyardFaces).setNewDimensionsBuilding(dimensionsBuilding).setNewLivingSpaceAreaSquareMeter(livingSpaceAreaSquareMeter)
+      return descriptionBuilder.setNewBackyardOrientation(backyardOrientation).setNewDimensionsBuilding(dimensionsBuilding).setNewLivingSpaceAreaSquareMeter(livingSpaceAreaSquareMeter)
                         .setNewMunicipalValuation(municipalValuation).setNewNumberOfBathrooms(numberOfBathrooms).setNewNumberOfBedRooms(numberOfBedRooms)
-                        .setNewNumberOfLevel(numberOfLevel).setNewNumberOfRooms(numberOfRooms).setNewYearsOfConstruction(yearsOfConstruction).createDescription();
+                        .setNewNumberOfLevel(numberOfLevel).setNewNumberOfRooms(numberOfRooms).setNewYearsOfConstruction(yearsOfConstruction).buildDescription();
    }
    
    public DescriptionDto assembleDescriptionDto(Description description){
@@ -44,10 +41,10 @@ public class DescriptionAssembler {
       String dimensionsBuilding = description.getBuildingDimensions();
       Integer livingSpaceAreaSquareMeter = description.getLivingSpaceAreaSquareMeter();
       Integer municipalValuation = description.getMunicipalAssessment();
-      String backyardFaces = description.getBackyardFaces();
+      String backyardOrientation = description.getBackyardOrientation();
    
       DescriptionDto descriptionDto = new DescriptionDto(numberOfBedRooms, numberOfBathrooms, numberOfRooms,
-            numberOfLevel, yearsOfConstruction, dimensionsBuilding, livingSpaceAreaSquareMeter, municipalValuation, backyardFaces);
+            numberOfLevel, yearsOfConstruction, dimensionsBuilding, livingSpaceAreaSquareMeter, municipalValuation, backyardOrientation);
       
       return descriptionDto;
    }

@@ -12,10 +12,7 @@ public class DescriptionBuilder {
    private String newBuildingDimensions;
    private Integer newLivingSpaceAreaSquareMeter;
    private Integer newMunicipalValuation;
-   private String newBackyardFaces;
-
-   public DescriptionBuilder(){}
-
+   private String newBackyardOrientation;
    
    public DescriptionBuilder setNewNumberOfBedRooms(Integer newNumberOfBedRooms) {
       this.newNumberOfBedRooms = newNumberOfBedRooms;
@@ -65,13 +62,13 @@ public class DescriptionBuilder {
    }
 
    
-   public DescriptionBuilder setNewBackyardFaces(String newBackyardFaces) {
-      this.newBackyardFaces = newBackyardFaces;
+   public DescriptionBuilder setNewBackyardOrientation(String newBackyardOrientation) {
+      this.newBackyardOrientation = newBackyardOrientation;
       return this;
    }
    
-   public Description createDescription(){
-      return new Description(newNumberOfBedRooms, newNumberOfBathrooms, newNumberOfRooms, newNumberOfLevel, newYearsOfConstruction, newBuildingDimensions, newLivingSpaceAreaSquareMeter, newMunicipalValuation, newBackyardFaces);
+   public Description buildDescription(){
+      return new Description(newNumberOfBedRooms, newNumberOfBathrooms, newNumberOfRooms, newNumberOfLevel, newYearsOfConstruction, newBuildingDimensions, newLivingSpaceAreaSquareMeter, newMunicipalValuation, newBackyardOrientation);
    }
    
 }

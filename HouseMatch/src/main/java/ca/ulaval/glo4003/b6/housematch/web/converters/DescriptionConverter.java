@@ -16,7 +16,7 @@ public class DescriptionConverter {
       descriptionDto.setDimensionsBuilding(descriptionModel.getDimensionsBuilding());
       descriptionDto.setLivingSpaceAreaSquareMeter(descriptionModel.getLivingSpaceAreaSquareMeter());
       descriptionDto.setMunicipalValuation(descriptionModel.getMunicipalValuation());
-      descriptionDto.setBackyardFaces(descriptionModel.getBackyardFaces());
+      descriptionDto.setBackyardOrientation(descriptionModel.getBackyardFaces());
 
       return descriptionDto;
    }
@@ -32,7 +32,7 @@ public class DescriptionConverter {
       descriptionModel.setDimensionsBuilding(descriptionDto.getBuildingDimensions());
       descriptionModel.setLivingSpaceAreaSquareMeter(descriptionDto.getLivingSpaceAreaSquareMeter());
       descriptionModel.setMunicipalValuation(descriptionDto.getMunicipalAssessment());
-      descriptionModel.setBackyardFaces(descriptionDto.getBackyardFaces());
+      descriptionModel.setBackyardFaces(descriptionDto.getBackyardOrientation());
 
       return descriptionModel;
    }

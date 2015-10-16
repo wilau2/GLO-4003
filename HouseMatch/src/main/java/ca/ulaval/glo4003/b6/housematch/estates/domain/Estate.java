@@ -42,10 +42,6 @@ public class Estate {
       return description;
    }
 
-   public void setDescription(Description description) {
-      this.description = description;
-   }
-
    public boolean isFromSeller(String sellerName) {
       if (seller.equals(sellerName)) {
          return true;

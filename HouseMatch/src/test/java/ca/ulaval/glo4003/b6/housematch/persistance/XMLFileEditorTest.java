@@ -166,18 +166,6 @@ public class XMLFileEditorTest {
       // Then
       assertEquals(1, returnedList.size());
    }
-   
-   @Test
-   public void test() throws DocumentException {
-      configureDtoContainingExistingElement();
-      //given
-      Document estateDocument = editor.readXMLFile("persistenceTestData/estates.xml");
-      
-      //when
-      editor.addNewNestedElementToDocumentFromParentPath(estateDocument, dtoContainingExistingElement, "0-809-2134-23-Canada-G1B 3r3", "address", "estates/estate");
-
-      //then
-   }
 
    private void configureDtoContainingNewElement() {
       HashMap<String, String> mapWithData = new HashMap<String, String>();

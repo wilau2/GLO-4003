@@ -43,9 +43,4 @@ public class EstateAssembler {
       Description description = descriptionAssembler.assembleDescription(descriptionDto);
       return description;
    }
-   
-   public DescriptionDto assembleDescriptionDto(Description description) {
-      DescriptionDto descriptionDto = descriptionAssembler.assembleDescriptionDto(description);
-      return descriptionDto;
-   }
 }

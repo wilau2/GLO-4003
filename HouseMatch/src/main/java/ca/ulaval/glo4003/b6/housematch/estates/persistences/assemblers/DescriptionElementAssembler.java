@@ -28,7 +28,7 @@ public class DescriptionElementAssembler {
       attributes.put(BUILDING_DIMENSIONS, description.getBuildingDimensions());
       attributes.put(LIVING_SPACE, description.getLivingSpaceAreaSquareMeter().toString());
       attributes.put(MUNICIPAL_VALUATION, description.getMunicipalAssessment().toString());
-      attributes.put(BACKYARD_FACES, description.getBackyardFaces());
+      attributes.put(BACKYARD_FACES, description.getBackyardOrientation());
 
       return attributes;
    }
@@ -54,19 +54,21 @@ public class DescriptionElementAssembler {
          descriptionDto.setDimensionsBuilding(dimensionsBuilding);
          descriptionDto.setLivingSpaceAreaSquareMeter(livingSpaceAreaSquareMeter);
          descriptionDto.setMunicipalValuation(municipalValuation);
-         descriptionDto.setBackyardFaces(backyardFaces);
+         descriptionDto.setBackyardOrientation(backyardFaces);
       
       return descriptionDto;
    }
    
    
    public Integer tryParseInt(String str) {
-      Integer retVal;
+      Integer retVal = -1;
       try {
         retVal = Integer.parseInt(str);
       } catch (NumberFormatException nfe) {
-        retVal = 0; 
+        retVal = 0;
+      } finally {
+         return retVal;
       }
-      return retVal;
+      
     }
 }

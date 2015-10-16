@@ -36,7 +36,7 @@ public class DescriptionDtoTest {
       descriptionDto.setNumberOfLevel(numberOfLevel);
       descriptionDto.setNumberOfRooms(numberOfRooms);
       descriptionDto.setYearsOfConstruction(yearsOfConstruction);
-      descriptionDto.setBackyardFaces(backyardFaces);
+      descriptionDto.setBackyardOrientation(backyardFaces);
    }
 
    @Test
@@ -50,7 +50,7 @@ public class DescriptionDtoTest {
       assertTrue(descriptionDto.getNumberOfLevel() == this.numberOfLevel);
       assertTrue(descriptionDto.getNumberOfRooms() == this.numberOfRooms);
       assertTrue(descriptionDto.getYearOfConstruction() == this.yearsOfConstruction);
-      assertTrue(descriptionDto.getBackyardFaces() == this.backyardFaces);
+      assertTrue(descriptionDto.getBackyardOrientation() == this.backyardFaces);
    }
 
 }

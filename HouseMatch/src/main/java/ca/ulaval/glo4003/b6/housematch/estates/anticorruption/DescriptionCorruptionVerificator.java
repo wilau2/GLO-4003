@@ -26,68 +26,68 @@ public class DescriptionCorruptionVerificator {
    }
 
    private void validateDescriptionCorruption(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      validateNumberOfBedrooms(descriptionDto);      
-      validateNumberOfBathrooms(descriptionDto);      
-      validateNumberOfRooms(descriptionDto);      
-      validateNumberOfLevel(descriptionDto);     
-      validateYearOfContruction(descriptionDto);      
-      validateBuildingDimensions(descriptionDto);      
-      validateLivingSpaceArea(descriptionDto);      
-      validateMunicipalAssessment(descriptionDto);      
-      validateBackyardFaces(descriptionDto);
+      validateNumberOfBedrooms(descriptionDto.getNumberOfBedRooms());      
+      validateNumberOfBathrooms(descriptionDto.getNumberOfBathrooms());      
+      validateNumberOfRooms(descriptionDto.getNumberOfRooms());      
+      validateNumberOfLevel(descriptionDto.getNumberOfLevel());     
+      validateYearOfContruction(descriptionDto.getYearOfConstruction());      
+      validateBuildingDimensions(descriptionDto.getBuildingDimensions());      
+      validateLivingSpaceArea(descriptionDto.getLivingSpaceAreaSquareMeter());      
+      validateMunicipalAssessment(descriptionDto.getMunicipalAssessment());      
+      backyardOrientation(descriptionDto.getBackyardOrientation());
       
    }
 
-   private void validateBackyardFaces(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getBackyardFaces() == null){
-         throw new InvalidDescriptionFieldException("The entered backyard faces is not valid");
+   private void backyardOrientation(String backyardOrientation) throws InvalidDescriptionFieldException {
+      if(backyardOrientation== null){
+         throw new InvalidDescriptionFieldException("The entered backyard orientation is not valid");
       }
    }
 
-   private void validateMunicipalAssessment(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getMunicipalAssessment() == null || descriptionDto.getMunicipalAssessment() < 0){
+   private void validateMunicipalAssessment(Integer municipalAssessment) throws InvalidDescriptionFieldException {
+      if(municipalAssessment == null || municipalAssessment < 0){
          throw new InvalidDescriptionFieldException("The entered municipal valuation is not valid");
       }
    }
 
-   private void validateLivingSpaceArea(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getLivingSpaceAreaSquareMeter() == null || descriptionDto.getLivingSpaceAreaSquareMeter() < 0){
+   private void validateLivingSpaceArea(Integer livingSpaceArea) throws InvalidDescriptionFieldException {
+      if(livingSpaceArea == null || livingSpaceArea < 0){
          throw new InvalidDescriptionFieldException("The entered living space area is not valid");
       }
    }
 
-   private void validateBuildingDimensions(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getBuildingDimensions() == null){
+   private void validateBuildingDimensions(String buildingDimension) throws InvalidDescriptionFieldException {
+      if(buildingDimension == null){
          throw new InvalidDescriptionFieldException("The entered building dimension is not valid");
       }
    }
 
-   private void validateYearOfContruction(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getYearOfConstruction() == null || descriptionDto.getYearOfConstruction() < 0){
+   private void validateYearOfContruction(Integer yearOfConstruction) throws InvalidDescriptionFieldException {
+      if(yearOfConstruction == null || yearOfConstruction < 0){
          throw new InvalidDescriptionFieldException("The entered year of construction is not valid");
       }
    }
 
-   private void validateNumberOfLevel(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getNumberOfLevel() == null || descriptionDto.getNumberOfLevel() < 0){
+   private void validateNumberOfLevel(Integer numberOfLevel) throws InvalidDescriptionFieldException {
+      if(numberOfLevel == null || numberOfLevel < 0){
          throw new InvalidDescriptionFieldException("The entered number of level is not valid");
       }
    }
 
-   private void validateNumberOfRooms(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getNumberOfRooms() == null || descriptionDto.getNumberOfRooms() < 0){
+   private void validateNumberOfRooms(Integer numberOfRooms) throws InvalidDescriptionFieldException {
+      if(numberOfRooms == null || numberOfRooms < 0){
          throw new InvalidDescriptionFieldException("The entered number of rooms is not valid");
       }
    }
 
-   private void validateNumberOfBathrooms(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getNumberOfBathrooms() == null || descriptionDto.getNumberOfBathrooms() < 0){
+   private void validateNumberOfBathrooms(Integer numberOfBathrooms) throws InvalidDescriptionFieldException {
+      if(numberOfBathrooms == null || numberOfBathrooms < 0){
          throw new InvalidDescriptionFieldException("The entered number of bathrooms is not valid");
       }
    }
 
-   private void validateNumberOfBedrooms(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
-      if(descriptionDto.getNumberOfBedRooms() == null || descriptionDto.getNumberOfBedRooms() < 0){
+   private void validateNumberOfBedrooms(Integer numberOfBedrooms) throws InvalidDescriptionFieldException {
+      if(numberOfBedrooms == null || numberOfBedrooms < 0){
          throw new InvalidDescriptionFieldException("The entered number of bedrooms is not valid");
       }
    }

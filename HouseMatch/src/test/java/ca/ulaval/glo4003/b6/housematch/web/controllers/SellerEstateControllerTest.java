@@ -125,7 +125,7 @@ public class SellerEstateControllerTest {
    public void addingEstateFromControllerWhenEstateIsValidShouldReturnRedirectToString()
          throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
       // Given no changes
-      String expectedRedirectTo = "redirect:/seller/seller/estates";
+      String expectedRedirectTo = "redirect:/seller/"+USER_ID+"/estates";
 
       // When
       String returnedView = estateController.addEstate(request, estateModel, USER_ID);

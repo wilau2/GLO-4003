@@ -12,7 +12,7 @@ public class DescriptionDto {
    private String buildingDimension;
    private Integer livingSpaceAreaSquareMeter;
    private Integer municipalAssessment;
-   private String backyardFaces;
+   private String backyardOrientation;
    
    public DescriptionDto(Integer numberOfBedRooms, Integer numberOfBathrooms, Integer numberOfRooms,
          Integer numberOfLevel, Integer yearsOfConstruction, String dimensionsBuilding,
@@ -26,7 +26,7 @@ public class DescriptionDto {
       this.buildingDimension = dimensionsBuilding;
       this.livingSpaceAreaSquareMeter = livingSpaceAreaSquareMeter;
       this.municipalAssessment = municipalValuation;
-      this.backyardFaces = backyardFaces;
+      this.backyardOrientation = backyardFaces;
    }
 
    public DescriptionDto() {
@@ -80,10 +80,10 @@ public class DescriptionDto {
    public void setMunicipalValuation(Integer municipalValuation) {
       this.municipalAssessment = municipalValuation;
    }
-   public String getBackyardFaces() {
-      return backyardFaces;
+   public String getBackyardOrientation() {
+      return backyardOrientation;
    }
-   public void setBackyardFaces(String backyardFaces) {
-      this.backyardFaces = backyardFaces;
+   public void setBackyardOrientation(String backyardFaces) {
+      this.backyardOrientation = backyardFaces;
    }
 }

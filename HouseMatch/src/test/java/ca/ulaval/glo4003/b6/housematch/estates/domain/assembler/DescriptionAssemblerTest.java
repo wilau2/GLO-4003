@@ -50,7 +50,7 @@ public class DescriptionAssemblerTest {
       when(descriptionDto.getBuildingDimensions()).thenReturn(DIMENSION_BUILDING);
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(LIVING_SPACE);
       when(descriptionDto.getMunicipalAssessment()).thenReturn(MUNICIPAL_VALUATION);
-      when(descriptionDto.getBackyardFaces()).thenReturn(BACKYARD_FACE);
+      when(descriptionDto.getBackyardOrientation()).thenReturn(BACKYARD_FACE);
    }
    private void configureDescription() {
       when(description.getNumberOfBedRooms()).thenReturn(NUMBER_OF_BED_ROOMS);
@@ -61,7 +61,7 @@ public class DescriptionAssemblerTest {
       when(description.getBuildingDimensions()).thenReturn(DIMENSION_BUILDING);
       when(description.getLivingSpaceAreaSquareMeter()).thenReturn(LIVING_SPACE);
       when(description.getMunicipalAssessment()).thenReturn(MUNICIPAL_VALUATION);
-      when(description.getBackyardFaces()).thenReturn(BACKYARD_FACE);
+      when(description.getBackyardOrientation()).thenReturn(BACKYARD_FACE);
    }
    
    @Test
@@ -80,7 +80,7 @@ public class DescriptionAssemblerTest {
       assertEquals(DIMENSION_BUILDING, returnedDescriptionDto.getBuildingDimensions());
       assertEquals(LIVING_SPACE, returnedDescriptionDto.getLivingSpaceAreaSquareMeter());
       assertEquals(MUNICIPAL_VALUATION, returnedDescriptionDto.getMunicipalAssessment());
-      assertEquals(BACKYARD_FACE, returnedDescriptionDto.getBackyardFaces());
+      assertEquals(BACKYARD_FACE, returnedDescriptionDto.getBackyardOrientation());
    }
    
    @Test
@@ -99,7 +99,7 @@ public class DescriptionAssemblerTest {
       assertEquals(DIMENSION_BUILDING, description.getBuildingDimensions());
       assertEquals(LIVING_SPACE, description.getLivingSpaceAreaSquareMeter());
       assertEquals(MUNICIPAL_VALUATION, description.getMunicipalAssessment());
-      assertEquals(BACKYARD_FACE, description.getBackyardFaces());
+      assertEquals(BACKYARD_FACE, description.getBackyardOrientation());
    }
 
 }
