@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -19,7 +18,7 @@ import org.springframework.validation.support.BindingAwareModelMap;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
@@ -39,7 +38,7 @@ public class LoginControllerTest {
    private HttpSession session;
 
    @Mock
-   private UserLoginDto userDto;
+   private UserDto userDto;
 
    @Mock
    private User user;

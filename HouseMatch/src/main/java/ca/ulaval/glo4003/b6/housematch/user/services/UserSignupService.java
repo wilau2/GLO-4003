@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.UserAssembler;
 import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.factory.UserAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.factory.UserValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
@@ -36,7 +36,7 @@ public class UserSignupService {
       this.observers = observers;
    }
 
-   public void signup(UserSignupDto userSignupDto)
+   public void signup(UserDto userSignupDto)
          throws UsernameAlreadyExistsException, CouldNotAccessUserDataException, UserNotifyingException {
 
       UserValidator userValidator = userValidatorFactory.getValidator();

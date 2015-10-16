@@ -14,7 +14,7 @@ import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.dto.ContactInformationDto;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 
 public class UserAssemblerTest {
 
@@ -39,7 +39,7 @@ public class UserAssemblerTest {
    private ContactInformationAssembler contactInformationAssembler;
 
    @Mock
-   private UserSignupDto userSignupDto;
+   private UserDto userDto;
 
    @Mock
    private User userToConvert;
@@ -64,10 +64,10 @@ public class UserAssemblerTest {
       // Given
 
       // When
-      userAssembler.assembleUser(userSignupDto);
+      userAssembler.assembleUser(userDto);
 
       // Then
-      verify(userSignupDto).getContactInformationDto();
+      verify(userDto).getContactInformationDto();
    }
 
    @Test
@@ -75,10 +75,10 @@ public class UserAssemblerTest {
       // Given
 
       // When
-      userAssembler.assembleUser(userSignupDto);
+      userAssembler.assembleUser(userDto);
 
       // Then
-      verify(userSignupDto).getUsername();
+      verify(userDto).getUsername();
    }
 
    @Test
@@ -86,10 +86,10 @@ public class UserAssemblerTest {
       // Given
 
       // When
-      userAssembler.assembleUser(userSignupDto);
+      userAssembler.assembleUser(userDto);
 
       // Then
-      verify(userSignupDto).getPassword();
+      verify(userDto).getPassword();
    }
 
    @Test
@@ -97,10 +97,10 @@ public class UserAssemblerTest {
       // Given
 
       // When
-      userAssembler.assembleUser(userSignupDto);
+      userAssembler.assembleUser(userDto);
 
       // Then
-      verify(userSignupDto).getRole();
+      verify(userDto).getRole();
    }
 
    @Test
@@ -108,7 +108,7 @@ public class UserAssemblerTest {
       // Given
 
       // When
-      userAssembler.assembleUser(userSignupDto);
+      userAssembler.assembleUser(userDto);
       // Then
       verify(contactInformationAssembler).assembleContactInformation(contactInformationDto);
    }
@@ -118,7 +118,7 @@ public class UserAssemblerTest {
       // Given
 
       // When
-      User user = userAssembler.assembleUser(userSignupDto);
+      User user = userAssembler.assembleUser(userDto);
 
       // Then
       assertEquals(USERNAME, user.getUsername());
@@ -129,7 +129,7 @@ public class UserAssemblerTest {
       // Given
 
       // When
-      User user = userAssembler.assembleUser(userSignupDto);
+      User user = userAssembler.assembleUser(userDto);
 
       // Then
       assertEquals(ROLE, user.getRole().getRoles());
@@ -140,20 +140,20 @@ public class UserAssemblerTest {
       // Given
 
       // When
-      User user = userAssembler.assembleUser(userSignupDto);
+      User user = userAssembler.assembleUser(userDto);
 
       // Then
       assertEquals(PASSWORD, user.getPassword());
    }
 
    private void configureValidUserSignupDto() {
-      given(userSignupDto.getContactInformationDto()).willReturn(contactInformationDto);
+      given(userDto.getContactInformationDto()).willReturn(contactInformationDto);
       given(contactInformationDto.getFirstName()).willReturn(FIRST_NAME);
       given(contactInformationDto.getLastName()).willReturn(LAST_NAME);
       given(contactInformationDto.getEmail()).willReturn(EMAIL);
       given(contactInformationDto.getPhoneNumber()).willReturn(PHONE_NUMBER);
-      given(userSignupDto.getUsername()).willReturn(USERNAME);
-      given(userSignupDto.getPassword()).willReturn(PASSWORD);
-      given(userSignupDto.getRole()).willReturn(ROLE);
+      given(userDto.getUsername()).willReturn(USERNAME);
+      given(userDto.getPassword()).willReturn(PASSWORD);
+      given(userDto.getRole()).willReturn(ROLE);
    }
 }

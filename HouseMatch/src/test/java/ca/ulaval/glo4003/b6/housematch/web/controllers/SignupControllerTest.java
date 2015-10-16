@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -19,8 +20,7 @@ import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionV
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserSignupDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.XMLUserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -48,7 +48,7 @@ public class SignupControllerTest {
    private HttpSession session;
 
    @Mock
-   private UserSignupDto userSignupDto;
+   private UserDto userDto;
 
    @Mock
    private UserLoginService userLoginService;
@@ -66,9 +66,6 @@ public class SignupControllerTest {
    private SignupController controller;
 
    private BindingAwareModelMap model;
-
-   @Mock
-   private UserLoginDto userLoginDto;
 
    @Mock
    private User user;
@@ -130,7 +127,8 @@ public class SignupControllerTest {
       controller.signup(request, userSignupViewModel);
 
       // Then
-      verify(userSignupCorruptionVerificator).signup(userSignupDto);
+
+      verify(userSignupCorruptionVerificator).signup(userDto);
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -139,7 +137,7 @@ public class SignupControllerTest {
          InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException,
          UserNotifyingException, UserActivationException {
       // Given
-      doThrow(new InvalidUserSignupFieldException(null)).when(userSignupCorruptionVerificator).signup(userSignupDto);
+      doThrow(new InvalidUserSignupFieldException(null)).when(userSignupCorruptionVerificator).signup(userDto);
 
       // When
       controller.signup(request, userSignupViewModel);
@@ -148,12 +146,13 @@ public class SignupControllerTest {
    }
 
    @Test(expected = CouldNotAccessUserDataException.class)
+
    public void givenInvalidDataAccessWhenSignupShouldThrowException()
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException,
          UserNotifyingException, UserActivationException {
       // Given
-      doThrow(new CouldNotAccessUserDataException(null)).when(userSignupCorruptionVerificator).signup(userSignupDto);
+      doThrow(new CouldNotAccessUserDataException(null)).when(userSignupCorruptionVerificator).signup(userDto);
 
       // When
       controller.signup(request, userSignupViewModel);
@@ -162,12 +161,13 @@ public class SignupControllerTest {
    }
 
    @Test(expected = UsernameAlreadyExistsException.class)
+
    public void givenAlreadyUsedUsernameWhenSignupShouldThrowException()
          throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
          InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException,
          UserNotifyingException, UserActivationException {
       // Given
-      doThrow(new UsernameAlreadyExistsException(null)).when(userSignupCorruptionVerificator).signup(userSignupDto);
+      doThrow(new UsernameAlreadyExistsException(null)).when(userSignupCorruptionVerificator).signup(userDto);
 
       // When
       controller.signup(request, userSignupViewModel);
@@ -188,8 +188,7 @@ public class SignupControllerTest {
    }
 
    private void configureConverter() {
-      given(converter.convertViewModelToSignupDto(userSignupViewModel)).willReturn(userSignupDto);
-      given(converter.convertSignupDtoToLoginDto(userSignupDto)).willReturn(userLoginDto);
+      given(converter.convertViewModelToSignupDto(userSignupViewModel)).willReturn(userDto);
    }
 
    private void configureRequest() {

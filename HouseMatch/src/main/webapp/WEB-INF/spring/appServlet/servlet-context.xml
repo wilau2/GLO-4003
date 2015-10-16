@@ -159,10 +159,10 @@
 		class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderObserver">
 		
 		<beans:constructor-arg
-            name="mailBuilderFactory"
+            name="messageBuilderFactory"
             ref="mailBuilderFactory" />
         <beans:constructor-arg
-            name="mailSenderFactory"
+            name="messageSenderFactory"
             ref="mailSenderFactory" />
 
     </beans:bean>
@@ -264,9 +264,6 @@
         <beans:constructor-arg
             name="userSignupCorruptionVerificator"
             ref="userSignupCorruptionVerificator" />
-        <beans:constructor-arg
-            name="userLoginService"
-            ref="userLoginService" />
     </beans:bean>
 
     <beans:bean

@@ -100,14 +100,34 @@
     <email>baba@baba</email>  
     <username>baba</username> 
   </user>  
+  <user> 
+    <firstName>carki1</firstName>  
+    <lastName>carki1</lastName>  
+    <password>carki</password>  
+    <role>buyer</role>  
+    <phoneNumber>123</phoneNumber>  
+    <isActive>true</isActive>  
+    <email>bofoc52@gmail.com</email>  
+    <username>carki</username> 
+  </user>  
+  <user> 
+    <firstName>Antoine</firstName>  
+    <lastName>l</lastName>  
+    <password>123</password>  
+    <role>seller</role>  
+    <phoneNumber>418-966-0982</phoneNumber>  
+    <isActive>false</isActive>  
+    <email>antbole@hotmail.com</email>  
+    <username>antoinelef</username> 
+  </user>  
   <user>
-    <firstName>carki1</firstName>
-    <lastName>carki1</lastName>
-    <password>carki</password>
-    <role>buyer</role>
-    <phoneNumber>123</phoneNumber>
-    <isActive>true</isActive>
-    <email>bofoc52@gmail.com</email>
-    <username>carki</username>
+    <firstName>Antoine</firstName>
+    <lastName>laqa</lastName>
+    <password>123</password>
+    <role>seller</role>
+    <phoneNumber>418-966-0982</phoneNumber>
+    <isActive>false</isActive>
+    <email>antbole@hotmail.com</email>
+    <username>antoinelef1223</username>
   </user>
 </users>

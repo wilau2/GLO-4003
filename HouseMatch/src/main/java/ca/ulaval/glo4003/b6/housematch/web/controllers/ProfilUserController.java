@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
@@ -50,7 +50,7 @@ public class ProfilUserController {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      UserDetailedDto userDto = userFetcher.getUserByUsername(
+      UserDto userDto = userFetcher.getUserByUsername(
             request.getSession().getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME).toString());
 
       ProfilUserViewModel viewModel = profilUserConverter.convertToViewModel(userDto);
@@ -68,7 +68,7 @@ public class ProfilUserController {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      UserDetailedDto userDetailedDto = profilUserConverter.convertViewModelToDto(viewModel);
+      UserDto userDetailedDto = profilUserConverter.convertViewModelToDto(viewModel);
 
       userProfilCorruptionVerificator.update(userDetailedDto);
 

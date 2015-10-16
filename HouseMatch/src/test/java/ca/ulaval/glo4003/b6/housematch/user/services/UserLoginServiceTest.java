@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -13,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
@@ -44,7 +45,7 @@ public class UserLoginServiceTest {
    private HttpServletRequest request;
 
    @Mock
-   private UserLoginDto userLoginDto;
+   private UserDto userDto;
 
    @Before
    public void setup() throws UserNotFoundException, CouldNotAccessUserDataException {
@@ -58,102 +59,102 @@ public class UserLoginServiceTest {
    }
 
    @Test
-   public void givenValidUsernameWhenLoginShouldDelateGettingExistingUser()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+   public void givenValidUsernameWhenLoginShouldDelateGettingExistingUser() throws UserNotFoundException,
+         CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
 
       // When
-      userLoginService.login(request, userLoginDto);
+      userLoginService.login(request, userDto);
 
       // Then
       verify(userRepository).getUser(USERNAME);
    }
 
    @Test
-   public void givenValidUsernameWhenLoginShouldDelateSessionAuthentification()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+   public void givenValidUsernameWhenLoginShouldDelateSessionAuthentification() throws UserNotFoundException,
+         CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
 
       // When
-      userLoginService.login(request, userLoginDto);
+      userLoginService.login(request, userDto);
 
       // Then
       verify(userAuthorizationService).setSessionUserAuthorisation(request, user);
    }
 
    @Test
-   public void givenValidScenarioWhenLoginShouldNotThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+   public void givenValidScenarioWhenLoginShouldNotThrowException() throws UserNotFoundException,
+         CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
 
       // When
-      userLoginService.login(request, userLoginDto);
+      userLoginService.login(request, userDto);
 
       // Then does not throw exception
 
    }
 
    @Test(expected = InvalidPasswordException.class)
-   public void givenInvalidPasswordWhenLoginShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+   public void givenInvalidPasswordWhenLoginShouldThrowException() throws UserNotFoundException,
+         CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
       configureInvalidPassword();
 
       // When
-      userLoginService.login(request, userLoginDto);
+      userLoginService.login(request, userDto);
 
       // Then Throws InvalidPasswordException
 
    }
 
    @Test(expected = CouldNotAccessUserDataException.class)
-   public void givenInvalidDataAccesWhenLoginShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+   public void givenInvalidDataAccesWhenLoginShouldThrowException() throws UserNotFoundException,
+         CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
       doThrow(new CouldNotAccessUserDataException(null)).when(userRepository).getUser(USERNAME);
-      
-      // When
 
-      userLoginService.login(request, userLoginDto);
+      // When
+      userLoginService.login(request, userDto);
 
       // Then throws CouldNotAccessUserDataException
    }
 
    @Test(expected = UserNotFoundException.class)
-   public void givenNotExistingUserWhenLoginShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+   public void givenNotExistingUserWhenLoginShouldThrowException() throws UserNotFoundException,
+         CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
       // Given
 
       // When
       doThrow(new UserNotFoundException(null)).when(userRepository).getUser(USERNAME);
-      userLoginService.login(request, userLoginDto);
+      userLoginService.login(request, userDto);
 
       // Then throws UserNotFoundException
    }
-   
+
    @Test(expected = UserActivationException.class)
-   public void whenExistingUserIsNotActiveShouldThrow() throws UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+   public void whenExistingUserIsNotActiveShouldThrow() throws UserNotFoundException, CouldNotAccessUserDataException,
+         InvalidPasswordException, UserActivationException {
       // Given
       configureUserIsNotValidate();
-      
+
       // When
-      userLoginService.login(request, userLoginDto);
-      
+      userLoginService.login(request, userDto);
+
       // Then exception is thrown
    }
 
    private void configureValidPassword() {
       given(user.getPassword()).willReturn(PASSWORD);
-      given(userLoginDto.getPassword()).willReturn(PASSWORD);
+      given(userDto.getPassword()).willReturn(PASSWORD);
    }
 
    private void configureInvalidPassword() {
       given(user.getPassword()).willReturn(PASSWORD);
-      given(userLoginDto.getPassword()).willReturn(INVALID_PASSWORD);
+      given(userDto.getPassword()).willReturn(INVALID_PASSWORD);
    }
 
    private void configureValidUsername() {
-      given(userLoginDto.getUsername()).willReturn(USERNAME);
+      given(userDto.getUsername()).willReturn(USERNAME);
 
    }
 
@@ -164,13 +165,13 @@ public class UserLoginServiceTest {
    private void configureUserAuthorisationService() {
       given(userAuthorizationService.setSessionUserAuthorisation(request, user)).willReturn(request);
    }
-   
+
    private void configureUserIsValidate() {
       given(user.isActive()).willReturn(true);
-      
+
    }
-   
-   private void configureUserIsNotValidate(){
+
+   private void configureUserIsNotValidate() {
       given(user.isActive()).willReturn(false);
    }
 

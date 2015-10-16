@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserLoginDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
 
 public class LoginUserConverterTest {
@@ -14,7 +14,7 @@ public class LoginUserConverterTest {
 
    private static final String PASSWORD = "password";
 
-   private UserLoginDto userDto;
+   private UserDto userDto;
 
    private LoginUserViewModel viewModelUser;
 
@@ -22,7 +22,8 @@ public class LoginUserConverterTest {
 
    @Before
    public void setup() {
-      userDto = new UserLoginDto(USERNAME);
+      userDto = new UserDto();
+      userDto.setUsername(USERNAME);
       userDto.setPassword(PASSWORD);
 
       viewModelUser = new LoginUserViewModel();
@@ -48,14 +49,14 @@ public class LoginUserConverterTest {
 
    @Test
    public void whenConvertingAUserModelIntoAUserItShouldKeepTheSameUsername() {
-      UserLoginDto returnedUser;
+      UserDto returnedUser;
       returnedUser = converter.convertViewModelToDto(viewModelUser);
       assertEquals(USERNAME, returnedUser.getUsername());
    }
 
    @Test
    public void whenConvertingAUserModelIntoAUserItShouldKeepTheSamePassword() {
-      UserLoginDto returnedUser;
+      UserDto returnedUser;
       returnedUser = converter.convertViewModelToDto(viewModelUser);
       assertEquals(PASSWORD, returnedUser.getPassword());
    }

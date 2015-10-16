@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
@@ -54,7 +54,7 @@ public class ProfilUserControllerTest {
    private String expectedRole = "buyer";
 
    @Mock
-   private UserDetailedDto userDto;
+   private UserDto userDto;
 
    @Mock
    private ProfilUserViewModel viewModel;

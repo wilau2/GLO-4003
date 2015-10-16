@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -19,7 +20,7 @@ import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.ContactInformationAssembler;
 import ca.ulaval.glo4003.b6.housematch.user.domain.assembler.factory.ContactInformationAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.user.dto.ContactInformationDto;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDetailedDto;
+import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.validators.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.user.repository.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
@@ -61,7 +62,7 @@ public class UserProfilServiceTest {
    private ContactInformation contactInformationNewEmail;
 
    @Mock
-   private UserDetailedDto userDetailedDto;
+   private UserDto userDto;
 
    @Mock
    private UserObserver userObserver;
@@ -91,8 +92,10 @@ public class UserProfilServiceTest {
    }
 
    private void configureUserDetailedDto() {
-      given(userDetailedDto.getContactInformationDto()).willReturn(contactInformationDto);
-      given(userDetailedDto.getUsername()).willReturn(USERNAME);
+
+      given(userDto.getContactInformationDto()).willReturn(contactInformationDto);
+      given(userDto.getUsername()).willReturn(USERNAME);
+
    }
 
    private void configureUserRepository() throws UserNotFoundException, CouldNotAccessUserDataException {
@@ -112,7 +115,7 @@ public class UserProfilServiceTest {
       // Given
 
       // When
-      userProfilService.update(userDetailedDto);
+      userProfilService.update(userDto);
 
       // Then
       verify(userRepository, times(1)).updateUser(user);
@@ -124,7 +127,7 @@ public class UserProfilServiceTest {
       // Given
 
       // When
-      userProfilService.update(userDetailedDto);
+      userProfilService.update(userDto);
 
       // Then
       verify(contactInformationAssembler).assembleContactInformation(contactInformationDto);
@@ -137,7 +140,7 @@ public class UserProfilServiceTest {
       configureUpdateWithNewEmail();
 
       // When
-      userProfilService.update(userDetailedDto);
+      userProfilService.update(userDto);
 
       // Then
       verify(user).setActive(false);
@@ -150,7 +153,7 @@ public class UserProfilServiceTest {
       configureUpdateWithNewEmail();
 
       // When
-      userProfilService.update(userDetailedDto);
+      userProfilService.update(userDto);
 
       // Then
       verify(userObserver).notifyUserChanged(user);
@@ -169,7 +172,7 @@ public class UserProfilServiceTest {
       doThrow(new CouldNotAccessUserDataException("")).when(userRepository).getUser(USERNAME);
 
       // When
-      userProfilService.update(userDetailedDto);
+      userProfilService.update(userDto);
 
       // Then Throws exception
    }
@@ -181,7 +184,7 @@ public class UserProfilServiceTest {
       doThrow(new UserNotFoundException("")).when(userRepository).getUser(USERNAME);
 
       // When
-      userProfilService.update(userDetailedDto);
+      userProfilService.update(userDto);
 
       // Then Throws exception
    }
@@ -193,7 +196,7 @@ public class UserProfilServiceTest {
       doThrow(new CouldNotAccessUserDataException("")).when(userRepository).updateUser(user);
 
       // When
-      userProfilService.update(userDetailedDto);
+      userProfilService.update(userDto);
 
       // Then Throws exception
    }
