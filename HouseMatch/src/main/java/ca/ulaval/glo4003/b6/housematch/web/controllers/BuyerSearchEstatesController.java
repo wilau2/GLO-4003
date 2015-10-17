@@ -11,37 +11,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
-import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcherFactory;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
+import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
-import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 @Controller
 public class BuyerSearchEstatesController {
 
    private static final String EXPECTED_ROLE = Role.BUYER;
 
-   private EstatesFetcherFactory estatesFetcherFactory;
-
-   private EstateAssemblerFactory estateAssemblerFactory;
-
-   private EstateRepositoryFactory estateRepositoryFactory;
+   private EstatesFetcher estatesFetcher;
 
    private UserAuthorizationService userAuthorizationService;
 
    @Autowired
-   public BuyerSearchEstatesController(EstatesFetcherFactory estatesFetcherFactory,
-         EstateAssemblerFactory estateAssemblerFactory, EstateRepositoryFactory estateRepositoryFactory,
+   public BuyerSearchEstatesController(EstatesFetcher estatesFetcher,
          UserAuthorizationService userAuthorizationService) {
-      this.estatesFetcherFactory = estatesFetcherFactory;
-      this.estateAssemblerFactory = estateAssemblerFactory;
-      this.estateRepositoryFactory = estateRepositoryFactory;
+      this.estatesFetcher = estatesFetcher;
       this.userAuthorizationService = userAuthorizationService;
    }
 
@@ -51,9 +41,6 @@ public class BuyerSearchEstatesController {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
-
-      EstatesFetcher estatesFetcher = estatesFetcherFactory.newInstance(estateAssemblerFactory,
-            estateRepositoryFactory);
 
       List<EstateDto> allEstates = estatesFetcher.getAllEstates();
       modelAndView.addObject("estates", allEstates);
@@ -67,9 +54,6 @@ public class BuyerSearchEstatesController {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       ModelAndView modelAndView = new ModelAndView("estate");
-
-      EstatesFetcher estatesFetcher = estatesFetcherFactory.newInstance(estateAssemblerFactory,
-            estateRepositoryFactory);
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
       modelAndView.addObject("estate", estateByAddress);

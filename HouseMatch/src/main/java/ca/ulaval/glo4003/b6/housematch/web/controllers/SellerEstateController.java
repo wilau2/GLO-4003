@@ -13,24 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.DescriptionCorruptionVerificator;
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidDescriptionFieldException;
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
-import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
-import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
-import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcherFactory;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
+import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
+import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
-import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 @Controller
 public class SellerEstateController {
@@ -43,25 +40,16 @@ public class SellerEstateController {
 
    private UserAuthorizationService userAuthorizationService;
 
-   private EstateAssemblerFactory estateAssembleFactory;
-
-   private EstateRepositoryFactory estateRepositoryFactory;
-
-   private EstatesFetcherFactory estatesFetcherFactory;
+   private EstatesFetcher estatesFetcher;
 
    @Autowired
    public SellerEstateController(EstateCorruptionVerificator estateCorruptionVerificator,
-         UserAuthorizationService userAuthorizationService, EstateAssemblerFactory estateAssembleFactory,
-
-   EstatesFetcherFactory estatesFetcherFactory, EstateRepositoryFactory estateRepositoryFactory,
+         UserAuthorizationService userAuthorizationService, EstatesFetcher estatesFetcher,
          DescriptionCorruptionVerificator descriptionCorruptionVerificator) {
 
       this.estateCorruptionVerificator = estateCorruptionVerificator;
       this.userAuthorizationService = userAuthorizationService;
-      this.estateAssembleFactory = estateAssembleFactory;
-      this.estateRepositoryFactory = estateRepositoryFactory;
-      this.estatesFetcherFactory = estatesFetcherFactory;
-
+      this.estatesFetcher = estatesFetcher;
       this.descriptionCorruptionVerificator = descriptionCorruptionVerificator;
 
    }
@@ -91,7 +79,6 @@ public class SellerEstateController {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      EstatesFetcher estatesFetcher = estatesFetcherFactory.newInstance(estateAssembleFactory, estateRepositoryFactory);
       List<EstateDto> estatesFromSeller = estatesFetcher.getEstatesBySeller(userId);
 
       ModelAndView sellerEstatesViewModel = new ModelAndView("seller_estates");
@@ -106,7 +93,6 @@ public class SellerEstateController {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      EstatesFetcher estatesFetcher = estatesFetcherFactory.newInstance(estateAssembleFactory, estateRepositoryFactory);
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
@@ -123,7 +109,7 @@ public class SellerEstateController {
          @ModelAttribute("description") DescriptionDto descriptionDto) throws InvalidEstateFieldException,
                CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException,
                InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {
-      System.out.println(descriptionDto.getYearOfConstruction());
+
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       descriptionCorruptionVerificator.editDescription(address, descriptionDto);

@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -15,16 +16,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.validation.support.BindingAwareModelMap;
 
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator;
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserLoginFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
-import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.UserLoginCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserLoginFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.user.User;
+import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidPasswordException;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserActivationException;
 
 public class LoginControllerTest {
 
@@ -44,12 +43,6 @@ public class LoginControllerTest {
    private User user;
 
    @Mock
-   private LoginUserViewModel loginUserViewModel;
-
-   @Mock
-   private LoginUserConverter converter;
-
-   @Mock
    private HttpServletRequest request;
 
    private BindingAwareModelMap model;
@@ -57,7 +50,7 @@ public class LoginControllerTest {
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
-      configureConverter();
+
       configureRequest();
    }
 
@@ -75,38 +68,26 @@ public class LoginControllerTest {
 
    @Test
    public void postRequestLoginReturnsRootRedirection() throws InvalidUserLoginFieldException, UserNotFoundException,
-         CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+         CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
 
       // Given
       model = new BindingAwareModelMap();
 
       // When
 
-      String view = controller.login(request, loginUserViewModel);
+      String view = controller.login(request, userDto);
 
       // Then
       assertEquals("redirect:/", view);
    }
 
    @Test
-   public void postRequestLoginShouldUseTheConverter() throws InvalidUserLoginFieldException, UserNotFoundException,
-         CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
-
-      // When
-
-      controller.login(request, loginUserViewModel);
-
-      // Then
-      verify(converter).convertViewModelToDto(loginUserViewModel);
-   }
-
-   @Test
-
    public void postRequestLoginShouldUseTheUserCorruptionVerificator() throws InvalidUserLoginFieldException,
-         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+         UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+      // Given no changes
 
       // When
-      controller.login(request, loginUserViewModel);
+      controller.login(request, userDto);
 
       // Then
       verify(userCorruptionVerificatior).login(request, userDto);
@@ -114,51 +95,49 @@ public class LoginControllerTest {
 
    @Test(expected = InvalidUserLoginFieldException.class)
    public void givenInvalidFieldOnUserLoginViewModelPostRequestLogingShouldThrowException()
-         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessUserDataException,
+         throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessDataException,
          InvalidPasswordException, UserActivationException {
-
+      // Given
       doThrow(new InvalidUserLoginFieldException(null)).when(userCorruptionVerificatior).login(request, userDto);
+
       // When
-      controller.login(request, loginUserViewModel);
+      controller.login(request, userDto);
 
       // Then an InvalidUserLoginFieldException is thrown
    }
 
    @Test(expected = UserNotFoundException.class)
    public void givenNotExistingUserPostRequestLogingShouldThrowException() throws InvalidUserLoginFieldException,
-         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
-
+         UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+      // given
       doThrow(new UserNotFoundException(null)).when(userCorruptionVerificatior).login(request, userDto);
+
       // When
-      controller.login(request, loginUserViewModel);
+      controller.login(request, userDto);
 
       // Then an UserNotFoundException is thrown
    }
 
    @Test(expected = InvalidPasswordException.class)
    public void givenInvalidPasswordPostRequestLogingShouldThrowException() throws InvalidUserLoginFieldException,
-         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+         UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
 
       doThrow(new InvalidPasswordException(null)).when(userCorruptionVerificatior).login(request, userDto);
       // When
-      controller.login(request, loginUserViewModel);
+      controller.login(request, userDto);
 
       // Then an InvalidPasswordException is thrown
    }
 
-   @Test(expected = CouldNotAccessUserDataException.class)
+   @Test(expected = CouldNotAccessDataException.class)
    public void givenNoAccessToDataPostRequestLogingShouldThrowException() throws InvalidUserLoginFieldException,
-         UserNotFoundException, CouldNotAccessUserDataException, InvalidPasswordException, UserActivationException {
+         UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
 
-      doThrow(new CouldNotAccessUserDataException(null)).when(userCorruptionVerificatior).login(request, userDto);
+      doThrow(new CouldNotAccessDataException(null, null)).when(userCorruptionVerificatior).login(request, userDto);
       // When
-      controller.login(request, loginUserViewModel);
+      controller.login(request, userDto);
 
       // Then an CouldNotAccessUserDataException is thrown
-   }
-
-   private void configureConverter() {
-      given(converter.convertViewModelToDto(loginUserViewModel)).willReturn(userDto);
    }
 
    private void configureRequest() {

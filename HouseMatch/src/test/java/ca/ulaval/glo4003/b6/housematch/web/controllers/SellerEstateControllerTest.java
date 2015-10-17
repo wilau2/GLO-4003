@@ -22,19 +22,18 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
-import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
-import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcherFactory;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
+import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 public class SellerEstateControllerTest {
 
@@ -69,9 +68,6 @@ public class SellerEstateControllerTest {
    private List<EstateDto> estatesDto;
 
    @Mock
-   private EstatesFetcherFactory estatesFetcherFactory;
-
-   @Mock
    private EstateRepositoryFactory estateRepositoryFactory;
 
    @Mock
@@ -82,16 +78,10 @@ public class SellerEstateControllerTest {
          throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException, InvalidAccessException {
       MockitoAnnotations.initMocks(this);
 
-      configureEstateFetcher();
       configureFetchingListOfEstateDto();
 
       configureFetchingEstateByAddress();
 
-   }
-
-   private void configureEstateFetcher() {
-      when(estatesFetcherFactory.newInstance(estateAssemblerFactory, estateRepositoryFactory))
-            .thenReturn(estateFetcherService);
    }
 
    private void configureFetchingEstateByAddress() throws EstateNotFoundException, CouldNotAccessDataException {
@@ -217,15 +207,4 @@ public class SellerEstateControllerTest {
       assertTrue(returnedModel.get("estate") instanceof EstateDto);
    }
 
-   @Test
-   public void whenFetchingEstateByAddressShouldCallEstateFetcherFactory()
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
-      // Given no changes
-
-      // When
-      estateController.getEstateByAddress(ADDRESS, request);
-
-      // Then
-      verify(estatesFetcherFactory, times(1)).newInstance(estateAssemblerFactory, estateRepositoryFactory);
-   }
 }

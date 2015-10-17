@@ -8,18 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator;
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
-import ca.ulaval.glo4003.b6.housematch.user.services.UserFetcher;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
-import ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.ProfilUserViewModel;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.UserProfilCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidContactInformationFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
+import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
 
 @Controller
 public class ProfilUserController {
@@ -30,45 +28,38 @@ public class ProfilUserController {
 
    private UserProfilCorruptionVerificator userProfilCorruptionVerificator;
 
-   private ProfilUserConverter profilUserConverter;
-
    private UserFetcher userFetcher;
 
    @Autowired
-   public ProfilUserController(UserAuthorizationService userAuthorizationService,
-         ProfilUserConverter profilUserConverter, UserFetcher userFetcher,
+   public ProfilUserController(UserAuthorizationService userAuthorizationService, UserFetcher userFetcher,
          UserProfilCorruptionVerificator userProfilCorruptionVerificator) {
+
       this.userAuthorizationService = userAuthorizationService;
-      this.profilUserConverter = profilUserConverter;
       this.userFetcher = userFetcher;
       this.userProfilCorruptionVerificator = userProfilCorruptionVerificator;
    }
 
    @RequestMapping(value = "/profil", method = RequestMethod.GET)
    public ModelAndView getProfil(HttpServletRequest request)
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       UserDto userDto = userFetcher.getUserByUsername(
             request.getSession().getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME).toString());
 
-      ProfilUserViewModel viewModel = profilUserConverter.convertToViewModel(userDto);
-
       ModelAndView profilViewModel = new ModelAndView("profil");
-      profilViewModel.addObject("user", viewModel);
+      profilViewModel.addObject("user", userDto);
 
       return profilViewModel;
    }
 
    @RequestMapping(value = "/profil", method = RequestMethod.POST)
-   public String updateProfil(HttpServletRequest request, ProfilUserViewModel viewModel)
-         throws InvalidAccessException, CouldNotAccessUserDataException, UserNotFoundException,
+   public String updateProfil(HttpServletRequest request, UserDto userDetailedDto)
+         throws InvalidAccessException, CouldNotAccessDataException, UserNotFoundException,
          InvalidContactInformationFieldException, UserNotifyingException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
-
-      UserDto userDetailedDto = profilUserConverter.convertViewModelToDto(viewModel);
 
       userProfilCorruptionVerificator.update(userDetailedDto);
 

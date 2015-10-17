@@ -8,40 +8,33 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator;
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UsernameAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
-import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.UserSignupCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidContactInformationFieldException;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserSignupFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UsernameAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidPasswordException;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserActivationException;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
 
 @Controller
 public class SignupController {
 
-   private SignupUserConverter converter;
-
    private UserSignupCorruptionVerificator userSignupCorruptionVerificator;
 
    @Autowired
-   public SignupController(SignupUserConverter converter,
-         UserSignupCorruptionVerificator userSignupCorruptionVerificator) {
-      this.converter = converter;
+   public SignupController(UserSignupCorruptionVerificator userSignupCorruptionVerificator) {
+
       this.userSignupCorruptionVerificator = userSignupCorruptionVerificator;
    }
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-   public String signup(HttpServletRequest request, SignupUserModel viewModel)
-         throws InvalidUserSignupFieldException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidPasswordException, UsernameAlreadyExistsException, InvalidContactInformationFieldException,
-         UserNotifyingException, UserActivationException {
+   public String signup(HttpServletRequest request, UserDto userDto) throws InvalidUserSignupFieldException,
+         UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UsernameAlreadyExistsException,
+         InvalidContactInformationFieldException, UserNotifyingException, UserActivationException {
 
-      UserDto userDto = converter.convertViewModelToSignupDto(viewModel);
       userSignupCorruptionVerificator.signup(userDto);
 
       return "need_email_confirmation";
@@ -49,7 +42,7 @@ public class SignupController {
 
    @RequestMapping(value = "/signup", method = RequestMethod.GET)
    public String signup(Model model) {
-      model.addAttribute("user", new SignupUserModel());
+      model.addAttribute("user", new UserDto());
       return "signup";
    }
 }

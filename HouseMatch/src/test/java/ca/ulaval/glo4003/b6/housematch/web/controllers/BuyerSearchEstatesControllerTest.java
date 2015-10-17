@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,15 +19,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
-import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcherFactory;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 public class BuyerSearchEstatesControllerTest {
 
@@ -37,9 +37,6 @@ public class BuyerSearchEstatesControllerTest {
    private BuyerSearchEstatesController buyerSearchEstatesController;
 
    private List<EstateDto> expectedEstates;
-
-   @Mock
-   private EstatesFetcherFactory estatesFetcherFactory;
 
    @Mock
    private EstatesFetcher estatesFetcherService;
@@ -65,13 +62,10 @@ public class BuyerSearchEstatesControllerTest {
 
       configureEstatesFetcher();
 
-      buyerSearchEstatesController = new BuyerSearchEstatesController(estatesFetcherFactory, estateAssemblerFactory,
-            estateRepositoryFactory, userAuthorizationService);
+      buyerSearchEstatesController = new BuyerSearchEstatesController(estatesFetcherService, userAuthorizationService);
    }
 
    private void configureEstatesFetcher() throws CouldNotAccessDataException, EstateNotFoundException {
-      when(estatesFetcherFactory.newInstance(estateAssemblerFactory, estateRepositoryFactory))
-            .thenReturn(estatesFetcherService);
 
       expectedEstates = new ArrayList<>();
       when(estatesFetcherService.getAllEstates()).thenReturn(expectedEstates);
@@ -119,18 +113,6 @@ public class BuyerSearchEstatesControllerTest {
    }
 
    @Test
-   public void whenSearchingForAllEstateShouldDelegateServiceCreation()
-         throws CouldNotAccessDataException, InvalidAccessException {
-      // Given no changes
-
-      // When
-      buyerSearchEstatesController.searchAllEstates(request);
-
-      // Then
-      verify(estatesFetcherFactory, times(1)).newInstance(estateAssemblerFactory, estateRepositoryFactory);
-   }
-
-   @Test
    public void whenSelectingAnEstateShouldFetchEstateByAddress()
          throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
       // Given no changes
@@ -139,7 +121,6 @@ public class BuyerSearchEstatesControllerTest {
       buyerSearchEstatesController.getEstateByAddress(ADDRESS, request);
 
       // Then
-      verify(estatesFetcherFactory, times(1)).newInstance(estateAssemblerFactory, estateRepositoryFactory);
       verify(estatesFetcherService, times(1)).getEstateByAddress(ADDRESS);
    }
 
