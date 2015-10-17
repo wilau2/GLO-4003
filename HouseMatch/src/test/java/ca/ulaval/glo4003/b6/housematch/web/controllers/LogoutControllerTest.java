@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 
 public class LogoutControllerTest {
 

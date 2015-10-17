@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 
 @Controller
 public class LogoutController {

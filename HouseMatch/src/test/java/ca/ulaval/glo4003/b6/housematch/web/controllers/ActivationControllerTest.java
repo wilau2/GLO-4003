@@ -14,9 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.user.services.ActivationService;
+import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.user.ActivationService;
 
 public class ActivationControllerTest {
 
@@ -42,7 +42,7 @@ public class ActivationControllerTest {
 
    @Test
    public void confirmActivationShouldCallActivationService()
-         throws UserNotFoundException, CouldNotAccessUserDataException {
+         throws UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -53,8 +53,7 @@ public class ActivationControllerTest {
    }
 
    @Test
-   public void confirmActivationShouldReturnRedirectIndex()
-         throws UserNotFoundException, CouldNotAccessUserDataException {
+   public void confirmActivationShouldReturnRedirectIndex() throws UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -66,7 +65,7 @@ public class ActivationControllerTest {
 
    @Test(expected = UserNotFoundException.class)
    public void confirmActivationWithBadUserNAmeShouldThrowUserNotFoundException()
-         throws UserNotFoundException, CouldNotAccessUserDataException {
+         throws UserNotFoundException, CouldNotAccessDataException {
       // Given
       doThrow(new UserNotFoundException("")).when(activationService).activateAccount(USERNAME);
 
@@ -76,11 +75,11 @@ public class ActivationControllerTest {
       // Then throw UserNotFoundException
    }
 
-   @Test(expected = CouldNotAccessUserDataException.class)
+   @Test(expected = CouldNotAccessDataException.class)
    public void confirmActivationWithBadUserNAmeShouldThrowCouldNotAccessUserDataException()
-         throws UserNotFoundException, CouldNotAccessUserDataException {
+         throws UserNotFoundException, CouldNotAccessDataException {
       // Given
-      doThrow(new CouldNotAccessUserDataException("")).when(activationService).activateAccount(USERNAME);
+      doThrow(new CouldNotAccessDataException("", null)).when(activationService).activateAccount(USERNAME);
 
       // When
       activationController.confirmation(request, USERNAME);
@@ -90,7 +89,7 @@ public class ActivationControllerTest {
 
    @Test
    public void confirmActivationWithPathVariableUsernameShouldReturnConfirmation()
-         throws UserNotFoundException, CouldNotAccessUserDataException {
+         throws UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When

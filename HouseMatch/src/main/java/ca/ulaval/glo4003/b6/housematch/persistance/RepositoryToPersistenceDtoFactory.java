@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.persistance;
 
-import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.repository.RepositoryToPersistenceUserDto;
+import ca.ulaval.glo4003.b6.housematch.domain.user.User;
+import ca.ulaval.glo4003.b6.housematch.persistance.user.RepositoryToPersistenceUserDto;
 
 public class RepositoryToPersistenceDtoFactory {
 

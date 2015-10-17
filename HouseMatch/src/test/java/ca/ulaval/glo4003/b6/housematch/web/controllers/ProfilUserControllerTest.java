@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -16,18 +17,16 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator;
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidContactInformationFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.anticorruption.exceptions.InvalidUserSignupFieldException;
-import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.CouldNotAccessUserDataException;
-import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
-import ca.ulaval.glo4003.b6.housematch.user.services.UserFetcher;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
-import ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewmodels.ProfilUserViewModel;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.UserProfilCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidContactInformationFieldException;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserSignupFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
 
 public class ProfilUserControllerTest {
 
@@ -43,9 +42,6 @@ public class ProfilUserControllerTest {
    private UserProfilCorruptionVerificator userProfilCorruptionVerificator;
 
    @Mock
-   private ProfilUserConverter profilUserConverter;
-
-   @Mock
    private UserFetcher userFetcher;
 
    @Mock
@@ -57,19 +53,15 @@ public class ProfilUserControllerTest {
    private UserDto userDto;
 
    @Mock
-   private ProfilUserViewModel viewModel;
-
-   @Mock
    private HttpSession session;
 
    @Mock
    private Object username;
 
    @Before
-   public void setup() throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+   public void setup() throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException {
       MockitoAnnotations.initMocks(this);
 
-      configureProfilUserConverter();
       configureUserFetcher();
       configureRequest();
       configureSession();
@@ -83,19 +75,14 @@ public class ProfilUserControllerTest {
       given(request.getSession()).willReturn(session);
    }
 
-   private void configureUserFetcher() throws UserNotFoundException, CouldNotAccessUserDataException {
+   private void configureUserFetcher() throws UserNotFoundException, CouldNotAccessDataException {
       given(userFetcher.getUserByUsername(USERNAME)).willReturn(userDto);
 
    }
 
-   private void configureProfilUserConverter() {
-      given(profilUserConverter.convertToViewModel(userDto)).willReturn(viewModel);
-      given(profilUserConverter.convertViewModelToDto(viewModel)).willReturn(userDto);
-   }
-
    @Test
    public void givenValidAccessWhenGetProfilShouldDelegateAccessValidation()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -107,7 +94,7 @@ public class ProfilUserControllerTest {
 
    @Test
    public void givenValidUserWhenGetProfilShouldDelegateGettingUser()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -118,20 +105,8 @@ public class ProfilUserControllerTest {
    }
 
    @Test
-   public void givenValidUserWhenGetProfilShouldDelegateConvertingUserDto()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
-      // Given
-
-      // When
-      profilUserController.getProfil(request);
-
-      // Then
-      verify(profilUserConverter, times(1)).convertToViewModel(userDto);
-   }
-
-   @Test
    public void givenValidAccessWhenGetProfilShouldReturnProfilView()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -143,19 +118,19 @@ public class ProfilUserControllerTest {
 
    @Test
    public void givenValidAccessWhenGetProfilShouldAddObjectToView()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException {
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
       ModelAndView returnedViewModel = profilUserController.getProfil(request);
 
       // Then
-      assertEquals(viewModel, returnedViewModel.getModel().get("user"));
+      assertEquals(userDto, returnedViewModel.getModel().get("user"));
    }
 
    @Test(expected = InvalidAccessException.class)
    public void givenInvalidAccessWhenGetProfilShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidAccessException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidAccessException {
 
       // Given
       doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
@@ -170,7 +145,7 @@ public class ProfilUserControllerTest {
 
    @Test(expected = UserNotFoundException.class)
    public void givenUserDoesNotExistWhenGetProfilShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidAccessException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidAccessException {
 
       // Given
       doThrow(new UserNotFoundException("")).when(userFetcher).getUserByUsername(USERNAME);
@@ -182,12 +157,12 @@ public class ProfilUserControllerTest {
 
    }
 
-   @Test(expected = CouldNotAccessUserDataException.class)
+   @Test(expected = CouldNotAccessDataException.class)
    public void givenCouldNotAccessDataWhenGetProfilShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidAccessException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidAccessException {
 
       // Given
-      doThrow(new CouldNotAccessUserDataException("")).when(userFetcher).getUserByUsername(USERNAME);
+      doThrow(new CouldNotAccessDataException("", null)).when(userFetcher).getUserByUsername(USERNAME);
 
       // When
       profilUserController.getProfil(request);
@@ -198,38 +173,25 @@ public class ProfilUserControllerTest {
 
    @Test
    public void givenValidViewModelWhenUpdateProfilShouldDelegateUpdate()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException,
          InvalidUserSignupFieldException, InvalidContactInformationFieldException, UserNotifyingException {
       // Given
 
       // When
-      profilUserController.updateProfil(request, viewModel);
+      profilUserController.updateProfil(request, userDto);
 
       // Then
-      verify(userProfilCorruptionVerificator, times(1)).update(userDto);;
-   }
-
-   @Test
-   public void givenValidViewModelWhenUpdateProfilShouldDelegateConvertion()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
-         InvalidUserSignupFieldException, InvalidContactInformationFieldException, UserNotifyingException {
-      // Given
-
-      // When
-      profilUserController.updateProfil(request, viewModel);
-
-      // Then
-      verify(profilUserConverter, times(1)).convertViewModelToDto(viewModel);;
+      verify(userProfilCorruptionVerificator, times(1)).update(userDto);
    }
 
    @Test
    public void givenValidViewModelWhenUpdateProfilShouldDelegateAuthentification()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException,
          InvalidUserSignupFieldException, InvalidContactInformationFieldException, UserNotifyingException {
       // Given
 
       // When
-      profilUserController.updateProfil(request, viewModel);
+      profilUserController.updateProfil(request, userDto);
 
       // Then
       verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, expectedRole);;
@@ -237,12 +199,12 @@ public class ProfilUserControllerTest {
 
    @Test
    public void givenValidViewModelWhenUpdateProfilShouldRedirectToProfil()
-         throws InvalidAccessException, UserNotFoundException, CouldNotAccessUserDataException,
+         throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException,
          InvalidUserSignupFieldException, InvalidContactInformationFieldException, UserNotifyingException {
       // Given
 
       // When
-      String resp = profilUserController.updateProfil(request, viewModel);
+      String resp = profilUserController.updateProfil(request, userDto);
 
       // Then
       assertEquals("redirect:/profil", resp);
@@ -250,7 +212,7 @@ public class ProfilUserControllerTest {
 
    @Test(expected = InvalidAccessException.class)
    public void givenInvalidAccessWhenUpdateProfilShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessUserDataException, InvalidAccessException,
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidAccessException,
          InvalidUserSignupFieldException, InvalidContactInformationFieldException, UserNotifyingException {
 
       // Given
@@ -258,9 +220,9 @@ public class ProfilUserControllerTest {
             expectedRole);
 
       // When
-      profilUserController.updateProfil(request, viewModel);
-      // Then Exception is thrown
+      profilUserController.updateProfil(request, userDto);
 
+      // Then Exception is thrown
    }
 
 }

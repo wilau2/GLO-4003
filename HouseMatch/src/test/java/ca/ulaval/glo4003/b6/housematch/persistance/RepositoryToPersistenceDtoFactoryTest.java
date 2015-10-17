@@ -8,10 +8,10 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.user.domain.ContactInformation;
-import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
-import ca.ulaval.glo4003.b6.housematch.user.domain.User;
-import ca.ulaval.glo4003.b6.housematch.user.repository.RepositoryToPersistenceUserDto;
+import ca.ulaval.glo4003.b6.housematch.domain.user.ContactInformation;
+import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
+import ca.ulaval.glo4003.b6.housematch.domain.user.User;
+import ca.ulaval.glo4003.b6.housematch.persistance.user.RepositoryToPersistenceUserDto;
 
 public class RepositoryToPersistenceDtoFactoryTest {
 

@@ -25,8 +25,8 @@ import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFact
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
-import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
-import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 public class BuyerSearchEstatesControllerTest {
 
