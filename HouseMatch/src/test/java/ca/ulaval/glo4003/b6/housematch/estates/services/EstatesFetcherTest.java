@@ -85,10 +85,10 @@ public class EstatesFetcherTest {
    @Test
    public void whenFetchingEstateBySellerNameShouldReturnListOfEstateDto()
          throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
+      // Given no changes
 
       // When
-      List<?> estates = estateFetcher.getEstatesBySeller(SELLER_NAME);
+      List<EstateDto> estates = estateFetcher.getEstatesBySeller(SELLER_NAME);
 
       // Then
       assertTrue(estates.get(0) instanceof EstateDto);
@@ -183,4 +183,44 @@ public class EstatesFetcherTest {
       assertTrue(estates.get(0) instanceof EstateDto);
    }
 
+   @Test
+   public void whenAskedAllEstatesShouldCallAssembleEstate() throws CouldNotAccessDataException {
+      // given
+      List<Estate> dumbEstates = new ArrayList<Estate>();
+      dumbEstates.add(estate);
+      when(estateRepository.getAllEstates()).thenReturn(dumbEstates);
+
+      // when
+      estateFetcher.getAllEstates();
+
+      // then
+
+      verify(estateRepository, times(1)).getAllEstates();
+   }
+
+   @Test
+   public void whenAskedAllEstatesShouldDelegateTheAssemblerCreation() throws CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      estateFetcher.getAllEstates();
+
+      // Then
+      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
+   }
+
+   @Test
+   public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() throws CouldNotAccessDataException {
+      // given
+      List<Estate> dumbEstateDtoList = new ArrayList<Estate>();
+      dumbEstateDtoList.add(estate);
+      when(estateRepository.getAllEstates()).thenReturn(dumbEstateDtoList);
+      when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
+
+      // when
+      estateFetcher.getAllEstates();
+
+      // then
+      verify(estateAssembler, times(1)).assembleEstateDto(estate);
+   }
 }

@@ -20,7 +20,7 @@ public class DescriptionAssembler {
       Integer numberOfRooms = descriptionDto.getNumberOfRooms();
       Integer numberOfLevel = descriptionDto.getNumberOfLevel();
       Integer yearsOfConstruction = descriptionDto.getYearOfConstruction();
-      String dimensionsBuilding = descriptionDto.getBuildingDimensions();
+      String dimensionsBuilding = descriptionDto.getBuildingDimension();
       Integer livingSpaceAreaSquareMeter = descriptionDto.getLivingSpaceAreaSquareMeter();
       Integer municipalValuation = descriptionDto.getMunicipalAssessment();
       String backyardOrientation = descriptionDto.getBackyardOrientation();

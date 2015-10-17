@@ -9,6 +9,8 @@ public class User {
    private ContactInformation contactInformation;
 
    private Role role;
+   
+   private Boolean active = false;
 
    public User(String username, String password, ContactInformation contactInformation, Role role) {
       this.username = username;
@@ -29,6 +31,10 @@ public class User {
       return role.hasAdmin();
    }
 
+   public void updateContactInformation(ContactInformation contactInformation) {
+      this.contactInformation.update(contactInformation);
+   }
+
    public String getUsername() {
       return username;
    }
@@ -43,5 +49,13 @@ public class User {
 
    public Role getRole() {
       return role;
+   }
+
+   public Boolean isActive() {
+      return active;
+   }
+
+   public void setActive(Boolean active) {
+      this.active = active;
    }
 }

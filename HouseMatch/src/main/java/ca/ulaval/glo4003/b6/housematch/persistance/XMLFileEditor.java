@@ -28,6 +28,23 @@ public class XMLFileEditor {
       return reader.read(xml);
    }
 
+   public void deleteExistingElementWithCorrespondingValue(Document existingDocument, String pathToValue,
+         String wantedValue) {
+      List<Node> list = existingDocument.selectNodes(pathToValue);
+      for (Node node : list) {
+         if (node.getStringValue().equals(wantedValue)) {
+            node.getParent().detach();
+         }
+      }
+   }
+
+   public void replaceExistingElementWithCorrespondingValue(Document existingDocument, String pathToValue,
+         String wantedValue, RepositoryToPersistenceDto receivedDto) {
+      deleteExistingElementWithCorrespondingValue(existingDocument, pathToValue, wantedValue);
+      addNewElementToDocument(existingDocument, receivedDto);
+
+   }
+
    public void addNewElementToDocument(Document existingDocument, RepositoryToPersistenceDto receivedDto) {
       Element rootElement = existingDocument.getRootElement();
       Element newElement = rootElement.addElement(receivedDto.getElementName());
@@ -41,17 +58,17 @@ public class XMLFileEditor {
          RepositoryToPersistenceDto receivedDto) {
       Element rootElement = existingDocument.getRootElement();
       Element parentElement = rootElement.element(parentElementName);
-      
+
       Element newElement = parentElement.addElement(receivedDto.getElementName());
 
       for (Entry<String, String> entry : receivedDto.getAttributes().entrySet()) {
          newElement.addElement(entry.getKey()).addText(entry.getValue());
       }
    }
-   
-   public void addNewNestedElementToDocumentFromParentPath(Document existingDocument, RepositoryToPersistenceDto receivedDto, 
-                                             String wantedValue, String wantedValueName, String parentElementPath) {
-      
+
+   public void addNewNestedElementToDocumentFromParentPath(Document existingDocument,
+         RepositoryToPersistenceDto receivedDto, String wantedValue, String wantedValueName, String parentElementPath) {
+
       Element parentElement = getParentByValue(wantedValue, wantedValueName, existingDocument, parentElementPath);
       Element newElement = parentElement.addElement(receivedDto.getElementName());
 
@@ -59,15 +76,15 @@ public class XMLFileEditor {
          newElement.addElement(entry.getKey()).addText(entry.getValue());
       }
    }
-   
 
-   private Element getParentByValue(String wantedValue, String wantedValueName, Document existingDocument, String parentElementPath) {
+   private Element getParentByValue(String wantedValue, String wantedValueName, Document existingDocument,
+         String parentElementPath) {
       Element element = null;
       List<Node> list = existingDocument.selectNodes(parentElementPath);
       for (Node node : list) {
          Node addressNode = node.selectSingleNode(wantedValueName);
-         if (addressNode.getStringValue().equals(wantedValue)){
-            element = (Element)node;
+         if (addressNode.getStringValue().equals(wantedValue)) {
+            element = (Element) node;
             break;
          }
       }
@@ -86,8 +103,9 @@ public class XMLFileEditor {
          String wantedValue) {
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {
-         if (node.getStringValue().equals(wantedValue))
+         if (node.getStringValue().equals(wantedValue)) {
             return true;
+         }
       }
       return false;
    }
@@ -147,19 +165,20 @@ public class XMLFileEditor {
       }
       return elements;
    }
-   
-   public void replaceElement(Document existingDocument, String pathToValue, String matchingElement, String matchingElementName, RepositoryToPersistenceDto receivedDto){
+
+   public void replaceElement(Document existingDocument, String pathToValue, String matchingElement,
+         String matchingElementName, RepositoryToPersistenceDto receivedDto) {
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {
          Node addressNode = node.selectSingleNode(matchingElementName);
          if (addressNode.getStringValue().equals(matchingElement)) {
-              node.detach();
-              addNewElementToDocument(existingDocument, receivedDto);
-              break;
+            node.detach();
+            addNewElementToDocument(existingDocument, receivedDto);
+            break;
          }
       }
    }
-   
+
    public HashMap<String, String> returnChildAttributesOfElementWithCorrespondingValue(Document existingDocument,
          String pathToValue, String wantedValue, String childValue) {
 
@@ -167,11 +186,12 @@ public class XMLFileEditor {
       for (Node node : list) {
          if (node.getStringValue().equals(wantedValue)) {
             Element childElement = (Element) node.getParent().selectSingleNode(childValue);
-            if (childElement != null){
+            if (childElement != null) {
                return returnMapOfAttributes(childElement);
             }
          }
       }
       return new HashMap<String, String>();
    }
+
 }

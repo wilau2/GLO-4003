@@ -25,6 +25,8 @@ public class XMLFileEditorTest {
 
    final String pathToXmlFileModified = "persistenceTestData/changingTestData.xml";
 
+   final String pathToXmlFileDelete = "persistenceTestData/deleteElementTest.xml";
+
    Document document;
 
    @Mock
@@ -165,6 +167,37 @@ public class XMLFileEditorTest {
 
       // Then
       assertEquals(1, returnedList.size());
+   }
+
+   @Test
+   public void shouldBeAbleToRemoveAnExistingElement() throws DocumentException, IOException {
+      // Given
+      Document documentDelete = editor.readXMLFile(pathToXmlFileDelete);
+      editor.addNewElementToDocument(documentDelete, dtoContainingNewElement);
+      editor.formatAndWriteDocument(documentDelete, pathToXmlFileDelete);
+
+      // When
+      editor.deleteExistingElementWithCorrespondingValue(documentDelete, "test/element/field", "added Data");
+      editor.formatAndWriteDocument(documentDelete, pathToXmlFileDelete);
+
+      // Then
+      assertFalse(editor.elementWithCorrespondingValueExists(documentDelete, "test/element/field", "added Data"));
+   }
+
+   @Test
+   public void shouldBeAbleToReplaceAnExistingElement() throws DocumentException, IOException {
+      // Given
+      Document documentDelete = editor.readXMLFile(pathToXmlFileDelete);
+      editor.addNewElementToDocument(documentDelete, dtoContainingNewElement);
+      editor.formatAndWriteDocument(documentDelete, pathToXmlFileDelete);
+
+      // When
+      editor.replaceExistingElementWithCorrespondingValue(documentDelete, "test/element/field", "added Data",
+            dtoContainingNewElement);
+      editor.formatAndWriteDocument(documentDelete, pathToXmlFileDelete);
+
+      // Then
+      assertTrue(editor.elementWithCorrespondingValueExists(documentDelete, "test/element/field", "added Data"));
    }
 
    private void configureDtoContainingNewElement() {

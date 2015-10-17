@@ -131,7 +131,7 @@ public class DescriptionValidatorTest {
       when(descriptionDto.getNumberOfRooms()).thenReturn(2);
       when(descriptionDto.getNumberOfLevel()).thenReturn(2);
       when(descriptionDto.getYearOfConstruction()).thenReturn(2000);
-      when(descriptionDto.getBuildingDimensions()).thenReturn("valid dimension");
+      when(descriptionDto.getBuildingDimension()).thenReturn("valid dimension");
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(150);
       when(descriptionDto.getMunicipalAssessment()).thenReturn(160000);
       when(descriptionDto.getBackyardOrientation()).thenReturn("valid backyardFaces");

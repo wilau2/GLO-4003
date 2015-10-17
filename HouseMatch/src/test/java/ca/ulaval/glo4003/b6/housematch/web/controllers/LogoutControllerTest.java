@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 import static org.mockito.BDDMockito.given;
 
 import static org.mockito.Mockito.times;
-
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +18,9 @@ import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
 
 public class LogoutControllerTest {
 
+   @InjectMocks
+   public LogoutController controller;
+
    @Mock
    private HttpSession session;
 
@@ -27,9 +29,6 @@ public class LogoutControllerTest {
 
    @Mock
    private UserAuthorizationService userAuthorizationService;
-
-   @InjectMocks
-   public LogoutController controller;
 
    @Before
    public void setup() {

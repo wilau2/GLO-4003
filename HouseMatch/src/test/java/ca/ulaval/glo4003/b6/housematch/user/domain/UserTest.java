@@ -12,6 +12,10 @@ import org.mockito.MockitoAnnotations;
 
 public class UserTest {
 
+   private static final String USERNAME = "username";
+
+   private static final String PASSWORD = "password";
+
    @Mock
    private ContactInformation contactInformation;
 
@@ -20,10 +24,6 @@ public class UserTest {
 
    @InjectMocks
    private User user;
-
-   private final static String USERNAME = "username";
-
-   private final static String PASSWORD = "password";
 
    @Before
    public void setup() {

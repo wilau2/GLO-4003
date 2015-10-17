@@ -28,9 +28,9 @@ public class DescriptionDtoTest {
    }
    
    private void configureDto() {
-      descriptionDto.setDimensionsBuilding(dimensionsBuilding);
+      descriptionDto.setBuildingDimension(dimensionsBuilding);
       descriptionDto.setLivingSpaceAreaSquareMeter(livingSpaceAreaSquareMeter);
-      descriptionDto.setMunicipalValuation(municipalValuation);
+      descriptionDto.setMunicipalAssessment(municipalValuation);
       descriptionDto.setNumberOfBathrooms(numberOfBathrooms);
       descriptionDto.setNumberOfBedRooms(numberOfBedRooms);
       descriptionDto.setNumberOfLevel(numberOfLevel);
@@ -42,7 +42,7 @@ public class DescriptionDtoTest {
    @Test
    public void settersWorksCorrectly() {
 
-      assertTrue(descriptionDto.getBuildingDimensions() == this.dimensionsBuilding);
+      assertTrue(descriptionDto.getBuildingDimension() == this.dimensionsBuilding);
       assertTrue(descriptionDto.getLivingSpaceAreaSquareMeter() == this.livingSpaceAreaSquareMeter);
       assertTrue(descriptionDto.getMunicipalAssessment() == this.municipalValuation);
       assertTrue(descriptionDto.getNumberOfBathrooms() == this.numberOfBathrooms);

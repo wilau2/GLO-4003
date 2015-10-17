@@ -51,9 +51,9 @@ public class DescriptionElementAssembler {
          descriptionDto.setNumberOfRooms(numberOfRooms);
          descriptionDto.setNumberOfLevel(numberOfLevel);
          descriptionDto.setYearsOfConstruction(yearsOfConstruction);
-         descriptionDto.setDimensionsBuilding(dimensionsBuilding);
+         descriptionDto.setBuildingDimension(dimensionsBuilding);
          descriptionDto.setLivingSpaceAreaSquareMeter(livingSpaceAreaSquareMeter);
-         descriptionDto.setMunicipalValuation(municipalValuation);
+         descriptionDto.setMunicipalAssessment(municipalValuation);
          descriptionDto.setBackyardOrientation(backyardFaces);
       
       return descriptionDto;

@@ -58,7 +58,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getNumberOfRooms()).thenReturn(NUMBER_OF_ROOMS);
       when(descriptionDto.getNumberOfLevel()).thenReturn(NUMBER_OF_LEVEL);    
       when(descriptionDto.getYearOfConstruction()).thenReturn(YEAR_OF_CONSTRUCTION);
-      when(descriptionDto.getBuildingDimensions()).thenReturn(DIMENSION_OF_BUILDING);
+      when(descriptionDto.getBuildingDimension()).thenReturn(DIMENSION_OF_BUILDING);
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(LIVING_SPACE_AREA);
       when(descriptionDto.getMunicipalAssessment()).thenReturn(MUNICIPAL_VALUATION);
       when(descriptionDto.getBackyardOrientation()).thenReturn(BACKYARD_ORIENTATION);
@@ -191,7 +191,7 @@ public class DescriptionCorruptionVerificatorTest {
    public void verificatingDescriptionCorruptionWhenDescriptionHasNullDimensionBuildingShouldThrowInvalidDescriptionFieldException() 
          throws InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // Given
-      when(descriptionDto.getBuildingDimensions()).thenReturn(null);
+      when(descriptionDto.getBuildingDimension()).thenReturn(null);
       // When
       descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
       

@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.user.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
@@ -89,7 +88,6 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-
    public void whenFindingByUsernameShouldReturnAUserWithTheCorrectUsername()
          throws CouldNotAccessUserDataException, UserNotFoundException {
 
@@ -255,6 +253,12 @@ public class XMLUserRepositoryTest {
       HashMap<String, String> mapWithUserData = new HashMap<String, String>();
       mapWithUserData.put("username", existingUsername);
       mapWithUserData.put("password", correctPassword);
+      mapWithUserData.put("firstName", "firstName");
+      mapWithUserData.put("lastName", "lastName");
+      mapWithUserData.put("role", "role");
+      mapWithUserData.put("phoneNumber", "phoneNumber");
+      mapWithUserData.put("email", "email");
+      mapWithUserData.put("isActive", "true");
 
       given(editor.returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
             existingUsername)).willReturn(mapWithUserData);

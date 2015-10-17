@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.user.domain.assembler.factory;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,6 +31,6 @@ public class UserAssemblerFactoryTest {
       userAssembler = userAssemblerFactory.createUserAssembler();
 
       // Then
-      assert(userAssembler instanceof UserAssembler);
+      assertTrue(userAssembler instanceof UserAssembler);
    }
 }

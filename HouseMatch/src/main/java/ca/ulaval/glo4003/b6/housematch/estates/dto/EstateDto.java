@@ -9,6 +9,7 @@ public class EstateDto {
    private DescriptionDto descriptionDto;
 
    public EstateDto() {
+      this.address = new AddressDto();
    }
 
    public EstateDto(String type, AddressDto address, Integer price, String sellerId) {

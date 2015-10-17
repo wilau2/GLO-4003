@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.user.services;
 
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +15,15 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
+import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
 
 public class UserAuthorizationServiceTest {
+
+   private static final String EXPECTED_BUYER_ROLE = "buyer";
+
+   private static final String EXPECTED_SELLER_ROLE = "seller";
+
+   private static final String USERNAME = "username";
 
    @Mock
    User user;
@@ -29,7 +37,8 @@ public class UserAuthorizationServiceTest {
    @Mock
    private HttpSession session;
 
-   private static String USERNAME = "username";
+   @Mock
+   private Object roleObject;
 
    @Before
    public void setup() {
@@ -102,6 +111,39 @@ public class UserAuthorizationServiceTest {
 
       // Then
       verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE, null);
+   }
+
+   @Test
+   public void givenExpectedRoleSameAsSessionRoleWhenIsSessionAllowedThenReturnTrue() throws InvalidAccessException {
+
+      // Given
+      configureBuyerSession();
+
+      // When
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_BUYER_ROLE);
+
+      // Then no exception is thrown
+
+   }
+
+   @Test(expected = InvalidAccessException.class)
+   public void givenExpectedRoleDifferentTehnSessionRoleWhenIsSessionAllowedThenShouldThrowException()
+         throws InvalidAccessException {
+
+      // Given
+      configureBuyerSession();
+
+      // When
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_SELLER_ROLE);
+
+      // Then an InvalidAccessException is thrown
+
+   }
+
+   private void configureBuyerSession() {
+      given(session.getAttribute(userAuthorizationService.LOGGED_IN_USER_ROLE)).willReturn(roleObject);
+      given(roleObject.toString()).willReturn("buyer");
+
    }
 
    private void configureUser() {
