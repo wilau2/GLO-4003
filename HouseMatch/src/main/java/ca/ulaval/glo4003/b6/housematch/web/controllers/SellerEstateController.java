@@ -7,16 +7,22 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.DescriptionCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher;
@@ -33,6 +39,8 @@ public class SellerEstateController {
 
    private EstateCorruptionVerificator estateCorruptionVerificator;
 
+   private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
+
    private UserAuthorizationService userAuthorizationService;
 
    private EstateAssemblerFactory estateAssembleFactory;
@@ -44,12 +52,18 @@ public class SellerEstateController {
    @Autowired
    public SellerEstateController(EstateCorruptionVerificator estateCorruptionVerificator,
          UserAuthorizationService userAuthorizationService, EstateAssemblerFactory estateAssembleFactory,
-         EstatesFetcherFactory estatesFetcherFactory, EstateRepositoryFactory estateRepositoryFactory) {
+
+   EstatesFetcherFactory estatesFetcherFactory, EstateRepositoryFactory estateRepositoryFactory,
+         DescriptionCorruptionVerificator descriptionCorruptionVerificator) {
+
       this.estateCorruptionVerificator = estateCorruptionVerificator;
       this.userAuthorizationService = userAuthorizationService;
       this.estateAssembleFactory = estateAssembleFactory;
       this.estateRepositoryFactory = estateRepositoryFactory;
       this.estatesFetcherFactory = estatesFetcherFactory;
+
+      this.descriptionCorruptionVerificator = descriptionCorruptionVerificator;
+
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.POST)
@@ -61,7 +75,7 @@ public class SellerEstateController {
 
       estateCorruptionVerificator.addEstate(estateDto);
 
-      return "redirect:/";
+      return "redirect:/seller/" + userId + "/estates";
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.GET)
@@ -91,13 +105,29 @@ public class SellerEstateController {
          throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
       EstatesFetcher estatesFetcher = estatesFetcherFactory.newInstance(estateAssembleFactory, estateRepositoryFactory);
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
-      ModelAndView estateViewModel = new ModelAndView("estate");
-      estateViewModel.addObject("estate", estateByAddress);
+      DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
 
-      return estateViewModel;
+      ModelAndView sellerEstateViewModel = new ModelAndView("estate");
+      sellerEstateViewModel.addObject("estate", estateByAddress);
+      sellerEstateViewModel.addObject("description", descriptionDto);
+
+      return sellerEstateViewModel;
    }
 
+   @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.POST)
+   public String editDescription(@PathVariable("address") String address, HttpServletRequest request,
+         @ModelAttribute("description") DescriptionDto descriptionDto) throws InvalidEstateFieldException,
+               CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException,
+               InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {
+      System.out.println(descriptionDto.getYearOfConstruction());
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      descriptionCorruptionVerificator.editDescription(address, descriptionDto);
+
+      return "redirect:/seller/{userId}/estates/{address}";
+   }
 }

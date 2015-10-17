@@ -9,12 +9,16 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.AddressAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.DescriptionAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 
 public class EstateAssemblerFactoryTest {
 
    @Mock
    private AddressAssembler addressAssembler;
+   
+   @Mock
+   private DescriptionAssembler descriptionAssembler;
 
    private EstateAssemblerFactory estateAssemblerFactory;
 

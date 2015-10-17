@@ -9,9 +9,12 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
@@ -29,6 +32,8 @@ public class XMLEstateRepository implements EstateRepository {
    private static final String PATH_TO_ADDRESS = "estates/estate/address";
 
    private static final String ADDRESS_KEY = "address";
+
+   private static final String CHILD_DESCRIPTION_KEY = "description";
 
    private static final String XML_DIRECTORY_PATH = "persistence/estates.xml";
 
@@ -126,14 +131,42 @@ public class XMLEstateRepository implements EstateRepository {
    private void addNewEstateToDocument(Document document, HashMap<String, String> attributes,
          EstatePersistenceDtoFactory estatePersistenceDtoFactory) {
 
-      EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(attributes);
+      EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(attributes);
 
       xmlFileEditor.addNewElementToDocument(document, estatePersistenceDto);
    }
 
    @Override
-   public void editEstate(Estate estate) {
-      // On fetch le estate puis on le re-persiste avec ses details?
+   public void editDescription(String targetAddressKey, Description description) throws CouldNotAccessDataException {
+      Document estateDocument;
+      try {
+         estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
+         EstateDto estateDto = assembleDtoFromDocumentAttributes(targetAddressKey, estateDocument);
+         Estate estate = assembleEstate(estateDto);
+         EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+         HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
+         EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(attributes);
+
+         xmlFileEditor.replaceElement(estateDocument, PATH_TO_ESTATE, targetAddressKey, ADDRESS_KEY,
+               estatePersistenceDto);
+
+         if (description != null) {
+            HashMap<String, String> descriptionAttributes = estateElementAssembler
+                  .convertDescriptionToAttributes(description);
+            DescriptionPersistenceDto descriptionPersistenceDto = estatePersistenceDtoFactory
+                  .newInstanceDescription(descriptionAttributes);
+            xmlFileEditor.addNewNestedElementToDocumentFromParentPath(estateDocument, descriptionPersistenceDto,
+                  targetAddressKey, ADDRESS_KEY, PATH_TO_ESTATE);
+         }
+
+         try {
+            saveEstateDocument(estateDocument);
+         } catch (IOException e1) {
+            throw new CouldNotAccessDataException("Unable to save estate to document", e1);
+         }
+      } catch (DocumentException e2) {
+         throw new CouldNotAccessDataException("Unable to edit description", e2);
+      }
    }
 
    @Override
@@ -161,7 +194,8 @@ public class XMLEstateRepository implements EstateRepository {
             throw new EstateNotFoundException("No estate found at this address : " + address);
          }
 
-         EstateDto estateDto = assembleEstateDtoFromDocumentAttributes(address, document);
+         EstateDto estateDto = assembleDtoFromDocumentAttributes(address, document);
+
          estate = assembleEstate(estateDto);
 
       } catch (DocumentException e) {
@@ -170,12 +204,20 @@ public class XMLEstateRepository implements EstateRepository {
       return estate;
    }
 
-   private EstateDto assembleEstateDtoFromDocumentAttributes(String address, Document document) {
+   private EstateDto assembleDtoFromDocumentAttributes(String address, Document document) {
       HashMap<String, String> estateAttributes = xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(document,
             PATH_TO_ADDRESS, address);
 
+      HashMap<String, String> descriptionAttributes = xmlFileEditor
+            .returnChildAttributesOfElementWithCorrespondingValue(document, PATH_TO_ADDRESS, address,
+                  CHILD_DESCRIPTION_KEY);
+
       EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
       EstateDto estateDto = estateElementAssembler.convertAttributesToDto(estateAttributes);
+      DescriptionDto descriptionDto = estateElementAssembler.convertDescriptionAttributesToDto(descriptionAttributes);
+
+      estateDto.setDescriptionDto(descriptionDto);
+
       return estateDto;
    }
 

@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.estates.anticorruption.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
@@ -49,6 +50,9 @@ public class SellerEstateControllerTest {
 
    @Mock
    private EstateDto estateDto;
+
+   @Mock
+   private DescriptionDto descriptionDto;
 
    @Mock
    private EstatesFetcher estateFetcherService;
@@ -117,7 +121,7 @@ public class SellerEstateControllerTest {
    public void addingEstateFromControllerWhenEstateIsValidShouldReturnRedirectToString()
          throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
       // Given no changes
-      String expectedRedirectTo = "redirect:/";
+      String expectedRedirectTo = "redirect:/seller/" + USER_ID + "/estates";
 
       // When
       String returnedView = estateController.addEstate(request, estateDto, USER_ID);

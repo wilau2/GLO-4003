@@ -10,7 +10,12 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop
+<<<<<<< HEAD
     	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+=======
+    	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
+>
+>>>>>>> origin/fixing_merge_from_pas_isaac
 
     <context:component-scan base-package="ca.ulaval.glo4003.b6.housematch" />
     <annotation-driven />
@@ -31,13 +36,31 @@
             value=".jsp" />
     </beans:bean>
 
+<<<<<<< HEAD
 
     <beans:bean
+=======
+    <beans:bean
+        id="addressValidatorFactory"
+        class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.AddressValidatorFactoryImpl" />
+
+    <beans:bean
+        id="estateRepositoryFactory"
+        class="ca.ulaval.glo4003.b6.housematch.estates.repository.factory.XmlEstateRepositoryFactory" />
+    <beans:bean
+        id="descriptionValidatorFactory"
+        class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidatorFactory" />
+    <beans:bean
+        id="descriptionAssemblerFactory"
+        class="ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.DescriptionAssemblerFactory" />
+    <beans:bean
+>>>>>>> origin/fixing_merge_from_pas_isaac
         id="estateValidatorFactory"
         class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactoryImpl" />
     <beans:bean
         id="estateAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory" />
+<<<<<<< HEAD
     <beans:bean
         id="estateRepositoryFactory"
         class="ca.ulaval.glo4003.b6.housematch.estates.repository.factory.XmlEstateRepositoryFactory" />
@@ -47,6 +70,13 @@
     <beans:bean
         id="estateService"
         class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService">
+=======
+
+    <beans:bean
+        id="estateService"
+        class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="estateValidatorFactory"
             ref="estateValidatorFactory" />
@@ -59,14 +89,51 @@
         <beans:constructor-arg
             name="addressValidatorFactory"
             ref="addressValidatorFactory" />
+<<<<<<< HEAD
     </beans:bean>
+=======
+        <beans:constructor-arg
+            name="descriptionValidatorFactory"
+            ref="descriptionValidatorFactory" />
+        <beans:constructor-arg
+            name="descriptionAssemblerFactory"
+            ref="descriptionAssemblerFactory" />
+    </beans:bean>
+
+    <beans:bean
+        id="descriptionCorruptionVerificator"
+        class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.DescriptionCorruptionVerificator"
+    >
+        <beans:constructor-arg
+            name="estateService"
+            ref="estateService" />
+    </beans:bean>
+
+    <beans:bean
+        id="estatesFetcher"
+        class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher"
+    >
+        <beans:constructor-arg
+            name="estateRepositoryFactory"
+            ref="estateRepositoryFactory" />
+        <beans:constructor-arg
+            name="estateAssemblerFactory"
+            ref="estateAssemblerFactory" />
+    </beans:bean>
+
+>>>>>>> origin/fixing_merge_from_pas_isaac
     <beans:bean
         id="addressCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.AddressCorruptionVerificator" />
 
     <beans:bean
         id="estateCorruptionVerificator"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="addressCorruptionVerificator"
             ref="addressCorruptionVerificator" />
@@ -81,7 +148,12 @@
         class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcherFactory" />
     <beans:bean
         id="sellerEstateController"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.SellerEstateController">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.SellerEstateController"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="estateCorruptionVerificator"
             ref="estateCorruptionVerificator" />
@@ -97,10 +169,21 @@
         <beans:constructor-arg
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
+<<<<<<< HEAD
     </beans:bean>
     <beans:bean
         id="buyerSearchEstatesController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.BuyerSearchEstatesController">
+=======
+        <beans:constructor-arg
+            name="descriptionCorruptionVerificator"
+            ref="descriptionCorruptionVerificator" />
+    </beans:bean>
+    <beans:bean
+        id="buyerSearchEstatesController"
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.BuyerSearchEstatesController"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="estatesFetcherFactory"
             ref="estatesFetcherFactory" />
@@ -118,7 +201,12 @@
     <beans:bean
         id="loggedUser"
         class="ca.ulaval.glo4003.b6.housematch.user.domain.User"
+<<<<<<< HEAD
         scope="session">
+=======
+        scope="session"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <aop:scoped-proxy />
     </beans:bean>
 
@@ -143,6 +231,7 @@
     <beans:bean
         id="profilUserConverter"
         class="ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter" />
+<<<<<<< HEAD
         
     <beans:bean
         id="mailBuilderFactory"
@@ -159,6 +248,25 @@
 		class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderObserver">
 		
 		<beans:constructor-arg
+=======
+
+    <beans:bean
+        id="mailBuilderFactory"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailBuilderFactory" />
+
+    <beans:bean
+        id="mailSenderFactory"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderFactory" />
+
+
+
+    <beans:bean
+        id="mailSenderObserver"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderObserver"
+    >
+
+        <beans:constructor-arg
+>>>>>>> origin/fixing_merge_from_pas_isaac
             name="messageBuilderFactory"
             ref="mailBuilderFactory" />
         <beans:constructor-arg
@@ -166,15 +274,28 @@
             ref="mailSenderFactory" />
 
     </beans:bean>
+<<<<<<< HEAD
 	
 	<beans:bean
 		id="activationService"
 		class="ca.ulaval.glo4003.b6.housematch.user.services.ActivationService" />
+=======
+
+    <beans:bean
+        id="activationService"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.ActivationService" />
+>>>>>>> origin/fixing_merge_from_pas_isaac
 
 
     <beans:bean
         id="userLoginService"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService"
+    >
+
+>>>>>>> origin/fixing_merge_from_pas_isaac
 
         <beans:constructor-arg
             name="userRepository"
@@ -184,6 +305,7 @@
             ref="userAuthorizationService" />
 
     </beans:bean>
+<<<<<<< HEAD
     
 	<beans:bean 
 		id="activationController"
@@ -198,6 +320,24 @@
     <beans:bean
         id="userSignupService"
         class="ca.ulaval.glo4003.b6.housematch.user.services.UserSignupService">
+=======
+
+    <beans:bean
+        id="activationController"
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.ActivationController"
+    >
+
+        <beans:constructor-arg
+            name="activationService"
+            ref="activationService" />
+
+    </beans:bean>
+
+    <beans:bean
+        id="userSignupService"
+        class="ca.ulaval.glo4003.b6.housematch.user.services.UserSignupService"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />
@@ -207,16 +347,29 @@
         <beans:constructor-arg
             name="userAssemblerFactory"
             ref="userAssemblerFactory" />
+<<<<<<< HEAD
         <beans:constructor-arg> 
 			<beans:list>
 				<beans:ref bean="mailSenderObserver"/>
 			</beans:list>
 		</beans:constructor-arg>
+=======
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:ref bean="mailSenderObserver" />
+            </beans:list>
+        </beans:constructor-arg>
+>>>>>>> origin/fixing_merge_from_pas_isaac
 
     </beans:bean>
     <beans:bean
         id="userFetcher"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.user.services.UserFetcher">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.user.services.UserFetcher"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />
@@ -224,7 +377,12 @@
 
     <beans:bean
         id="userLoginCorruptionVerificator"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserLoginCorruptionVerificator"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
 
         <beans:constructor-arg
             name="userLoginService"
@@ -234,7 +392,12 @@
 
     <beans:bean
         id="userSignupCorruptionVerificator"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserSignupCorruptionVerificator"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="userSignupService"
             ref="userSignupService" />
@@ -246,7 +409,12 @@
 
     <beans:bean
         id="loginController"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.LoginController">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.LoginController"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="loginUserConverter"
             ref="loginUserConverter" />
@@ -257,7 +425,12 @@
 
     <beans:bean
         id="signupController"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.SignupController">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.SignupController"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="signupUserConverter"
             ref="signupUserConverter" />
@@ -268,7 +441,12 @@
 
     <beans:bean
         id="logoutController"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.LogoutController">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.LogoutController"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />
@@ -285,24 +463,42 @@
 
     <beans:bean
         id="userProfilService"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.user.services.UserProfilService">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.user.services.UserProfilService"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />
         <beans:constructor-arg
             name="contactInformationAssemblerFactory"
             ref="contactInformationAssemblerFactory" />
+<<<<<<< HEAD
         <beans:constructor-arg> 
 			<beans:list>
 				<beans:ref bean="mailSenderObserver"/>
 			</beans:list>
 		</beans:constructor-arg>
+=======
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:ref bean="mailSenderObserver" />
+            </beans:list>
+        </beans:constructor-arg>
+>>>>>>> origin/fixing_merge_from_pas_isaac
 
     </beans:bean>
 
     <beans:bean
         id="userProfilCorruptionVerificator"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.user.anticorruption.UserProfilCorruptionVerificator"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="userProfilService"
             ref="userProfilService" />
@@ -313,7 +509,12 @@
 
     <beans:bean
         id="profilUserController"
+<<<<<<< HEAD
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.ProfilUserController">
+=======
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.ProfilUserController"
+    >
+>>>>>>> origin/fixing_merge_from_pas_isaac
         <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />

@@ -2,11 +2,15 @@ package ca.ulaval.glo4003.b6.housematch.estates.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.DescriptionAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.AddressValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactory;
@@ -26,12 +30,16 @@ public class EstatesService {
    private AddressValidatorFactory addressValidatorFactory;
 
    @Autowired
-   public EstatesService(EstateValidatorFactory estateValidatorFactory, EstateAssemblerFactory estateAssemblerFactory,
-         EstateRepositoryFactory estateRepositoryFactory, AddressValidatorFactory addressValidatorFactory) {
+   public EstatesService(EstateValidatorFactory estateValidatorFactory, AddressValidatorFactory addressValidatorFactory,
+         EstateAssemblerFactory estateAssemblerFactory, EstateRepositoryFactory estateRepositoryFactory,
+         DescriptionValidatorFactory descriptionValidatorFactory,
+         DescriptionAssemblerFactory descriptionAssemblerFactory) {
 
       this.estateValidatorFactory = estateValidatorFactory;
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepositoryFactory = estateRepositoryFactory;
+      // this.descriptionValidatorFactory = descriptionValidatorFactory;
+      // this.descriptionAssemblerFactory = descriptionAssemblerFactory;
       this.addressValidatorFactory = addressValidatorFactory;
    }
 
@@ -53,15 +61,15 @@ public class EstatesService {
       addressValidator.validate(estateDto.getAddress());
    }
 
-   public void editEstate(EstateDto estateDto) throws InvalidEstateException {
-      EstateValidator estateValidator = estateValidatorFactory.getValidator();
-      estateValidator.validate(estateDto);
+   public void editDescription(String address, DescriptionDto descriptionDto)
+         throws InvalidEstateException, CouldNotAccessDataException {
 
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-      Estate estate = estateAssembler.assembleEstate(estateDto);
+      Description description = estateAssembler.assembleDescription(descriptionDto);
 
       EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
-      estateRepository.editEstate(estate);
-   }
 
+      estateRepository.editDescription(address, description);
+
+   }
 }

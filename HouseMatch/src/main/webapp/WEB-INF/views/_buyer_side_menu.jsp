@@ -5,5 +5,9 @@
 			<li class="pure-menu-item"><a class="pure-menu-link"
 				href="${entryUrl}/buyer/${loggedInUsername}/estates">Search estates</a></li>
 		</ul>
+<<<<<<< HEAD
 	</div>
+=======
+	</div>
+>>>>>>> origin/fixing_merge_from_pas_isaac
 </div>

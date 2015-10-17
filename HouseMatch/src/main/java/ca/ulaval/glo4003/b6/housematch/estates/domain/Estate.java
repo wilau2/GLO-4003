@@ -9,12 +9,17 @@ public class Estate {
    private String type;
 
    private String seller;
+   
+   private Description description;
 
-   public Estate(String type, Address address, Integer price, String seller) {
+   
+   public Estate(String type, Address address, Integer price, String seller, Description description) {
+
       this.type = type;
       this.address = address;
       this.price = price;
       this.seller = seller;
+      this.description = description;
    }
 
    public String getType() {
@@ -31,6 +36,10 @@ public class Estate {
 
    public String getSeller() {
       return seller;
+   }
+   
+   public Description getDescription(){
+      return description;
    }
 
    public boolean isFromSeller(String sellerName) {

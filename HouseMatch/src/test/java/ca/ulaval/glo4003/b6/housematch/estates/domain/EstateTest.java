@@ -19,14 +19,19 @@ public class EstateTest {
 
    @Mock
    private Address address;
+   
+   @Mock
+   private Description description;
 
    private Estate estate;
+   
+   
 
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description);
    }
 
    @Test

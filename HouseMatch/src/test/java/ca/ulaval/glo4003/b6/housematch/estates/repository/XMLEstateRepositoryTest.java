@@ -29,10 +29,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
@@ -40,6 +42,7 @@ import ca.ulaval.glo4003.b6.housematch.estates.exceptions.EstateNotFoundExceptio
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
@@ -61,6 +64,11 @@ public class XMLEstateRepositoryTest {
 
    private static final String SELLER_NAME = "SELLERs";
 
+   private static final String ESTATE = "estates";
+
+   private static final String ADDRESS_KEY = "address";
+   
+
    @Mock
    private Element element;
 
@@ -72,9 +80,6 @@ public class XMLEstateRepositoryTest {
 
    @Mock
    private Document usedDocument;
-
-   @Mock
-   private EstatePersistenceDto estatePersisenceDto;
 
    @Mock
    private EstateAssembler estateAssembler;
@@ -95,15 +100,31 @@ public class XMLEstateRepositoryTest {
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
 
    @Mock
-   private AddressAssembler addressAssembler;
+   private HashMap<String, String> attributes;
+   
+   @Mock
+   private HashMap<String, String> descriptionAttributes;
 
    @Mock
-   private HashMap<String, String> attributes;
+   private EstatePersistenceDto estatePersistenceDto;
+
+   @Mock
+   private AddressAssembler addressAssembler;
+   
+   @Mock
+   private DescriptionPersistenceDto descriptionPersistanceDto;
+   
+   @Mock
+   private Description description;
+   
 
    private List<Element> estateElementList;
 
+
    @InjectMocks
    private XMLEstateRepository xmlEstateRepository;
+
+   
 
    @Before
    public void setUp() throws DocumentException {
@@ -113,7 +134,7 @@ public class XMLEstateRepositoryTest {
 
       configureAssemblerBehavior();
 
-      when(estatePersistenceDtoFactory.newInstance(any(HashMap.class))).thenReturn(estatePersisenceDto);
+      when(estatePersistenceDtoFactory.newInstanceEstate(any(HashMap.class))).thenReturn(estatePersistenceDto);
    }
 
    private void configureAssemblerBehavior() {
@@ -160,7 +181,7 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.addEstate(estate);
 
       // then
-      verify(xmlFileEditor, times(1)).addNewElementToDocument(usedDocument, estatePersisenceDto);
+      verify(xmlFileEditor, times(1)).addNewElementToDocument(usedDocument, estatePersistenceDto);
    }
 
    @Test
@@ -186,7 +207,7 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.addEstate(estate);
 
       // Then
-      verify(estatePersistenceDtoFactory, times(1)).newInstance(attributes);
+      verify(estatePersistenceDtoFactory, times(1)).newInstanceEstate(attributes);
    }
 
    @Test
@@ -230,7 +251,7 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.addEstate(estate);
 
       // then
-      verify(xmlFileEditor, never()).addNewElementToDocument(usedDocument, estatePersisenceDto);
+      verify(xmlFileEditor, never()).addNewElementToDocument(usedDocument, estatePersistenceDto);
    }
 
    @Test
@@ -324,17 +345,43 @@ public class XMLEstateRepositoryTest {
    }
 
    @Test
-   public void gettingEstatesBySellerNameWhenSellerExistShouldQueryEstatesXmlFile()
-         throws DocumentException, SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      configureGetEstatesFromSeller();
+   public void editingDescriptonShouldAskXmlForDocument() throws DocumentException, CouldNotAccessDataException {
+      // given
+      configureFetchingEstateByAddress();
 
-      // When
-      xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
-
-      // Then
+      // when
+      xmlEstateRepository.editDescription(VALID_ADDRESS.toString(), description);
+      
+      // then
       verify(xmlFileEditor, times(1)).readXMLFile(XML_FILE_PATH);
-      verify(xmlFileEditor, times(1)).getAllElementsFromDocument(usedDocument, "estates/estate");
+   }
+   
+   @Test
+   public void editingDescriptionShouldCallReplaceEstateFromXmlFileEditor() throws DocumentException, CouldNotAccessDataException {
+      // given
+      configureFetchingEstateByAddress();
+
+      // when
+      xmlEstateRepository.editDescription(VALID_ADDRESS.toString(), description);
+
+      // then
+      verify(xmlFileEditor, times(1)).replaceElement(usedDocument, ELEMENT_NAME, VALID_ADDRESS.toString(),"address", estatePersistenceDto);
+   }
+   
+   @Test
+   public void editDescriptionWithNonNullDescriptionEstateShouldAddNestedElement() throws CouldNotAccessDataException, EstateNotFoundException, DocumentException {
+      //given
+      configureEstateWithCompleteDescription();
+      when(estateElementAssembler.convertToAttributes(estate)).thenReturn(attributes);
+      when(estateElementAssembler.convertDescriptionToAttributes(description)).thenReturn(descriptionAttributes);
+      when(estatePersistenceDtoFactory.newInstanceDescription(descriptionAttributes)).thenReturn(descriptionPersistanceDto);
+      configureFetchingEstateByAddress();
+      
+      //when
+      xmlEstateRepository.editDescription(VALID_ADDRESS.toString(), description);
+      
+      //then
+      verify(xmlFileEditor, times(1)).addNewNestedElementToDocumentFromParentPath(usedDocument, descriptionPersistanceDto, VALID_ADDRESS.toString(), "address", ELEMENT_NAME);
    }
 
    @Test
@@ -500,6 +547,18 @@ public class XMLEstateRepositoryTest {
       attributes.put("price", estate.getPrice().toString());
 
       return attributes;
+   }
+   
+   private void configureEstateWithCompleteDescription() {
+      when(estate.getDescription()).thenReturn(description);
+      when(description.getMunicipalAssessment()).thenReturn(200);
+      when(description.getBuildingDimensions()).thenReturn("100x20");
+      when(description.getLivingSpaceAreaSquareMeter()).thenReturn(200);
+      when(description.getNumberOfBathrooms()).thenReturn(200);
+      when(description.getNumberOfBedRooms()).thenReturn(200);
+      when(description.getNumberOfLevel()).thenReturn(200);
+      when(description.getNumberOfRooms()).thenReturn(200);
+      when(description.getYearOfConstruction()).thenReturn(200);    
    }
 
 }

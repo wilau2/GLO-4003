@@ -10,22 +10,31 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.DescriptionAssembler;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.EstateAssembler;
+import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.DescriptionAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.AddressValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidator;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.EstateValidator;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.AddressValidatorFactory;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactory;
+import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.estates.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.factory.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class EstatesServiceTest {
+
+   private final static String ADDRESS = "address";
 
    @Mock
    private EstateValidatorFactory estateValidatorFactory;
@@ -55,6 +64,26 @@ public class EstatesServiceTest {
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
 
    @Mock
+   private DescriptionValidatorFactory descriptionValidatorFactory;
+
+   @Mock
+   private DescriptionAssemblerFactory descriptionAssemblerFactory;
+
+   @Mock
+   private DescriptionAssembler descriptionAssembler;
+
+   @Mock
+   private DescriptionDto descriptionDto;
+
+   @Mock
+   private Description description;
+
+   @Mock
+   private DescriptionValidator descriptionValidator;
+
+   private String estateAddress = "VALID_ESTATE_ADDRESS";
+
+   @Mock
    private AddressDto addressDto;
 
    @Mock
@@ -70,6 +99,8 @@ public class EstatesServiceTest {
    public void setUp() {
       MockitoAnnotations.initMocks(this);
 
+      configureDescriptionTests();
+
       when(estateValidatorFactory.getValidator()).thenReturn(estateValidator);
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
@@ -77,9 +108,10 @@ public class EstatesServiceTest {
       when(addressValidatorFactory.getValidator()).thenReturn(addressValidaor);
 
       when(estateDto.getAddress()).thenReturn(addressDto);
+      when(estateDto.getDescriptionDto()).thenReturn(descriptionDto);
 
-      estatesService = new EstatesService(estateValidatorFactory, estateAssemblerFactory, estateRepositoryFactory,
-            addressValidatorFactory);
+      estatesService = new EstatesService(estateValidatorFactory, addressValidatorFactory, estateAssemblerFactory,
+            estateRepositoryFactory, descriptionValidatorFactory, descriptionAssemblerFactory);
    }
 
    @Test
@@ -120,14 +152,21 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenEditingEstateShouldCallEstateRepositoryEditEstate() throws InvalidEstateException {
+   public void whenAddingDescriptionShouldAssembleTheDescription()
+         throws InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
       // given no changes
 
       // when
-      estatesService.editEstate(estateDto);
-
+      estatesService.editDescription(ADDRESS, descriptionDto);
       // then
-      verify(estateRepository, times(1)).editEstate(estate);
+      verify(estateAssembler).assembleDescription(descriptionDto);
+   }
+
+   private void configureDescriptionTests() {
+      when(descriptionAssemblerFactory.createDescriptionAssembler()).thenReturn(descriptionAssembler);
+      when(descriptionAssembler.assembleDescription(descriptionDto)).thenReturn(description);
+      when(descriptionValidatorFactory.createValidator()).thenReturn(descriptionValidator);
+
    }
 
    @Test

@@ -3,27 +3,26 @@
 <estates> 
   <estate> 
     <seller>seller</seller>  
-    <address>0-123-1edawfe-efwaf-sregwa-wfearaf</address>  
+    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
     <price>1000</price>  
     <type>MULTIPLEX</type> 
   </estate>  
   <estate> 
     <seller>seller</seller>  
-    <address>0-12414-123214-14221-124-1241</address>  
-    <price>1000</price>  
-    <type>MULTIPLEX</type> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-232-fwafwafeaewtea-23weaf-fwaef-aewfeawfwa</address>  
-    <price>1000</price>  
-    <type>CONDO</type> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-809-2134-23-Canada-G1B 3r3</address>  
-    <price>600000</price>  
-    <type>CONDO</type> 
+    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
+    <price>50000</price>  
+    <type>APPARTMENT</type>  
+    <description> 
+      <numberOfBedRooms>20</numberOfBedRooms>  
+      <municipalValuation>125000</municipalValuation>  
+      <dimensionsBuilding>4x42</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>1</numberOfRooms>  
+      <yearsOfConstruction>2002</yearsOfConstruction>  
+      <backyardFaces>FRONT</backyardFaces>  
+      <numberOfLevel>1</numberOfLevel>  
+      <numberOfBathrooms>1</numberOfBathrooms> 
+    </description> 
   </estate>  
   <estate> 
     <seller>seller</seller>  
@@ -33,8 +32,25 @@
   </estate>  
   <estate>
     <seller>seller</seller>
+<<<<<<< HEAD
     <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>
     <price>50000</price>
     <type>APPARTMENT</type>
+=======
+    <address>0-1-Test Sans Description-qc-qc-g12022</address>
+    <price>1000</price>
+    <type>CONDO</type>
+    <description>
+      <numberOfBedRooms>2</numberOfBedRooms>
+      <municipalValuation>125000</municipalValuation>
+      <dimensionsBuilding>4x42</dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
+      <numberOfRooms>1</numberOfRooms>
+      <yearsOfConstruction>2003</yearsOfConstruction>
+      <backyardFaces>FRONT</backyardFaces>
+      <numberOfLevel>1</numberOfLevel>
+      <numberOfBathrooms>1</numberOfBathrooms>
+    </description>
+>>>>>>> origin/fixing_merge_from_pas_isaac
   </estate>
 </estates>

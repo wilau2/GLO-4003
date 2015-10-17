@@ -28,7 +28,7 @@ public class EstatePersistenceDtoFactoryTest {
       HashMap<String, String> expectedAttributes = new HashMap<String, String>();
 
       // When
-      EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstance(expectedAttributes);
+      EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(expectedAttributes);
 
       // Then
       assertEquals(expectedAttributes, estatePersistenceDto.getAttributes());

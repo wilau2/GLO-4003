@@ -4,8 +4,10 @@ import java.util.HashMap;
 
 import org.dom4j.Element;
 
+import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
 import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
+import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
 
 public class EstateElementAssembler {
@@ -17,6 +19,14 @@ public class EstateElementAssembler {
    private static final String TYPE = "type";
 
    private static final String ADDRESS = "address";
+   
+   private static final String DESCRIPTION = "description";
+   
+   private DescriptionElementAssembler descriptionElementAssembler;
+
+   public EstateElementAssembler(DescriptionElementAssembler descriptionElementAssembler) {
+      this.descriptionElementAssembler = descriptionElementAssembler;
+   }
 
    public EstateDto convertToDto(Element element) {
       EstateDto estateDto = new EstateDto();
@@ -62,9 +72,8 @@ public class EstateElementAssembler {
       attributes.put(SELLER, estate.getSeller());
       attributes.put(PRICE, estate.getPrice().toString());
       attributes.put(TYPE, estate.getType());
-
       attributes.put(ADDRESS, estate.getAddress().toString());
-
+      
       return attributes;
    }
 
@@ -79,8 +88,15 @@ public class EstateElementAssembler {
 
       AddressDto addressDto = constructAddressDtoFromString(attributes.get(ADDRESS));
       estateDto.setAddress(addressDto);
-
+      
       return estateDto;
    }
 
+   public HashMap<String, String> convertDescriptionToAttributes(Description description) {
+      return descriptionElementAssembler.convertToAttributes(description);
+   }
+
+   public DescriptionDto convertDescriptionAttributesToDto(HashMap<String, String> attributes) {
+      return descriptionElementAssembler.convertAttributesToDto(attributes);
+   }
 }
