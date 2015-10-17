@@ -7,8 +7,8 @@ import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 
 public class RepositoryUserAssembler {
-   
-   public User assembleUserFromAttributes(HashMap<String, String> attributes){
+
+   public User assembleUserFromAttributes(HashMap<String, String> attributes) {
       ContactInformation contactInformation = new ContactInformation(attributes.get("firstName"),
             attributes.get("lastName"), attributes.get("phoneNumber"), attributes.get("email"));
 

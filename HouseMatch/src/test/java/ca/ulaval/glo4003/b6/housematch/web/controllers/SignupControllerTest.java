@@ -30,7 +30,7 @@ import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordE
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.SignupUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewmodels.SignupUserModel;
 
 public class SignupControllerTest {
 

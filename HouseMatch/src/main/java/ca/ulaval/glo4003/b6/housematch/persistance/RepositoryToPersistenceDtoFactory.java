@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.persistance;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.estates.repository.RepositoryToPersistenceEstateDto;
 import ca.ulaval.glo4003.b6.housematch.user.domain.User;
 import ca.ulaval.glo4003.b6.housematch.user.repository.RepositoryToPersistenceUserDto;

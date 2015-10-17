@@ -10,8 +10,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 
 public class RepositoryToPersistenceEstateDtoTest {
 

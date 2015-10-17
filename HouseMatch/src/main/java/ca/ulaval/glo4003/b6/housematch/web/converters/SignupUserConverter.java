@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import ca.ulaval.glo4003.b6.housematch.user.dto.ContactInformationDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.SignupUserModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewmodels.SignupUserModel;
 
 @Component
 public class SignupUserConverter {

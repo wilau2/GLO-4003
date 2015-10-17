@@ -2,19 +2,27 @@ package ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers;
 
 import java.util.HashMap;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
+import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 
 public class DescriptionElementAssembler {
 
    private static final String NUMBER_OF_BEDROOMS = "numberOfBedRooms";
+
    private static final String NUMBER_OF_BATHROOMS = "numberOfBathrooms";
+
    private static final String NUMBER_OF_ROOMS = "numberOfRooms";
+
    private static final String NUMBER_OF_LEVELS = "numberOfLevel";
+
    private static final String YEAR_OF_CONSTRUCTION = "yearsOfConstruction";
+
    private static final String BUILDING_DIMENSIONS = "dimensionsBuilding";
+
    private static final String LIVING_SPACE = "livingSpaceAreaSquareMeter";
+
    private static final String MUNICIPAL_VALUATION = "municipalValuation";
+
    private static final String BACKYARD_FACES = "backyardFaces";
 
    public HashMap<String, String> convertToAttributes(Description description) {
@@ -32,43 +40,40 @@ public class DescriptionElementAssembler {
 
       return attributes;
    }
-   
-   public DescriptionDto convertAttributesToDto(HashMap<String, String> attributes){
+
+   public DescriptionDto convertAttributesToDto(HashMap<String, String> attributes) {
       DescriptionDto descriptionDto = new DescriptionDto();
-      
-         Integer numberOfBedRooms = tryParseInt(attributes.get(NUMBER_OF_BEDROOMS));
-         Integer numberOfBathrooms = tryParseInt(attributes.get(NUMBER_OF_BATHROOMS));
-         Integer numberOfRooms = tryParseInt(attributes.get(NUMBER_OF_ROOMS));
-         Integer numberOfLevel = tryParseInt(attributes.get(NUMBER_OF_LEVELS));
-         Integer yearsOfConstruction = tryParseInt(attributes.get(YEAR_OF_CONSTRUCTION));
-         String dimensionsBuilding = attributes.get(BUILDING_DIMENSIONS);
-         Integer livingSpaceAreaSquareMeter = tryParseInt(attributes.get(LIVING_SPACE));
-         Integer municipalValuation = tryParseInt(attributes.get(MUNICIPAL_VALUATION));
-         String backyardFaces = attributes.get(BACKYARD_FACES);
-         
-         descriptionDto.setNumberOfBedRooms(numberOfBedRooms);
-         descriptionDto.setNumberOfBathrooms(numberOfBathrooms);
-         descriptionDto.setNumberOfRooms(numberOfRooms);
-         descriptionDto.setNumberOfLevel(numberOfLevel);
-         descriptionDto.setYearsOfConstruction(yearsOfConstruction);
-         descriptionDto.setBuildingDimension(dimensionsBuilding);
-         descriptionDto.setLivingSpaceAreaSquareMeter(livingSpaceAreaSquareMeter);
-         descriptionDto.setMunicipalAssessment(municipalValuation);
-         descriptionDto.setBackyardOrientation(backyardFaces);
-      
+
+      Integer numberOfBedRooms = tryParseInt(attributes.get(NUMBER_OF_BEDROOMS));
+      Integer numberOfBathrooms = tryParseInt(attributes.get(NUMBER_OF_BATHROOMS));
+      Integer numberOfRooms = tryParseInt(attributes.get(NUMBER_OF_ROOMS));
+      Integer numberOfLevel = tryParseInt(attributes.get(NUMBER_OF_LEVELS));
+      Integer yearsOfConstruction = tryParseInt(attributes.get(YEAR_OF_CONSTRUCTION));
+      String dimensionsBuilding = attributes.get(BUILDING_DIMENSIONS);
+      Integer livingSpaceAreaSquareMeter = tryParseInt(attributes.get(LIVING_SPACE));
+      Integer municipalValuation = tryParseInt(attributes.get(MUNICIPAL_VALUATION));
+      String backyardFaces = attributes.get(BACKYARD_FACES);
+
+      descriptionDto.setNumberOfBedRooms(numberOfBedRooms);
+      descriptionDto.setNumberOfBathrooms(numberOfBathrooms);
+      descriptionDto.setNumberOfRooms(numberOfRooms);
+      descriptionDto.setNumberOfLevel(numberOfLevel);
+      descriptionDto.setYearsOfConstruction(yearsOfConstruction);
+      descriptionDto.setBuildingDimension(dimensionsBuilding);
+      descriptionDto.setLivingSpaceAreaSquareMeter(livingSpaceAreaSquareMeter);
+      descriptionDto.setMunicipalAssessment(municipalValuation);
+      descriptionDto.setBackyardOrientation(backyardFaces);
+
       return descriptionDto;
    }
-   
-   
+
    public Integer tryParseInt(String str) {
-      Integer retVal = -1;
+      Integer retVal = 0;
       try {
-        retVal = Integer.parseInt(str);
-      } catch (NumberFormatException nfe) {
-        retVal = 0;
+         retVal = Integer.parseInt(str);
       } finally {
          return retVal;
       }
-      
-    }
+
+   }
 }

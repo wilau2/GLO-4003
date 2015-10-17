@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.converters;
 
 import ca.ulaval.glo4003.b6.housematch.user.dto.ContactInformationDto;
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.ProfilUserViewModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewmodels.ProfilUserViewModel;
 
 public class ProfilUserConverter {
 

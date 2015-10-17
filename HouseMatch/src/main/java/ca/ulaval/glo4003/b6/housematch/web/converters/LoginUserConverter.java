@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.web.converters;
 import org.springframework.stereotype.Component;
 
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewmodels.LoginUserViewModel;
 
 @Component
 public class LoginUserConverter {

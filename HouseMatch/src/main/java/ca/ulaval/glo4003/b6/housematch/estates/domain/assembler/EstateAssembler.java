@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.b6.housematch.estates.domain.assembler;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
+import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
+import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
 public class EstateAssembler {
 

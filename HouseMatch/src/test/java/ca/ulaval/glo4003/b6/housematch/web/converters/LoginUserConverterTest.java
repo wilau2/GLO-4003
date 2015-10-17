@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.b6.housematch.user.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewmodels.LoginUserViewModel;
 
 public class LoginUserConverterTest {
 

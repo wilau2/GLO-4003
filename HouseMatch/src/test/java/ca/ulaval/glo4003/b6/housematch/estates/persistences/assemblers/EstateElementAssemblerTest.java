@@ -13,10 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Address;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.AddressDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
+import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
 public class EstateElementAssemblerTest {
 

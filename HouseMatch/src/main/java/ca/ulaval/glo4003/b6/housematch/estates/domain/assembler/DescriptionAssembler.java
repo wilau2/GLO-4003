@@ -1,20 +1,19 @@
 package ca.ulaval.glo4003.b6.housematch.estates.domain.assembler;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Description;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.builder.DescriptionBuilder;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionDto;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.builder.DescriptionBuilder;
+import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 
 public class DescriptionAssembler {
-   
-   public Description assembleDescription(DescriptionDto descriptionDto){
-      
-      if(descriptionDto == null){    
+
+   public Description assembleDescription(DescriptionDto descriptionDto) {
+
+      if (descriptionDto == null) {
          return new Description();
       }
-     
+
       DescriptionBuilder descriptionBuilder = new DescriptionBuilder();
-      
-      
+
       Integer numberOfBedRooms = descriptionDto.getNumberOfBedRooms();
       Integer numberOfBathrooms = descriptionDto.getNumberOfBathrooms();
       Integer numberOfRooms = descriptionDto.getNumberOfRooms();
@@ -24,15 +23,16 @@ public class DescriptionAssembler {
       Integer livingSpaceAreaSquareMeter = descriptionDto.getLivingSpaceAreaSquareMeter();
       Integer municipalValuation = descriptionDto.getMunicipalAssessment();
       String backyardOrientation = descriptionDto.getBackyardOrientation();
-      
-      
-      return descriptionBuilder.setNewBackyardOrientation(backyardOrientation).setNewDimensionsBuilding(dimensionsBuilding).setNewLivingSpaceAreaSquareMeter(livingSpaceAreaSquareMeter)
-                        .setNewMunicipalValuation(municipalValuation).setNewNumberOfBathrooms(numberOfBathrooms).setNewNumberOfBedRooms(numberOfBedRooms)
-                        .setNewNumberOfLevel(numberOfLevel).setNewNumberOfRooms(numberOfRooms).setNewYearsOfConstruction(yearsOfConstruction).buildDescription();
+
+      return descriptionBuilder.setNewBackyardOrientation(backyardOrientation)
+            .setNewDimensionsBuilding(dimensionsBuilding).setNewLivingSpaceAreaSquareMeter(livingSpaceAreaSquareMeter)
+            .setNewMunicipalValuation(municipalValuation).setNewNumberOfBathrooms(numberOfBathrooms)
+            .setNewNumberOfBedRooms(numberOfBedRooms).setNewNumberOfLevel(numberOfLevel)
+            .setNewNumberOfRooms(numberOfRooms).setNewYearsOfConstruction(yearsOfConstruction).buildDescription();
    }
-   
-   public DescriptionDto assembleDescriptionDto(Description description){
-      
+
+   public DescriptionDto assembleDescriptionDto(Description description) {
+
       Integer numberOfBedRooms = description.getNumberOfBedRooms();
       Integer numberOfBathrooms = description.getNumberOfBathrooms();
       Integer numberOfRooms = description.getNumberOfRooms();
@@ -42,10 +42,11 @@ public class DescriptionAssembler {
       Integer livingSpaceAreaSquareMeter = description.getLivingSpaceAreaSquareMeter();
       Integer municipalValuation = description.getMunicipalAssessment();
       String backyardOrientation = description.getBackyardOrientation();
-   
+
       DescriptionDto descriptionDto = new DescriptionDto(numberOfBedRooms, numberOfBathrooms, numberOfRooms,
-            numberOfLevel, yearsOfConstruction, dimensionsBuilding, livingSpaceAreaSquareMeter, municipalValuation, backyardOrientation);
-      
+            numberOfLevel, yearsOfConstruction, dimensionsBuilding, livingSpaceAreaSquareMeter, municipalValuation,
+            backyardOrientation);
+
       return descriptionDto;
    }
 }

@@ -16,7 +16,7 @@ import ca.ulaval.glo4003.b6.housematch.user.repository.exception.UserNotFoundExc
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserActivationException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.LoginUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.LoginUserViewModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewmodels.LoginUserViewModel;
 
 @Controller
 public class LoginController {

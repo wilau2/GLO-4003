@@ -32,29 +32,27 @@
             value=".jsp" />
     </beans:bean>
 
-    <beans:bean
-        id="addressValidatorFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.AddressValidatorFactoryImpl" />
 
     <beans:bean
         id="estateRepositoryFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.repository.factory.XmlEstateRepositoryFactory" />
+        class="ca.ulaval.glo4003.b6.housematch.persistance.factory.XmlEstateRepositoryFactory" />
     <beans:bean
         id="descriptionValidatorFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.DescriptionValidatorFactory" />
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.DescriptionValidatorFactory" />
     <beans:bean
         id="descriptionAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.DescriptionAssemblerFactory" />
     <beans:bean
         id="estateValidatorFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.dto.validators.factories.EstateValidatorFactoryImpl" />
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.EstateValidatorFactoryImpl" />
     <beans:bean
         id="estateAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory" />
 
     <beans:bean
         id="estateService"
-        class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesService"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService"
+        scope="session"
     >
         <beans:constructor-arg
             name="estateValidatorFactory"
@@ -65,20 +63,12 @@
         <beans:constructor-arg
             name="estateRepositoryFactory"
             ref="estateRepositoryFactory" />
-        <beans:constructor-arg
-            name="addressValidatorFactory"
-            ref="addressValidatorFactory" />
-        <beans:constructor-arg
-            name="descriptionValidatorFactory"
-            ref="descriptionValidatorFactory" />
-        <beans:constructor-arg
-            name="descriptionAssemblerFactory"
-            ref="descriptionAssemblerFactory" />
     </beans:bean>
 
     <beans:bean
         id="descriptionCorruptionVerificator"
-        class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.DescriptionCorruptionVerificator"
+        class="ca.ulaval.glo4003.b6.housematch.anticorruption.DescriptionCorruptionVerificator"
+        scope="session"
     >
         <beans:constructor-arg
             name="estateService"
@@ -87,7 +77,8 @@
 
     <beans:bean
         id="estatesFetcher"
-        class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcher"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher"
+        scope="session"
     >
         <beans:constructor-arg
             name="estateRepositoryFactory"
@@ -99,11 +90,12 @@
 
     <beans:bean
         id="addressCorruptionVerificator"
-        class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.AddressCorruptionVerificator" />
+        class="ca.ulaval.glo4003.b6.housematch.anticorruption.AddressCorruptionVerificator" scope="session" />
 
     <beans:bean
         id="estateCorruptionVerificator"
-        class="ca.ulaval.glo4003.b6.housematch.estates.anticorruption.EstateCorruptionVerificator"
+        class="ca.ulaval.glo4003.b6.housematch.anticorruption.EstateCorruptionVerificator"
+        scope="session"
     >
         <beans:constructor-arg
             name="addressCorruptionVerificator"
@@ -114,28 +106,21 @@
             ref="estateService" />
     </beans:bean>
 
-    <beans:bean
-        id="estatesFetcherFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.services.EstatesFetcherFactory" />
+
     <beans:bean
         id="sellerEstateController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.SellerEstateController"
+        scope="session"
     >
         <beans:constructor-arg
             name="estateCorruptionVerificator"
             ref="estateCorruptionVerificator" />
         <beans:constructor-arg
-            name="estatesFetcherFactory"
-            ref="estatesFetcherFactory" />
-        <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />
         <beans:constructor-arg
-            name="estateRepositoryFactory"
-            ref="estateRepositoryFactory" />
-        <beans:constructor-arg
-            name="estateAssemblerFactory"
-            ref="estateAssemblerFactory" />
+            name="estatesFetcher"
+            ref="estatesFetcher" />
         <beans:constructor-arg
             name="descriptionCorruptionVerificator"
             ref="descriptionCorruptionVerificator" />
@@ -143,10 +128,8 @@
     <beans:bean
         id="buyerSearchEstatesController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.BuyerSearchEstatesController"
+        scope="session"
     >
-        <beans:constructor-arg
-            name="estatesFetcherFactory"
-            ref="estatesFetcherFactory" />
         <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />

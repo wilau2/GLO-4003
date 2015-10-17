@@ -19,7 +19,7 @@ import ca.ulaval.glo4003.b6.housematch.user.services.UserFetcher;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.InvalidAccessException;
 import ca.ulaval.glo4003.b6.housematch.user.services.exceptions.UserNotifyingException;
 import ca.ulaval.glo4003.b6.housematch.web.converters.ProfilUserConverter;
-import ca.ulaval.glo4003.b6.housematch.web.viewModel.ProfilUserViewModel;
+import ca.ulaval.glo4003.b6.housematch.web.viewmodels.ProfilUserViewModel;
 
 @Controller
 public class ProfilUserController {

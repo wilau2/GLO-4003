@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.estates.repository;
 
 import java.util.HashMap;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
 
 public class RepositoryToPersistenceEstateDto implements RepositoryToPersistenceDto {
