@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers;
+package ca.ulaval.glo4003.b6.housematch.persistance.estate.converter;
 
 import java.util.HashMap;
 
@@ -10,7 +10,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
-public class EstateElementAssembler {
+public class EstateElementConverter {
 
    private static final String SELLER = "seller";
 
@@ -19,12 +19,10 @@ public class EstateElementAssembler {
    private static final String TYPE = "type";
 
    private static final String ADDRESS = "address";
-   
-   private static final String DESCRIPTION = "description";
-   
-   private DescriptionElementAssembler descriptionElementAssembler;
 
-   public EstateElementAssembler(DescriptionElementAssembler descriptionElementAssembler) {
+   private DescriptionElementConverter descriptionElementAssembler;
+
+   public EstateElementConverter(DescriptionElementConverter descriptionElementAssembler) {
       this.descriptionElementAssembler = descriptionElementAssembler;
    }
 
@@ -73,7 +71,7 @@ public class EstateElementAssembler {
       attributes.put(PRICE, estate.getPrice().toString());
       attributes.put(TYPE, estate.getType());
       attributes.put(ADDRESS, estate.getAddress().toString());
-      
+
       return attributes;
    }
 
@@ -88,7 +86,7 @@ public class EstateElementAssembler {
 
       AddressDto addressDto = constructAddressDtoFromString(attributes.get(ADDRESS));
       estateDto.setAddress(addressDto);
-      
+
       return estateDto;
    }
 

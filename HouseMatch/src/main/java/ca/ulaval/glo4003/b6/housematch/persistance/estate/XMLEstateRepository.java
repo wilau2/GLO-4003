@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.persistance;
+package ca.ulaval.glo4003.b6.housematch.persistance.estate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,11 +18,9 @@ import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionPersistenceDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverter;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverterFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepository implements EstateRepository {
@@ -41,13 +39,13 @@ public class XMLEstateRepository implements EstateRepository {
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
-   private EstateElementAssemblerFactory estateElementAssemblerFactory;
+   private EstateElementConverterFactory estateElementAssemblerFactory;
 
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
 
    public XMLEstateRepository(EstateAssemblerFactory estateAssemblerFactory,
          EstatePersistenceDtoFactory estatePersistenceDtoFactory,
-         EstateElementAssemblerFactory estateElementAssemblerFactory) {
+         EstateElementConverterFactory estateElementAssemblerFactory) {
 
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
@@ -58,7 +56,7 @@ public class XMLEstateRepository implements EstateRepository {
 
    protected XMLEstateRepository(EstateAssemblerFactory estateAssemblerFactory,
          EstatePersistenceDtoFactory estatePersistenceDtoFactory,
-         EstateElementAssemblerFactory estateElementAssemblerFactory, XMLFileEditor xmlFileEditor) {
+         EstateElementConverterFactory estateElementAssemblerFactory, XMLFileEditor xmlFileEditor) {
 
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
@@ -75,7 +73,7 @@ public class XMLEstateRepository implements EstateRepository {
          List<Element> elementList = xmlFileEditor.getAllElementsFromDocument(estateDocument, PATH_TO_ESTATE);
 
          EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-         EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+         EstateElementConverter estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          estates = getDtoListFromElements(elementList, estateAssembler, estateElementAssembler);
 
       } catch (DocumentException e) {
@@ -86,7 +84,7 @@ public class XMLEstateRepository implements EstateRepository {
    }
 
    private List<Estate> getDtoListFromElements(List<Element> elementList, EstateAssembler estateAssembler,
-         EstateElementAssembler estateElementAssembler) {
+         EstateElementConverter estateElementAssembler) {
       List<Estate> estates = new ArrayList<Estate>();
       for (Element element : elementList) {
          EstateDto convertedEstateDto = estateElementAssembler.convertToDto(element);
@@ -102,7 +100,7 @@ public class XMLEstateRepository implements EstateRepository {
 
          Document estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
-         EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+         EstateElementConverter estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
          if (isEstatePersisted(estateDocument, attributes.get(ADDRESS_KEY))) {
             return;
@@ -143,7 +141,7 @@ public class XMLEstateRepository implements EstateRepository {
          estateDocument = xmlFileEditor.readXMLFile(XML_DIRECTORY_PATH);
          EstateDto estateDto = assembleDtoFromDocumentAttributes(targetAddressKey, estateDocument);
          Estate estate = assembleEstate(estateDto);
-         EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+         EstateElementConverter estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
          EstatePersistenceDto estatePersistenceDto = estatePersistenceDtoFactory.newInstanceEstate(attributes);
 
@@ -212,7 +210,7 @@ public class XMLEstateRepository implements EstateRepository {
             .returnChildAttributesOfElementWithCorrespondingValue(document, PATH_TO_ADDRESS, address,
                   CHILD_DESCRIPTION_KEY);
 
-      EstateElementAssembler estateElementAssembler = estateElementAssemblerFactory.createAssembler();
+      EstateElementConverter estateElementAssembler = estateElementAssemblerFactory.createAssembler();
       EstateDto estateDto = estateElementAssembler.convertAttributesToDto(estateAttributes);
       DescriptionDto descriptionDto = estateElementAssembler.convertDescriptionAttributesToDto(descriptionAttributes);
 

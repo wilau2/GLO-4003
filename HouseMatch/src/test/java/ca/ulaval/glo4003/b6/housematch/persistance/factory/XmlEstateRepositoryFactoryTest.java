@@ -10,15 +10,15 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.persistance.XMLEstateRepository;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.EstatePersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.XMLEstateRepository;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverterFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.factory.XmlEstateRepositoryFactory;
 
 public class XmlEstateRepositoryFactoryTest {
 
    @Mock
-   private EstateElementAssemblerFactory estateElementAssemblerFactory;
+   private EstateElementConverterFactory estateElementAssemblerFactory;
 
    @Mock
    private EstatePersistenceDtoFactory estatePersistencDtoFactory;

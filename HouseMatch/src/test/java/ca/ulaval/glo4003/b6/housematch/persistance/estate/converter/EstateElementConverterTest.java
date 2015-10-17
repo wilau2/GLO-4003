@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers;
+package ca.ulaval.glo4003.b6.housematch.persistance.estate.converter;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,8 +17,9 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverter;
 
-public class EstateElementAssemblerTest {
+public class EstateElementConverterTest {
 
    private static final String ADDRESS_KEY = "address";
 
@@ -58,7 +59,7 @@ public class EstateElementAssemblerTest {
    private HashMap<String, String> attributes;
 
    @InjectMocks
-   private EstateElementAssembler estateElementAssembler;
+   private EstateElementConverter estateElementAssembler;
 
    @Before
    public void setup() {

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.dto;
+package ca.ulaval.glo4003.b6.housematch.persistance.estate;
 
 import java.util.HashMap;
 

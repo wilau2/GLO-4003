@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.persistance;
+package ca.ulaval.glo4003.b6.housematch.persistance.estate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -37,11 +37,10 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionPersistenceDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssembler;
-import ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers.EstateElementAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.XMLEstateRepository;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverter;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverterFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepositoryTest {
@@ -84,10 +83,10 @@ public class XMLEstateRepositoryTest {
    private EstateAssemblerFactory estateAssemblerFactory;
 
    @Mock
-   private EstateElementAssembler estateElementAssembler;
+   private EstateElementConverter estateElementAssembler;
 
    @Mock
-   private EstateElementAssemblerFactory estateElementAssemblerFactory;
+   private EstateElementConverterFactory estateElementAssemblerFactory;
 
    @Mock
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;

@@ -1,9 +1,6 @@
-package ca.ulaval.glo4003.b6.housematch.estates.dto.factories;
+package ca.ulaval.glo4003.b6.housematch.persistance.estate;
 
 import java.util.HashMap;
-
-import ca.ulaval.glo4003.b6.housematch.estates.dto.DescriptionPersistenceDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
 
 public class EstatePersistenceDtoFactory {
 

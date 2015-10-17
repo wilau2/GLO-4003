@@ -1,11 +1,11 @@
-package ca.ulaval.glo4003.b6.housematch.estates.persistences.assemblers;
+package ca.ulaval.glo4003.b6.housematch.persistance.estate.converter;
 
 import java.util.HashMap;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 
-public class DescriptionElementAssembler {
+public class DescriptionElementConverter {
 
    private static final String NUMBER_OF_BEDROOMS = "numberOfBedRooms";
 

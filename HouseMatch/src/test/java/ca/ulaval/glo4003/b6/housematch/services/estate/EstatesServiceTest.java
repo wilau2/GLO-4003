@@ -20,7 +20,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.assembler.DescriptionAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.DescriptionAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;

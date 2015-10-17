@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.dto.factories;
+package ca.ulaval.glo4003.b6.housematch.persistance.estate;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,8 +9,8 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.estates.dto.EstatePersistenceDto;
-import ca.ulaval.glo4003.b6.housematch.estates.dto.factories.EstatePersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.EstatePersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.estate.EstatePersistenceDtoFactory;
 
 public class EstatePersistenceDtoFactoryTest {
 
