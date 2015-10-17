@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.domain.assembler;
+package ca.ulaval.glo4003.b6.housematch.dto.assembler;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.builder.DescriptionBuilder;

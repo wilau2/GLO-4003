@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.domain.assembler;
+package ca.ulaval.glo4003.b6.housematch.dto.assembler;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
+import ca.ulaval.glo4003.b6.housematch.dto.assembler.AddressAssembler;
 
 public class AddressAssemblerTest {
 

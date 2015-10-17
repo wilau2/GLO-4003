@@ -109,7 +109,7 @@ public class SellerEstateController {
          @ModelAttribute("description") DescriptionDto descriptionDto) throws InvalidEstateFieldException,
                CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException,
                InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {
-      System.out.println(descriptionDto.getYearOfConstruction());
+
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       descriptionCorruptionVerificator.editDescription(address, descriptionDto);

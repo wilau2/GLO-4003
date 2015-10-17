@@ -41,13 +41,13 @@
         class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.DescriptionValidatorFactory" />
     <beans:bean
         id="descriptionAssemblerFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.DescriptionAssemblerFactory" />
+        class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.DescriptionAssemblerFactory" />
     <beans:bean
         id="estateValidatorFactory"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.EstateValidatorFactoryImpl" />
     <beans:bean
         id="estateAssemblerFactory"
-        class="ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory" />
+        class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory" />
 
     <beans:bean
         id="estateService"
@@ -90,7 +90,8 @@
 
     <beans:bean
         id="addressCorruptionVerificator"
-        class="ca.ulaval.glo4003.b6.housematch.anticorruption.AddressCorruptionVerificator" scope="session" />
+        class="ca.ulaval.glo4003.b6.housematch.anticorruption.AddressCorruptionVerificator"
+        scope="session" />
 
     <beans:bean
         id="estateCorruptionVerificator"
@@ -133,12 +134,6 @@
         <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />
-        <beans:constructor-arg
-            name="estateRepositoryFactory"
-            ref="estateRepositoryFactory" />
-        <beans:constructor-arg
-            name="estateAssemblerFactory"
-            ref="estateAssemblerFactory" />
     </beans:bean>
 
     <beans:bean
@@ -179,8 +174,6 @@
         id="mailSenderFactory"
         class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderFactory" />
 
-
-
     <beans:bean
         id="mailSenderObserver"
         class="ca.ulaval.glo4003.b6.housematch.user.services.observer.MailSenderObserver"
@@ -204,8 +197,6 @@
         id="userLoginService"
         class="ca.ulaval.glo4003.b6.housematch.user.services.UserLoginService"
     >
-
-
         <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />

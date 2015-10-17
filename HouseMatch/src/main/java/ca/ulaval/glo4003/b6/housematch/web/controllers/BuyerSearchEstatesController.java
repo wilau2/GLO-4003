@@ -13,9 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.user.domain.Role;
 import ca.ulaval.glo4003.b6.housematch.user.services.UserAuthorizationService;
@@ -28,18 +26,12 @@ public class BuyerSearchEstatesController {
 
    private EstatesFetcher estatesFetcher;
 
-   private EstateAssemblerFactory estateAssemblerFactory;
-
-   private EstateRepositoryFactory estateRepositoryFactory;
-
    private UserAuthorizationService userAuthorizationService;
 
    @Autowired
-   public BuyerSearchEstatesController(EstatesFetcher estatesFetcher, EstateAssemblerFactory estateAssemblerFactory,
-         EstateRepositoryFactory estateRepositoryFactory, UserAuthorizationService userAuthorizationService) {
+   public BuyerSearchEstatesController(EstatesFetcher estatesFetcher,
+         UserAuthorizationService userAuthorizationService) {
       this.estatesFetcher = estatesFetcher;
-      this.estateAssemblerFactory = estateAssemblerFactory;
-      this.estateRepositoryFactory = estateRepositoryFactory;
       this.userAuthorizationService = userAuthorizationService;
    }
 

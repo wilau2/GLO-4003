@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.domain.assembler;
+package ca.ulaval.glo4003.b6.housematch.dto.assembler;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,7 +34,7 @@ public class EstateAssemblerTest {
 
    @Mock
    private AddressDto addressDto;
-   
+
    @Mock
    private DescriptionDto descriptionDto;
 
@@ -43,10 +43,10 @@ public class EstateAssemblerTest {
 
    @Mock
    private Address address;
-   
+
    @Mock
    private Description description;
-   
+
    @Mock
    private DescriptionAssembler descriptionAssembler;
 

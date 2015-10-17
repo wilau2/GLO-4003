@@ -62,7 +62,6 @@ public class DescriptionCorruptionVerificator {
    }
 
    private void validateYearOfContruction(Integer yearOfConstruction) throws InvalidDescriptionFieldException {
-      System.out.println(yearOfConstruction);
       if (yearOfConstruction == null || yearOfConstruction < 0) {
          throw new InvalidDescriptionFieldException("The entered year of construction is not valid");
       }

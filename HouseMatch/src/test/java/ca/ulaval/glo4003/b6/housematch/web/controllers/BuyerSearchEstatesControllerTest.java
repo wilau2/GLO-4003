@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory.EstateAssemblerFactory;
+import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
@@ -62,8 +62,7 @@ public class BuyerSearchEstatesControllerTest {
 
       configureEstatesFetcher();
 
-      buyerSearchEstatesController = new BuyerSearchEstatesController(estatesFetcherService, estateAssemblerFactory,
-            estateRepositoryFactory, userAuthorizationService);
+      buyerSearchEstatesController = new BuyerSearchEstatesController(estatesFetcherService, userAuthorizationService);
    }
 
    private void configureEstatesFetcher() throws CouldNotAccessDataException, EstateNotFoundException {

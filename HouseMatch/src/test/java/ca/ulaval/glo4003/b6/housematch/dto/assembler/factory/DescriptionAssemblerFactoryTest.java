@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.factory;
+package ca.ulaval.glo4003.b6.housematch.dto.assembler.factory;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -6,7 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.b6.housematch.estates.domain.assembler.DescriptionAssembler;
+import ca.ulaval.glo4003.b6.housematch.dto.assembler.DescriptionAssembler;
+import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.DescriptionAssemblerFactory;
 
 
 public class DescriptionAssemblerFactoryTest {
