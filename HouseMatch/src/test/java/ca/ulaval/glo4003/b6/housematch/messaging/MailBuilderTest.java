@@ -81,5 +81,4 @@ public class MailBuilderTest {
 
       assertEquals(emailReceived, EMAIL);
    }
-
 }
