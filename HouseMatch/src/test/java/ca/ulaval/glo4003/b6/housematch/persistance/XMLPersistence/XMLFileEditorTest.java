@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 
 public class XMLFileEditorTest {
 
@@ -35,7 +35,7 @@ public class XMLFileEditorTest {
    final String pathToXmlFileDelete = "persistenceTestData/deleteElementTest.xml";
 
    @Mock
-   RepositoryToPersistenceDto dto;
+   PersistenceDto dto;
 
    @Mock
    Document document;

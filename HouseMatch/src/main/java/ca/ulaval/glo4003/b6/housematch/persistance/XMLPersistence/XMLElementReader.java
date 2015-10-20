@@ -10,7 +10,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 
 public class XMLElementReader {
 
@@ -26,7 +26,7 @@ public class XMLElementReader {
    }
 
    public boolean elementWithCorrespondingValuesExists(Document existingDocument, String pathToValues,
-         RepositoryToPersistenceDto receivedDto) {
+         PersistenceDto receivedDto) {
       List<Node> list = existingDocument.selectNodes(pathToValues);
       Collection<String> attributesValues = receivedDto.getAttributes().values();
       for (Node node : list) {

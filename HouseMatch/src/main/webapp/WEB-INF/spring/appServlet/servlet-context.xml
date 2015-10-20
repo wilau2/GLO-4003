@@ -10,8 +10,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop
-    	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
->
+    	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 
     <context:component-scan base-package="ca.ulaval.glo4003.b6.housematch" />
     <annotation-driven />
@@ -139,14 +138,57 @@
     <beans:bean
         id="loggedUser"
         class="ca.ulaval.glo4003.b6.housematch.domain.user.User"
-        scope="session"
-    >
+        scope="session">
         <aop:scoped-proxy />
     </beans:bean>
+        
+    <beans:bean
+        id="xmlElementReaderId"
+        class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLElementReader" />
+        
+    <beans:bean
+        id="xmlElementWriterId"
+        class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLElementWriter" />
 
     <beans:bean
+        id="xmlFileAccesserId"
+        class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileAccesser" />
+	
+	<beans:bean
+        id="xmlFileEditorId"
+        class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor">
+        <beans:constructor-arg
+            name="xmlElementReader"
+            ref="xmlElementReaderId" />
+        <beans:constructor-arg
+            name="xmlElementWriter"
+            ref="xmlElementWriterId" />
+        <beans:constructor-arg
+            name="xmlFileAccesser"
+            ref="xmlFileAccesserId" />
+    </beans:bean>
+    
+    <beans:bean
+        id="persistenceDtoFactoryId"
+        class="ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDtoFactory" />
+        
+    <beans:bean
+        id="repositoryUserConverterId"
+        class="ca.ulaval.glo4003.b6.housematch.persistance.user.converter.RepositoryUserConverter" />
+          
+    <beans:bean
         id="userRepository"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.user.XMLUserRepository" />
+        class="ca.ulaval.glo4003.b6.housematch.persistance.user.XMLUserRepository">
+        <beans:constructor-arg
+            name="persistenceDtoFactory"
+            ref="persistenceDtoFactoryId" />
+        <beans:constructor-arg
+            name="repositoryUserConverter"
+            ref="repositoryUserConverterId" />
+        <beans:constructor-arg
+            name="xmlFileEditor"
+            ref="xmlFileEditorId" />
+    </beans:bean>
 
     <beans:bean
         id="userValidatorFactory"
@@ -167,12 +209,11 @@
     <beans:bean
         id="mailSenderFactory"
         class="ca.ulaval.glo4003.b6.housematch.messaging.MailSenderFactory" />
-
+        
     <beans:bean
         id="mailSenderObserver"
         class="ca.ulaval.glo4003.b6.housematch.services.user.MailSenderObserver"
-        scope="session"
-    >
+        scope="session">
         <beans:constructor-arg
             name="messageBuilderFactory"
             ref="mailBuilderFactory" />

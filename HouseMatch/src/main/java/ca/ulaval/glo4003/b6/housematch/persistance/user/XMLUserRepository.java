@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.persistance.user;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.dom4j.Document;
@@ -12,8 +13,8 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UsernameAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistance.user.converter.RepositoryUserConverter;
@@ -23,7 +24,7 @@ public class XMLUserRepository implements UserRepository {
 
    private XMLFileEditor fileEditor;
 
-   private RepositoryToPersistenceDtoFactory dtoFactory;
+   private PersistenceDtoFactory dtoFactory;
 
    private RepositoryUserConverter assembler;
 
@@ -31,10 +32,12 @@ public class XMLUserRepository implements UserRepository {
 
    private final String pathToUsernameValue = "users/user/username";
 
-   public XMLUserRepository() {
-      this.fileEditor = new XMLFileEditor();
-      this.dtoFactory = new RepositoryToPersistenceDtoFactory();
-      this.assembler = new RepositoryUserConverter();
+   @Inject
+   public XMLUserRepository(PersistenceDtoFactory persistenceDtoFactory,
+         RepositoryUserConverter repositoryUserConverter, XMLFileEditor xmlFileEditor) {
+      this.dtoFactory = persistenceDtoFactory;
+      this.assembler = repositoryUserConverter;
+      this.fileEditor = xmlFileEditor;
    }
 
    @Override
@@ -88,7 +91,7 @@ public class XMLUserRepository implements UserRepository {
 
    private void addNewUserToDocument(Document existingDocument, User newUser) {
 
-      RepositoryToPersistenceDto userDto = dtoFactory.getRepositoryDto(newUser);
+      PersistenceDto userDto = dtoFactory.getRepositoryDto(newUser);
 
       fileEditor.addNewElementToDocument(existingDocument, userDto);
    }
