@@ -16,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 
-public class XMLElementWriterTestIT {
+public class XMLElementWriterTest {
 
    XMLElementWriter writer;
 

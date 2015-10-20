@@ -13,7 +13,7 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileAccesser;
 
-public class XMLFileAccesserTestIT {
+public class XMLFileAccesserTest {
 
    XMLFileAccesser accesser;
 
