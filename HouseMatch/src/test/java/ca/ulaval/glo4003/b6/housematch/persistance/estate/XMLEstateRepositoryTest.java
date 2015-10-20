@@ -37,7 +37,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistance.estate.XMLEstateRepository;
 import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverter;
 import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverterFactory;

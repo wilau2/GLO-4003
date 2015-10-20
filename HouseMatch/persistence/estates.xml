@@ -26,23 +26,6 @@
   </estate>  
   <estate> 
     <seller>seller</seller>  
-    <address>0-1-Test Sans Description-qc-qc-g12022</address>  
-    <price>1000</price>  
-    <type>CONDO</type>  
-    <description> 
-      <numberOfBedRooms>2</numberOfBedRooms>  
-      <municipalValuation>125000</municipalValuation>  
-      <dimensionsBuilding>4x42</dimensionsBuilding>  
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>1</numberOfRooms>  
-      <yearsOfConstruction>2003</yearsOfConstruction>  
-      <backyardFaces>FRONT</backyardFaces>  
-      <numberOfLevel>1</numberOfLevel>  
-      <numberOfBathrooms>1</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
     <address>0-1-1234e1-1241fdewa-awfaw-warwa</address>  
     <price>1000</price>  
     <type>CONDO</type> 
@@ -81,21 +64,38 @@
       <numberOfBathrooms>0</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-1234-Patetea-Zoo-Doawewa-hippo</address>  
+    <price>1000</price>  
+    <type>SINGLE_FAMILY</type>  
+    <description> 
+      <numberOfBedRooms>5</numberOfBedRooms>  
+      <municipalValuation>0</municipalValuation>  
+      <dimensionsBuilding/>  
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>0</numberOfRooms>  
+      <yearsOfConstruction>0</yearsOfConstruction>  
+      <backyardFaces/>  
+      <numberOfLevel>0</numberOfLevel>  
+      <numberOfBathrooms>0</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-1234-Patetea-Zoo-Doawewa-hippo</address>
+    <address>0-1-Test Sans Description-qc-qc-g12022</address>
     <price>1000</price>
-    <type>SINGLE_FAMILY</type>
+    <type>CONDO</type>
     <description>
-      <numberOfBedRooms>5</numberOfBedRooms>
-      <municipalValuation>0</municipalValuation>
-      <dimensionsBuilding></dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
-      <numberOfRooms>0</numberOfRooms>
-      <yearsOfConstruction>0</yearsOfConstruction>
-      <backyardFaces></backyardFaces>
-      <numberOfLevel>0</numberOfLevel>
-      <numberOfBathrooms>0</numberOfBathrooms>
+      <numberOfBedRooms>20</numberOfBedRooms>
+      <municipalValuation>125000</municipalValuation>
+      <dimensionsBuilding>4x42</dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
+      <numberOfRooms>1</numberOfRooms>
+      <yearsOfConstruction>2002</yearsOfConstruction>
+      <backyardFaces>FRONT</backyardFaces>
+      <numberOfLevel>1</numberOfLevel>
+      <numberOfBathrooms>1</numberOfBathrooms>
     </description>
   </estate>
 </estates>
