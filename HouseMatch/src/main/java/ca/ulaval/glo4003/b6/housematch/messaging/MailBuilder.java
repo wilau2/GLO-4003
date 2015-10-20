@@ -73,7 +73,7 @@ public class MailBuilder implements MessageBuilder {
    private Message initiateMessage(String recipient, String username, Session session)
          throws AddressException, MessagingException {
 
-      String linkToSend = "<p>To confirm your email: <a href=\"http://localhost:8080/confirmation/" + username
+      String linkToSend = "<p>To confirm your email: <a href=\"http://localhost:8080/" + username + "/confirmation"
                           + "\">Click here!</a></p>";
       Message message = new MimeMessage(session);
 
