@@ -41,9 +41,9 @@ public class XMLElementWriterTestIT {
       writer = new XMLElementWriter();
       fileAccesser = new XMLFileAccesser();
       reader = new XMLElementReader();
+      configureDtoContainingNewElement();
 
       document = fileAccesser.readXMLFile(pathToXmlFileStatic);
-      configureDtoContainingNewElement();
    }
 
    @Test
@@ -72,6 +72,43 @@ public class XMLElementWriterTestIT {
 
       // Then
       assertFalse(reader.elementWithCorrespondingValueExists(documentDelete, "test/element/field", "added Data"));
+   }
+
+   @Test
+   public void shouldBeAbleToaddNewNestedElementToDocument() throws DocumentException, IOException {
+      // Given
+      configureDtoContainingNewElementNested();
+      writer.addNewNestedElementToDocumentFromParentPath(document, dtoContainingNewElement, "Existing Data", "field",
+            "test/element");
+      fileAccesser.formatAndWriteDocument(document, pathToXmlFileModified);
+
+      // When
+      Document modifiedDocument = fileAccesser.readXMLFile(pathToXmlFileModified);
+
+      // Then
+      assertTrue(
+            reader.elementWithCorrespondingValueExists(modifiedDocument, "test/element/nested/field", "added Data"));
+   }
+
+   @Test
+   public void shouldBeAbleToReplaceAnElement() throws DocumentException, IOException {
+      // Given
+      writer.replaceElement(document, "test/element", "Existing Data", "field", dtoContainingNewElement);
+      fileAccesser.formatAndWriteDocument(document, pathToXmlFileModified);
+
+      // When
+      Document modifiedDocument = fileAccesser.readXMLFile(pathToXmlFileModified);
+
+      // Then
+      assertTrue(reader.elementWithCorrespondingValueExists(modifiedDocument, "test/element/field", "added Data"));
+   }
+
+   private void configureDtoContainingNewElementNested() {
+      HashMap<String, String> mapWithData = new HashMap<String, String>();
+      mapWithData.put("field", "added Data");
+
+      given(dtoContainingNewElement.getAttributes()).willReturn(mapWithData);
+      given(dtoContainingNewElement.getElementName()).willReturn("nested");
    }
 
    private void configureDtoContainingNewElement() {
