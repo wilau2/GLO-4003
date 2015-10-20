@@ -11,4 +11,6 @@ public interface UserRepository {
    void addUser(User user) throws UsernameAlreadyExistsException, CouldNotAccessDataException;
 
    void updateUser(User user) throws CouldNotAccessDataException;
+
+   void setUserActivity(String username, boolean value) throws CouldNotAccessDataException, UserNotFoundException;
 }

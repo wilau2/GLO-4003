@@ -62,7 +62,7 @@ public class XMLUserRepository implements UserRepository {
             saveFile(usersXML);
          }
       } catch (DocumentException exception) {
-         throw new CouldNotAccessDataException("Something wrong happend trying acces the data", exception);
+         throw new CouldNotAccessDataException("Something wrong happenned trying to access the data", exception);
       }
    }
 
@@ -74,8 +74,16 @@ public class XMLUserRepository implements UserRepository {
          addNewUserToDocument(usersXML, user);
          saveFile(usersXML);
       } catch (DocumentException exception) {
-         throw new CouldNotAccessDataException("Something wrong happend trying acces the data", exception);
+         throw new CouldNotAccessDataException("Something wrong happenned trying to access the data", exception);
       }
+   }
+
+   @Override
+   public void setUserActivity(String username, boolean value)
+         throws CouldNotAccessDataException, UserNotFoundException {
+      User correctUser = getUser(username);
+      correctUser.setActive(value);
+      updateUser(correctUser);
    }
 
    private void addNewUserToDocument(Document existingDocument, User newUser) {
