@@ -1,8 +1,5 @@
 package ca.ulaval.glo4003.b6.housematch.services.user;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -18,7 +15,7 @@ import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessData
 
 public class ActivationServiceTest {
 
-   private static final String CORRECT_USERNAME = "USERNAME";
+   private String CORRECT_USERNAME;
 
    @Mock
    private UserRepository userRepository;
@@ -32,35 +29,17 @@ public class ActivationServiceTest {
    @Before
    public void setup() throws UserNotFoundException, CouldNotAccessDataException {
       MockitoAnnotations.initMocks(this);
-      configureUserRepository();
-
-   }
-
-   private void configureUserRepository() throws UserNotFoundException, CouldNotAccessDataException {
-
-      given(userRepository.getUser(CORRECT_USERNAME)).willReturn(user);
-   }
-
-   @Test
-   public void whenActivateUserIsActiveShouldBeTrue() throws UserNotFoundException, CouldNotAccessDataException {
-      // Given
-      given(user.isActive()).willReturn(true);
-      // When
-      activationService.activateAccount(CORRECT_USERNAME);
-
-      // Then
-      assertEquals(user.isActive(), true);
    }
 
    @Test
    public void whenActivateAccountShouldCallUpdateUser() throws UserNotFoundException, CouldNotAccessDataException {
       // Given
-      given(user.isActive()).willReturn(true);
+
       // When
       activationService.activateAccount(CORRECT_USERNAME);
 
       // Then
-      verify(userRepository).updateUser(user);
+      verify(userRepository).setUserActivity(CORRECT_USERNAME, true);
    }
 
 }
