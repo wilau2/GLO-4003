@@ -18,7 +18,7 @@ public class MailBuilderFactoryTest {
    }
    
    @Test
-   public void whenMailBuiderFactoryNewInstanceShouldReturnInstanceOfMailBoulder() {
+   public void whenMailBuiderFactoryNewInstanceShouldReturnInstanceOfMailBuilder() {
       // Given
       
       // When
