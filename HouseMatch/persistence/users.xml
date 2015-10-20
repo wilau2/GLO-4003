@@ -18,7 +18,7 @@
         <phoneNumber>123-123-1234</phoneNumber>
         <email>bruce@lee.com</email>
         <username>seller</username>
-        <isActive>false</isActive>
+        <isActive>true</isActive>
     </user>
     <user>
         <firstName>Ding</firstName>
