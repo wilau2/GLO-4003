@@ -99,4 +99,15 @@ public class ActivationControllerTest {
       assertEquals(received, CONFIRMATION);
    }
 
+   @Test
+   public void whenGettingConfirmationPageShouldReturnNameOfView() {
+      // Given no changes
+      String expectedViewName = "need_email_confirmation";
+
+      // When
+      String returnedViewName = activationController.getConfirmationNotice();
+
+      // Then
+      assertEquals(expectedViewName, returnedViewName);
+   }
 }

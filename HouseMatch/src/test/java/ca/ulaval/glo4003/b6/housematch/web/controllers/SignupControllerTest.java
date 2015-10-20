@@ -32,7 +32,7 @@ import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingExc
 
 public class SignupControllerTest {
 
-   private static final String NEED_EMAIL_CONFIRMATION = "need_email_confirmation";
+   private static final String NEED_EMAIL_CONFIRMATION = "redirect:/confirmation";
 
    private static final String SIGNUP = "signup";
 
