@@ -15,7 +15,7 @@ import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessData
 
 public class ActivationServiceTest {
 
-   private String CORRECT_USERNAME;
+   private static final String CORRECT_USERNAME = "USERNAME";
 
    @Mock
    private UserRepository userRepository;
