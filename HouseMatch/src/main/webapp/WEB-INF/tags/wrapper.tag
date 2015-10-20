@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="/resources/css/layouts/marketing.css">
         <link rel="stylesheet" href="/resources/css/layouts/form.css">
         <link rel="stylesheet" href="/resources/css/layouts/side-menu.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     </head>
 
     <body>
