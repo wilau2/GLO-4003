@@ -4,11 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
+import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -24,18 +27,18 @@ public class MailBuilderTest {
 
    private static final String USERNAME = "username";
 
-   private MailBuilder mailBuilder;
-
    @Mock
    private User user;
 
    @Mock
    private ContactInformation contactInformation;
+   
+   @InjectMocks
+   private MailBuilder mailBuilder;
 
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
-      mailBuilder = new MailBuilder();
       configureUser();
    }
 
@@ -81,5 +84,4 @@ public class MailBuilderTest {
 
       assertEquals(emailReceived, EMAIL);
    }
-
 }
