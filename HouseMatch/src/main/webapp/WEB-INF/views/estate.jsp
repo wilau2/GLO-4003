@@ -8,24 +8,15 @@
 
 
 	<jsp:include page="_menu.jsp" />
-<<<<<<< HEAD
-=======
-	<jsp:include page="_seller_side_menu.jsp" />
 	<jsp:include page="estate_button.jsp" />
-
->>>>>>> origin/fixing_merge_from_pas_isaac
+	
 	<c:if test="${loggedInUserRole == 'buyer'}">
 		<jsp:include page="_buyer_side_menu.jsp" />
 	</c:if>
 	<c:if test="${loggedInUserRole == 'seller'}">
 		<jsp:include page="_seller_side_menu.jsp" />
 	</c:if>
-<<<<<<< HEAD
-	
-	
-=======
 
->>>>>>> origin/fixing_merge_from_pas_isaac
 	<div class="splash">
 
 		<form:form method="post" modelAttribute="estate"
@@ -111,10 +102,11 @@
 					</div>
 				</div>
 			</fieldset>
-			<button id="btn_edit_description" type="button" class="pure-button">Edit</button>
-			<button id="btn_save_description" type="submit" class="pure-button">Save</button>
-			<button id="btn_cancel_description" type="button" class="pure-button">Cancel</button>
-
+				<c:if test="${loggedInUserRole == 'seller'}">
+					<button id="btn_edit" type="button" class="pure-button">Edit</button>
+					<button id="btn_save" type="submit" class="pure-button">Save</button>
+					<button id="btn_cancel" type="button" class="pure-button">Cancel</button>
+				</c:if>
 		</form:form>
 	</div>
 </t:wrapper>
