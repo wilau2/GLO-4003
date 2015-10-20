@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 
-public class XMLElementReaderTestIT {
+public class XMLElementReaderTest {
 
    XMLElementReader reader;
 
