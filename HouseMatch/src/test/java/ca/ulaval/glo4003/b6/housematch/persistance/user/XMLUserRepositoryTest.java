@@ -225,6 +225,30 @@ public class XMLUserRepositoryTest {
             existingUsername);
    }
 
+   @Test
+   public void whenSettingActivityShouldModifyTheUserAttribute()
+         throws IOException, UsernameAlreadyExistsException, CouldNotAccessDataException, UserNotFoundException {
+      // Given
+
+      // When
+      repository.setUserActivity(existingUsername, false);
+
+      // Then
+      verify(user).setActive(false);
+   }
+
+   @Test
+   public void whenSettingActivityShouldAddTheUser()
+         throws IOException, UsernameAlreadyExistsException, CouldNotAccessDataException, UserNotFoundException {
+      // Given
+
+      // When
+      repository.setUserActivity(existingUsername, false);
+
+      // Then
+      verify(editor).addNewElementToDocument(usedDocument, userDto);
+   }
+
    @Test(expected = UserNotFoundException.class)
    public void whenFindingByUsernameShouldReturnExceptionIfUsernameDoesNotExist()
          throws CouldNotAccessDataException, UserNotFoundException {
