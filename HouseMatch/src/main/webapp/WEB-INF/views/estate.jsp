@@ -7,9 +7,11 @@
 <t:wrapper>
 
 
+
 	<jsp:include page="_menu.jsp" />
+
+	<jsp:include page="_seller_side_menu.jsp" />
 	<jsp:include page="estate_button.jsp" />
-	
 	<c:if test="${loggedInUserRole == 'buyer'}">
 		<jsp:include page="_buyer_side_menu.jsp" />
 	</c:if>

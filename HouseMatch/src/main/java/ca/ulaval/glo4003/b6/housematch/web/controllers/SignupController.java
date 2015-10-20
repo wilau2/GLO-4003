@@ -37,7 +37,7 @@ public class SignupController {
 
       userSignupCorruptionVerificator.signup(userDto);
 
-      return "need_email_confirmation";
+      return "redirect:/confirmation";
    }
 
    @RequestMapping(value = "/signup", method = RequestMethod.GET)
