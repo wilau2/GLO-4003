@@ -10,7 +10,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 
 public class XMLFileEditor {
 
@@ -21,10 +21,11 @@ public class XMLFileEditor {
    XMLElementWriter elementWriter;
 
    @Inject
-   public XMLFileEditor(XMLFileAccesser fileAccesser, XMLElementReader elementReader, XMLElementWriter elementWriter) {
-      this.fileAccesser = fileAccesser;
-      this.elementReader = elementReader;
-      this.elementWriter = elementWriter;
+   public XMLFileEditor(XMLFileAccesser xmlFileAccesser, XMLElementReader xmlElementReader,
+         XMLElementWriter xmlElementWriter) {
+      this.fileAccesser = xmlFileAccesser;
+      this.elementReader = xmlElementReader;
+      this.elementWriter = xmlElementWriter;
    }
 
    public XMLFileEditor() {
@@ -47,7 +48,7 @@ public class XMLFileEditor {
    }
 
    public boolean elementWithCorrespondingValuesExists(Document existingDocument, String pathToValues,
-         RepositoryToPersistenceDto receivedDto) {
+         PersistenceDto receivedDto) {
       return elementReader.elementWithCorrespondingValuesExists(existingDocument, pathToValues, receivedDto);
    }
 
@@ -71,18 +72,18 @@ public class XMLFileEditor {
       elementWriter.deleteExistingElementWithCorrespondingValue(existingDocument, pathToValue, wantedValue);
    }
 
-   public void addNewElementToDocument(Document existingDocument, RepositoryToPersistenceDto receivedDto) {
+   public void addNewElementToDocument(Document existingDocument, PersistenceDto receivedDto) {
       elementWriter.addNewElementToDocument(existingDocument, receivedDto);
    }
 
    public void addNewNestedElementToDocumentFromParentPath(Document existingDocument,
-         RepositoryToPersistenceDto receivedDto, String wantedValue, String wantedValueName, String parentElementPath) {
+         PersistenceDto receivedDto, String wantedValue, String wantedValueName, String parentElementPath) {
       elementWriter.addNewNestedElementToDocumentFromParentPath(existingDocument, receivedDto, wantedValue,
             wantedValueName, parentElementPath);
    }
 
    public void replaceElement(Document existingDocument, String pathToValue, String matchingElement,
-         String matchingElementName, RepositoryToPersistenceDto receivedDto) {
+         String matchingElementName, PersistenceDto receivedDto) {
       elementWriter.replaceElement(existingDocument, pathToValue, matchingElement, matchingElementName, receivedDto);
    }
 }

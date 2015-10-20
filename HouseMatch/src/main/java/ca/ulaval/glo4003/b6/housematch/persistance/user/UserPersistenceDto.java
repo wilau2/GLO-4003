@@ -3,15 +3,15 @@ package ca.ulaval.glo4003.b6.housematch.persistance.user;
 import java.util.HashMap;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 
-public class RepositoryToPersistenceUserDto implements RepositoryToPersistenceDto {
+public class UserPersistenceDto implements PersistenceDto {
 
    private String elementName = "user";
 
    private HashMap<String, String> attributes;
 
-   public RepositoryToPersistenceUserDto(User user) {
+   public UserPersistenceDto(User user) {
 
       HashMap<String, String> attributes = new HashMap<String, String>();
       attributes.put("role", user.getRole().getRoles());

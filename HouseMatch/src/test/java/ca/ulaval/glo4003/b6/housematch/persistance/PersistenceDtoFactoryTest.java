@@ -11,9 +11,9 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.domain.user.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
-import ca.ulaval.glo4003.b6.housematch.persistance.user.RepositoryToPersistenceUserDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.user.UserPersistenceDto;
 
-public class RepositoryToPersistenceDtoFactoryTest {
+public class PersistenceDtoFactoryTest {
 
    @Mock
    private User user;
@@ -24,12 +24,12 @@ public class RepositoryToPersistenceDtoFactoryTest {
    @Mock
    private Role role;
 
-   private RepositoryToPersistenceDtoFactory factory;
+   private PersistenceDtoFactory factory;
 
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
-      factory = new RepositoryToPersistenceDtoFactory();
+      factory = new PersistenceDtoFactory();
 
       configureUser();
 
@@ -40,10 +40,10 @@ public class RepositoryToPersistenceDtoFactoryTest {
       // Given
 
       // When
-      RepositoryToPersistenceDto dto = factory.getRepositoryDto(user);
+      PersistenceDto dto = factory.getRepositoryDto(user);
 
       // Then
-      assertTrue(dto instanceof RepositoryToPersistenceUserDto);
+      assertTrue(dto instanceof UserPersistenceDto);
    }
 
    private void configureUser() {

@@ -7,7 +7,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 
 public class XMLElementWriter {
 
@@ -21,7 +21,7 @@ public class XMLElementWriter {
       }
    }
 
-   public void addNewElementToDocument(Document existingDocument, RepositoryToPersistenceDto receivedDto) {
+   public void addNewElementToDocument(Document existingDocument, PersistenceDto receivedDto) {
       Element rootElement = existingDocument.getRootElement();
       Element newElement = rootElement.addElement(receivedDto.getElementName());
 
@@ -31,7 +31,7 @@ public class XMLElementWriter {
    }
 
    public void addNewNestedElementToDocumentFromParentPath(Document existingDocument,
-         RepositoryToPersistenceDto receivedDto, String wantedValue, String wantedValueName, String parentElementPath) {
+         PersistenceDto receivedDto, String wantedValue, String wantedValueName, String parentElementPath) {
 
       Element parentElement = getParentByValue(existingDocument, wantedValue, wantedValueName, parentElementPath);
       Element newElement = parentElement.addElement(receivedDto.getElementName());
@@ -56,7 +56,7 @@ public class XMLElementWriter {
    }
 
    public void replaceElement(Document existingDocument, String pathToValue, String matchingElement,
-         String matchingElementName, RepositoryToPersistenceDto receivedDto) {
+         String matchingElementName, PersistenceDto receivedDto) {
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {
          Node addressNode = node.selectSingleNode(matchingElementName);

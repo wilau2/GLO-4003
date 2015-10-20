@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 
 public class XMLElementReaderTestIT {
 
@@ -31,10 +31,10 @@ public class XMLElementReaderTestIT {
    XMLFileAccesser fileAccesser;
 
    @Mock
-   RepositoryToPersistenceDto dtoContainingNewElement;
+   PersistenceDto dtoContainingNewElement;
 
    @Mock
-   RepositoryToPersistenceDto dtoContainingExistingElement;
+   PersistenceDto dtoContainingExistingElement;
 
    @Before
    public void setup() throws DocumentException {

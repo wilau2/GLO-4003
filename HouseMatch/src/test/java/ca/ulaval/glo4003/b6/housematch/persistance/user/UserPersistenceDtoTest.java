@@ -13,9 +13,9 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.domain.user.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
-import ca.ulaval.glo4003.b6.housematch.persistance.user.RepositoryToPersistenceUserDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.user.UserPersistenceDto;
 
-public class RepositoryToPersistenceUserDtoTest {
+public class UserPersistenceDtoTest {
 
    @Mock
    private User user;
@@ -26,13 +26,13 @@ public class RepositoryToPersistenceUserDtoTest {
    @Mock
    private Role role;
 
-   private RepositoryToPersistenceUserDto dto;
+   private UserPersistenceDto dto;
 
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
       configureUser();
-      dto = new RepositoryToPersistenceUserDto(user);
+      dto = new UserPersistenceDto(user);
 
    }
 

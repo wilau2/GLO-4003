@@ -18,9 +18,10 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UsernameAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistance.user.converter.RepositoryUserConverter;
 
 public class XMLUserRepositoryTest {
 
@@ -44,10 +45,13 @@ public class XMLUserRepositoryTest {
    private Document usedDocument;
 
    @Mock
-   private RepositoryToPersistenceDtoFactory dtoFactory;
+   private PersistenceDtoFactory dtoFactory;
 
    @Mock
-   private RepositoryToPersistenceUserDto userDto;
+   private UserPersistenceDto userDto;
+
+   @Mock
+   private RepositoryUserConverter assembler;
 
    @InjectMocks
    private XMLUserRepository repository;
@@ -311,6 +315,7 @@ public class XMLUserRepositoryTest {
 
       given(editor.returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
             existingUsername)).willReturn(mapWithUserData);
-   }
 
+      given(assembler.assembleUserFromAttributes(mapWithUserData)).willReturn(user);
+   }
 }

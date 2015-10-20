@@ -2,9 +2,9 @@ package ca.ulaval.glo4003.b6.housematch.persistance.estate;
 
 import java.util.HashMap;
 
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 
-public class DescriptionPersistenceDto implements RepositoryToPersistenceDto {
+public class DescriptionPersistenceDto implements PersistenceDto {
 
    private static final String ELEMENT_NAME = "description";
    

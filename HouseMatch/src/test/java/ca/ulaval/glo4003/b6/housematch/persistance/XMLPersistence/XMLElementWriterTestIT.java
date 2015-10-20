@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 
 public class XMLElementWriterTestIT {
 
@@ -33,7 +33,7 @@ public class XMLElementWriterTestIT {
    Document document;
 
    @Mock
-   RepositoryToPersistenceDto dtoContainingNewElement;
+   PersistenceDto dtoContainingNewElement;
 
    @Before
    public void setup() throws DocumentException {
