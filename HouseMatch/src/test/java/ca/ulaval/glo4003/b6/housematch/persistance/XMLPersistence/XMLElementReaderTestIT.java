@@ -17,14 +17,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDto;
-import ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLElementReader;
-import ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileAccesser;
 
 public class XMLElementReaderTestIT {
 
    XMLElementReader reader;
 
    final String pathToXmlFileStatic = "persistenceTestData/testData.xml";
+
+   final String pathToXmlFileStaticNested = "persistenceTestData/testDataNested.xml";
 
    Document document;
 
@@ -120,6 +120,32 @@ public class XMLElementReaderTestIT {
    }
 
    @Test
+   public void shouldBeAbleToReturnAMapWithTheChildAttributesOfElement() throws DocumentException {
+      // Given
+      Document nestedDocument = fileAccesser.readXMLFile(pathToXmlFileStaticNested);
+
+      // When
+      HashMap<String, String> attributes = reader.returnChildAttributesOfElementWithCorrespondingValue(nestedDocument,
+            "test/element/field", "field value", "nested");
+
+      // Then
+      assertEquals(returnAHashMapWithNestedValue(), attributes);
+   }
+
+   @Test
+   public void shouldReturnAnEmptyMapIfSpecifiedChildElementDoesntExists() throws DocumentException {
+      // Given
+      Document nestedDocument = fileAccesser.readXMLFile(pathToXmlFileStaticNested);
+
+      // When
+      HashMap<String, String> attributes = reader.returnChildAttributesOfElementWithCorrespondingValue(nestedDocument,
+            "test/element/field", "not the right value", "nested");
+
+      // Then
+      assertEquals(new HashMap<String, String>(), attributes);
+   }
+
+   @Test
    public void getAllElementsFromDocumentShouldReturnTheCorrectNumberOfElement() {
       // Given
       List<Element> returnedList;
@@ -149,6 +175,12 @@ public class XMLElementReaderTestIT {
       HashMap<String, String> mapWithData = new HashMap<String, String>();
       mapWithData.put("field", "Existing Data");
       mapWithData.put("field2", "Existing Data 2");
+      return mapWithData;
+   }
+
+   private HashMap<String, String> returnAHashMapWithNestedValue() {
+      HashMap<String, String> mapWithData = new HashMap<String, String>();
+      mapWithData.put("nestedField", "nested");
       return mapWithData;
    }
 }
