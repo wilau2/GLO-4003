@@ -3,9 +3,9 @@
 <test>This is the content of the test data
   <element> 
     <field>Existing Data</field>  
-    <field2>Existing Data 2</field2> 
-  </element>  
-  <element>
-    <field>added Data</field>
-  </element>
+    <field2>Existing Data 2</field2>  
+    <nested>
+      <field>added Data</field>
+    </nested>
+  </element> 
 </test>
