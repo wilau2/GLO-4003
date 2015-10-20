@@ -36,4 +36,9 @@ public class ActivationController {
       return "redirect:/";
    }
 
+   @RequestMapping(value = "/confirmation", method = RequestMethod.GET)
+   public String getConfirmationNotice() {
+      return "need_email_confirmation";
+   }
+
 }
