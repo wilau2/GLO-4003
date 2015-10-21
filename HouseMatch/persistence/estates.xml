@@ -88,11 +88,11 @@
     <type>CONDO</type>
     <description>
       <numberOfBedRooms>20</numberOfBedRooms>
-      <municipalValuation>125000</municipalValuation>
+      <municipalValuation>45</municipalValuation>
       <dimensionsBuilding>4x42</dimensionsBuilding>
       <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
       <numberOfRooms>1</numberOfRooms>
-      <yearsOfConstruction>2002</yearsOfConstruction>
+      <yearsOfConstruction>20022</yearsOfConstruction>
       <backyardFaces>FRONT</backyardFaces>
       <numberOfLevel>1</numberOfLevel>
       <numberOfBathrooms>1</numberOfBathrooms>
