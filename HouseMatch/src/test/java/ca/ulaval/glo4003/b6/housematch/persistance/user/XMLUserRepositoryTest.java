@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.persistance.user;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
@@ -19,9 +18,10 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UsernameAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.persistance.RepositoryToPersistenceDtoFactory;
-import ca.ulaval.glo4003.b6.housematch.persistance.XMLFileEditor;
+import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDtoFactory;
+import ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistance.user.converter.RepositoryUserConverter;
 
 public class XMLUserRepositoryTest {
 
@@ -45,10 +45,13 @@ public class XMLUserRepositoryTest {
    private Document usedDocument;
 
    @Mock
-   private RepositoryToPersistenceDtoFactory dtoFactory;
+   private PersistenceDtoFactory dtoFactory;
 
    @Mock
-   private RepositoryToPersistenceUserDto userDto;
+   private UserPersistenceDto userDto;
+
+   @Mock
+   private RepositoryUserConverter assembler;
 
    @InjectMocks
    private XMLUserRepository repository;
@@ -75,7 +78,6 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
-
    public void whenFindingByUsernameShouldLookIfUsersExists()
          throws CouldNotAccessDataException, UserNotFoundException {
 
@@ -183,6 +185,70 @@ public class XMLUserRepositoryTest {
       verify(editor).formatAndWriteDocument(usedDocument, correctPathToFile);
    }
 
+   @Test
+   public void whenUpdatingAUserShouldCallTheDeleteMethodWithTheRightArguments()
+         throws IOException, UsernameAlreadyExistsException, CouldNotAccessDataException {
+
+      // Given
+
+      // When
+      repository.updateUser(user);
+
+      // Then
+      verify(editor).deleteExistingElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
+            existingUsername);
+   }
+
+   @Test
+   public void whenUpdatingAUserShouldCallAddUserWithTheRightArguments()
+         throws IOException, UsernameAlreadyExistsException, CouldNotAccessDataException {
+
+      // Given
+
+      // When
+      repository.updateUser(user);
+
+      // Then
+      verify(editor).addNewElementToDocument(usedDocument, userDto);
+   }
+
+   @Test
+   public void whenSettingActivityShouldLookForTheRightUser()
+         throws IOException, UsernameAlreadyExistsException, CouldNotAccessDataException, UserNotFoundException {
+      // Given
+
+      // When
+      repository.setUserActivity(existingUsername, true);
+
+      // Then
+      verify(editor).returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
+            existingUsername);
+   }
+
+   @Test
+   public void whenSettingActivityShouldModifyTheUserAttribute()
+         throws IOException, UsernameAlreadyExistsException, CouldNotAccessDataException, UserNotFoundException {
+      // Given
+
+      // When
+      repository.setUserActivity(existingUsername, false);
+
+      // Then
+      verify(user).setActive(false);
+   }
+
+   @Test
+   public void whenSettingActivityShouldAddTheUser()
+         throws IOException, UsernameAlreadyExistsException, CouldNotAccessDataException, UserNotFoundException {
+      // Given
+
+      // When
+      repository.setUserActivity(existingUsername, false);
+
+      // Then
+      verify(editor).addNewElementToDocument(usedDocument, userDto);
+   }
+
    @Test(expected = UserNotFoundException.class)
    public void whenFindingByUsernameShouldReturnExceptionIfUsernameDoesNotExist()
          throws CouldNotAccessDataException, UserNotFoundException {
@@ -214,6 +280,18 @@ public class XMLUserRepositoryTest {
 
       // When
       repository.getUser(existingUsername);
+
+      // Then Exception is thrown
+   }
+
+   @Test(expected = CouldNotAccessDataException.class)
+   public void whenUpdatingShouldReturnCouldNotAccessDataExceptionIfTheDocumentIsInvalid()
+         throws CouldNotAccessDataException, UserNotFoundException, DocumentException {
+      // Given
+      given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
+
+      // When
+      repository.updateUser(user);
 
       // Then Exception is thrown
    }
@@ -261,6 +339,7 @@ public class XMLUserRepositoryTest {
 
       given(editor.returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
             existingUsername)).willReturn(mapWithUserData);
-   }
 
+      given(assembler.assembleUserFromAttributes(mapWithUserData)).willReturn(user);
+   }
 }

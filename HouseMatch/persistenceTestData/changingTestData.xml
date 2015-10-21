@@ -4,8 +4,8 @@
   <element> 
     <field>Existing Data</field>  
     <field2>Existing Data 2</field2>  
-    <nestedElement>
+    <nested>
       <field>added Data</field>
-    </nestedElement>
+    </nested>
   </element> 
 </test>
