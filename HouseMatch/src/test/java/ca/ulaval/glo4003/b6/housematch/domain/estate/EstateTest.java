@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -16,6 +18,9 @@ public class EstateTest {
    private static final Integer PRICE = 1;
 
    private static final String TYPE = "TYPE";
+   
+   @Mock
+   private Date dateRegistered;
 
    @Mock
    private Address address;
@@ -29,7 +34,7 @@ public class EstateTest {
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered);
    }
 
    @Test

@@ -1,5 +1,9 @@
 package ca.ulaval.glo4003.b6.housematch.persistance.estate.converter;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.dom4j.Element;
@@ -20,13 +24,18 @@ public class EstateElementConverter {
 
    private static final String ADDRESS = "address";
 
+   private static final String DATE_REGISTERED = "date_registered";
+   
+   private DateFormat df;
+
    private DescriptionElementConverter descriptionElementAssembler;
 
    public EstateElementConverter(DescriptionElementConverter descriptionElementAssembler) {
       this.descriptionElementAssembler = descriptionElementAssembler;
+      df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy");
    }
 
-   public EstateDto convertToDto(Element element) {
+   public EstateDto convertToDto(Element element) throws ParseException {
       EstateDto estateDto = new EstateDto();
 
       String type = element.elementText(TYPE);
@@ -41,6 +50,9 @@ public class EstateElementConverter {
 
       String seller = element.elementText(SELLER);
       estateDto.setSellerId(seller);
+      
+      Date dateRegistered = df.parse(element.elementText(DATE_REGISTERED));
+      estateDto.setDateRegistered(dateRegistered);
 
       return estateDto;
    }
@@ -70,12 +82,13 @@ public class EstateElementConverter {
       attributes.put(SELLER, estate.getSeller());
       attributes.put(PRICE, estate.getPrice().toString());
       attributes.put(TYPE, estate.getType());
+      attributes.put(DATE_REGISTERED, estate.getDateRegistered().toString());
       attributes.put(ADDRESS, estate.getAddress().toString());
 
       return attributes;
    }
 
-   public EstateDto convertAttributesToDto(HashMap<String, String> attributes) {
+   public EstateDto convertAttributesToDto(HashMap<String, String> attributes) throws ParseException {
       EstateDto estateDto = new EstateDto();
 
       estateDto.setSellerId(attributes.get(SELLER));
@@ -86,6 +99,11 @@ public class EstateElementConverter {
 
       AddressDto addressDto = constructAddressDtoFromString(attributes.get(ADDRESS));
       estateDto.setAddress(addressDto);
+      
+      
+      String date = attributes.get(DATE_REGISTERED);
+      Date dateRegistered = df.parse(attributes.get(DATE_REGISTERED));
+      estateDto.setDateRegistered(dateRegistered);
 
       return estateDto;
    }

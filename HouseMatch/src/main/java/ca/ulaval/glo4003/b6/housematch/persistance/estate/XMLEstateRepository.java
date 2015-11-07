@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.persistance.estate;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,13 +79,15 @@ public class XMLEstateRepository implements EstateRepository {
 
       } catch (DocumentException e) {
          throw new CouldNotAccessDataException("Problem when fetching all estate", e);
+      } catch (ParseException e2) {
+         throw new CouldNotAccessDataException("Problem when fetching all estate dates", e2);
       }
 
       return estates;
    }
 
    private List<Estate> getDtoListFromElements(List<Element> elementList, EstateAssembler estateAssembler,
-         EstateElementConverter estateElementAssembler) {
+         EstateElementConverter estateElementAssembler) throws ParseException {
       List<Estate> estates = new ArrayList<Estate>();
       for (Element element : elementList) {
          EstateDto convertedEstateDto = estateElementAssembler.convertToDto(element);
@@ -164,6 +167,8 @@ public class XMLEstateRepository implements EstateRepository {
          }
       } catch (DocumentException e2) {
          throw new CouldNotAccessDataException("Unable to edit description", e2);
+      } catch (ParseException e3) {
+         throw new CouldNotAccessDataException("Unable to edit date", e3);
       }
    }
 
@@ -198,11 +203,13 @@ public class XMLEstateRepository implements EstateRepository {
 
       } catch (DocumentException e) {
          throw new CouldNotAccessDataException("Unable to access data", e);
+      } catch (ParseException e) {
+         throw new CouldNotAccessDataException("Unable to access date data", e);
       }
       return estate;
    }
 
-   private EstateDto assembleDtoFromDocumentAttributes(String address, Document document) {
+   private EstateDto assembleDtoFromDocumentAttributes(String address, Document document) throws ParseException {
       HashMap<String, String> estateAttributes = xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(document,
             PATH_TO_ADDRESS, address);
 

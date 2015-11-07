@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
+import java.util.Date;
+
 public class Estate {
 
    private Integer price;
@@ -12,13 +14,16 @@ public class Estate {
 
    private Description description;
 
-   public Estate(String type, Address address, Integer price, String seller, Description description) {
+   private Date dateRegistered;
+
+   public Estate(String type, Address address, Integer price, String seller, Description description, Date dateRegistered) {
 
       this.type = type;
       this.address = address;
       this.price = price;
       this.seller = seller;
       this.description = description;
+      this.dateRegistered = dateRegistered;
    }
 
    public String getType() {
@@ -46,5 +51,9 @@ public class Estate {
          return true;
       }
       return false;
+   }
+
+   public Date getDateRegistered() {
+      return this.dateRegistered;
    }
 }

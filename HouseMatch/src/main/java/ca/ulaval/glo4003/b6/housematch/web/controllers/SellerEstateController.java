@@ -28,6 +28,7 @@ import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescrip
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
+import java.util.Date;
 
 @Controller
 public class SellerEstateController {
@@ -60,6 +61,7 @@ public class SellerEstateController {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
       estateDto.setSellerId(userId);
+      estateDto.setDateRegistered(new Date());
 
       estateCorruptionVerificator.addEstate(estateDto);
 
