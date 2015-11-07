@@ -123,4 +123,10 @@ public class XMLUserRepository implements UserRepository {
    private Document readUsersXML() throws DocumentException {
       return fileEditor.readXMLFile(pathToXML);
    }
+
+   @Override
+   public int getNumberOfActiveBuyer() {
+      // TODO Auto-generated method stub
+      return 0;
+   }
 }

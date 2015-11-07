@@ -13,4 +13,6 @@ public interface UserRepository {
    void updateUser(User user) throws CouldNotAccessDataException;
 
    void setUserActivity(String username, boolean value) throws CouldNotAccessDataException, UserNotFoundException;
+
+   int getNumberOfActiveBuyer();
 }
