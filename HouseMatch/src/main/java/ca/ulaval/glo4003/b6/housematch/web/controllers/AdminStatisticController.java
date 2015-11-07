@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
@@ -14,6 +15,8 @@ import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessExc
 
 @Controller
 public class AdminStatisticController {
+
+   private static final String NUMBER_OF_ACTIVE_BUYER_KEY = "numberOfActiveBuyer";
 
    private static final String ADMIN_ROLE = Role.ADMIN;
 
@@ -28,14 +31,14 @@ public class AdminStatisticController {
       this.adminStatisticService = adminStatisticService;
    }
 
-   @RequestMapping(path = "/admin/{userId}/statistique")
-   public ModelAndView getNumberOfActiveUser(HttpServletRequest request) throws InvalidAccessException {
+   @RequestMapping(path = "/admin/statistic/active_buyer", method = RequestMethod.GET)
+   public ModelAndView getNumberOfActiveBuyer(HttpServletRequest request) throws InvalidAccessException {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 
-      int numberOfActiveUser = adminStatisticService.getNumberOfActiveUser();
+      int numberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyer();
 
       ModelAndView numberOfActiveUserViewModel = new ModelAndView("userActiveStatistic");
-      numberOfActiveUserViewModel.addObject("numberOfActiveUser", numberOfActiveUser);
+      numberOfActiveUserViewModel.addObject(NUMBER_OF_ACTIVE_BUYER_KEY, numberOfActiveBuyer);
 
       return numberOfActiveUserViewModel;
    }

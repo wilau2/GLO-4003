@@ -48,7 +48,7 @@ public class AdminStatisticControllerTest {
       // Given no changes
 
       // When
-      adminStatisticController.getNumberOfActiveUser(request);
+      adminStatisticController.getNumberOfActiveBuyer(request);
 
       // Then
       verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, Role.ADMIN);
@@ -62,7 +62,7 @@ public class AdminStatisticControllerTest {
             Role.ADMIN);
 
       // When
-      adminStatisticController.getNumberOfActiveUser(request);
+      adminStatisticController.getNumberOfActiveBuyer(request);
 
       // Then an Invalid access exception is thrown
    }
@@ -72,24 +72,24 @@ public class AdminStatisticControllerTest {
       // Given no changes
 
       // When
-      adminStatisticController.getNumberOfActiveUser(request);
+      adminStatisticController.getNumberOfActiveBuyer(request);
 
       // Then
-      verify(adminStatisticService, times(1)).getNumberOfActiveUser();
+      verify(adminStatisticService, times(1)).getNumberOfActiveBuyer();
    }
 
    @Test
    public void whenAskingForNumberOfActiveBuyerShouldReturnNumberOfActiveUserInsideVueModel()
          throws InvalidAccessException {
       // Given
-      int expectedNumberOfActiveUser = 3;
-      when(adminStatisticService.getNumberOfActiveUser()).thenReturn(expectedNumberOfActiveUser);
+      int expectedNumberOfActiveBuyer = 3;
+      when(adminStatisticService.getNumberOfActiveBuyer()).thenReturn(expectedNumberOfActiveBuyer);
 
       // When
-      ModelAndView returnedViewModel = adminStatisticController.getNumberOfActiveUser(request);
+      ModelAndView returnedViewModel = adminStatisticController.getNumberOfActiveBuyer(request);
 
       // Then
       Map<String, Object> model = returnedViewModel.getModel();
-      assertEquals(expectedNumberOfActiveUser, model.get("numberOfActiveUser"));
+      assertEquals(expectedNumberOfActiveBuyer, model.get("numberOfActiveBuyer"));
    }
 }
