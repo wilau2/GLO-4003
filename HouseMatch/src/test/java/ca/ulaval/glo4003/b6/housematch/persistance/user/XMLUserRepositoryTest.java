@@ -3,6 +3,8 @@ package ca.ulaval.glo4003.b6.housematch.persistance.user;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 
+import static org.mockito.Matchers.any;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -443,7 +445,7 @@ public class XMLUserRepositoryTest {
       repository.updateUserLastActivity(user);
 
       // Then
-      verify(user).setDateOfLastActivity(LocalDateTime.now());
+      verify(user).setDateOfLastActivity(any(LocalDateTime.class));
    }
 
    @Test

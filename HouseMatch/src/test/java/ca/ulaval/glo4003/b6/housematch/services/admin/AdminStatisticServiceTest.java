@@ -21,16 +21,12 @@ public class AdminStatisticServiceTest {
    @Mock
    private UserRepository userRepository;
 
-   @Mock
-   private UserRepositoryFactory userRepositoryFactory;
-
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
-      adminStatisticService = new AdminStatisticService(userRepositoryFactory);
+      adminStatisticService = new AdminStatisticService(userRepository);
 
-      when(userRepositoryFactory.newInstance()).thenReturn(userRepository);
    }
 
    @Test
@@ -41,7 +37,6 @@ public class AdminStatisticServiceTest {
       adminStatisticService.getNumberOfActiveBuyer();
 
       // Then
-      verify(userRepositoryFactory, times(1)).newInstance();
       verify(userRepository, times(1)).getNumberOfActiveBuyer();
    }
 

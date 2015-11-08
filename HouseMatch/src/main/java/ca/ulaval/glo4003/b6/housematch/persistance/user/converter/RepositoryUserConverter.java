@@ -39,9 +39,19 @@ public class RepositoryUserConverter {
             new Role(attributes.get(ROLE)));
 
       String lastActivityDateFromAttributes = attributes.get(DATE_LAST_ACTIVITY);
-      user.setDateOfLastActivity(LocalDateTime.parse(lastActivityDateFromAttributes));
+
+      setUserLastActivityDate(user, lastActivityDateFromAttributes);
 
       return user;
+   }
+
+   private void setUserLastActivityDate(User user, String lastActivityDate) {
+      if (lastActivityDate == null || lastActivityDate.isEmpty()) {
+         user.setDateOfLastActivity(LocalDateTime.MIN);
+
+      } else {
+         user.setDateOfLastActivity(LocalDateTime.parse(lastActivityDate));
+      }
    }
 
    public User assembleUserFromElement(Element userElement) {
@@ -55,7 +65,8 @@ public class RepositoryUserConverter {
       user.setActive(Boolean.parseBoolean(userElement.elementText(IS_ACTIVE)));
 
       String dateOfLastActivityFromElement = userElement.elementText(DATE_LAST_ACTIVITY);
-      user.setDateOfLastActivity(LocalDateTime.parse(dateOfLastActivityFromElement));
+
+      setUserLastActivityDate(user, dateOfLastActivityFromElement);
 
       return user;
    }

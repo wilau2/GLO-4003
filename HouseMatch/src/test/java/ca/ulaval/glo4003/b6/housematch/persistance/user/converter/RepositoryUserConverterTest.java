@@ -137,4 +137,39 @@ public class RepositoryUserConverterTest {
       assertEquals(FIRST_NAME, contactInformation.getFirstName());
       assertEquals(PHONE_NUMBER, contactInformation.getPhoneNumber());
    }
+
+   @Test
+   public void assemblingUserFromAttibutesWhenUserLastActiveDateIsMissingShouldReturnMinDate() {
+      // Given
+      when(attributes.get("dateLastActivity")).thenReturn(null);
+
+      // When
+      repositoryUserConverter.assembleUserFromAttributes(attributes);
+
+      // Then no exception is thrown
+   }
+
+   @Test
+   public void assemblingUserFromElementWhenUserLastActiveDateIsMissingShouldReturnMinDate() {
+      // Given
+      when(element.elementText("dateLastActivity")).thenReturn(null);
+
+      // When
+      User userFromElement = repositoryUserConverter.assembleUserFromElement(element);
+
+      // Then
+      assertEquals(LocalDateTime.MIN, userFromElement.getDateOfLastActivity());
+   }
+
+   @Test
+   public void assemblingUserFromElementWhenUserLastActiveDateIsEmptyShouldReturnMinDate() {
+      // Given
+      when(element.elementText("dateLastActivity")).thenReturn("");
+
+      // When
+      User userFromElement = repositoryUserConverter.assembleUserFromElement(element);
+
+      // Then
+      assertEquals(LocalDateTime.MIN, userFromElement.getDateOfLastActivity());
+   }
 }

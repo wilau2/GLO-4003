@@ -7,16 +7,14 @@ import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessData
 
 public class AdminStatisticService {
 
-   private UserRepositoryFactory userRepositoryFactory;
+   private UserRepository userRepository;
 
    @Inject
-   public AdminStatisticService(UserRepositoryFactory userRepositoryFactory) {
-      this.userRepositoryFactory = userRepositoryFactory;
+   public AdminStatisticService(UserRepository userRepository) {
+      this.userRepository = userRepository;
    }
 
    public int getNumberOfActiveBuyer() throws CouldNotAccessDataException {
-      UserRepository userRepository = userRepositoryFactory.newInstance();
-
       return userRepository.getNumberOfActiveBuyer();
    }
 

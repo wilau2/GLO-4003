@@ -84,4 +84,8 @@ public class User {
       return isDateOfLastActivityLessThanSixMonthsAgo;
    }
 
+   public LocalDateTime getDateOfLastActivity() {
+      return dateOfLastActivity;
+   }
+
 }

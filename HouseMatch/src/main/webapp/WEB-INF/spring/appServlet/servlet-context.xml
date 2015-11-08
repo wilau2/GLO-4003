@@ -10,7 +10,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop
-    	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+    	http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
+>
 
     <context:component-scan base-package="ca.ulaval.glo4003.b6.housematch" />
     <annotation-driven />
@@ -138,14 +139,15 @@
     <beans:bean
         id="loggedUser"
         class="ca.ulaval.glo4003.b6.housematch.domain.user.User"
-        scope="session">
+        scope="session"
+    >
         <aop:scoped-proxy />
     </beans:bean>
-        
+
     <beans:bean
         id="xmlElementReaderId"
         class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLElementReader" />
-        
+
     <beans:bean
         id="xmlElementWriterId"
         class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLElementWriter" />
@@ -153,10 +155,11 @@
     <beans:bean
         id="xmlFileAccesserId"
         class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileAccesser" />
-	
-	<beans:bean
+
+    <beans:bean
         id="xmlFileEditorId"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor">
+        class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor"
+    >
         <beans:constructor-arg
             name="xmlElementReader"
             ref="xmlElementReaderId" />
@@ -167,18 +170,19 @@
             name="xmlFileAccesser"
             ref="xmlFileAccesserId" />
     </beans:bean>
-    
+
     <beans:bean
         id="persistenceDtoFactoryId"
         class="ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDtoFactory" />
-        
+
     <beans:bean
         id="repositoryUserConverterId"
         class="ca.ulaval.glo4003.b6.housematch.persistance.user.converter.RepositoryUserConverter" />
-          
+
     <beans:bean
         id="userRepository"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.user.XMLUserRepository">
+        class="ca.ulaval.glo4003.b6.housematch.persistance.user.XMLUserRepository"
+    >
         <beans:constructor-arg
             name="persistenceDtoFactory"
             ref="persistenceDtoFactoryId" />
@@ -209,11 +213,12 @@
     <beans:bean
         id="mailSenderFactory"
         class="ca.ulaval.glo4003.b6.housematch.messaging.MailSenderFactory" />
-        
+
     <beans:bean
         id="mailSenderObserver"
         class="ca.ulaval.glo4003.b6.housematch.services.user.MailSenderObserver"
-        scope="session">
+        scope="session"
+    >
         <beans:constructor-arg
             name="messageBuilderFactory"
             ref="mailBuilderFactory" />
@@ -344,8 +349,8 @@
 
     <beans:bean
         id="contactInformationCorruptionVerificator"
-        class="ca.ulaval.glo4003.b6.housematch.anticorruption.user.ContactInformationCorruptionVerificator" 
-        scope="session"/>
+        class="ca.ulaval.glo4003.b6.housematch.anticorruption.user.ContactInformationCorruptionVerificator"
+        scope="session" />
 
     <beans:bean
         id="contactInformationAssemblerFactory"
@@ -399,5 +404,27 @@
             ref="userProfilCorruptionVerificator" />
     </beans:bean>
 
+    <beans:bean
+        id="adminStatisticService"
+        class="ca.ulaval.glo4003.b6.housematch.services.admin.AdminStatisticService"
+        scope="session"
+    >
+        <beans:constructor-arg
+            name="userRepository"
+            ref="userRepository" />
+    </beans:bean>
+
+    <beans:bean
+        id="adminStatisticController"
+        class="ca.ulaval.glo4003.b6.housematch.web.controllers.AdminStatisticController"
+        scope="session"
+    >
+        <beans:constructor-arg
+            name="adminStatisticService"
+            ref="adminStatisticService" />
+        <beans:constructor-arg
+            name="userAuthorizationService"
+            ref="userAuthorizationService" />
+    </beans:bean>
 
 </beans:beans>

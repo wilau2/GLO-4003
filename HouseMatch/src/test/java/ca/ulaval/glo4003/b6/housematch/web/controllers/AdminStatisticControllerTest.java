@@ -95,4 +95,27 @@ public class AdminStatisticControllerTest {
       Map<String, Object> model = returnedViewModel.getModel();
       assertEquals(expectedNumberOfActiveBuyer, model.get("numberOfActiveBuyer"));
    }
+
+   @Test
+   public void whenAskingForAdminDashboardShouldReturnAdminDashboardView() throws InvalidAccessException {
+      // Given
+
+      // When
+      String returnedViewName = adminStatisticController.getAdminStatisticDashboard(request);
+
+      // Then
+      assertEquals("admin_dashboard", returnedViewName);
+   }
+
+   @Test(expected = InvalidAccessException.class)
+   public void askingForAdminDashboardWhenUserHasNotAdminRoleShouldThrowException() throws InvalidAccessException {
+      // Given
+      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
+            Role.ADMIN);
+
+      // When
+      adminStatisticController.getAdminStatisticDashboard(request);
+
+      // Then an invalid access exception is thrown
+   }
 }

@@ -39,10 +39,17 @@ public class AdminStatisticController {
 
       int numberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyer();
 
-      ModelAndView numberOfActiveUserViewModel = new ModelAndView("userActiveStatistic");
+      ModelAndView numberOfActiveUserViewModel = new ModelAndView("buyer_active_statistic");
       numberOfActiveUserViewModel.addObject(NUMBER_OF_ACTIVE_BUYER_KEY, numberOfActiveBuyer);
 
       return numberOfActiveUserViewModel;
+   }
+
+   @RequestMapping(path = "/admin/statistic", method = RequestMethod.GET)
+   public String getAdminStatisticDashboard(HttpServletRequest request) throws InvalidAccessException {
+      userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
+
+      return "admin_dashboard";
    }
 
 }

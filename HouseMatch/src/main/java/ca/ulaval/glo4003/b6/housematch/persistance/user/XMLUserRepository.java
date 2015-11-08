@@ -165,7 +165,6 @@ public class XMLUserRepository implements UserRepository {
    @Override
    public void updateUserLastActivity(User user) throws CouldNotAccessDataException {
       user.setDateOfLastActivity(LocalDateTime.now());
-
       updateUser(user);
    }
 }
