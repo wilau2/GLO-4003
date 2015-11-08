@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.persistance.user;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -159,5 +160,12 @@ public class XMLUserRepository implements UserRepository {
       }
 
       return users;
+   }
+
+   @Override
+   public void updateUserLastActivity(User user) throws CouldNotAccessDataException {
+      user.setDateOfLastActivity(LocalDateTime.now());
+
+      updateUser(user);
    }
 }

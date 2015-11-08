@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.persistance.user.converter;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import org.dom4j.Element;
@@ -9,6 +10,8 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 
 public class RepositoryUserConverter {
+
+   private static final String DATE_LAST_ACTIVITY = "dateLastActivity";
 
    private static final String EMPTY_FIELD = "";
 
@@ -34,6 +37,10 @@ public class RepositoryUserConverter {
 
       User user = new User(attributes.get(USERNAME), attributes.get(PASSWORD), contactInformation,
             new Role(attributes.get(ROLE)));
+
+      String lastActivityDateFromAttributes = attributes.get(DATE_LAST_ACTIVITY);
+      user.setDateOfLastActivity(LocalDateTime.parse(lastActivityDateFromAttributes));
+
       return user;
    }
 
@@ -46,6 +53,10 @@ public class RepositoryUserConverter {
             new Role(userElement.elementText(ROLE)));
 
       user.setActive(Boolean.parseBoolean(userElement.elementText(IS_ACTIVE)));
+
+      String dateOfLastActivityFromElement = userElement.elementText(DATE_LAST_ACTIVITY);
+      user.setDateOfLastActivity(LocalDateTime.parse(dateOfLastActivityFromElement));
+
       return user;
    }
 

@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -431,5 +432,30 @@ public class XMLUserRepositoryTest {
          listOfUserELement.add(userElement);
       }
       given(editor.getAllElementsFromDocument(usedDocument, "users/user")).willReturn(listOfUserELement);
+   }
+
+   @Test
+   public void whenUpdatingUserLastActivityDateShouldChangeTheUserDateOfLastActivity()
+         throws CouldNotAccessDataException {
+      // Given
+
+      // When
+      repository.updateUserLastActivity(user);
+
+      // Then
+      verify(user).setDateOfLastActivity(LocalDateTime.now());
+   }
+
+   @Test
+   public void whenUpdatingUserLastActivityDateShouldUpdateUserInRepository() throws CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      repository.updateUserLastActivity(user);
+
+      // Then
+      verify(editor, times(1)).deleteExistingElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
+            existingUsername);
+      verify(editor, times(1)).addNewElementToDocument(usedDocument, userDto);
    }
 }
