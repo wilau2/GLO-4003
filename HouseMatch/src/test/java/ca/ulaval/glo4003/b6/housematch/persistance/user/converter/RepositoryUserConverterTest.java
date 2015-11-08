@@ -47,6 +47,7 @@ public class RepositoryUserConverterTest {
    private void configureElement() {
       when(element.elementText("username")).thenReturn(USERNAME);
       when(element.elementText("role")).thenReturn(BUYER);
+      when(element.elementText("isActive")).thenReturn("true");
 
       when(element.elementText("email")).thenReturn(EMAIL);
       when(element.elementText("lastName")).thenReturn(LAST_NAME);
@@ -65,6 +66,7 @@ public class RepositoryUserConverterTest {
       assertEquals(USERNAME, returnedUser.getUsername());
       assertEquals(PASSWORD, returnedUser.getPassword());
       assertTrue(returnedUser.isBuyer());
+      assertTrue(returnedUser.isActive());
    }
 
    @Test

@@ -136,7 +136,7 @@ public class XMLUserRepository implements UserRepository {
          users = getAllUser();
          int numberOfActiveBuyer = 0;
          for (User user : users) {
-            if (user.isBuyer() && user.isActive()) {
+            if (user.isBuyer() && user.wasActiveInTheLastSixMonths()) {
                numberOfActiveBuyer++;
             }
          }

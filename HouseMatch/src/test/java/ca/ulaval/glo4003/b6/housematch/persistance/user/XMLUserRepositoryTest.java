@@ -369,13 +369,28 @@ public class XMLUserRepositoryTest {
    }
 
    @Test
+   public void whenAskingTheNumberOfActiveBuyerShouldCallMethodsOnUser() throws CouldNotAccessDataException {
+      // Given
+      int numberOfUserInSystem = 1;
+      configureFileEditorGetAllUserElement(numberOfUserInSystem);
+      when(user.isBuyer()).thenReturn(true);
+      when(user.isActive()).thenReturn(true);
+
+      // When
+      repository.getNumberOfActiveBuyer();
+
+      // Then
+      verify(user, times(1)).wasActiveInTheLastSixMonths();
+   }
+
+   @Test
    public void askingNumberOfActiveBuyerWhenNotAllBuyerIsActiveShouldReturnNumberOfActiveBuyer()
          throws CouldNotAccessDataException {
       // Given
       int numberOfUserInSystem = 3;
       configureFileEditorGetAllUserElement(numberOfUserInSystem);
       when(user.isBuyer()).thenReturn(true);
-      when(user.isActive()).thenReturn(true, false, true);
+      when(user.wasActiveInTheLastSixMonths()).thenReturn(true, false, true);
       int expectedNumberOfActiveBuyer = 2;
 
       // When
