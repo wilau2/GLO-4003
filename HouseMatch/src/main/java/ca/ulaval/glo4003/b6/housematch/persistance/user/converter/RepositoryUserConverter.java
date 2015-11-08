@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.persistance.user.converter;
 
 import java.util.HashMap;
 
-import org.apache.logging.log4j.core.util.Booleans;
 import org.dom4j.Element;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.ContactInformation;
@@ -46,7 +45,7 @@ public class RepositoryUserConverter {
       User user = new User(userElement.elementText(USERNAME), EMPTY_FIELD, contactInformation,
             new Role(userElement.elementText(ROLE)));
 
-      user.setActive(Booleans.parseBoolean(userElement.elementText(IS_ACTIVE), false));
+      user.setActive(Boolean.parseBoolean(userElement.elementText(IS_ACTIVE)));
       return user;
    }
 
