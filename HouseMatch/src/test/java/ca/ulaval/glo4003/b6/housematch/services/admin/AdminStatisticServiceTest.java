@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class AdminStatisticServiceTest {
 
@@ -33,7 +34,7 @@ public class AdminStatisticServiceTest {
    }
 
    @Test
-   public void whenAskingForActiveBuyerShouldFetchInformationFromRepository() {
+   public void whenAskingForActiveBuyerShouldFetchInformationFromRepository() throws CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -45,7 +46,8 @@ public class AdminStatisticServiceTest {
    }
 
    @Test
-   public void whenAskingForNumberOfActiveBuyerShouldReturnInformationFromRepository() {
+   public void whenAskingForNumberOfActiveBuyerShouldReturnInformationFromRepository()
+         throws CouldNotAccessDataException {
       // Given
       int expectedNumberOfActiveBuyer = 3;
       when(userRepository.getNumberOfActiveBuyer()).thenReturn(expectedNumberOfActiveBuyer);

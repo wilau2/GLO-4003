@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.admin.AdminStatisticService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
@@ -32,7 +33,8 @@ public class AdminStatisticController {
    }
 
    @RequestMapping(path = "/admin/statistic/active_buyer", method = RequestMethod.GET)
-   public ModelAndView getNumberOfActiveBuyer(HttpServletRequest request) throws InvalidAccessException {
+   public ModelAndView getNumberOfActiveBuyer(HttpServletRequest request)
+         throws InvalidAccessException, CouldNotAccessDataException {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 
       int numberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyer();

@@ -18,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
+import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.admin.AdminStatisticService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
@@ -44,7 +45,8 @@ public class AdminStatisticControllerTest {
    }
 
    @Test
-   public void whenAskingHowManyActiveBuyersInHousematchShouldVerifyRole() throws InvalidAccessException {
+   public void whenAskingHowManyActiveBuyersInHousematchShouldVerifyRole()
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -56,7 +58,7 @@ public class AdminStatisticControllerTest {
 
    @Test(expected = InvalidAccessException.class)
    public void askingHowManyActiveBuyersInHousematchWhenUserNoAllowedShouldThrowInvalidAccessException()
-         throws InvalidAccessException {
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given
       doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
             Role.ADMIN);
@@ -68,7 +70,8 @@ public class AdminStatisticControllerTest {
    }
 
    @Test
-   public void whenAskingForNumberOfActiveBuyerShouldCallAdminStatisticService() throws InvalidAccessException {
+   public void whenAskingForNumberOfActiveBuyerShouldCallAdminStatisticService()
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -80,7 +83,7 @@ public class AdminStatisticControllerTest {
 
    @Test
    public void whenAskingForNumberOfActiveBuyerShouldReturnNumberOfActiveUserInsideVueModel()
-         throws InvalidAccessException {
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given
       int expectedNumberOfActiveBuyer = 3;
       when(adminStatisticService.getNumberOfActiveBuyer()).thenReturn(expectedNumberOfActiveBuyer);

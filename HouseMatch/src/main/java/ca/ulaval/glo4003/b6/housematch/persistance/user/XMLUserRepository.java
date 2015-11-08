@@ -1,13 +1,16 @@
 package ca.ulaval.glo4003.b6.housematch.persistance.user;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
@@ -22,15 +25,17 @@ import ca.ulaval.glo4003.b6.housematch.persistance.user.converter.RepositoryUser
 @Singleton
 public class XMLUserRepository implements UserRepository {
 
+   private static final String PATH_TO_ALL_USER = "users/user";
+
+   private final String pathToXML = "persistence/users.xml";
+
+   private final String pathToUsernameValue = "users/user/username";
+
    private XMLFileEditor fileEditor;
 
    private PersistenceDtoFactory dtoFactory;
 
    private RepositoryUserConverter assembler;
-
-   private final String pathToXML = "persistence/users.xml";
-
-   private final String pathToUsernameValue = "users/user/username";
 
    @Inject
    public XMLUserRepository(PersistenceDtoFactory persistenceDtoFactory,
@@ -125,8 +130,34 @@ public class XMLUserRepository implements UserRepository {
    }
 
    @Override
-   public int getNumberOfActiveBuyer() {
-      // TODO Auto-generated method stub
-      return 0;
+   public int getNumberOfActiveBuyer() throws CouldNotAccessDataException {
+      List<User> users;
+      try {
+         users = getAllUser();
+         int numberOfActiveBuyer = 0;
+         for (User user : users) {
+            if (user.isBuyer() && user.isActive()) {
+               numberOfActiveBuyer++;
+            }
+         }
+         return numberOfActiveBuyer;
+      } catch (DocumentException e) {
+         throw new CouldNotAccessDataException("Problem accessing users", e);
+      }
+   }
+
+   protected List<User> getAllUser() throws DocumentException {
+
+      Document userDocument = readUsersXML();
+      List<Element> allElementsFromDocument = fileEditor.getAllElementsFromDocument(userDocument, PATH_TO_ALL_USER);
+
+      List<User> users = new ArrayList<User>();
+
+      for (Element userElement : allElementsFromDocument) {
+         User userFromElement = assembler.assembleUserFromElement(userElement);
+         users.add(userFromElement);
+      }
+
+      return users;
    }
 }
