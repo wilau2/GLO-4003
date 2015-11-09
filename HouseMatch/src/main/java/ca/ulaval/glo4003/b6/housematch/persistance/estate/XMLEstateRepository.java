@@ -225,4 +225,10 @@ public class XMLEstateRepository implements EstateRepository {
       return estateAssembler.assembleEstate(estateDto);
 
    }
+
+   @Override
+   public int getNumberOfUniqueSeller() {
+      // TODO Auto-generated method stub
+      return 0;
+   }
 }

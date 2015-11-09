@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
@@ -21,11 +22,14 @@ public class AdminStatisticServiceTest {
    @Mock
    private UserRepository userRepository;
 
+   @Mock
+   private EstateRepository estateRepository;
+
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
-      adminStatisticService = new AdminStatisticService(userRepository);
+      adminStatisticService = new AdminStatisticService(userRepository, estateRepository);
 
    }
 
@@ -53,4 +57,29 @@ public class AdminStatisticServiceTest {
       // Then
       assertEquals(expectedNumberOfActiveBuyer, actualNumberOfActiveBuyer);
    }
+
+   @Test
+   public void whenAskingForNumberOfActiveSellerShouldReturnInformationFromRepository() {
+      // Given
+      int expectedNumberOfActiveSeller = 3;
+      when(estateRepository.getNumberOfUniqueSeller()).thenReturn(expectedNumberOfActiveSeller);
+
+      // When
+      int numberOfActiveSeller = adminStatisticService.getNumberOfActiveSeller();
+
+      // Then
+      assertEquals(expectedNumberOfActiveSeller, numberOfActiveSeller);
+   }
+
+   @Test
+   public void whenAskingForNumberOfActiveSellerShouldCallMethodOfEstateRepository() {
+      // Given
+
+      // When
+      adminStatisticService.getNumberOfActiveSeller();
+
+      // Then
+      verify(estateRepository, times(1)).getNumberOfUniqueSeller();
+   }
+
 }

@@ -118,4 +118,54 @@ public class AdminStatisticControllerTest {
 
       // Then an invalid access exception is thrown
    }
+
+   @Test
+   public void whenAskingForTheNumberOfSellerWithAtLeastOnePropertyShouldReturnViewModel()
+         throws InvalidAccessException {
+      // Given
+
+      // When
+      ModelAndView returnedViewModel = adminStatisticController.getNumberOfActiveSeller(request);
+
+      // Then
+      assertEquals("admin_active_seller", returnedViewModel.getViewName());
+   }
+
+   @Test
+   public void whenAskingForTheNumberOfSellerWithAtLeastOneEstateForSaleShouldCallAdminStatServiceMethods()
+         throws InvalidAccessException {
+      // Given
+
+      // When
+      adminStatisticController.getNumberOfActiveSeller(request);
+
+      // Then
+      verify(adminStatisticService, times(1)).getNumberOfActiveSeller();
+   }
+
+   @Test
+   public void whenAskingForActiveSellerNumberShouldReturnNumberInsideViewModel() throws InvalidAccessException {
+      // Given
+      int expectedNumberOfActiveSeller = 1;
+      when(adminStatisticService.getNumberOfActiveSeller()).thenReturn(expectedNumberOfActiveSeller);
+
+      // When
+      ModelAndView modelAndView = adminStatisticController.getNumberOfActiveSeller(request);
+      Map<String, Object> model = modelAndView.getModel();
+
+      // Then
+      assertEquals(expectedNumberOfActiveSeller, model.get("numberOfActiveSeller"));
+   }
+
+   @Test(expected = InvalidAccessException.class)
+   public void askingForNumberOfActiveSellerWhenUserIsNotPermittedShouldThrowException() throws InvalidAccessException {
+      // Given
+      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
+            Role.ADMIN);
+
+      // When
+      adminStatisticController.getNumberOfActiveSeller(request);
+
+      // Then an invalid access exception is thrown
+   }
 }

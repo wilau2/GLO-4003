@@ -17,6 +17,8 @@ import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessExc
 @Controller
 public class AdminStatisticController {
 
+   private static final String NUMBER_OF_ACTIVE_SELLER_KEY = "numberOfActiveSeller";
+
    private static final String NUMBER_OF_ACTIVE_BUYER_KEY = "numberOfActiveBuyer";
 
    private static final String ADMIN_ROLE = Role.ADMIN;
@@ -50,6 +52,17 @@ public class AdminStatisticController {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 
       return "admin_dashboard";
+   }
+
+   public ModelAndView getNumberOfActiveSeller(HttpServletRequest request) throws InvalidAccessException {
+      userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
+
+      int numberOfActiveSeller = adminStatisticService.getNumberOfActiveSeller();
+
+      ModelAndView modelAndView = new ModelAndView("admin_active_seller");
+      modelAndView.addObject(NUMBER_OF_ACTIVE_SELLER_KEY, numberOfActiveSeller);
+
+      return modelAndView;
    }
 
 }
