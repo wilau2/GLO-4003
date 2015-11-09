@@ -412,6 +412,9 @@
         <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />
+        <beans:constructor-arg
+            name="estateRepositoryFactory"
+            ref="estateRepositoryFactory" />
     </beans:bean>
 
     <beans:bean
@@ -425,6 +428,7 @@
         <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />
+
     </beans:bean>
 
 </beans:beans>

@@ -121,7 +121,7 @@ public class AdminStatisticControllerTest {
 
    @Test
    public void whenAskingForTheNumberOfSellerWithAtLeastOnePropertyShouldReturnViewModel()
-         throws InvalidAccessException {
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -133,7 +133,7 @@ public class AdminStatisticControllerTest {
 
    @Test
    public void whenAskingForTheNumberOfSellerWithAtLeastOneEstateForSaleShouldCallAdminStatServiceMethods()
-         throws InvalidAccessException {
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given
 
       // When
@@ -144,7 +144,8 @@ public class AdminStatisticControllerTest {
    }
 
    @Test
-   public void whenAskingForActiveSellerNumberShouldReturnNumberInsideViewModel() throws InvalidAccessException {
+   public void whenAskingForActiveSellerNumberShouldReturnNumberInsideViewModel()
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given
       int expectedNumberOfActiveSeller = 1;
       when(adminStatisticService.getNumberOfActiveSeller()).thenReturn(expectedNumberOfActiveSeller);
@@ -158,7 +159,8 @@ public class AdminStatisticControllerTest {
    }
 
    @Test(expected = InvalidAccessException.class)
-   public void askingForNumberOfActiveSellerWhenUserIsNotPermittedShouldThrowException() throws InvalidAccessException {
+   public void askingForNumberOfActiveSellerWhenUserIsNotPermittedShouldThrowException()
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given
       doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
             Role.ADMIN);

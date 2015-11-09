@@ -54,7 +54,9 @@ public class AdminStatisticController {
       return "admin_dashboard";
    }
 
-   public ModelAndView getNumberOfActiveSeller(HttpServletRequest request) throws InvalidAccessException {
+   @RequestMapping(path = "/admin/statistic/active_seller", method = RequestMethod.GET)
+   public ModelAndView getNumberOfActiveSeller(HttpServletRequest request)
+         throws InvalidAccessException, CouldNotAccessDataException {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 
       int numberOfActiveSeller = adminStatisticService.getNumberOfActiveSeller();

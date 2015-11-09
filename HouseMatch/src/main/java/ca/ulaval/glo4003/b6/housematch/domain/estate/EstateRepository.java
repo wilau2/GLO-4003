@@ -18,6 +18,6 @@ public interface EstateRepository {
 
    Estate getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException;
 
-   int getNumberOfUniqueSeller();
+   int getNumberOfUniqueSeller() throws CouldNotAccessDataException;
 
 }

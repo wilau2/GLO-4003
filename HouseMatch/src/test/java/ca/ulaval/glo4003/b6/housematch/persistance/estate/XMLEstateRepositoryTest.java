@@ -38,12 +38,15 @@ import ca.ulaval.glo4003.b6.housematch.dto.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor;
-import ca.ulaval.glo4003.b6.housematch.persistance.estate.XMLEstateRepository;
 import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverter;
 import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverterFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepositoryTest {
+
+   private static final String SECOND_SELLER = "SECOND_SELLER";
+
+   private static final String FIRST_SELLER = "FIRST_SELLER";
 
    private static final String PATH_TO_ADDRESS = "estates/estate/address";
 
@@ -488,6 +491,60 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.getEstateByAddress(VALID_ADDRESS.toString());
 
       // Then an EstateNotFoundException is thrown
+   }
+
+   @Test
+   public void gettingTheNumberOfUniqueSellerWhenNoEstateInRepositoryShouldReturnZero()
+         throws CouldNotAccessDataException {
+      // Given
+      int expectedNumberOfEstate = 0;
+
+      // When
+      int returnedValue = xmlEstateRepository.getNumberOfUniqueSeller();
+
+      // Then
+      assertEquals(expectedNumberOfEstate, returnedValue);
+   }
+
+   @Test
+   public void askingForTheNumberOfUniqueSellerWhenOnlyOneEstateShouldReturnNumberOfEstate()
+         throws DocumentException, CouldNotAccessDataException {
+      // Given
+      int expectedNumberOfUniqueSeller = 1;
+      configureXmlFileEditor();
+      configureEstateUniqueSellerElement(expectedNumberOfUniqueSeller);
+
+      // When
+      int returnedValue = xmlEstateRepository.getNumberOfUniqueSeller();
+
+      // Then
+      assertEquals(expectedNumberOfUniqueSeller, returnedValue);
+   }
+
+   @Test
+   public void askingForTheNumberOfUniqueSellerWhenMoreThanOneSellerEstateWithAnEstateShouldReturnNumberOfEstate()
+         throws DocumentException, CouldNotAccessDataException {
+      // Given
+      int expectedNumberOfUniqueSeller = 2;
+      configureXmlFileEditor();
+      configureEstateUniqueSellerElement(expectedNumberOfUniqueSeller + 1);
+      when(estate.getSeller()).thenReturn(FIRST_SELLER, SECOND_SELLER, FIRST_SELLER);
+
+      // When
+      int returnedValue = xmlEstateRepository.getNumberOfUniqueSeller();
+
+      // Then
+      assertEquals(expectedNumberOfUniqueSeller, returnedValue);
+   }
+
+   private void configureEstateUniqueSellerElement(int numberOfElementWanted) {
+      List<Element> listOfElement = new ArrayList<Element>();
+      for (int i = 0; i < numberOfElementWanted; i++) {
+         listOfElement.add(element);
+      }
+      when(xmlFileEditor.getAllElementsFromDocument(usedDocument, ELEMENT_NAME)).thenReturn(listOfElement);
+      when(estateElementAssembler.convertToDto(element)).thenReturn(estateDto);
+      configureAssemblerBehavior();
    }
 
    private void configureFetchingEstateByAddress() throws DocumentException {

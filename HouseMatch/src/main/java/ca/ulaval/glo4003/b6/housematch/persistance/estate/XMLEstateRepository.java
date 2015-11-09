@@ -227,8 +227,18 @@ public class XMLEstateRepository implements EstateRepository {
    }
 
    @Override
-   public int getNumberOfUniqueSeller() {
-      // TODO Auto-generated method stub
-      return 0;
+   public int getNumberOfUniqueSeller() throws CouldNotAccessDataException {
+      List<Estate> allEstates = getAllEstates();
+
+      List<String> uniqueSellersName = new ArrayList<String>();
+      for (Estate estate : allEstates) {
+         String sellerName = estate.getSeller();
+
+         if (!uniqueSellersName.contains(sellerName)) {
+            uniqueSellersName.add(sellerName);
+         }
+      }
+
+      return uniqueSellersName.size();
    }
 }
