@@ -19,7 +19,6 @@ import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.DescriptionAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
-import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.DescriptionAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.estate.EstatePersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
@@ -63,9 +62,6 @@ public class EstatesServiceTest {
 
    @Mock
    private DescriptionValidatorFactory descriptionValidatorFactory;
-
-   @Mock
-   private DescriptionAssemblerFactory descriptionAssemblerFactory;
 
    @Mock
    private DescriptionAssembler descriptionAssembler;
@@ -150,7 +146,7 @@ public class EstatesServiceTest {
    }
 
    private void configureDescriptionTests() {
-      when(descriptionAssemblerFactory.createDescriptionAssembler()).thenReturn(descriptionAssembler);
+
       when(descriptionAssembler.assembleDescription(descriptionDto)).thenReturn(description);
       when(descriptionValidatorFactory.createValidator()).thenReturn(descriptionValidator);
 

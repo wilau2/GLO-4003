@@ -12,23 +12,20 @@ public class EstateDto {
 
    private DescriptionDto descriptionDto;
 
+   private AlbumDto albumDto;
+
    public EstateDto() {
       this.address = new AddressDto();
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId) {
-      this.type = type;
-      this.address = address;
-      this.price = price;
-      this.sellerId = sellerId;
-   }
-
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId, DescriptionDto descriptionDto) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, DescriptionDto descriptionDto,
+         AlbumDto albumDto) {
       this.type = type;
       this.address = address;
       this.price = price;
       this.sellerId = sellerId;
       this.descriptionDto = descriptionDto;
+      this.albumDto = albumDto;
    }
 
    public void setDescriptionDto(DescriptionDto descriptionDto) {
@@ -69,6 +66,10 @@ public class EstateDto {
 
    public DescriptionDto getDescriptionDto() {
       return this.descriptionDto;
+   }
+
+   public Object getAlbumDto() {
+      return this.albumDto;
    }
 
 }

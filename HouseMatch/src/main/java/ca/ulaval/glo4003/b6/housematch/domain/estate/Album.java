@@ -1,17 +1,16 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
-import java.io.File;
 import java.util.List;
 
 public class Album {
 
-   private List<File> pictures;
+   private List<Picture> pictures;
 
-   public Album(List<File> pictures) {
+   public Album(List<Picture> pictures) {
       this.pictures = pictures;
    }
 
-   public void addPicture(File file) {
+   public void addPicture(Picture file) {
       pictures.add(file);
    }
 
@@ -19,7 +18,7 @@ public class Album {
       pictures.remove(index);
    }
 
-   public List<File> getAllPictures() {
+   public List<Picture> getAllPictures() {
       return pictures;
    }
 

@@ -10,7 +10,6 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.ContactInformationAssembler;
-import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.ContactInformationAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
 
@@ -18,15 +17,15 @@ public class UserProfilService {
 
    private UserRepository userRepository;
 
-   private ContactInformationAssemblerFactory contactInformationAssemblerFactory;
+   private ContactInformationAssembler contactInformationAssembler;
 
    private List<UserObserver> observers;
 
    @Inject
-   public UserProfilService(UserRepository userRepository,
-         ContactInformationAssemblerFactory contactInformationAssemblerFactory, List<UserObserver> observers) {
+   public UserProfilService(UserRepository userRepository, ContactInformationAssembler contactInformationAssembler,
+         List<UserObserver> observers) {
       this.userRepository = userRepository;
-      this.contactInformationAssemblerFactory = contactInformationAssemblerFactory;
+      this.contactInformationAssembler = contactInformationAssembler;
       this.observers = observers;
    }
 
@@ -54,8 +53,6 @@ public class UserProfilService {
    }
 
    private ContactInformation getNewContactInformations(UserDto userDetailedDto) {
-      ContactInformationAssembler contactInformationAssembler = contactInformationAssemblerFactory
-            .createContactInformationAssembler();
       return contactInformationAssembler.assembleContactInformation(userDetailedDto.getContactInformationDto());
    }
 

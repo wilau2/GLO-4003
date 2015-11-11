@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.services.user;
 
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -22,7 +21,6 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundExcept
 import ca.ulaval.glo4003.b6.housematch.dto.ContactInformationDto;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.ContactInformationAssembler;
-import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.ContactInformationAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
 import ca.ulaval.glo4003.b6.housematch.services.user.validator.UserValidator;
@@ -35,9 +33,6 @@ public class UserProfilServiceTest {
 
    @Mock
    private UserRepository userRepository;
-
-   @Mock
-   private ContactInformationAssemblerFactory contactInformationAssemblerFactory;
 
    @InjectMocks
    private UserProfilService userProfilService;
@@ -79,7 +74,7 @@ public class UserProfilServiceTest {
       observers = new ArrayList<>();
       observers.add(userObserver);
 
-      userProfilService = new UserProfilService(userRepository, contactInformationAssemblerFactory, observers);
+      userProfilService = new UserProfilService(userRepository, contactInformationAssembler, observers);
    }
 
    private void configureContactInformation() {
@@ -102,8 +97,7 @@ public class UserProfilServiceTest {
    }
 
    private void configureUserAssembler() {
-      given(contactInformationAssemblerFactory.createContactInformationAssembler())
-            .willReturn(contactInformationAssembler);
+
       given(contactInformationAssembler.assembleContactInformation(contactInformationDto))
             .willReturn(contactInformation);
    }
