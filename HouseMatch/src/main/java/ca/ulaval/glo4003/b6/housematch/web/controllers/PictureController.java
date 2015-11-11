@@ -26,7 +26,6 @@ public class PictureController {
       if (!file.isEmpty()) {
          try {
             byte[] bytes = file.getBytes();
-            String rootPath = System.getProperty("carki.dir");
             // Creating the directory to store file
             File dir = new File("./persistence/uploadedPictures");
             if (!dir.exists()) {

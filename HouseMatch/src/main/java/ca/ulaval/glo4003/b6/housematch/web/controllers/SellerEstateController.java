@@ -98,8 +98,9 @@ public class SellerEstateController {
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
-      // For now it is always the same picture, I still wanted to test many of
-      // them
+      // For now it is always the same picture, for now it is just for manual
+      // testing
+      // of the view for a list of pictures
       PictureDto picture = new PictureDto("/picture");
       List<PictureDto> manyPictures = new ArrayList<PictureDto>();
 
