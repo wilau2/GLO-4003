@@ -45,10 +45,7 @@
     <beans:bean
         id="descriptionValidatorFactory"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.DescriptionValidatorFactory" />
-    <beans:bean
-        id="descriptionAssemblerFactory"
-        class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.DescriptionAssemblerFactory" />
-    <beans:bean
+	<beans:bean
         id="estateValidatorFactory"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.EstateValidatorFactoryImpl" />
     <beans:bean
@@ -354,9 +351,6 @@
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.user.ContactInformationCorruptionVerificator" 
         scope="session"/>
 
-    <beans:bean
-        id="contactInformationAssemblerFactory"
-        class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.ContactInformationAssemblerFactory" />
 
     <beans:bean
         id="userProfilService"
@@ -366,9 +360,6 @@
         <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />
-        <beans:constructor-arg
-            name="contactInformationAssemblerFactory"
-            ref="contactInformationAssemblerFactory" />
         <beans:constructor-arg>
             <beans:list>
                 <beans:ref bean="mailSenderObserver" />
