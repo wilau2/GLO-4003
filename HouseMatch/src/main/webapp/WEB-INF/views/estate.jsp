@@ -57,6 +57,14 @@
 					   <a class = "carousel-control right" href = "#myCarousel" data-slide = "next">&rsaquo;</a>
 					   
 					</div>
+					<button id="btn_add_picture" type="button" class="pure-button">Add Picture</button>
+					<div class="container">
+					<form method="POST" action="uploadFile" enctype="multipart/form-data">
+				        File to upload: <input type="file" name="file"><br /> 
+				        Name: <input type="text" name="name"><br /> <br /> 
+				        <input type="submit" value="Upload"> Press here to upload the file!
+				    </form> 
+					</div>
 				</div>
 				<div class="pure-control-group">
 					<form:label path="numberOfBedRooms">Number of bedrooms</form:label>
