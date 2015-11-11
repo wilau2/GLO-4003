@@ -3,29 +3,6 @@
 <estates> 
   <estate> 
     <seller>seller</seller>  
-    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
-    <price>50000</price>  
-    <type>APPARTMENT</type>  
-    <description> 
-      <numberOfBedRooms>20</numberOfBedRooms>  
-      <municipalValuation>125000</municipalValuation>  
-      <dimensionsBuilding>4x42</dimensionsBuilding>  
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>1</numberOfRooms>  
-      <yearsOfConstruction>2002</yearsOfConstruction>  
-      <backyardFaces>FRONT</backyardFaces>  
-      <numberOfLevel>1</numberOfLevel>  
-      <numberOfBathrooms>1</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-1-1234e1-1241fdewa-awfaw-warwa</address>  
-    <price>1000</price>  
-    <type>CONDO</type> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
     <address>0-12-awfewa-fwaefwa-weafwa-fwaefa</address>  
     <price>3500</price>  
     <type>SINGLE_FAMILY</type>  
@@ -92,13 +69,47 @@
       <numberOfBathrooms>1</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
+    <price>1000</price>  
+    <type>MULTIPLEX</type>  
+    <description> 
+      <numberOfBedRooms>1</numberOfBedRooms>  
+      <municipalValuation>0</municipalValuation>  
+      <dimensionsBuilding/>  
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>0</numberOfRooms>  
+      <yearsOfConstruction>0</yearsOfConstruction>  
+      <backyardFaces/>  
+      <numberOfLevel>0</numberOfLevel>  
+      <numberOfBathrooms>0</numberOfBathrooms> 
+    </description> 
+  </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
+    <price>50000</price>  
+    <type>APPARTMENT</type>  
+    <description> 
+      <numberOfBedRooms>20</numberOfBedRooms>  
+      <municipalValuation>125000</municipalValuation>  
+      <dimensionsBuilding>4x42</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>1</numberOfRooms>  
+      <yearsOfConstruction>2002</yearsOfConstruction>  
+      <backyardFaces>FRONT</backyardFaces>  
+      <numberOfLevel>1</numberOfLevel>  
+      <numberOfBathrooms>1</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>
+    <address>0-1-1234e1-1241fdewa-awfaw-warwa</address>
     <price>1000</price>
-    <type>MULTIPLEX</type>
+    <type>CONDO</type>
     <description>
-      <numberOfBedRooms>1</numberOfBedRooms>
+      <numberOfBedRooms>0</numberOfBedRooms>
       <municipalValuation>0</municipalValuation>
       <dimensionsBuilding></dimensionsBuilding>
       <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
