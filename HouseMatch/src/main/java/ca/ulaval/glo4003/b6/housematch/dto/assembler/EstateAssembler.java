@@ -1,20 +1,27 @@
 package ca.ulaval.glo4003.b6.housematch.dto.assembler;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Album;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
+import ca.ulaval.glo4003.b6.housematch.dto.AlbumDto;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
 public class EstateAssembler {
 
    private AddressAssembler addressAssembler;
+
    private DescriptionAssembler descriptionAssembler;
 
-   public EstateAssembler(AddressAssembler addressAssembler, DescriptionAssembler descriptionAssembler) {
+   private AlbumAssembler albumAssembler;
+
+   public EstateAssembler(AddressAssembler addressAssembler, DescriptionAssembler descriptionAssembler,
+         AlbumAssembler albumAssembler) {
       this.addressAssembler = addressAssembler;
       this.descriptionAssembler = descriptionAssembler;
+      this.albumAssembler = albumAssembler;
    }
 
    public Estate assembleEstate(EstateDto estateDto) {
@@ -23,8 +30,9 @@ public class EstateAssembler {
       Integer price = estateDto.getPrice();
       String seller = estateDto.getSeller();
       Description description = descriptionAssembler.assembleDescription(estateDto.getDescriptionDto());
+      Album album = albumAssembler.assembleAlbum(estateDto.getAlbumDto());
 
-      Estate estate = new Estate(type, address, price, seller, description);
+      Estate estate = new Estate(type, address, price, seller, description, album);
       return estate;
    }
 
@@ -34,11 +42,12 @@ public class EstateAssembler {
       Integer price = estate.getPrice();
       String sellerId = estate.getSeller();
       DescriptionDto descriptionDto = descriptionAssembler.assembleDescriptionDto(estate.getDescription());
+      AlbumDto albumDto = albumAssembler.assembleAlbumDto(estate.getAlbum());
 
-      EstateDto estateDto = new EstateDto(type, address, price, sellerId, descriptionDto);
+      EstateDto estateDto = new EstateDto(type, address, price, sellerId, descriptionDto, albumDto);
       return estateDto;
    }
-   
+
    public Description assembleDescription(DescriptionDto descriptionDto) {
       Description description = descriptionAssembler.assembleDescription(descriptionDto);
       return description;
