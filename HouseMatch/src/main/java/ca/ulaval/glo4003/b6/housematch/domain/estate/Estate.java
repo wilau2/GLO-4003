@@ -12,13 +12,16 @@ public class Estate {
 
    private Description description;
 
-   public Estate(String type, Address address, Integer price, String seller, Description description) {
+   private Album album;
+
+   public Estate(String type, Address address, Integer price, String seller, Description description, Album album) {
 
       this.type = type;
       this.address = address;
       this.price = price;
       this.seller = seller;
       this.description = description;
+      this.album = album;
    }
 
    public String getType() {
@@ -41,10 +44,18 @@ public class Estate {
       return description;
    }
 
+   public Album getAlbum() {
+      return this.album;
+   }
+
    public boolean isFromSeller(String sellerName) {
       if (seller.equals(sellerName)) {
          return true;
       }
       return false;
+   }
+
+   public void editDescription(Description description) {
+      this.description = description;
    }
 }

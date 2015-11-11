@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
@@ -48,14 +49,16 @@ public class EstatesService {
    }
 
    public void editDescription(String address, DescriptionDto descriptionDto)
-         throws InvalidEstateException, CouldNotAccessDataException {
+         throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException {
 
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
       Description description = estateAssembler.assembleDescription(descriptionDto);
 
       EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
 
-      estateRepository.editDescription(address, description);
+      Estate estate = estateRepository.getEstateByAddress(address);
+      estate.editDescription(description);
+      estateRepository.updateEstate(estate);
 
    }
 }

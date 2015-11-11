@@ -28,9 +28,9 @@ public class XMLUserRepository implements UserRepository {
 
    private RepositoryUserConverter assembler;
 
-   private final String pathToXML = "persistence/users.xml";
+   private final static String PATH_TO_XML = "persistence/users.xml";
 
-   private final String pathToUsernameValue = "users/user/username";
+   private final static String PATH_TO_USERNAME_VALUE = "users/user/username";
 
    @Inject
    public XMLUserRepository(PersistenceDtoFactory persistenceDtoFactory,
@@ -73,20 +73,12 @@ public class XMLUserRepository implements UserRepository {
    public void updateUser(User user) throws CouldNotAccessDataException {
       try {
          Document usersXML = readUsersXML();
-         fileEditor.deleteExistingElementWithCorrespondingValue(usersXML, pathToUsernameValue, user.getUsername());
+         fileEditor.deleteExistingElementWithCorrespondingValue(usersXML, PATH_TO_USERNAME_VALUE, user.getUsername());
          addNewUserToDocument(usersXML, user);
          saveFile(usersXML);
       } catch (DocumentException exception) {
          throw new CouldNotAccessDataException("Something wrong happenned trying to access the data", exception);
       }
-   }
-
-   @Override
-   public void setUserActivity(String username, boolean value)
-         throws CouldNotAccessDataException, UserNotFoundException {
-      User correctUser = getUser(username);
-      correctUser.setActive(value);
-      updateUser(correctUser);
    }
 
    private void addNewUserToDocument(Document existingDocument, User newUser) {
@@ -98,7 +90,7 @@ public class XMLUserRepository implements UserRepository {
 
    private User returnUserWithGivenUsername(Document existingDocument, String username) {
       HashMap<String, String> attributes = fileEditor.returnAttributesOfElementWithCorrespondingValue(existingDocument,
-            pathToUsernameValue, username);
+            PATH_TO_USERNAME_VALUE, username);
 
       User user = assembler.assembleUserFromAttributes(attributes);
 
@@ -110,17 +102,17 @@ public class XMLUserRepository implements UserRepository {
 
    private void saveFile(Document usersXML) throws DocumentException {
       try {
-         fileEditor.formatAndWriteDocument(usersXML, pathToXML);
+         fileEditor.formatAndWriteDocument(usersXML, PATH_TO_XML);
       } catch (IOException e) {
          throw new DocumentException("Could not access the specified file");
       }
    }
 
    private boolean usernameAlreadyExists(Document existingDocument, String username) {
-      return fileEditor.elementWithCorrespondingValueExists(existingDocument, pathToUsernameValue, username);
+      return fileEditor.elementWithCorrespondingValueExists(existingDocument, PATH_TO_USERNAME_VALUE, username);
    }
 
    private Document readUsersXML() throws DocumentException {
-      return fileEditor.readXMLFile(pathToXML);
+      return fileEditor.readXMLFile(PATH_TO_XML);
    }
 }

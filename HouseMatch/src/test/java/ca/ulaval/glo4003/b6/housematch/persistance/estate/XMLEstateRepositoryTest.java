@@ -3,11 +3,9 @@ package ca.ulaval.glo4003.b6.housematch.persistance.estate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -38,7 +36,6 @@ import ca.ulaval.glo4003.b6.housematch.dto.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor;
-import ca.ulaval.glo4003.b6.housematch.persistance.estate.XMLEstateRepository;
 import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverter;
 import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverterFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
@@ -332,51 +329,38 @@ public class XMLEstateRepositoryTest {
       // Then a couldNotAccessDataException is thrown
    }
 
-   @Test
-   public void editingDescriptonShouldAskXmlForDocument() throws DocumentException, CouldNotAccessDataException {
-      // given
-      configureFetchingEstateByAddress();
-
-      // when
-      xmlEstateRepository.editDescription(VALID_ADDRESS.toString(), description);
-
-      // then
-      verify(xmlFileEditor, times(1)).readXMLFile(XML_FILE_PATH);
-   }
-
-   @Test
-   public void editingDescriptionShouldCallReplaceEstateFromXmlFileEditor()
-         throws DocumentException, CouldNotAccessDataException {
-      // given
-      configureFetchingEstateByAddress();
-
-      // when
-      xmlEstateRepository.editDescription(VALID_ADDRESS.toString(), description);
-
-      // then
-      verify(xmlFileEditor, times(1)).replaceElement(usedDocument, ELEMENT_NAME, VALID_ADDRESS.toString(), "address",
-            estatePersistenceDto);
-   }
-
-   @Test
-   public void editDescriptionWithNonNullDescriptionEstateShouldAddNestedElement()
-         throws CouldNotAccessDataException, EstateNotFoundException, DocumentException {
-      // given
-      configureEstateWithCompleteDescription();
-      when(estateElementAssembler.convertToAttributes(estate)).thenReturn(attributes);
-      when(estateElementAssembler.convertDescriptionToAttributes(description)).thenReturn(descriptionAttributes);
-      when(estatePersistenceDtoFactory.newInstanceDescription(descriptionAttributes))
-            .thenReturn(descriptionPersistanceDto);
-      configureFetchingEstateByAddress();
-
-      // when
-      xmlEstateRepository.editDescription(VALID_ADDRESS.toString(), description);
-
-      // then
-      verify(xmlFileEditor, times(1)).addNewNestedElementToDocumentFromParentPath(usedDocument,
-            descriptionPersistanceDto, VALID_ADDRESS.toString(), "address", ELEMENT_NAME);
-   }
-
+   /*
+    * @Test public void editingDescriptonShouldAskXmlForDocument() throws
+    * DocumentException, CouldNotAccessDataException { // given
+    * configureFetchingEstateByAddress(); // when
+    * xmlEstateRepository.editDescription(VALID_ADDRESS.toString(),
+    * description); // then verify(xmlFileEditor,
+    * times(1)).readXMLFile(XML_FILE_PATH); }
+    * @Test public void
+    * editingDescriptionShouldCallReplaceEstateFromXmlFileEditor() throws
+    * DocumentException, CouldNotAccessDataException { // given
+    * configureFetchingEstateByAddress(); // when
+    * xmlEstateRepository.editDescription(VALID_ADDRESS.toString(),
+    * description); // then verify(xmlFileEditor,
+    * times(1)).replaceElement(usedDocument, ELEMENT_NAME,
+    * VALID_ADDRESS.toString(), "address", estatePersistenceDto); }
+    * @Test public void
+    * editDescriptionWithNonNullDescriptionEstateShouldAddNestedElement() throws
+    * CouldNotAccessDataException, EstateNotFoundException, DocumentException {
+    * // given configureEstateWithCompleteDescription();
+    * when(estateElementAssembler.convertToAttributes(estate)).thenReturn(
+    * attributes);
+    * when(estateElementAssembler.convertDescriptionToAttributes(description)).
+    * thenReturn(descriptionAttributes);
+    * when(estatePersistenceDtoFactory.newInstanceDescription(
+    * descriptionAttributes)) .thenReturn(descriptionPersistanceDto);
+    * configureFetchingEstateByAddress(); // when
+    * xmlEstateRepository.editDescription(VALID_ADDRESS.toString(),
+    * description); // then verify(xmlFileEditor,
+    * times(1)).addNewNestedElementToDocumentFromParentPath(usedDocument,
+    * descriptionPersistanceDto, VALID_ADDRESS.toString(), "address",
+    * ELEMENT_NAME); }
+    */
    @Test
    public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldNotThrowException()
          throws SellerNotFoundException, CouldNotAccessDataException {
