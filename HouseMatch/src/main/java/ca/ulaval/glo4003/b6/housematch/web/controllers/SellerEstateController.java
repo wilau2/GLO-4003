@@ -100,12 +100,12 @@ public class SellerEstateController {
 
       // For now it is always the same picture, I still wanted to test many of
       // them
-      PictureDto picture = new PictureDto("/picture");
+      PictureDto picture = new PictureDto("/picture/1");
+      PictureDto picture2 = new PictureDto("/picture/2");
       List<PictureDto> manyPictures = new ArrayList<PictureDto>();
 
       manyPictures.add(picture);
-      manyPictures.add(picture);
-      manyPictures.add(picture);
+      manyPictures.add(picture2);
 
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
 

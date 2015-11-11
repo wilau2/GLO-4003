@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 public class EstateAssembler {
 
    private AddressAssembler addressAssembler;
+
    private DescriptionAssembler descriptionAssembler;
 
    public EstateAssembler(AddressAssembler addressAssembler, DescriptionAssembler descriptionAssembler) {
@@ -24,7 +25,7 @@ public class EstateAssembler {
       String seller = estateDto.getSeller();
       Description description = descriptionAssembler.assembleDescription(estateDto.getDescriptionDto());
 
-      Estate estate = new Estate(type, address, price, seller, description);
+      Estate estate = new Estate(type, address, price, seller, description, null);
       return estate;
    }
 
@@ -38,7 +39,7 @@ public class EstateAssembler {
       EstateDto estateDto = new EstateDto(type, address, price, sellerId, descriptionDto);
       return estateDto;
    }
-   
+
    public Description assembleDescription(DescriptionDto descriptionDto) {
       Description description = descriptionAssembler.assembleDescription(descriptionDto);
       return description;

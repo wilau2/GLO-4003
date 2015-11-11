@@ -29,7 +29,7 @@ public class EstateTest {
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, null);
    }
 
    @Test

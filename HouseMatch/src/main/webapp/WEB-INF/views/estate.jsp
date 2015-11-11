@@ -17,6 +17,34 @@
 	</c:if>
      
 	<div class="splash">
+			<div id = "myCarousel" class = "carousel slide">   
+		   <div class = "carousel-inner">
+		   <c:forEach items="${pictures}" var="picture" varStatus="counter">
+		   <c:choose>
+	          <c:when test="${counter.count == 1}">
+	            <div class = "item active">
+	          </c:when>
+	          <c:otherwise>
+	            <div class = "item">
+	          </c:otherwise>
+        	</c:choose>
+		         <img src = "${entryUrl}${picture.url}" alt = "First slide" style="display:inline">
+		      </div>
+			</c:forEach>
+		   </div>
+		   
+		   <a class = "carousel-control left" href = "#myCarousel" data-slide = "prev">&lsaquo;</a>
+		   <a class = "carousel-control right" href = "#myCarousel" data-slide = "next">&rsaquo;</a>
+		   
+		</div>
+		<button id="btn_add_picture" type="button" class="pure-button">Add Picture</button>
+		<div id="upload_picture" style="text-align:left">
+			<form method="POST" action="${entryUrl}/uploadFile" enctype="multipart/form-data">
+		        File to upload: <input type="file" name="file"><br /> 
+		        Name: <input type="text" name="name"><br /> <br /> 
+		        <input type="submit" value="Upload"> Press here to upload the file!
+		    </form> 
+	    </div>
 		<form:form method="post" modelAttribute="estate"
 			class="pure-form pure-form-aligned content-head" id="eForm">
 			<fieldset>
@@ -36,36 +64,11 @@
 				</div>
 			</fieldset>
 		</form:form>
+
 		<form:form method="POST" commandName="description"
 			class="pure-form pure-form-aligned content-subhead" id="dForm">
 			<fieldset>
 				<legend>Description</legend>
-				<div class="pure-control-group">
-					<div id = "myCarousel" class = "carousel slide">   
-					   <div class = "carousel-inner">
-					   	<div class = "item active">
-					         <img src = "${entryUrl}/picture" alt = "First slide" style="display:inline">
-					    </div>
-					   <c:forEach items="${pictures}" var="picture">
-						   <div class = "item">
-					         <img src = "${entryUrl}${picture.url}" alt = "First slide" style="display:inline">
-					      </div>
-						</c:forEach>
-					   </div>
-					   
-					   <a class = "carousel-control left" href = "#myCarousel" data-slide = "prev">&lsaquo;</a>
-					   <a class = "carousel-control right" href = "#myCarousel" data-slide = "next">&rsaquo;</a>
-					   
-					</div>
-					<button id="btn_add_picture" type="button" class="pure-button">Add Picture</button>
-					<div class="container">
-					<form method="POST" action="uploadFile" enctype="multipart/form-data">
-				        File to upload: <input type="file" name="file"><br /> 
-				        Name: <input type="text" name="name"><br /> <br /> 
-				        <input type="submit" value="Upload"> Press here to upload the file!
-				    </form> 
-					</div>
-				</div>
 				<div class="pure-control-group">
 					<form:label path="numberOfBedRooms">Number of bedrooms</form:label>
 					<div class="pure-u-13-24">
