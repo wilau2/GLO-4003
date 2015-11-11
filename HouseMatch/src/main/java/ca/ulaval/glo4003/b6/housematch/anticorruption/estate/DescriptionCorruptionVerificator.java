@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.anticorruption.estate;
 import javax.inject.Inject;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
@@ -19,7 +20,7 @@ public class DescriptionCorruptionVerificator {
    }
 
    public void editDescription(String address, DescriptionDto descriptionDto) throws InvalidDescriptionFieldException,
-         InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
+         InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException {
       validateDescriptionCorruption(descriptionDto);
       estateService.editDescription(address, descriptionDto);
    }

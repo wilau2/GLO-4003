@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.services.user;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -18,28 +19,57 @@ public class ActivationServiceTest {
    private static final String CORRECT_USERNAME = "USERNAME";
 
    @Mock
+   private User user;
+
+   @Mock
    private UserRepository userRepository;
 
    @InjectMocks
    private ActivationService activationService;
 
-   @Mock
-   private User user;
-
    @Before
    public void setup() throws UserNotFoundException, CouldNotAccessDataException {
       MockitoAnnotations.initMocks(this);
+      given(userRepository.getUser(CORRECT_USERNAME)).willReturn(user);
    }
 
    @Test
-   public void whenActivateAccountShouldCallUpdateUser() throws UserNotFoundException, CouldNotAccessDataException {
+   public void givenAValidUsernameWhenActivateAccountShouldDelegateUpdatingUser()
+         throws UserNotFoundException, CouldNotAccessDataException {
+
       // Given
 
       // When
       activationService.activateAccount(CORRECT_USERNAME);
 
       // Then
-      verify(userRepository).setUserActivity(CORRECT_USERNAME, true);
+      verify(userRepository).updateUser(user);
+
+   }
+
+   @Test
+   public void givenAValidUsernameWhenActivateAccountShouldDelegateUserGetting()
+         throws UserNotFoundException, CouldNotAccessDataException {
+
+      // Given
+
+      // When
+      activationService.activateAccount(CORRECT_USERNAME);
+
+      // Then
+      verify(userRepository).getUser(CORRECT_USERNAME);
+
+   }
+
+   @Test
+   public void whenActivateAccountShouldActivateUser() throws UserNotFoundException, CouldNotAccessDataException {
+      // Given
+
+      // When
+      activationService.activateAccount(CORRECT_USERNAME);
+
+      // Then
+      verify(user).setActive(true);
    }
 
 }

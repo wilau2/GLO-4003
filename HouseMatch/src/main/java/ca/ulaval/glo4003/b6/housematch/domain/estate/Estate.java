@@ -47,4 +47,8 @@ public class Estate {
       }
       return false;
    }
+
+   public void editDescription(Description description) {
+      this.description = description;
+   }
 }

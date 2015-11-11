@@ -119,7 +119,7 @@ public class XMLUserRepositoryTest {
    @Test
    public void whenAddingUserShouldReadTheCorrectFile()
 
-   throws DocumentException, UsernameAlreadyExistsException, CouldNotAccessDataException {
+         throws DocumentException, UsernameAlreadyExistsException, CouldNotAccessDataException {
 
       // Given
       configureDifferentUser();
@@ -207,43 +207,6 @@ public class XMLUserRepositoryTest {
 
       // When
       repository.updateUser(user);
-
-      // Then
-      verify(editor).addNewElementToDocument(usedDocument, userDto);
-   }
-
-   @Test
-   public void whenSettingActivityShouldLookForTheRightUser()
-         throws IOException, UsernameAlreadyExistsException, CouldNotAccessDataException, UserNotFoundException {
-      // Given
-
-      // When
-      repository.setUserActivity(existingUsername, true);
-
-      // Then
-      verify(editor).returnAttributesOfElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
-            existingUsername);
-   }
-
-   @Test
-   public void whenSettingActivityShouldModifyTheUserAttribute()
-         throws IOException, UsernameAlreadyExistsException, CouldNotAccessDataException, UserNotFoundException {
-      // Given
-
-      // When
-      repository.setUserActivity(existingUsername, false);
-
-      // Then
-      verify(user).setActive(false);
-   }
-
-   @Test
-   public void whenSettingActivityShouldAddTheUser()
-         throws IOException, UsernameAlreadyExistsException, CouldNotAccessDataException, UserNotFoundException {
-      // Given
-
-      // When
-      repository.setUserActivity(existingUsername, false);
 
       // Then
       verify(editor).addNewElementToDocument(usedDocument, userDto);

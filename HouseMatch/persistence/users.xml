@@ -31,14 +31,24 @@
     <email>bofoc52@gmail.com</email>  
     <username>carki</username> 
   </user>  
+  <user> 
+    <firstName>Kid</firstName>  
+    <lastName>Kiddy</lastName>  
+    <password>123</password>  
+    <role>buyer</role>  
+    <phoneNumber>123-456-7891</phoneNumber>  
+    <isActive>true</isActive>  
+    <email>kid@kiddy.com</email>  
+    <username>buyer</username> 
+  </user>  
   <user>
-    <firstName>Kid</firstName>
-    <lastName>Kiddy</lastName>
+    <firstName>qwe</firstName>
+    <lastName>qwe</lastName>
     <password>123</password>
     <role>buyer</role>
-    <phoneNumber>123-456-7891</phoneNumber>
+    <phoneNumber>qqwe</phoneNumber>
     <isActive>true</isActive>
-    <email>kid@kiddy.com</email>
-    <username>buyer</username>
+    <email>william.lauze@gmail.com</email>
+    <username>123</username>
   </user>
 </users>

@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
@@ -84,7 +85,7 @@ public class EstatesServiceTest {
    private EstatesService estatesService;
 
    @Before
-   public void setUp() {
+   public void setUp() throws EstateNotFoundException, CouldNotAccessDataException {
       MockitoAnnotations.initMocks(this);
 
       configureDescriptionTests();
@@ -93,7 +94,7 @@ public class EstatesServiceTest {
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
       when(estateRepositoryFactory.newInstance(estateAssemblerFactory)).thenReturn(estateRepository);
-
+      when(estateRepository.getEstateByAddress(ADDRESS)).thenReturn(estate);
       when(estateDto.getAddress()).thenReturn(addressDto);
       when(estateDto.getDescriptionDto()).thenReturn(descriptionDto);
 
@@ -138,8 +139,8 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenAddingDescriptionShouldAssembleTheDescription()
-         throws InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException {
+   public void whenAddingDescriptionShouldAssembleTheDescription() throws InvalidDescriptionException,
+         InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException {
       // given no changes
 
       // when
