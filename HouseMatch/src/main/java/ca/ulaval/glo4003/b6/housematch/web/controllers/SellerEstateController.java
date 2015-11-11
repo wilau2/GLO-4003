@@ -98,15 +98,14 @@ public class SellerEstateController {
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
-      // For now it is always the same picture, for now it is just for manual
-      // testing
-      // of the view for a list of pictures
-      PictureDto picture = new PictureDto("/picture");
+      // No actual persistence for now so i created 2 pictures to test
+      PictureDto picture = new PictureDto("/picture/1");
+      PictureDto picture2 = new PictureDto("/picture/2");
+
       List<PictureDto> manyPictures = new ArrayList<PictureDto>();
 
       manyPictures.add(picture);
-      manyPictures.add(picture);
-      manyPictures.add(picture);
+      manyPictures.add(picture2);
 
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
 
