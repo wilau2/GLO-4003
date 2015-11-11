@@ -5,9 +5,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
 <t:wrapper>
-
-
-
 	<jsp:include page="_menu.jsp" />
 
 	<jsp:include page="_seller_side_menu.jsp" />
@@ -18,9 +15,7 @@
 	<c:if test="${loggedInUserRole == 'seller'}">
 		<jsp:include page="_seller_side_menu.jsp" />
 	</c:if>
-
 	<div class="splash">
-
 		<form:form method="post" modelAttribute="estate"
 			class="pure-form pure-form-aligned content-head" id="eForm">
 			<fieldset>
@@ -44,6 +39,34 @@
 			class="pure-form pure-form-aligned content-subhead" id="dForm">
 			<fieldset>
 				<legend>Description</legend>
+				<div class="pure-control-group">
+					<div id = "myCarousel" class = "carousel slide">
+   
+					   <ol class = "carousel-indicators">
+					      <li data-target = "#myCarousel" data-slide-to = "0" class = "active"></li>
+					      <li data-target = "#myCarousel" data-slide-to = "1"></li>
+					      <li data-target = "#myCarousel" data-slide-to = "2"></li>
+					   </ol>   
+					   
+					   <div class = "carousel-inner">
+					      <div class = "item active">
+					         <img src = "/resources/house.jpg" alt = "First slide">
+					      </div>
+					      
+					      <div class = "item">
+					         <img src = "/resources/house.jpg" alt = "Second slide">
+					      </div>
+					      
+					      <div class = "item">
+					         <img src = "/resources/house.jpg" alt = "Third slide">
+					      </div>
+					   </div>
+					   
+					   <a class = "carousel-control left" href = "#myCarousel" data-slide = "prev">&lsaquo;</a>
+					   <a class = "carousel-control right" href = "#myCarousel" data-slide = "next">&rsaquo;</a>
+					   
+					</div> 
+				</div>
 				<div class="pure-control-group">
 					<form:label path="numberOfBedRooms">Number of bedrooms</form:label>
 					<div class="pure-u-13-24">
