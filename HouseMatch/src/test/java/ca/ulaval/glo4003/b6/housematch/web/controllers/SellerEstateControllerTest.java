@@ -2,12 +2,12 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -182,7 +182,7 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenFetchingEstateByAddressShouldCallFetchingMethodOfServiceLayer()
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
       // Given no changes
 
       // When
@@ -194,7 +194,7 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenFetchingEstateByAddressShouldReturnModelAndViewOfWantedEstate()
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
       // Given
       String expectedViewName = "estate";
 

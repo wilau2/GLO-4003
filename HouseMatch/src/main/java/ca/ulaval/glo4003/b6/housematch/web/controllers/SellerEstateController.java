@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundEx
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
@@ -89,17 +92,27 @@ public class SellerEstateController {
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.GET)
    public ModelAndView getEstateByAddress(@PathVariable("address") String address, HttpServletRequest request)
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
+
+      // For now it is always the same picture, I still wanted to test many of
+      // them
+      PictureDto picture = new PictureDto("/picture");
+      List<PictureDto> manyPictures = new ArrayList<PictureDto>();
+
+      manyPictures.add(picture);
+      manyPictures.add(picture);
+      manyPictures.add(picture);
 
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
 
       ModelAndView sellerEstateViewModel = new ModelAndView("estate");
       sellerEstateViewModel.addObject("estate", estateByAddress);
       sellerEstateViewModel.addObject("description", descriptionDto);
+      sellerEstateViewModel.addObject("pictures", manyPictures);
 
       return sellerEstateViewModel;
    }
