@@ -1,8 +1,12 @@
 package ca.ulaval.glo4003.b6.housematch.services.admin;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
@@ -14,10 +18,14 @@ public class AdminStatisticService {
 
    private EstateRepositoryFactory estateRepositoryFactory;
 
+   private EstatesProcessor estateProcessor;
+
    @Inject
-   public AdminStatisticService(UserRepository userRepository, EstateRepositoryFactory estateRepositoryFactory) {
+   public AdminStatisticService(UserRepository userRepository, EstateRepositoryFactory estateRepositoryFactory,
+         EstatesProcessor estateProcessor) {
       this.userRepository = userRepository;
       this.estateRepositoryFactory = estateRepositoryFactory;
+      this.estateProcessor = estateProcessor;
    }
 
    public int getNumberOfActiveBuyer() throws CouldNotAccessDataException {
@@ -26,7 +34,9 @@ public class AdminStatisticService {
 
    public int getNumberOfActiveSeller() throws CouldNotAccessDataException {
       EstateRepository estateRepository = estateRepositoryFactory.newInstance(new EstateAssemblerFactory());
-      return estateRepository.getNumberOfUniqueSeller();
+      List<Estate> estates = estateRepository.getAllEstates();
+      List<String> uniqueSellersName = estateProcessor.retrieveUniqueSellersName(estates);
+      return uniqueSellersName.size();
    }
 
 }

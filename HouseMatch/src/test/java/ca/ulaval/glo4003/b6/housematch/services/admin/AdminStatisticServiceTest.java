@@ -8,12 +8,16 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
@@ -32,14 +36,24 @@ public class AdminStatisticServiceTest {
    @Mock
    private EstateRepositoryFactory estateRepositoryFactory;
 
+   @Mock
+   private List<Estate> estates;
+
+   @Mock
+   private EstatesProcessor estateProcessor;
+
+   @Mock
+   private List<String> uniqueSellersName;
+
    @Before
-   public void setup() {
+   public void setup() throws CouldNotAccessDataException {
       MockitoAnnotations.initMocks(this);
 
-      adminStatisticService = new AdminStatisticService(userRepository, estateRepositoryFactory);
+      adminStatisticService = new AdminStatisticService(userRepository, estateRepositoryFactory, estateProcessor);
 
       when(estateRepositoryFactory.newInstance(any(EstateAssemblerFactory.class))).thenReturn(estateRepository);
-
+      when(estateRepository.getAllEstates()).thenReturn(estates);
+      when(estateProcessor.retrieveUniqueSellersName(estates)).thenReturn(uniqueSellersName);
    }
 
    @Test
@@ -72,7 +86,7 @@ public class AdminStatisticServiceTest {
          throws CouldNotAccessDataException {
       // Given
       int expectedNumberOfActiveSeller = 3;
-      when(estateRepository.getNumberOfUniqueSeller()).thenReturn(expectedNumberOfActiveSeller);
+      when(uniqueSellersName.size()).thenReturn(expectedNumberOfActiveSeller);
 
       // When
       int numberOfActiveSeller = adminStatisticService.getNumberOfActiveSeller();
@@ -91,7 +105,19 @@ public class AdminStatisticServiceTest {
 
       // Then
       verify(estateRepositoryFactory, times(1)).newInstance(any(EstateAssemblerFactory.class));
-      verify(estateRepository, times(1)).getNumberOfUniqueSeller();
+      verify(estateRepository, times(1)).getAllEstates();
+   }
+
+   @Test
+   public void whenAskingForNumberOfActiveSellerShouldCallMethodOfEstatesProcessor()
+         throws CouldNotAccessDataException {
+      // Given
+
+      // When
+      adminStatisticService.getNumberOfActiveSeller();
+
+      // Then
+      verify(estateProcessor, times(1)).retrieveUniqueSellersName(estates);
    }
 
 }

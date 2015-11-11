@@ -493,60 +493,6 @@ public class XMLEstateRepositoryTest {
       // Then an EstateNotFoundException is thrown
    }
 
-   @Test
-   public void gettingTheNumberOfUniqueSellerWhenNoEstateInRepositoryShouldReturnZero()
-         throws CouldNotAccessDataException {
-      // Given
-      int expectedNumberOfEstate = 0;
-
-      // When
-      int returnedValue = xmlEstateRepository.getNumberOfUniqueSeller();
-
-      // Then
-      assertEquals(expectedNumberOfEstate, returnedValue);
-   }
-
-   @Test
-   public void askingForTheNumberOfUniqueSellerWhenOnlyOneEstateShouldReturnNumberOfEstate()
-         throws DocumentException, CouldNotAccessDataException {
-      // Given
-      int expectedNumberOfUniqueSeller = 1;
-      configureXmlFileEditor();
-      configureEstateUniqueSellerElement(expectedNumberOfUniqueSeller);
-
-      // When
-      int returnedValue = xmlEstateRepository.getNumberOfUniqueSeller();
-
-      // Then
-      assertEquals(expectedNumberOfUniqueSeller, returnedValue);
-   }
-
-   @Test
-   public void askingForTheNumberOfUniqueSellerWhenMoreThanOneSellerEstateWithAnEstateShouldReturnNumberOfEstate()
-         throws DocumentException, CouldNotAccessDataException {
-      // Given
-      int expectedNumberOfUniqueSeller = 2;
-      configureXmlFileEditor();
-      configureEstateUniqueSellerElement(expectedNumberOfUniqueSeller + 1);
-      when(estate.getSeller()).thenReturn(FIRST_SELLER, SECOND_SELLER, FIRST_SELLER);
-
-      // When
-      int returnedValue = xmlEstateRepository.getNumberOfUniqueSeller();
-
-      // Then
-      assertEquals(expectedNumberOfUniqueSeller, returnedValue);
-   }
-
-   private void configureEstateUniqueSellerElement(int numberOfElementWanted) {
-      List<Element> listOfElement = new ArrayList<Element>();
-      for (int i = 0; i < numberOfElementWanted; i++) {
-         listOfElement.add(element);
-      }
-      when(xmlFileEditor.getAllElementsFromDocument(usedDocument, ELEMENT_NAME)).thenReturn(listOfElement);
-      when(estateElementAssembler.convertToDto(element)).thenReturn(estateDto);
-      configureAssemblerBehavior();
-   }
-
    private void configureFetchingEstateByAddress() throws DocumentException {
       configureXmlFileEditor();
 
