@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.dom4j.DocumentException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +35,7 @@ public class AdminStatisticController {
 
    @RequestMapping(path = "/admin/statistic/active_buyer", method = RequestMethod.GET)
    public ModelAndView getNumberOfActiveBuyer(HttpServletRequest request)
-         throws InvalidAccessException, CouldNotAccessDataException {
+         throws InvalidAccessException, CouldNotAccessDataException, DocumentException {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 
       int numberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyer();

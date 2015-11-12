@@ -131,23 +131,7 @@ public class XMLUserRepository implements UserRepository {
    }
 
    @Override
-   public int getNumberOfActiveBuyer() throws CouldNotAccessDataException {
-      List<User> users;
-      try {
-         users = getAllUser();
-         int numberOfActiveBuyer = 0;
-         for (User user : users) {
-            if (user.isBuyer() && user.wasActiveInTheLastSixMonths()) {
-               numberOfActiveBuyer++;
-            }
-         }
-         return numberOfActiveBuyer;
-      } catch (DocumentException e) {
-         throw new CouldNotAccessDataException("Problem accessing users", e);
-      }
-   }
-
-   protected List<User> getAllUser() throws DocumentException {
+   public List<User> getAllUser() throws DocumentException {
 
       Document userDocument = readUsersXML();
       List<Element> allElementsFromDocument = fileEditor.getAllElementsFromDocument(userDocument, PATH_TO_ALL_USER);

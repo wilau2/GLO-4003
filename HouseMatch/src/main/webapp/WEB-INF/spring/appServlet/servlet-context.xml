@@ -405,6 +405,10 @@
     </beans:bean>
 
     <beans:bean
+        id="userProcessor"
+        class="ca.ulaval.glo4003.b6.housematch.domain.user.UserProcessor"
+        scope="session" />
+    <beans:bean
         id="adminStatisticService"
         class="ca.ulaval.glo4003.b6.housematch.services.admin.AdminStatisticService"
         scope="session"
@@ -412,6 +416,9 @@
         <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />
+        <beans:constructor-arg
+            name="userProcessor"
+            ref="userProcessor" />
     </beans:bean>
 
     <beans:bean

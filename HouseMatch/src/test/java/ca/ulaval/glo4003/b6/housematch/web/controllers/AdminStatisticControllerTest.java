@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.dom4j.DocumentException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -46,7 +47,7 @@ public class AdminStatisticControllerTest {
 
    @Test
    public void whenAskingHowManyActiveBuyersInHousematchShouldVerifyRole()
-         throws InvalidAccessException, CouldNotAccessDataException {
+         throws InvalidAccessException, CouldNotAccessDataException, DocumentException {
       // Given no changes
 
       // When
@@ -58,7 +59,7 @@ public class AdminStatisticControllerTest {
 
    @Test(expected = InvalidAccessException.class)
    public void askingHowManyActiveBuyersInHousematchWhenUserNoAllowedShouldThrowInvalidAccessException()
-         throws InvalidAccessException, CouldNotAccessDataException {
+         throws InvalidAccessException, CouldNotAccessDataException, DocumentException {
       // Given
       doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
             Role.ADMIN);
@@ -71,7 +72,7 @@ public class AdminStatisticControllerTest {
 
    @Test
    public void whenAskingForNumberOfActiveBuyerShouldCallAdminStatisticService()
-         throws InvalidAccessException, CouldNotAccessDataException {
+         throws InvalidAccessException, CouldNotAccessDataException, DocumentException {
       // Given no changes
 
       // When
@@ -83,7 +84,7 @@ public class AdminStatisticControllerTest {
 
    @Test
    public void whenAskingForNumberOfActiveBuyerShouldReturnNumberOfActiveUserInsideVueModel()
-         throws InvalidAccessException, CouldNotAccessDataException {
+         throws InvalidAccessException, CouldNotAccessDataException, DocumentException {
       // Given
       int expectedNumberOfActiveBuyer = 3;
       when(adminStatisticService.getNumberOfActiveBuyer()).thenReturn(expectedNumberOfActiveBuyer);

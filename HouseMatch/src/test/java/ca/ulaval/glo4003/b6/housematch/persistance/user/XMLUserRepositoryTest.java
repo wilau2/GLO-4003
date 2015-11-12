@@ -7,7 +7,6 @@ import static org.mockito.Matchers.any;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -354,53 +353,6 @@ public class XMLUserRepositoryTest {
 
       given(assembler.assembleUserFromAttributes(mapWithUserData)).willReturn(user);
       given(assembler.assembleUserFromElement(userElement)).willReturn(user);
-   }
-
-   @Test
-   public void whenAskingNumberOfActiveBuyerShouldVerifyIfUserHasBuyerRole()
-         throws UsernameAlreadyExistsException, CouldNotAccessDataException {
-      // Given
-      int numberOfUserInSystem = 3;
-      configureFileEditorGetAllUserElement(numberOfUserInSystem);
-      when(user.isBuyer()).thenReturn(true);
-
-      // When
-      repository.getNumberOfActiveBuyer();
-
-      // Then
-      verify(user, times(numberOfUserInSystem)).isBuyer();
-   }
-
-   @Test
-   public void whenAskingTheNumberOfActiveBuyerShouldCallMethodsOnUser() throws CouldNotAccessDataException {
-      // Given
-      int numberOfUserInSystem = 1;
-      configureFileEditorGetAllUserElement(numberOfUserInSystem);
-      when(user.isBuyer()).thenReturn(true);
-      when(user.isActive()).thenReturn(true);
-
-      // When
-      repository.getNumberOfActiveBuyer();
-
-      // Then
-      verify(user, times(1)).wasActiveInTheLastSixMonths();
-   }
-
-   @Test
-   public void askingNumberOfActiveBuyerWhenNotAllBuyerIsActiveShouldReturnNumberOfActiveBuyer()
-         throws CouldNotAccessDataException {
-      // Given
-      int numberOfUserInSystem = 3;
-      configureFileEditorGetAllUserElement(numberOfUserInSystem);
-      when(user.isBuyer()).thenReturn(true);
-      when(user.wasActiveInTheLastSixMonths()).thenReturn(true, false, true);
-      int expectedNumberOfActiveBuyer = 2;
-
-      // When
-      int actualNumberOfActiveBuyer = repository.getNumberOfActiveBuyer();
-
-      // Then
-      assertEquals(expectedNumberOfActiveBuyer, actualNumberOfActiveBuyer);
    }
 
    @Test

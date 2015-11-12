@@ -1,5 +1,9 @@
 package ca.ulaval.glo4003.b6.housematch.domain.user;
 
+import java.util.List;
+
+import org.dom4j.DocumentException;
+
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
@@ -14,7 +18,7 @@ public interface UserRepository {
 
    void setUserActivity(String username, boolean value) throws CouldNotAccessDataException, UserNotFoundException;
 
-   int getNumberOfActiveBuyer() throws CouldNotAccessDataException;
-
    void updateUserLastActivity(User user) throws CouldNotAccessDataException;
+
+   List<User> getAllUser() throws DocumentException;
 }
