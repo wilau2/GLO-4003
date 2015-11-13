@@ -99,8 +99,8 @@ public class SellerEstateController {
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
       // No actual persistence for now so i created 2 pictures to test
-      PictureDto picture = new PictureDto("/picture/1");
-      PictureDto picture2 = new PictureDto("/picture/2");
+      PictureDto picture = new PictureDto("/picture/1", "firstPicture");
+      PictureDto picture2 = new PictureDto("/picture/2", "secondPicture");
 
       List<PictureDto> manyPictures = new ArrayList<PictureDto>();
 

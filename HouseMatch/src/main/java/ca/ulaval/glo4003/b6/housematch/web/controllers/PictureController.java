@@ -34,7 +34,7 @@ public class PictureController {
          }
 
          // Create the file on server
-         File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+         File serverFile = new File(dir.getAbsolutePath() + File.separator + name + ".jpg");
          BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
          stream.write(bytes);
          stream.close();

@@ -17,7 +17,7 @@
 	</c:if>
      
 	<div class="splash">
-			<div id = "myCarousel" class = "carousel slide">   
+			<div id = "myCarousel" class = "carousel slide" style="text-transform:none">   
 		   <div class = "carousel-inner">
 		   <c:forEach items="${pictures}" var="picture" varStatus="counter">
 		   <c:choose>
@@ -29,6 +29,9 @@
 	          </c:otherwise>
         	</c:choose>
 		         <img src = "${entryUrl}${picture.url}" alt = "First slide" style="display:inline">
+		          <div class="carousel-caption">
+			          <h3 style="color:white; margin-bottom:-50px">${picture.name}</h3>
+			      </div>
 		      </div>
 			</c:forEach>
 		   </div>

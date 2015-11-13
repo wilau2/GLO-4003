@@ -4,15 +4,18 @@ public class PictureDto {
 
    private String url;
 
-   public PictureDto(String url) {
-      this.url = url;
-   }
+   private String name;
 
-   public void setUrl(String url) {
+   public PictureDto(String url, String name) {
       this.url = url;
+      this.name = name;
    }
 
    public String getUrl() {
       return this.url;
+   }
+
+   public String getName() {
+      return this.name;
    }
 }
