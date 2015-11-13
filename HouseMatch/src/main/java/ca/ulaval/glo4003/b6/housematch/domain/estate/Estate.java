@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
+import java.util.ArrayList;
+
 public class Estate {
 
    private Integer price;
@@ -13,6 +15,8 @@ public class Estate {
    private Description description;
 
    private Album album;
+   
+   private ArrayList<Integer> oldPrice;
 
    public Estate(String type, Address address, Integer price, String seller, Description description, Album album) {
 
@@ -22,6 +26,7 @@ public class Estate {
       this.seller = seller;
       this.description = description;
       this.album = album;
+      this.oldPrice = new ArrayList<Integer>();
    }
 
    public String getType() {
@@ -53,6 +58,20 @@ public class Estate {
          return true;
       }
       return false;
+   }
+   
+   public void edit(String type, Integer price) {
+      editType(type);
+      editPrice(price);
+   }
+   
+   public void editType(String type) {
+      this.type = type;
+   }
+   
+   public void editPrice(Integer price) {
+      this.oldPrice.add(this.price);
+      this.price = price;
    }
 
    public void editDescription(Description description) {

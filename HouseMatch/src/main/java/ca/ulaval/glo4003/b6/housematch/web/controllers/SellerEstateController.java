@@ -24,6 +24,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundEx
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.dto.EstateEditDto;
 import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
@@ -117,10 +118,21 @@ public class SellerEstateController {
       return sellerEstateViewModel;
    }
 
-   @RequestMapping(value = "/seller/{userId}/estates/{address}", method = RequestMethod.POST)
-   public String editDescription(@PathVariable("address") String address, HttpServletRequest request,
-         @ModelAttribute("description") DescriptionDto descriptionDto) throws InvalidEstateFieldException,
-               CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException,
+   @RequestMapping(value = "/seller/{userId}/estates/{address}/estate", method = RequestMethod.POST)
+   public String editEstate(@PathVariable("address") String address, HttpServletRequest request, @ModelAttribute("estate") EstateEditDto estateEditDto) 
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException,
+               EstateNotFoundException, InvalidEstateException {
+
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      estateCorruptionVerificator.editEstate(address, estateEditDto);
+
+      return "redirect:/seller/{userId}/estates/{address}";
+   }
+   
+   @RequestMapping(value = "/seller/{userId}/estates/{address}/description", method = RequestMethod.POST,  params={"description"} )
+   public String editDescription(@PathVariable("address") String address, HttpServletRequest request, @ModelAttribute("description") DescriptionDto descriptionDto) 
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException,
                InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
