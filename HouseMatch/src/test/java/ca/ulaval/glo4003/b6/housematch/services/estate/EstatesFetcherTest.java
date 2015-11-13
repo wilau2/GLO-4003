@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.services.estate;
 
 import static org.junit.Assert.assertTrue;
-
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,7 +20,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundEx
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 
 public class EstatesFetcherTest {
 

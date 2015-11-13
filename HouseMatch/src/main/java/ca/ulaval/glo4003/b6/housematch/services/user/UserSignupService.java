@@ -10,7 +10,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UsernameAlreadyExi
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.UserAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.UserAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
 import ca.ulaval.glo4003.b6.housematch.services.user.validator.UserValidator;
 import ca.ulaval.glo4003.b6.housematch.services.user.validator.UserValidatorFactory;

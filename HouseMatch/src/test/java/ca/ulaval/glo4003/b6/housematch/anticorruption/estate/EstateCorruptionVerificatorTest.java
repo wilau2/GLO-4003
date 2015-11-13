@@ -15,7 +15,7 @@ import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.AddressF
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 

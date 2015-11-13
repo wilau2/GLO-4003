@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.dto.ContactInformationDto;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 
 public class ContactInformationCorruptionVerificatorTest {
 

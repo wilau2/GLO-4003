@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -22,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;

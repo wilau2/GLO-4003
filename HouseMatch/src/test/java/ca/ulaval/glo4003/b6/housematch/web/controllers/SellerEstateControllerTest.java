@@ -29,7 +29,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundEx
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;

@@ -12,7 +12,7 @@ import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidCon
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidPasswordException;

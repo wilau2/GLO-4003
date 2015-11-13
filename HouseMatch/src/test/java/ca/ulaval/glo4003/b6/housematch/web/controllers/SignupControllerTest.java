@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -23,8 +22,8 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.persistance.user.XMLUserRepository;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.user.XMLUserRepository;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserActivationException;

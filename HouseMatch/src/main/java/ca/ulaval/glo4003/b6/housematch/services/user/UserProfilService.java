@@ -10,7 +10,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.ContactInformationAssembler;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
 
 public class UserProfilService {

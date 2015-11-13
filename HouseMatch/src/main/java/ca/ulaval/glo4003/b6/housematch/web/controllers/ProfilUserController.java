@@ -13,7 +13,7 @@ import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidCon
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
-import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;

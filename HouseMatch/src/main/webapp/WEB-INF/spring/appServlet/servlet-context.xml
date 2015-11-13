@@ -41,7 +41,7 @@
 
     <beans:bean
         id="estateRepositoryFactory"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.estate.factory.XmlEstateRepositoryFactory" />
+        class="ca.ulaval.glo4003.b6.housematch.persistence.estate.factory.XmlEstateRepositoryFactory" />
     <beans:bean
         id="descriptionValidatorFactory"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.DescriptionValidatorFactory" />
@@ -147,42 +147,42 @@
     </beans:bean>
         
     <beans:bean
-        id="xmlElementReaderId"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLElementReader" />
+        id="fileElementReaderId"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileElementReader" />
         
     <beans:bean
-        id="xmlElementWriterId"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLElementWriter" />
+        id="fileElementWriterId"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileElementWriter" />
 
     <beans:bean
-        id="xmlFileAccesserId"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileAccesser" />
+        id="fileAccesserId"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileAccesser" />
 	
 	<beans:bean
-        id="xmlFileEditorId"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor">
+        id="fileEditorId"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileEditor">
         <beans:constructor-arg
-            name="xmlElementReader"
-            ref="xmlElementReaderId" />
+            name="fileElementReader"
+            ref="fileElementReaderId" />
         <beans:constructor-arg
-            name="xmlElementWriter"
-            ref="xmlElementWriterId" />
+            name="fileElementWriter"
+            ref="fileElementWriterId" />
         <beans:constructor-arg
-            name="xmlFileAccesser"
-            ref="xmlFileAccesserId" />
+            name="fileAccesser"
+            ref="fileAccesserId" />
     </beans:bean>
     
     <beans:bean
         id="persistenceDtoFactoryId"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDtoFactory" />
+        class="ca.ulaval.glo4003.b6.housematch.persistence.PersistenceDtoFactory" />
         
     <beans:bean
         id="repositoryUserConverterId"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.user.converter.RepositoryUserConverter" />
+        class="ca.ulaval.glo4003.b6.housematch.persistence.user.converter.RepositoryUserConverter" />
           
     <beans:bean
         id="userRepository"
-        class="ca.ulaval.glo4003.b6.housematch.persistance.user.XMLUserRepository">
+        class="ca.ulaval.glo4003.b6.housematch.persistence.user.XMLUserRepository">
         <beans:constructor-arg
             name="persistenceDtoFactory"
             ref="persistenceDtoFactoryId" />
@@ -190,8 +190,8 @@
             name="repositoryUserConverter"
             ref="repositoryUserConverterId" />
         <beans:constructor-arg
-            name="xmlFileEditor"
-            ref="xmlFileEditorId" />
+            name="fileEditor"
+            ref="fileEditorId" />
     </beans:bean>
 
     <beans:bean
