@@ -16,7 +16,6 @@
 					<tr>
 						<th>Type</th>
 						<th>Address</th>
-						<th>Date registered</th>
 						<th>Price</th>
 						<th>Select</th>
 					</tr>
@@ -27,7 +26,6 @@
 						<tr>
 							<td>${estate.type}</td>
 							<td>${estate.address.addressToString()}</td>
-							<td>${estate.dateRegistered.toString()}</td>
 							<td>${estate.price}</td>
 							<td><a class="pure-button"
 								href="${entryUrl}/buyer/${loggedInUsername}/estates/${estate.address.addressToUrl()}">Select</a></td>

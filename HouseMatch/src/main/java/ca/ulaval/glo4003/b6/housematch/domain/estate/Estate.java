@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import java.util.Date;
 
-public class Estate {
+public class Estate implements Comparable<Estate>{
 
    private Integer price;
 
@@ -55,5 +55,17 @@ public class Estate {
 
    public Date getDateRegistered() {
       return this.dateRegistered;
+   }
+
+   public boolean isEarlyer(Estate estate) {
+      return this.dateRegistered.before(estate.getDateRegistered());
+   }
+
+   @Override
+   public int compareTo(Estate o) {
+      if (this.isEarlyer(o)){
+         return 1;
+      }
+      return 0;
    }
 }
