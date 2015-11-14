@@ -9,6 +9,11 @@
 	<jsp:include page="_menu.jsp" />
 	<jsp:include page="_buyer_side_menu.jsp" />
 	<div class="splash">
+	<style scoped>
+		.button-xsmall {
+            font-size: 70%;
+        }	
+	</style>
 		<h2>Estates that are for sale!</h2>
 		<c:if test="${!estates.isEmpty()}">
 			<table class="pure-table">
@@ -16,7 +21,12 @@
 					<tr>
 						<th>Type</th>
 						<th>Address</th>
-						<th>Price</th>
+						<th>Date 
+						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateDescendant">Des</a>
+						</th>
+						<th>Price 
+						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?priceAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?priceDescendant">Des</a>
+						</th>
 						<th>Select</th>
 					</tr>
 				</thead>
@@ -26,6 +36,7 @@
 						<tr>
 							<td>${estate.type}</td>
 							<td>${estate.address.addressToString()}</td>
+							<td></td>
 							<td>${estate.price}</td>
 							<td><a class="pure-button"
 								href="${entryUrl}/buyer/${loggedInUsername}/estates/${estate.address.addressToUrl()}">Select</a></td>
@@ -35,6 +46,7 @@
 				</tbody>
 			</table>
 		</c:if>
+		
 		<c:if test="${estates.isEmpty()}">
 			<h2>It seems that you don't have any Estates for sale!</h2>
 			<h3>
@@ -43,6 +55,6 @@
 					an Estate</a>
 			</h3>
 		</c:if>
+		
 	</div>
 </t:wrapper>
->

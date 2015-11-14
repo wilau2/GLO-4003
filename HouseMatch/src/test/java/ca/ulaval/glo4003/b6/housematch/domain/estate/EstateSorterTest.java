@@ -62,7 +62,7 @@ public class EstateSorterTest {
       // Given
 
       // When
-      estatesSort = estateSorter.priceSort(estates);
+      estatesSort = estateSorter.priceAscendantSort(estates);
       
       // Then
       assertTrue(estatesSort.get(0).getPrice() == MAX_PRICE);

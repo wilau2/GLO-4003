@@ -4,17 +4,32 @@ import java.util.Collections;
 import java.util.List;
 
 public class EstateSorter implements Sorter {
+   
+   private List<Estate> estates;
+   
+   public EstateSorter() {}
 
-   private EstateComparator estateComparator;
-   
-   public EstateSorter(EstateComparator estateComparator) {
-      this.estateComparator = estateComparator;
+   public void setEstates(List<Estate> estates) {
+      this.estates = estates;
    }
-   
-   @Override
-   public List<Estate> priceSort(List<Estate> estates) {
-      Collections.sort(estates, estateComparator);
+
+   public List<Estate> getPriceAscendantSort() {
+      Collections.sort(estates, Estate.EstatePriceAscendantComparator);
       return estates;
    }
-
+   
+   public List<Estate> getPriceDescendantSort() {
+      Collections.sort(estates, Estate.EstatePriceDescendantComparator);
+      return estates;
+   }
+   
+   public List<Estate> getDateAscendantSort() {
+      Collections.sort(estates, Estate.EstatePriceDescendantComparator);//For Date
+      return estates;
+   }
+   
+   public List<Estate> getDateDescendantSort() {
+      Collections.sort(estates, Estate.EstatePriceDescendantComparator);//For Date
+      return estates;
+   }
 }

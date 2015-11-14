@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
-public class Estate {
+import java.util.Comparator;
+
+public class Estate{
 
    private Integer price;
 
@@ -47,4 +49,19 @@ public class Estate {
       }
       return false;
    }
+   
+   public static Comparator<Estate> EstatePriceDescendantComparator = new Comparator<Estate>(){
+      public int compare(Estate estate1, Estate estate2) {
+         return estate2.getPrice().compareTo(estate1.getPrice());
+      }
+   };
+   
+   public static Comparator<Estate> EstatePriceAscendantComparator = new Comparator<Estate>(){
+      public int compare(Estate estate1, Estate estate2) {
+         return estate1.getPrice().compareTo(estate2.getPrice());
+      }
+   };
+   
+   //IL FAUT AJOUTER ICI LES COMPARATOR POUR DATE
+ 
 }

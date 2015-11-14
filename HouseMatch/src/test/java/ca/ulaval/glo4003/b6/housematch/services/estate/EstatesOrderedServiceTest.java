@@ -83,7 +83,7 @@ public class EstatesOrderedServiceTest {
    }
    
    private void configureSorter() {
-      when(estateSorter.priceSort(estates)).thenReturn(estatesSort);
+      when(estateSorter.priceAscendantSort(estates)).thenReturn(estatesSort);
       
    }
 
