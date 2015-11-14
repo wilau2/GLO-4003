@@ -1,6 +1,10 @@
 package ca.ulaval.glo4003.b6.housematch.dto;
 
-public class EstateDto {
+import java.util.Date;
+
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+
+public class EstateDto implements Comparable<EstateDto> {
 
    private String type;
 
@@ -11,23 +15,27 @@ public class EstateDto {
    private String sellerId;
 
    private DescriptionDto descriptionDto;
+   
+   private Date dateRegistered;
 
    public EstateDto() {
       this.address = new AddressDto();
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, Date dateRegistered) {
       this.type = type;
       this.address = address;
       this.price = price;
       this.sellerId = sellerId;
+      this.dateRegistered = dateRegistered;
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId, DescriptionDto descriptionDto) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, Date dateRegistered, DescriptionDto descriptionDto) {
       this.type = type;
       this.address = address;
       this.price = price;
       this.sellerId = sellerId;
+      this.dateRegistered = dateRegistered;
       this.descriptionDto = descriptionDto;
    }
 
@@ -69,6 +77,27 @@ public class EstateDto {
 
    public DescriptionDto getDescriptionDto() {
       return this.descriptionDto;
+   }
+
+   public void setDateRegistered(Date dateRegistered) {
+      this.dateRegistered = dateRegistered;
+      
+   }
+
+   public Date getDateRegistered() {
+      return this.dateRegistered;
+   }
+   
+   public boolean isEarlyer(EstateDto estate) {
+      return this.dateRegistered.before(estate.getDateRegistered());
+   }
+
+   @Override
+   public int compareTo(EstateDto o) {
+      if (this.isEarlyer(o)){
+         return 1;
+      }
+      return 0;
    }
 
 }

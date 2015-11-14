@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -115,7 +116,7 @@ public class XMLEstateRepositoryTest {
    private XMLEstateRepository xmlEstateRepository;
 
    @Before
-   public void setUp() throws DocumentException {
+   public void setUp() throws DocumentException, ParseException {
       MockitoAnnotations.initMocks(this);
 
       configureXmlFileEditor();
@@ -125,7 +126,7 @@ public class XMLEstateRepositoryTest {
       when(estatePersistenceDtoFactory.newInstanceEstate(any(HashMap.class))).thenReturn(estatePersistenceDto);
    }
 
-   private void configureAssemblerBehavior() {
+   private void configureAssemblerBehavior() throws ParseException {
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateElementAssemblerFactory.createAssembler()).thenReturn(estateElementAssembler);
 
@@ -306,7 +307,7 @@ public class XMLEstateRepositoryTest {
 
    @Test
    public void whenGettingAllEstateShouldCallEstateElementAssemblerForAllReturnedXmlElement()
-         throws CouldNotAccessDataException {
+         throws CouldNotAccessDataException, ParseException {
       // Given
       configureGetAllEstate();
       int numberOfReturnedDto = 1;
@@ -450,7 +451,7 @@ public class XMLEstateRepositoryTest {
 
    @Test
    public void fetchingEstateByAddressWhenEstateIsFoundShouldConvertAttributesToEstateDto()
-         throws DocumentException, EstateNotFoundException, CouldNotAccessDataException {
+         throws DocumentException, EstateNotFoundException, CouldNotAccessDataException, ParseException {
       // Given
       configureFetchingEstateByAddress();
 

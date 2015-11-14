@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import static org.mockito.Mockito.when;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.dom4j.Element;
@@ -48,7 +50,12 @@ public class EstateElementConverterTest {
    private static final Address ADDRESS = new Address(APPARTMENT, CIVI_NUMBER, STREET, POSTAL_CODE, PROVINCE, COUNTRY);
 
    private static final Integer PRICE = 1;
+   
+   private static final String DATE_REGISTERED_KEY = "date_registered";
 
+   @Mock
+   private Date dateRegistered;
+   
    @Mock
    private Element element;
 
@@ -77,6 +84,7 @@ public class EstateElementConverterTest {
       when(attributes.get(PRICE_KEY)).thenReturn(PRICE.toString());
       when(attributes.get(SELLER_KEY)).thenReturn(USER_ID);
       when(attributes.get(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
+      when(attributes.get(DATE_REGISTERED_KEY)).thenReturn("Thu Sep 28 20:29:30 JST 2000"); 
    }
 
    private void configureEstate() {
@@ -84,6 +92,7 @@ public class EstateElementConverterTest {
       when(estate.getPrice()).thenReturn(PRICE);
       when(estate.getType()).thenReturn(TYPE);
       when(estate.getAddress()).thenReturn(ADDRESS);
+      when(estate.getDateRegistered()).thenReturn(dateRegistered);
    }
 
    private void configureElement() {
@@ -91,10 +100,11 @@ public class EstateElementConverterTest {
       when(element.elementText(PRICE_KEY)).thenReturn(PRICE.toString());
       when(element.elementText(SELLER_KEY)).thenReturn(USER_ID);
       when(element.elementText(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
+      when(element.elementText(DATE_REGISTERED_KEY)).thenReturn("Thu Sep 28 20:29:30 JST 2000");
    }
 
    @Test
-   public void assemblingEstateDtoWhenElementHasAllElementShouldCreateDtoWithAllFieldsSet() {
+   public void assemblingEstateDtoWhenElementHasAllElementShouldCreateDtoWithAllFieldsSet() throws ParseException {
       // Given no changes
 
       // When
@@ -108,7 +118,7 @@ public class EstateElementConverterTest {
    }
 
    @Test
-   public void assemblingAddressDtoWhenAssemblingEstateDtoShouldCreateAddressDtoWithAllFieldsSet() {
+   public void assemblingAddressDtoWhenAssemblingEstateDtoShouldCreateAddressDtoWithAllFieldsSet() throws ParseException {
       // Given no changes
 
       // When
@@ -149,7 +159,7 @@ public class EstateElementConverterTest {
    }
 
    @Test
-   public void assemblingEstateDtoFromAttributesWhenAllAttributesArePresentShouldSetAllEstateDtoFields() {
+   public void assemblingEstateDtoFromAttributesWhenAllAttributesArePresentShouldSetAllEstateDtoFields() throws ParseException {
       // Given no changes
 
       // When
@@ -162,7 +172,7 @@ public class EstateElementConverterTest {
    }
 
    @Test
-   public void assemblingEstateDtoFromAttributesWhenAttributesContainsAddressShouldSetAllAddressDtoFields() {
+   public void assemblingEstateDtoFromAttributesWhenAttributesContainsAddressShouldSetAllAddressDtoFields() throws ParseException {
       // Given
 
       // When

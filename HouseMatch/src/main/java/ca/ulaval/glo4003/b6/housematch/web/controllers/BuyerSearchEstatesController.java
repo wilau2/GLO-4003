@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
@@ -27,6 +29,8 @@ public class BuyerSearchEstatesController {
    private EstatesFetcher estatesFetcher;
 
    private UserAuthorizationService userAuthorizationService;
+   
+   private List<EstateDto> allEstates;
 
    @Autowired
    public BuyerSearchEstatesController(EstatesFetcher estatesFetcher,
@@ -42,7 +46,7 @@ public class BuyerSearchEstatesController {
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
 
-      List<EstateDto> allEstates = estatesFetcher.getAllEstates();
+      allEstates = estatesFetcher.getAllEstates();
       modelAndView.addObject("estates", allEstates);
 
       return modelAndView;

@@ -6,6 +6,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -46,10 +48,15 @@ public class EstateAssemblerTest {
 
    @Mock
    private Description description;
+   
+   @Mock
+   private Date dateRegistered;
+
 
    @Mock
    private DescriptionAssembler descriptionAssembler;
-
+   
+  
    private EstateAssembler estateAssembler;
 
    @Before
@@ -70,6 +77,7 @@ public class EstateAssemblerTest {
       when(estate.getType()).thenReturn(TYPE);
       when(estate.getAddress()).thenReturn(address);
       when(estate.getDescription()).thenReturn(description);
+      when(estate.getDateRegistered()).thenReturn(dateRegistered);
    }
 
    @Test
@@ -84,6 +92,7 @@ public class EstateAssemblerTest {
       verify(estateDto, times(1)).getPrice();
       verify(estateDto, times(1)).getType();
       verify(estateDto, times(1)).getSeller();
+      verify(estateDto, times(1)).getDateRegistered();
    }
 
    @Test

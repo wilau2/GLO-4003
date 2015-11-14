@@ -1,8 +1,11 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
+
 import java.util.Comparator;
+import java.util.Date;
 
 public class Estate{
+
 
    private Integer price;
 
@@ -14,13 +17,16 @@ public class Estate{
 
    private Description description;
 
-   public Estate(String type, Address address, Integer price, String seller, Description description) {
+   private Date dateRegistered;
+
+   public Estate(String type, Address address, Integer price, String seller, Description description, Date dateRegistered) {
 
       this.type = type;
       this.address = address;
       this.price = price;
       this.seller = seller;
       this.description = description;
+      this.dateRegistered = dateRegistered;
    }
 
    public String getType() {
@@ -50,6 +56,10 @@ public class Estate{
       return false;
    }
    
+   public Date getDateRegistered() {
+      return this.dateRegistered;
+   }
+   
    public static Comparator<Estate> EstatePriceDescendantComparator = new Comparator<Estate>(){
       public int compare(Estate estate1, Estate estate2) {
          return estate2.getPrice().compareTo(estate1.getPrice());
@@ -64,4 +74,11 @@ public class Estate{
    
    //IL FAUT AJOUTER ICI LES COMPARATOR POUR DATE
  
+
+
+//   public boolean isEarlyer(Estate estate) {
+//      return this.dateRegistered.before(estate.getDateRegistered());
+//   }
+
+
 }
