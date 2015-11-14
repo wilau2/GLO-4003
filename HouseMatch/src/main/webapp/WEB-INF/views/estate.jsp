@@ -28,7 +28,7 @@
 	            <div class = "item">
 	          </c:otherwise>
         	</c:choose>
-		         <img src = "${entryUrl}${picture.url}" alt = "First slide" style="display:inline">
+		         <img src = "${entryUrl}${picture.url}${picture.name}" alt = "First slide" style="display:inline">
 		          <div class="carousel-caption">
 			          <h3 style="color:white; margin-bottom:-50px">${picture.name}</h3>
 			      </div>
@@ -41,6 +41,13 @@
 		   
 		</div>
 		<button id="btn_add_picture" type="button" class="pure-button">Add Picture</button>
+		<button id="btn_del_picture" type="button" class="pure-button">Remove Picture</button>
+		<div id="delete_picture" style="text-align:left">
+			<form method="POST" action="${entryUrl}/deleteFile">
+		        Name: <input type="text" name="name"><br /> <br /> 
+		        <input type="submit" value="Delete"> Press here to Delete the file!
+		    </form> 
+	    </div>
 		<div id="upload_picture" style="text-align:left">
 			<form method="POST" action="${entryUrl}/uploadFile" enctype="multipart/form-data">
 		        File to upload: <input type="file" name="file"><br /> 

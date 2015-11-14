@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,11 +43,25 @@ public class PictureController {
       return "index";
    }
 
-   @RequestMapping(value = "/picture/{pictureId}", method = RequestMethod.GET, produces = "image/jpg")
-   public @ResponseBody byte[] getFile(@PathVariable("pictureId") String id, HttpServletRequest request) {
-      try {
-         InputStream inputStream = this.getClass().getResourceAsStream("picture" + id + ".jpg");
+   @RequestMapping(value = "/deleteFile", method = RequestMethod.POST)
+   public String deleteFile(@RequestParam("name") final String name, HttpServletRequest request) throws IOException {
+      File fileToDelete = new File("./persistence/uploadedPictures" + File.separator + name + ".jpg");
+      fileToDelete.delete();
+      return "index";
+   }
 
+   @RequestMapping(value = "/picture/{pictureName}", method = RequestMethod.GET, produces = "image/jpg")
+   public @ResponseBody byte[] getFile(@PathVariable("pictureName") String name, HttpServletRequest request) {
+      try {
+
+         File dir = new File("./persistence/uploadedPictures");
+         if (!dir.exists()) {
+            dir.mkdirs();
+         }
+
+         // Create the file on server
+         File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+         InputStream inputStream = new FileInputStream(serverFile);
          BufferedImage picture = ImageIO.read(inputStream);
 
          ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

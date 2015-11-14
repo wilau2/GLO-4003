@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,14 +99,17 @@ public class SellerEstateController {
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
-      // No actual persistence for now so i created 2 pictures to test
-      PictureDto picture = new PictureDto("/picture/1", "firstPicture");
-      PictureDto picture2 = new PictureDto("/picture/2", "secondPicture");
-
+      // No actual persistence for now it just read the uploadedPicture
+      // directory
       List<PictureDto> manyPictures = new ArrayList<PictureDto>();
+      File dir = new File("./persistence/uploadedPictures");
 
-      manyPictures.add(picture);
-      manyPictures.add(picture2);
+      File[] filesList = dir.listFiles();
+      for (File f : filesList) {
+         if (f.isFile()) {
+            manyPictures.add(new PictureDto("/picture/", f.getName()));
+         }
+      }
 
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
 
