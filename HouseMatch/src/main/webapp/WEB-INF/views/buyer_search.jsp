@@ -36,7 +36,7 @@
 						<tr>
 							<td>${estate.type}</td>
 							<td>${estate.address.addressToString()}</td>
-							<td></td>
+							<td>${estate.dateRegistered}</td>
 							<td>${estate.price}</td>
 							<td><a class="pure-button"
 								href="${entryUrl}/buyer/${loggedInUsername}/estates/${estate.address.addressToUrl()}">Select</a></td>
