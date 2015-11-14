@@ -60,7 +60,7 @@ public class PictureController {
          }
 
          // Create the file on server
-         File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
+         File serverFile = new File(dir.getAbsolutePath() + File.separator + name + ".jpg");
          InputStream inputStream = new FileInputStream(serverFile);
          BufferedImage picture = ImageIO.read(inputStream);
 

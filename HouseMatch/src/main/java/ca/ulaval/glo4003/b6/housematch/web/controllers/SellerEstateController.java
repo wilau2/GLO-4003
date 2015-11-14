@@ -107,7 +107,10 @@ public class SellerEstateController {
       File[] filesList = dir.listFiles();
       for (File f : filesList) {
          if (f.isFile()) {
-            manyPictures.add(new PictureDto("/picture/", f.getName()));
+            String nomDuFichier = f.getName();
+            if (nomDuFichier.indexOf(".") > 0)
+               nomDuFichier = nomDuFichier.substring(0, nomDuFichier.lastIndexOf("."));
+            manyPictures.add(new PictureDto("/picture/", nomDuFichier));
          }
       }
 
