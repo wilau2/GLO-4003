@@ -13,23 +13,23 @@ public class EstateSorter implements Sorter {
       this.estates = estates;
    }
 
-   public List<Estate> getPriceAscendantSort() {
-      Collections.sort(estates, Estate.EstatePriceAscendantComparator);
-      return estates;
-   }
-   
    public List<Estate> getPriceDescendantSort() {
       Collections.sort(estates, Estate.EstatePriceDescendantComparator);
       return estates;
    }
    
-   public List<Estate> getDateAscendantSort() {
-      Collections.sort(estates, Estate.EstatePriceDescendantComparator);//For Date
+   public List<Estate> getPriceAscendantSort() {
+      Collections.sort(estates, Estate.EstatePriceAscendantComparator);
       return estates;
    }
    
    public List<Estate> getDateDescendantSort() {
-      Collections.sort(estates, Estate.EstatePriceDescendantComparator);//For Date
+      Collections.sort(estates, Estate.EstateDateDescendantComparator);
+      return estates;
+   }
+   
+   public List<Estate> getDateAscendantSort() {
+      Collections.sort(estates, Estate.EstateDateAscendantComparator);
       return estates;
    }
 }

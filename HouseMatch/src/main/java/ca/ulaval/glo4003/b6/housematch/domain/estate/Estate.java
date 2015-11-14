@@ -60,25 +60,28 @@ public class Estate{
       return this.dateRegistered;
    }
    
-   public static Comparator<Estate> EstatePriceDescendantComparator = new Comparator<Estate>(){
-      public int compare(Estate estate1, Estate estate2) {
-         return estate2.getPrice().compareTo(estate1.getPrice());
-      }
-   };
-   
    public static Comparator<Estate> EstatePriceAscendantComparator = new Comparator<Estate>(){
       public int compare(Estate estate1, Estate estate2) {
          return estate1.getPrice().compareTo(estate2.getPrice());
       }
    };
    
-   //IL FAUT AJOUTER ICI LES COMPARATOR POUR DATE
- 
-
-
-//   public boolean isEarlyer(Estate estate) {
-//      return this.dateRegistered.before(estate.getDateRegistered());
-//   }
-
-
+   public static Comparator<Estate> EstatePriceDescendantComparator = new Comparator<Estate>(){
+      public int compare(Estate estate1, Estate estate2) {
+         return estate2.getPrice().compareTo(estate1.getPrice());
+      }
+   };
+   
+   public static Comparator<Estate> EstateDateAscendantComparator = new Comparator<Estate>(){
+      public int compare(Estate estate1, Estate estate2) {
+         return estate1.getDateRegistered().compareTo(estate2.getDateRegistered());
+      }
+   };
+   
+   public static Comparator<Estate> EstateDateDescendantComparator = new Comparator<Estate>(){
+      public int compare(Estate estate1, Estate estate2) {
+         return estate2.getDateRegistered().compareTo(estate1.getDateRegistered());
+      }
+   };
+   
 }

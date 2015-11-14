@@ -62,7 +62,7 @@ public class EstatesFetcher {
 
    }
    
-   public List<EstateDto> getPriceOrderedAscendantEstates() throws CouldNotAccessDataException {
+   public List<EstateDto> getPriceOrderedAscendantEstates(){
       
       List<Estate> estates = estateSorter.getPriceAscendantSort();
       
@@ -70,7 +70,7 @@ public class EstatesFetcher {
       return estatesDto;
    }
    
-   public List<EstateDto> getPriceOrderedDescendantEstates() throws CouldNotAccessDataException {
+   public List<EstateDto> getPriceOrderedDescendantEstates(){
       
       List<Estate> estates = estateSorter.getPriceDescendantSort();
       
@@ -78,7 +78,7 @@ public class EstatesFetcher {
       return estatesDto;
    }
 
-   public List<EstateDto> getDateOrderedAscendantEstates() throws CouldNotAccessDataException {
+   public List<EstateDto> getDateOrderedAscendantEstates(){
    
       List<Estate> estates = estateSorter.getDateAscendantSort();
       
@@ -86,7 +86,7 @@ public class EstatesFetcher {
       return estatesDto;
    }
    
-   public List<EstateDto> getDateOrderedDescendantEstates() throws CouldNotAccessDataException {
+   public List<EstateDto> getDateOrderedDescendantEstates(){
       
       List<Estate> estates = estateSorter.getDateDescendantSort();
       
