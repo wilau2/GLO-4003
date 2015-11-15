@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,12 +18,12 @@ import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorrupti
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
-import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
@@ -99,20 +97,7 @@ public class SellerEstateController {
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
-      // No actual persistence for now it just read the uploadedPicture
-      // directory
-      List<PictureDto> manyPictures = new ArrayList<PictureDto>();
-      File dir = new File("./persistence/uploadedPictures");
-
-      File[] filesList = dir.listFiles();
-      for (File f : filesList) {
-         if (f.isFile()) {
-            String nomDuFichier = f.getName();
-            if (nomDuFichier.indexOf(".") > 0)
-               nomDuFichier = nomDuFichier.substring(0, nomDuFichier.lastIndexOf("."));
-            manyPictures.add(new PictureDto("/picture/", nomDuFichier));
-         }
-      }
+      List<Picture> manyPictures = estatesFetcher.getPicturesOfEstate(address);
 
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
 

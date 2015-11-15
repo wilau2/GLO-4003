@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.Album;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
@@ -59,9 +58,6 @@ public class EstateAssemblerTest {
    private EstateAssembler estateAssembler;
 
    @Mock
-   private Album album;
-
-   @Mock
    private AlbumDto albumDto;
 
    @Before
@@ -70,7 +66,6 @@ public class EstateAssemblerTest {
 
       when(addressAssembler.assembleAddressDto(address)).thenReturn(addressDto);
       when(descriptionAssembler.assembleDescriptionDto(description)).thenReturn(descriptionDto);
-      when(albumAssembler.assembleAlbumDto(album)).thenReturn(albumDto);
       configureEstate();
    }
 
@@ -80,7 +75,7 @@ public class EstateAssemblerTest {
       when(estate.getType()).thenReturn(TYPE);
       when(estate.getAddress()).thenReturn(address);
       when(estate.getDescription()).thenReturn(description);
-      when(estate.getAlbum()).thenReturn(album);
+
    }
 
    @Test

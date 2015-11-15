@@ -5,6 +5,7 @@ import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
@@ -55,6 +56,14 @@ public class EstatesFetcher {
 
       return estatesDto;
 
+   }
+
+   public List<Picture> getPicturesOfEstate(String address)
+         throws EstateNotFoundException, CouldNotAccessDataException {
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
+      Estate estate = estateRepository.getEstateByAddress(address);
+
+      return estate.getEveryPictures();
    }
 
    private List<EstateDto> assembleEstatesDto(List<Estate> estates) {

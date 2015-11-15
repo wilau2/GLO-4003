@@ -59,6 +59,5 @@ public class EstatesService {
       Estate estate = estateRepository.getEstateByAddress(address);
       estate.editDescription(description);
       estateRepository.updateEstate(estate);
-
    }
 }

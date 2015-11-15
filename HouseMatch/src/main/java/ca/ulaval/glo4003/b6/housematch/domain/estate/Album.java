@@ -21,5 +21,4 @@ public class Album {
    public List<Picture> getAllPictures() {
       return pictures;
    }
-
 }
