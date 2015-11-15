@@ -1,8 +1,13 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class Estate {
 
@@ -44,11 +49,28 @@ public class Estate {
       return description;
    }
 
+   public void addPicture(String name, MultipartFile file) throws IOException {
+      if (!file.isEmpty()) {
+         byte[] bytes = file.getBytes();
+         // Creating the directory to store file
+         File dir = new File("./persistence/uploadedPictures/" + address);
+         if (!dir.exists()) {
+            dir.mkdirs();
+         }
+         // Create the file on server
+         File serverFile = new File(dir.getAbsolutePath() + File.separator + name + ".jpg");
+         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+         stream.write(bytes);
+         stream.close();
+      }
+   }
+
    public List<Picture> getEveryPictures() {
-
       List<Picture> manyPictures = new ArrayList<Picture>();
-      File dir = new File("./persistence/uploadedPictures");
-
+      File dir = new File("./persistence/uploadedPictures/" + address);
+      if (!dir.exists()) {
+         dir.mkdirs();
+      }
       File[] filesList = dir.listFiles();
       for (File f : filesList) {
          if (f.isFile()) {

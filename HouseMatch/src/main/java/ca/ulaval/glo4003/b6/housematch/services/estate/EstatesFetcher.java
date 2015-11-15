@@ -1,7 +1,10 @@
 package ca.ulaval.glo4003.b6.housematch.services.estate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
@@ -64,6 +67,15 @@ public class EstatesFetcher {
       Estate estate = estateRepository.getEstateByAddress(address);
 
       return estate.getEveryPictures();
+   }
+
+   public void addPicture(String address, String name, MultipartFile file)
+         throws EstateNotFoundException, CouldNotAccessDataException, IOException {
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
+
+      Estate estate = estateRepository.getEstateByAddress(address);
+
+      estate.addPicture(name, file);
    }
 
    private List<EstateDto> assembleEstatesDto(List<Estate> estates) {

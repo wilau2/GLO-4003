@@ -14,8 +14,8 @@ public class Album {
       pictures.add(file);
    }
 
-   public void removePicture(int index) {
-      pictures.remove(index);
+   public void removePicture(String name) {
+      pictures.remove(name);
    }
 
    public List<Picture> getAllPictures() {

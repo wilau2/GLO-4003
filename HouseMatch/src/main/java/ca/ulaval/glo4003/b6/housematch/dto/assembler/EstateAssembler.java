@@ -13,13 +13,9 @@ public class EstateAssembler {
 
    private DescriptionAssembler descriptionAssembler;
 
-   private AlbumAssembler albumAssembler;
-
-   public EstateAssembler(AddressAssembler addressAssembler, DescriptionAssembler descriptionAssembler,
-         AlbumAssembler albumAssembler) {
+   public EstateAssembler(AddressAssembler addressAssembler, DescriptionAssembler descriptionAssembler) {
       this.addressAssembler = addressAssembler;
       this.descriptionAssembler = descriptionAssembler;
-      this.albumAssembler = albumAssembler;
    }
 
    public Estate assembleEstate(EstateDto estateDto) {

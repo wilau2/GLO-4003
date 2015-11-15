@@ -15,7 +15,6 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
-import ca.ulaval.glo4003.b6.housematch.dto.AlbumDto;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
@@ -51,14 +50,8 @@ public class EstateAssemblerTest {
    @Mock
    private DescriptionAssembler descriptionAssembler;
 
-   @Mock
-   private AlbumAssembler albumAssembler;
-
    @InjectMocks
    private EstateAssembler estateAssembler;
-
-   @Mock
-   private AlbumDto albumDto;
 
    @Before
    public void setup() {

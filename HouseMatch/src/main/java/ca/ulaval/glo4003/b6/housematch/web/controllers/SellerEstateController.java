@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator;
@@ -97,14 +99,14 @@ public class SellerEstateController {
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
-      List<Picture> manyPictures = estatesFetcher.getPicturesOfEstate(address);
-
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
+
+      List<Picture> pictures = estatesFetcher.getPicturesOfEstate(address);
 
       ModelAndView sellerEstateViewModel = new ModelAndView("estate");
       sellerEstateViewModel.addObject("estate", estateByAddress);
       sellerEstateViewModel.addObject("description", descriptionDto);
-      sellerEstateViewModel.addObject("pictures", manyPictures);
+      sellerEstateViewModel.addObject("pictures", pictures);
 
       return sellerEstateViewModel;
    }
@@ -121,4 +123,17 @@ public class SellerEstateController {
 
       return "redirect:/seller/{userId}/estates/{address}";
    }
+
+   @RequestMapping(value = "/seller/{userId}/estates/{address}/addPicture", method = RequestMethod.POST)
+   public String addPicture(@PathVariable("address") String address, @RequestParam("name") final String name,
+         @RequestParam("file") MultipartFile file, HttpServletRequest request)
+               throws IOException, InvalidAccessException, EstateNotFoundException, CouldNotAccessDataException {
+
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      estatesFetcher.addPicture(address, name, file);
+
+      return "redirect:/seller/{userId}/estates/{address}";
+   }
+
 }
