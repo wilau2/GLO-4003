@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -16,6 +18,8 @@ public class EstateTest {
    private static final Integer PRICE = 1;
 
    private static final String TYPE = "TYPE";
+   
+   private static final ArrayList<Integer> PRICE_HISTORY = new ArrayList<Integer>();
 
    @Mock
    private Address address;
@@ -32,7 +36,7 @@ public class EstateTest {
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, album);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, album, PRICE_HISTORY);
    }
 
    @Test
