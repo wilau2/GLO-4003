@@ -43,7 +43,7 @@
 		<button id="btn_add_picture" type="button" class="pure-button">Add Picture</button>
 		<button id="btn_del_picture" type="button" class="pure-button">Remove Picture</button>
 		<div id="delete_picture" style="text-align:left">
-			<form method="POST" action="${entryUrl}/deleteFile">
+			<form method="POST" action="${entryUrl}/seller/${loggedInUsername}/estates/${estate.address.addressToUrl()}/deletePicture">
 		        Name: <input type="text" name="name"><br /> <br /> 
 		        <input type="submit" value="Delete"> Press here to Delete the file!
 		    </form> 

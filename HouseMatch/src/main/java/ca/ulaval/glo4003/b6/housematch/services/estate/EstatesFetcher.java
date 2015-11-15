@@ -78,6 +78,15 @@ public class EstatesFetcher {
       estate.addPicture(name, file);
    }
 
+   public void deletePicture(String address, String name)
+         throws EstateNotFoundException, CouldNotAccessDataException, IOException {
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
+
+      Estate estate = estateRepository.getEstateByAddress(address);
+
+      estate.deletePicture(name);
+   }
+
    private List<EstateDto> assembleEstatesDto(List<Estate> estates) {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 

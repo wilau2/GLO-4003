@@ -14,18 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class PictureController {
-
-   @RequestMapping(value = "/deleteFile", method = RequestMethod.POST)
-   public String deleteFile(@RequestParam("name") final String name, HttpServletRequest request) throws IOException {
-      File fileToDelete = new File("./persistence/uploadedPictures" + File.separator + name + ".jpg");
-      fileToDelete.delete();
-      return "index";
-   }
 
    @RequestMapping(value = "/picture/{address}/{pictureName}", method = RequestMethod.GET, produces = "image/jpg")
    public @ResponseBody byte[] getFile(@PathVariable("address") String address,

@@ -49,6 +49,11 @@ public class Estate {
       return description;
    }
 
+   public void deletePicture(String name) {
+      File fileToDelete = new File("./persistence/uploadedPictures/" + address + File.separator + name + ".jpg");
+      fileToDelete.delete();
+   }
+
    public void addPicture(String name, MultipartFile file) throws IOException {
       if (!file.isEmpty()) {
          byte[] bytes = file.getBytes();

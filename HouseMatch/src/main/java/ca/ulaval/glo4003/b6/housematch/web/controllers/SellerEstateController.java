@@ -136,4 +136,16 @@ public class SellerEstateController {
       return "redirect:/seller/{userId}/estates/{address}";
    }
 
+   @RequestMapping(value = "/seller/{userId}/estates/{address}/deletePicture", method = RequestMethod.POST)
+   public String deletePicture(@PathVariable("address") String address, @RequestParam("name") final String name,
+         HttpServletRequest request)
+               throws IOException, InvalidAccessException, EstateNotFoundException, CouldNotAccessDataException {
+
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      estatesFetcher.deletePicture(address, name);
+
+      return "redirect:/seller/{userId}/estates/{address}";
+   }
+
 }
