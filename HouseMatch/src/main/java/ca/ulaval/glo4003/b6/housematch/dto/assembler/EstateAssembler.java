@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.dto.assembler;
 
+import java.util.ArrayList;
+
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Album;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
@@ -29,10 +31,12 @@ public class EstateAssembler {
       String type = estateDto.getType();
       Integer price = estateDto.getPrice();
       String seller = estateDto.getSeller();
+      ArrayList<Integer> priceHistory = estateDto.getPriceHistory();
+      
       Description description = descriptionAssembler.assembleDescription(estateDto.getDescriptionDto());
       Album album = albumAssembler.assembleAlbum(estateDto.getAlbumDto());
 
-      Estate estate = new Estate(type, address, price, seller, description, album);
+      Estate estate = new Estate(type, address, price, seller, description, album, priceHistory);
       return estate;
    }
 
@@ -41,10 +45,12 @@ public class EstateAssembler {
       String type = estate.getType();
       Integer price = estate.getPrice();
       String sellerId = estate.getSeller();
+      ArrayList<Integer> priceHistory = estate.getPriceHistory();
+      
       DescriptionDto descriptionDto = descriptionAssembler.assembleDescriptionDto(estate.getDescription());
       AlbumDto albumDto = albumAssembler.assembleAlbumDto(estate.getAlbum());
 
-      EstateDto estateDto = new EstateDto(type, address, price, sellerId, descriptionDto, albumDto);
+      EstateDto estateDto = new EstateDto(type, address, price, sellerId, descriptionDto, albumDto, priceHistory);
       return estateDto;
    }
 

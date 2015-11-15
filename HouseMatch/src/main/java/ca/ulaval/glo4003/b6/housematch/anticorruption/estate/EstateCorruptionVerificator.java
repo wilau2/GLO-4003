@@ -38,10 +38,15 @@ public class EstateCorruptionVerificator {
       }
    }
    
-   public void editEstate(String address, EstateEditDto estateEditDto) throws InvalidEstateFieldException, EstateNotFoundException, CouldNotAccessDataException {
+   public void editEstate(String address, EstateEditDto estateEditDto) throws InvalidEstateFieldException, 
+   CouldNotAccessDataException, EstateNotFoundException {
       validateEstateEditCorruption(estateEditDto);
-      estateService.editEstate(address, estateEditDto);
       
+      try {
+         estateService.editEstate(address, estateEditDto);
+      } catch (EstateNotFoundException e) {
+         throw new EstateNotFoundException(e.getMessage(), e);
+      }
 }
 
    private void validateEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {

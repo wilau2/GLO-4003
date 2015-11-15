@@ -6,12 +6,12 @@
 
 <t:wrapper>
 	<jsp:include page="_menu.jsp" />
-
-	<jsp:include page="_seller_side_menu.jsp" />
 	<jsp:include page="estate_button.jsp" />
+
 	<c:if test="${loggedInUserRole == 'buyer'}">
 		<jsp:include page="_buyer_side_menu.jsp" />
 	</c:if>
+	
 	<c:if test="${loggedInUserRole == 'seller'}">
 		<jsp:include page="_seller_side_menu.jsp" />
 	</c:if>
@@ -45,14 +45,13 @@
 		        <input type="submit" value="Upload"> Press here to upload the file!
 		    </form> 
 	    </div>
-		<form:form action="#/estate" method="POST" modelAttribute="estate" 
-			class="pure-form pure-form-aligned content-head" id="eForm">
+		<form:form action="${estate.address.addressToUrl()}/edit/estate" method="POST" modelAttribute="estate" 
+			class="pure-form pure-form-aligned content-subhead" id="eForm">
 			<fieldset>
-				<legend>${estate.type} at
-					${estate.address.addressToString()}</legend>
+				<legend>${estate.type} at ${estate.address.addressToString()}</legend>
 				<div class="pure-control-group">
 					<div class="pure-u-13-24">
-					<form:label path="type">Type </form:label>
+					<form:label path="type">Type</form:label>
 						<form:select id="type" path="type">
 							<option value="CONDO">Condo</option>
 							<option value="APPARTMENT">Appartment</option>
@@ -78,7 +77,7 @@
 				</c:if>
 		</form:form>
 
-		<form:form action="#/description" method="POST" commandName="description" 
+		<form:form action="${estate.address.addressToUrl()}/edit/description" method="POST" commandName="description" 
 			class="pure-form pure-form-aligned content-subhead" id="dForm">
 			<fieldset>
 				<legend>Description</legend>

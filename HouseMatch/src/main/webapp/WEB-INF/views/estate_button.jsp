@@ -1,5 +1,6 @@
 <script>
 $(document).ready(function() {
+	 $("#type").val("${estate.type}");
 	 $("#btn_save_estate").hide();
 	 $("#btn_cancel_estate").hide();
 	 $("#btn_save_description").hide();

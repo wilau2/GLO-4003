@@ -16,9 +16,9 @@ public class Estate {
 
    private Album album;
    
-   private ArrayList<Integer> oldPrice;
-
-   public Estate(String type, Address address, Integer price, String seller, Description description, Album album) {
+   private ArrayList<Integer> priceHistory;
+   
+   public Estate(String type, Address address, Integer price, String seller, Description description, Album album, ArrayList<Integer> priceHistory) {
 
       this.type = type;
       this.address = address;
@@ -26,7 +26,7 @@ public class Estate {
       this.seller = seller;
       this.description = description;
       this.album = album;
-      this.oldPrice = new ArrayList<Integer>();
+      this.priceHistory = priceHistory;
    }
 
    public String getType() {
@@ -52,6 +52,10 @@ public class Estate {
    public Album getAlbum() {
       return this.album;
    }
+   
+   public ArrayList<Integer> getPriceHistory() {
+      return this.priceHistory;
+   }
 
    public boolean isFromSeller(String sellerName) {
       if (seller.equals(sellerName)) {
@@ -60,18 +64,15 @@ public class Estate {
       return false;
    }
    
-   public void edit(String type, Integer price) {
-      editType(type);
-      editPrice(price);
-   }
-   
    public void editType(String type) {
       this.type = type;
    }
    
    public void editPrice(Integer price) {
-      this.oldPrice.add(this.price);
-      this.price = price;
+      if(this.price != price){
+         this.priceHistory.add(this.price);
+         this.price = price;
+      }
    }
 
    public void editDescription(Description description) {

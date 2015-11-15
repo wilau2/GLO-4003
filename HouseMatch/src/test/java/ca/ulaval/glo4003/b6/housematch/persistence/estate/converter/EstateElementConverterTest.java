@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.persistence.estate.converter;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.dom4j.Element;
@@ -26,6 +27,8 @@ public class EstateElementConverterTest {
    private static final String PRICE_KEY = "price";
 
    private static final String TYPE_KEY = "type";
+   
+   private static final String PRICE_HISTORY_KEY = "price_history";
 
    private static final String COUNTRY = "TEST_COUNTRY";
 
@@ -46,6 +49,10 @@ public class EstateElementConverterTest {
    private static final Address ADDRESS = new Address(APPARTMENT, CIVI_NUMBER, STREET, POSTAL_CODE, PROVINCE, COUNTRY);
 
    private static final Integer PRICE = 1;
+   
+   private static ArrayList<Integer> PRICE_HISTORY = new ArrayList<Integer>();
+   
+   private static final String PRICE_HISTORY_STRING = "100-200";
 
    @Mock
    private Element element;
@@ -75,6 +82,7 @@ public class EstateElementConverterTest {
       when(attributes.get(PRICE_KEY)).thenReturn(PRICE.toString());
       when(attributes.get(SELLER_KEY)).thenReturn(USER_ID);
       when(attributes.get(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
+      when(attributes.get(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
    }
 
    private void configureEstate() {
@@ -82,6 +90,7 @@ public class EstateElementConverterTest {
       when(estate.getPrice()).thenReturn(PRICE);
       when(estate.getType()).thenReturn(TYPE);
       when(estate.getAddress()).thenReturn(ADDRESS);
+      when(estate.getPriceHistory()).thenReturn(PRICE_HISTORY);
    }
 
    private void configureElement() {
@@ -89,6 +98,7 @@ public class EstateElementConverterTest {
       when(element.elementText(PRICE_KEY)).thenReturn(PRICE.toString());
       when(element.elementText(SELLER_KEY)).thenReturn(USER_ID);
       when(element.elementText(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
+      when(element.elementText(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
    }
 
    @Test

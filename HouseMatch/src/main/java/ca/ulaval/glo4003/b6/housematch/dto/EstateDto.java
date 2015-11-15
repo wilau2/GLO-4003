@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.dto;
 
+import java.util.ArrayList;
+
 public class EstateDto {
 
    private String type;
@@ -13,19 +15,22 @@ public class EstateDto {
    private DescriptionDto descriptionDto;
 
    private AlbumDto albumDto;
+   
+   private ArrayList<Integer> priceHistory;
 
    public EstateDto() {
       this.address = new AddressDto();
    }
 
    public EstateDto(String type, AddressDto address, Integer price, String sellerId, DescriptionDto descriptionDto,
-         AlbumDto albumDto) {
+         AlbumDto albumDto, ArrayList<Integer> priceHistory) {
       this.type = type;
       this.address = address;
       this.price = price;
       this.sellerId = sellerId;
       this.descriptionDto = descriptionDto;
       this.albumDto = albumDto;
+      this.priceHistory = priceHistory;
    }
 
    public void setDescriptionDto(DescriptionDto descriptionDto) {
@@ -70,6 +75,14 @@ public class EstateDto {
 
    public Object getAlbumDto() {
       return this.albumDto;
+   }
+   
+   public ArrayList<Integer> getPriceHistory() {
+      return priceHistory;
+   }
+
+   public void setPriceHistory(ArrayList<Integer> priceHistory) {
+      this.priceHistory = priceHistory;
    }
 
 }

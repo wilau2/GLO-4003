@@ -118,7 +118,7 @@ public class SellerEstateController {
       return sellerEstateViewModel;
    }
 
-   @RequestMapping(value = "/seller/{userId}/estates/{address}/estate", method = RequestMethod.POST)
+   @RequestMapping(value = "/seller/{userId}/estates/{address}/edit/estate", method = RequestMethod.POST)
    public String editEstate(@PathVariable("address") String address, HttpServletRequest request, @ModelAttribute("estate") EstateEditDto estateEditDto) 
          throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException,
                EstateNotFoundException, InvalidEstateException {
@@ -130,7 +130,7 @@ public class SellerEstateController {
       return "redirect:/seller/{userId}/estates/{address}";
    }
    
-   @RequestMapping(value = "/seller/{userId}/estates/{address}/description", method = RequestMethod.POST,  params={"description"} )
+   @RequestMapping(value = "/seller/{userId}/estates/{address}/edit/description", method = RequestMethod.POST)
    public String editDescription(@PathVariable("address") String address, HttpServletRequest request, @ModelAttribute("description") DescriptionDto descriptionDto) 
          throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException,
                InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {

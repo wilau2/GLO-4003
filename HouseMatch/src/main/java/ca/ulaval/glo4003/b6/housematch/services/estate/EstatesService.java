@@ -53,7 +53,9 @@ public class EstatesService {
       EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       Estate estate = estateRepository.getEstateByAddress(address);
       
-      estate.edit(estateEditDto.getType(), estateEditDto.getPrice());
+      estate.editType(estateEditDto.getType());
+      estate.editPrice(estateEditDto.getPrice());
+      
       estateRepository.updateEstate(estate);
    }
 
