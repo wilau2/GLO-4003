@@ -20,13 +20,14 @@ import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorrupti
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
@@ -46,16 +47,19 @@ public class SellerEstateController {
 
    private EstatesFetcher estatesFetcher;
 
+   private EstatePicturesService estatePicturesService;
+
    @Autowired
    public SellerEstateController(EstateCorruptionVerificator estateCorruptionVerificator,
          UserAuthorizationService userAuthorizationService, EstatesFetcher estatesFetcher,
-         DescriptionCorruptionVerificator descriptionCorruptionVerificator) {
+         DescriptionCorruptionVerificator descriptionCorruptionVerificator,
+         EstatePicturesService estatePicturesService) {
 
       this.estateCorruptionVerificator = estateCorruptionVerificator;
       this.userAuthorizationService = userAuthorizationService;
       this.estatesFetcher = estatesFetcher;
       this.descriptionCorruptionVerificator = descriptionCorruptionVerificator;
-
+      this.estatePicturesService = estatePicturesService;
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.POST)
@@ -101,7 +105,7 @@ public class SellerEstateController {
 
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
 
-      List<Picture> pictures = estatesFetcher.getPicturesOfEstate(address);
+      List<PictureDto> pictures = estatePicturesService.getPicturesOfEstate(address);
 
       ModelAndView sellerEstateViewModel = new ModelAndView("estate");
       sellerEstateViewModel.addObject("estate", estateByAddress);
@@ -131,7 +135,7 @@ public class SellerEstateController {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      estatesFetcher.addPicture(address, name, file);
+      estatePicturesService.addPicture(address, name, file);
 
       return "redirect:/seller/{userId}/estates/{address}";
    }
@@ -143,7 +147,7 @@ public class SellerEstateController {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      estatesFetcher.deletePicture(address, name);
+      estatePicturesService.deletePicture(address, name);
 
       return "redirect:/seller/{userId}/estates/{address}";
    }

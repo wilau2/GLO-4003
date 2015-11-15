@@ -1,24 +1,15 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
+import java.io.IOException;
 import java.util.List;
 
-public class Album {
+import org.springframework.web.multipart.MultipartFile;
 
-   private List<Picture> pictures;
+public interface Album {
 
-   public Album(List<Picture> pictures) {
-      this.pictures = pictures;
-   }
+   public void deletePicture(String pictureName, String estateAddress);
 
-   public void addPicture(Picture file) {
-      pictures.add(file);
-   }
+   public void addPicture(String pictureName, String estateAddress, MultipartFile file) throws IOException;
 
-   public void removePicture(String name) {
-      pictures.remove(name);
-   }
-
-   public List<Picture> getAllPictures() {
-      return pictures;
-   }
+   public List<String> getEveryPicturesNames(String estateAddress);
 }

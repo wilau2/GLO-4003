@@ -1,10 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +16,8 @@ public class Estate {
    private String seller;
 
    private Description description;
+
+   private Album album;
 
    public Estate(String type, Address address, Integer price, String seller, Description description) {
       this.type = type;
@@ -49,45 +47,20 @@ public class Estate {
       return description;
    }
 
-   public void deletePicture(String name) {
-      File fileToDelete = new File("./persistence/uploadedPictures/" + address + File.separator + name + ".jpg");
-      fileToDelete.delete();
+   public void setAlbum(Album album) {
+      this.album = album;
    }
 
-   public void addPicture(String name, MultipartFile file) throws IOException {
-      if (!file.isEmpty()) {
-         byte[] bytes = file.getBytes();
-         // Creating the directory to store file
-         File dir = new File("./persistence/uploadedPictures/" + address);
-         if (!dir.exists()) {
-            dir.mkdirs();
-         }
-         // Create the file on server
-         File serverFile = new File(dir.getAbsolutePath() + File.separator + name + ".jpg");
-         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-         stream.write(bytes);
-         stream.close();
-      }
+   public void deletePicture(String pictureName) {
+      album.deletePicture(pictureName, address.toString());
    }
 
-   public List<Picture> getEveryPictures() {
-      List<Picture> manyPictures = new ArrayList<Picture>();
-      File dir = new File("./persistence/uploadedPictures/" + address);
-      if (!dir.exists()) {
-         dir.mkdirs();
-      }
-      File[] filesList = dir.listFiles();
-      for (File f : filesList) {
-         if (f.isFile()) {
-            String nomDuFichier = f.getName();
-            if (nomDuFichier.indexOf(".") > 0)
-               nomDuFichier = nomDuFichier.substring(0, nomDuFichier.lastIndexOf("."));
-            manyPictures.add(new Picture("/picture/", nomDuFichier));
-         }
-      }
+   public void addPicture(String pictureName, MultipartFile file) throws IOException {
+      album.addPicture(pictureName, address.toString(), file);
+   }
 
-      Album temporaryAlbum = new Album(manyPictures);
-      return temporaryAlbum.getAllPictures();
+   public List<String> getEveryPicturesNames() {
+      return album.getEveryPicturesNames(address.toString());
    }
 
    public boolean isFromSeller(String sellerName) {

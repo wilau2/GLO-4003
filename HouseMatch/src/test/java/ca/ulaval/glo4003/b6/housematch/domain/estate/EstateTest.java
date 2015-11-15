@@ -23,9 +23,6 @@ public class EstateTest {
    @Mock
    private Description description;
 
-   @Mock
-   private Album album;
-
    private Estate estate;
 
    @Before
