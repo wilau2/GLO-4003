@@ -63,6 +63,10 @@ public class Estate {
       }
       return false;
    }
+
+   public void editDescription(Description description) {
+      this.description = description;
+   }
    
    public void editType(String type) {
       this.type = type;
@@ -73,9 +77,5 @@ public class Estate {
          this.priceHistory.add(this.price);
          this.price = price;
       }
-   }
-
-   public void editDescription(Description description) {
-      this.description = description;
    }
 }

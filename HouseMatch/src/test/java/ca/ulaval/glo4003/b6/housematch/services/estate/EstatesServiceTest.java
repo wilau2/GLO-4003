@@ -17,6 +17,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundEx
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.dto.EstateEditDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.DescriptionAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
@@ -32,12 +33,19 @@ import ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.Estate
 public class EstatesServiceTest {
 
    private static final String ADDRESS = "address";
+   
+   private static final Integer PRICE = 1000;
+   
+   private static final String TYPE = "PRICE";
 
    @Mock
    private EstateValidatorFactory estateValidatorFactory;
 
    @Mock
    private EstateDto estateDto;
+   
+   @Mock
+   private EstateEditDto estateEditDto;
 
    @Mock
    private EstateRepository estateRepository;
@@ -93,6 +101,9 @@ public class EstatesServiceTest {
       when(estateRepository.getEstateByAddress(ADDRESS)).thenReturn(estate);
       when(estateDto.getAddress()).thenReturn(addressDto);
       when(estateDto.getDescriptionDto()).thenReturn(descriptionDto);
+      when(estateEditDto.getType()).thenReturn(TYPE);
+      when(estateEditDto.getPrice()).thenReturn(PRICE);
+
 
       estatesService = new EstatesService(estateValidatorFactory, estateAssemblerFactory, estateRepositoryFactory);
    }
@@ -120,6 +131,19 @@ public class EstatesServiceTest {
 
       // Then
       verify(estateAssemblerFactory, times(1)).createEstateAssembler();
+   }
+   
+   @Test
+   public void editingAnEstateWhenEstateIsValidShouldCallUpdateEstateAtRepository()
+         throws CouldNotAccessDataException, EstateNotFoundException {
+      // Given no changes
+
+      // When
+      estatesService.editEstate(ADDRESS, estateEditDto);
+
+      // Then
+      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
+      verify(estateRepository, times(1)).updateEstate(estate);
    }
 
    @Test(expected = InvalidEstateException.class)

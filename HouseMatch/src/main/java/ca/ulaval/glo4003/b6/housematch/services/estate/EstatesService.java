@@ -58,7 +58,7 @@ public class EstatesService {
       
       estateRepository.updateEstate(estate);
    }
-
+   
    public void editDescription(String address, DescriptionDto descriptionDto)
          throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException {
 

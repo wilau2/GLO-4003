@@ -3,16 +3,16 @@
 <estates> 
   <estate> 
     <seller>seller</seller>  
-    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
-    <price>49996</price>  
-    <type>MULTIPLEX</type>  
-    <price_history>3500-49994-</price_history>  
+    <address>0-1-Test Sans Description-qc-qc-g12022</address>  
+    <price>1016</price>  
+    <type>APPARTMENT</type>  
+    <price_history>1016-1020-1020-</price_history>  
     <description> 
-      <numberOfBedRooms>20</numberOfBedRooms>  
-      <municipalValuation>125004</municipalValuation>  
+      <numberOfBedRooms>21</numberOfBedRooms>  
+      <municipalValuation>125000</municipalValuation>  
       <dimensionsBuilding>4x42</dimensionsBuilding>  
       <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>2</numberOfRooms>  
+      <numberOfRooms>1</numberOfRooms>  
       <yearsOfConstruction>2002</yearsOfConstruction>  
       <backyardFaces>FRONT</backyardFaces>  
       <numberOfLevel>1</numberOfLevel>  
@@ -21,17 +21,17 @@
   </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-1-Test Sans Description-qc-qc-g12022</address>
-    <price>1016</price>
-    <type>APPARTMENT</type>
-    <price_history>1016-1020-1020-</price_history>
+    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>
+    <price>49999</price>
+    <type>COTTAGE</type>
+    <price_history>3500-49994-49996-49999-</price_history>
     <description>
-      <numberOfBedRooms>21</numberOfBedRooms>
-      <municipalValuation>125000</municipalValuation>
+      <numberOfBedRooms>20</numberOfBedRooms>
+      <municipalValuation>125004</municipalValuation>
       <dimensionsBuilding>4x42</dimensionsBuilding>
       <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
-      <numberOfRooms>1</numberOfRooms>
-      <yearsOfConstruction>2002</yearsOfConstruction>
+      <numberOfRooms>2</numberOfRooms>
+      <yearsOfConstruction>2006</yearsOfConstruction>
       <backyardFaces>FRONT</backyardFaces>
       <numberOfLevel>1</numberOfLevel>
       <numberOfBathrooms>1</numberOfBathrooms>

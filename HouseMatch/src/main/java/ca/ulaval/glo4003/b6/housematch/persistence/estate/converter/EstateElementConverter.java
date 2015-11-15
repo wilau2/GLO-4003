@@ -68,7 +68,7 @@ public class EstateElementConverter {
       String formattedPriceHistory = new String();
       ArrayList<Integer> priceHistory = estate.getPriceHistory();
       
-      if (priceHistory!=null){
+      if (priceHistory != null){
          for(int i = 0; i < priceHistory.size(); i++){
             formattedPriceHistory = formattedPriceHistory + priceHistory.get(i).toString() + "-";
          }
