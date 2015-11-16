@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.persistence;
+package ca.ulaval.glo4003.b6.housematch.persistence.picture;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -15,9 +15,9 @@ import javax.imageio.ImageIO;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import ca.ulaval.glo4003.b6.housematch.domain.estate.PhotoAlbum;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 
-public class InFilePhotoAlbum implements PhotoAlbum {
+public class InFilePictureRepository implements PictureRepository {
 
    @Override
    public void deletePicture(String pictureName, String estateAddress) {
@@ -27,9 +27,9 @@ public class InFilePhotoAlbum implements PhotoAlbum {
    }
 
    @Override
-   public void addPicture(String pictureName, String estateAddress, MultipartFile file) throws IOException {
-      if (!file.isEmpty()) {
-         byte[] bytes = file.getBytes();
+   public void addPicture(String pictureName, String estateAddress, MultipartFile picture) throws IOException {
+      if (!picture.isEmpty()) {
+         byte[] bytes = picture.getBytes();
          // Creating the directory to store file
          File dir = new File("./persistence/uploadedPictures/" + estateAddress);
          if (!dir.exists()) {

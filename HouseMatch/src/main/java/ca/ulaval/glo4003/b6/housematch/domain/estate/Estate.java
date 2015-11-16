@@ -47,10 +47,6 @@ public class Estate {
       return false;
    }
 
-   public PicturesSelector makeCustomPictureSelector() {
-      return new PicturesSelector(address.toString());
-   }
-
    public void editDescription(Description description) {
       this.description = description;
    }

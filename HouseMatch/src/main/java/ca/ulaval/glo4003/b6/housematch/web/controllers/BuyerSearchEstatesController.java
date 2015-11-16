@@ -56,8 +56,8 @@ public class BuyerSearchEstatesController {
       ModelAndView modelAndView = new ModelAndView("estate");
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
-      modelAndView.addObject("estate", estateByAddress);
 
+      modelAndView.addObject("estate", estateByAddress);
       modelAndView.addObject("description", estateByAddress.getDescriptionDto());
 
       return modelAndView;
