@@ -28,7 +28,7 @@
 	            <div class = "item">
 	          </c:otherwise>
         	</c:choose>
-		         <img class="photo-image" src = "${entryUrl}/seller/${loggedInUsername}/estates/${estate.address.addressToUrl()}/${picture.name}" alt = "First slide style="display:inline">
+		         <img class="photo-image" src = "${entryUrl}/${loggedInUsername}/estates/${estate.address.addressToUrl()}/${picture.name}" alt = "First slide style="display:inline">
 		          <div class="carousel-caption">
 			          <h3 class="photo-caption">${picture.name}</h3>
 			      </div>

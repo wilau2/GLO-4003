@@ -297,18 +297,6 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenGettingPictureShouldVerifyAuthorization()
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
-      // Given no changes
-
-      // When
-      estateController.getPicture(ADDRESS, PHOTONAME, request);
-
-      // Then
-      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, SELLER);
-   }
-
-   @Test
    public void whenFetchingEstateByAddressShouldReturnModelAndViewOfWantedEstate()
          throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
       // Given

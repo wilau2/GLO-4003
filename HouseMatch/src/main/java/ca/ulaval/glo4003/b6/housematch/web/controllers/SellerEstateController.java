@@ -153,11 +153,10 @@ public class SellerEstateController {
       return "redirect:/seller/{userId}/estates/{address}";
    }
 
-   @RequestMapping(value = "/seller/{userId}/estates/{address}/{pictureName}", method = RequestMethod.GET, produces = "image/jpg")
+   @RequestMapping(value = "/{userId}/estates/{address}/{pictureName}", method = RequestMethod.GET, produces = "image/jpg")
    public @ResponseBody byte[] getPicture(@PathVariable("address") String address,
          @PathVariable("pictureName") String pictureName, HttpServletRequest request)
                throws InvalidAccessException, IOException, EstateNotFoundException, CouldNotAccessDataException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
       return estatePicturesService.getPicture(address, pictureName);
    }
 }
