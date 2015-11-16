@@ -55,8 +55,7 @@
     <beans:bean
         id="estateService"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService"
-        scope="session"
-    >
+        scope="session">
         <beans:constructor-arg
             name="estateValidatorFactory"
             ref="estateValidatorFactory" />
@@ -71,8 +70,7 @@
     <beans:bean
         id="descriptionCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator"
-        scope="session"
-    >
+        scope="session">
         <beans:constructor-arg
             name="estateService"
             ref="estateService" />
@@ -81,8 +79,7 @@
     <beans:bean
         id="estatesFetcher"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher"
-        scope="session"
-    >
+        scope="session">
         <beans:constructor-arg
             name="estateRepositoryFactory"
             ref="estateRepositoryFactory" />
@@ -92,8 +89,8 @@
     </beans:bean>
     
     <beans:bean
-        id="inFilePhotoAlbum"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.InFilePhotoAlbum">
+        id="inFilePictureRepository"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFilePictureRepository">
     </beans:bean>
 
 	<beans:bean
@@ -101,14 +98,8 @@
         class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService"
         scope="session">
         <beans:constructor-arg
-            name="estateAssemblerFactory"
-            ref="estateAssemblerFactory" />
-        <beans:constructor-arg
-            name="estateRepositoryFactory"
-            ref="estateRepositoryFactory" />
-        <beans:constructor-arg
-            name="photoAlbum"
-            ref="inFilePhotoAlbum" />
+            name="pictureRepository"
+            ref="inFilePictureRepository" />
     </beans:bean>
     <beans:bean
         id="addressCorruptionVerificator"
