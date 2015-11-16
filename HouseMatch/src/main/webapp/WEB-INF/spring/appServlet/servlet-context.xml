@@ -92,6 +92,11 @@
         id="inFilePictureRepository"
         class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFilePictureRepository">
     </beans:bean>
+    
+    <beans:bean
+        id="inFileAlbumPictureRepository"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFileAlbumPictureRepository">
+    </beans:bean>
 
 	<beans:bean
         id="estatePicturesService"
@@ -100,6 +105,9 @@
         <beans:constructor-arg
             name="pictureRepository"
             ref="inFilePictureRepository" />
+        <beans:constructor-arg
+            name="albumPictureRepository"
+            ref="inFileAlbumPictureRepository" />
     </beans:bean>
     <beans:bean
         id="addressCorruptionVerificator"
