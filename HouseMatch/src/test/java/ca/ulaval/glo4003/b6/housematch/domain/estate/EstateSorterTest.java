@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,12 +20,9 @@ public class EstateSorterTest {
    private static final int MID_PRICE = 50000;
    private static final int MAX_PRICE = 10000000;
    
-   @SuppressWarnings("deprecation")
-   private static final Date MIN_DATE = new Date(2010,1,1);
-   @SuppressWarnings("deprecation")
-   private static final Date MID_DATE = new Date(2011,1,1);
-   @SuppressWarnings("deprecation")
-   private static final Date MAX_DATE = new Date(2012,1,1);
+   private static final LocalDateTime MIN_DATE = LocalDateTime.of(2000, 12, 12, 12, 12);
+   private static final LocalDateTime MID_DATE = LocalDateTime.of(2005, 12, 12, 12, 12);
+   private static final LocalDateTime MAX_DATE = LocalDateTime.of(2010, 12, 12, 12, 12);
    
    @Mock
    private Estate estateMin;
@@ -54,6 +53,7 @@ public class EstateSorterTest {
       when(estateMin.getPrice()).thenReturn(MIN_PRICE);
       when(estateMid.getPrice()).thenReturn(MID_PRICE);
       when(estateMax.getPrice()).thenReturn(MAX_PRICE);  
+      
       when(estateMin.getDateRegistered()).thenReturn(MIN_DATE);
       when(estateMid.getDateRegistered()).thenReturn(MID_DATE);
       when(estateMax.getDateRegistered()).thenReturn(MAX_DATE);
@@ -104,9 +104,9 @@ public class EstateSorterTest {
       estatesSort = estateSorter.getDateAscendantSort();
       
       // Then
-      assertTrue(estatesSort.get(0).getDateRegistered() == MIN_DATE);
-      assertTrue(estatesSort.get(1).getDateRegistered() == MID_DATE);
-      assertTrue(estatesSort.get(2).getDateRegistered() == MAX_DATE);
+      assertEquals(estatesSort.get(0).getDateRegistered(), MIN_DATE);
+      assertEquals(estatesSort.get(1).getDateRegistered(), MID_DATE);
+      assertEquals(estatesSort.get(2).getDateRegistered(), MAX_DATE);
    }
    
    @Test

@@ -1,10 +1,11 @@
 package ca.ulaval.glo4003.b6.housematch.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 
-public class EstateDto implements Comparable<EstateDto> {
+public class EstateDto {
 
    private String type;
 
@@ -16,13 +17,13 @@ public class EstateDto implements Comparable<EstateDto> {
 
    private DescriptionDto descriptionDto;
    
-   private Date dateRegistered;
+   private LocalDateTime dateRegistered;
 
    public EstateDto() {
       this.address = new AddressDto();
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId, Date dateRegistered) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered) {
       this.type = type;
       this.address = address;
       this.price = price;
@@ -30,7 +31,7 @@ public class EstateDto implements Comparable<EstateDto> {
       this.dateRegistered = dateRegistered;
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId, Date dateRegistered, DescriptionDto descriptionDto) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered, DescriptionDto descriptionDto) {
       this.type = type;
       this.address = address;
       this.price = price;
@@ -79,25 +80,17 @@ public class EstateDto implements Comparable<EstateDto> {
       return this.descriptionDto;
    }
 
-   public void setDateRegistered(Date dateRegistered) {
-      this.dateRegistered = dateRegistered;
+   public void setDateRegistered(LocalDateTime localDateTime) {
+      this.dateRegistered = localDateTime;
       
    }
 
-   public Date getDateRegistered() {
+   public LocalDateTime getDateRegistered() {
       return this.dateRegistered;
    }
    
    public boolean isEarlyer(EstateDto estate) {
-      return this.dateRegistered.before(estate.getDateRegistered());
-   }
-
-   @Override
-   public int compareTo(EstateDto o) {
-      if (this.isEarlyer(o)){
-         return 1;
-      }
-      return 0;
+      return this.dateRegistered.isBefore(estate.getDateRegistered());
    }
 
 }

@@ -9,11 +9,6 @@
 	<jsp:include page="_menu.jsp" />
 	<jsp:include page="_buyer_side_menu.jsp" />
 	<div class="splash">
-	<style scoped>
-		.button-xsmall {
-            font-size: 70%;
-        }	
-	</style>
 		<h2>Estates that are for sale!</h2>
 		<c:if test="${!estates.isEmpty()}">
 			<table class="pure-table">

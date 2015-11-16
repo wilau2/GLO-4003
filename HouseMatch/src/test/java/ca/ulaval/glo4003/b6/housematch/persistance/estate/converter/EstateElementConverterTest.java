@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -53,8 +54,7 @@ public class EstateElementConverterTest {
    
    private static final String DATE_REGISTERED_KEY = "date_registered";
 
-   @Mock
-   private Date dateRegistered;
+   private LocalDateTime dateRegistered;
    
    @Mock
    private Element element;
@@ -71,6 +71,8 @@ public class EstateElementConverterTest {
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
+      
+      dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
 
       configureElement();
 
@@ -84,7 +86,7 @@ public class EstateElementConverterTest {
       when(attributes.get(PRICE_KEY)).thenReturn(PRICE.toString());
       when(attributes.get(SELLER_KEY)).thenReturn(USER_ID);
       when(attributes.get(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
-      when(attributes.get(DATE_REGISTERED_KEY)).thenReturn("Thu Sep 28 20:29:30 JST 2000"); 
+      when(attributes.get(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString()); 
    }
 
    private void configureEstate() {
@@ -100,7 +102,7 @@ public class EstateElementConverterTest {
       when(element.elementText(PRICE_KEY)).thenReturn(PRICE.toString());
       when(element.elementText(SELLER_KEY)).thenReturn(USER_ID);
       when(element.elementText(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
-      when(element.elementText(DATE_REGISTERED_KEY)).thenReturn("Thu Sep 28 20:29:30 JST 2000");
+      when(element.elementText(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString()); 
    }
 
    @Test

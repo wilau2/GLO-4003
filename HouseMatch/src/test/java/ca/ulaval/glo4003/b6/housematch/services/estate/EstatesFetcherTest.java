@@ -275,6 +275,7 @@ public class EstatesFetcherTest {
 
       // When
       List<EstateDto> listDto = estateFetcher.getDateOrderedAscendantEstates();
+      
       // Then
       assertTrue(listDto.get(FIRST) == estateDto);
    }
@@ -285,6 +286,7 @@ public class EstatesFetcherTest {
 
       // When
       List<EstateDto> listDto = estateFetcher.getDateOrderedDescendantEstates();
+      
       // Then
       assertTrue(listDto.get(FIRST) == estateDto);
    }

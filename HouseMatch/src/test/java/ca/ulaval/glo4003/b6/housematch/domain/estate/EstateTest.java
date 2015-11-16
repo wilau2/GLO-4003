@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.junit.Before;
@@ -18,12 +19,6 @@ public class EstateTest {
    private static final Integer PRICE = 1;
 
    private static final String TYPE = "TYPE";
-   
-   @Mock
-   private Date dateRegistered;
-   
-   @Mock
-   private Date dateRegisteredEarlyer;
 
    @Mock
    private Address address;
@@ -32,11 +27,17 @@ public class EstateTest {
    private Description description;
 
    private Estate estate;
+   
+   private LocalDateTime dateRegistered;
+   
+   private LocalDateTime dateRegisteredEarlyer;
 
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
+      dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
+      dateRegisteredEarlyer = LocalDateTime.of(1988, 12, 12, 12, 12);
       estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered);
    }
 

@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.domain.estate;
 import java.util.Collections;
 import java.util.List;
 
-public class EstateSorter implements Sorter {
+public class EstateSorter {
    
    private List<Estate> estates;
    

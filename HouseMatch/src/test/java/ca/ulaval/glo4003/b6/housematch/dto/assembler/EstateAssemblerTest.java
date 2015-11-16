@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.junit.Before;
@@ -50,18 +51,17 @@ public class EstateAssemblerTest {
    private Description description;
    
    @Mock
-   private Date dateRegistered;
-
-
-   @Mock
    private DescriptionAssembler descriptionAssembler;
    
-  
+   private LocalDateTime dateRegistered;
+   
    private EstateAssembler estateAssembler;
 
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
+      
+      dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
 
       when(addressAssembler.assembleAddressDto(address)).thenReturn(addressDto);
       when(descriptionAssembler.assembleDescriptionDto(description)).thenReturn(descriptionDto);

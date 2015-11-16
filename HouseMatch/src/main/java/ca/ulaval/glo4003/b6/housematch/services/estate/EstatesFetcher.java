@@ -6,7 +6,6 @@ import java.util.List;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.Sorter;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
@@ -17,7 +16,7 @@ import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessData
 public class EstatesFetcher {
 
    private EstateRepositoryFactory estateRepositoryFactory;
-   private Sorter estateSorter;
+   private EstateSorter estateSorter;
    private EstateAssemblerFactory estateAssemblerFactory;
 
    public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepositoryFactory estateRepositoryFactory,

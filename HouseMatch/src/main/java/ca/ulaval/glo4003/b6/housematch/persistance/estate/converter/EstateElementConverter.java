@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.persistance.estate.converter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -16,6 +17,8 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
 public class EstateElementConverter {
 
+   private static final String DATE_FORMAT = "EEE MMM dd kk:mm:ss z yyyy";
+
    private static final String SELLER = "seller";
 
    private static final String PRICE = "price";
@@ -26,13 +29,13 @@ public class EstateElementConverter {
 
    private static final String DATE_REGISTERED = "date_registered";
    
-   private DateFormat df;
+   private DateFormat dateFormat;
 
    private DescriptionElementConverter descriptionElementAssembler;
 
    public EstateElementConverter(DescriptionElementConverter descriptionElementAssembler) {
       this.descriptionElementAssembler = descriptionElementAssembler;
-      df = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy");
+      dateFormat = new SimpleDateFormat(DATE_FORMAT);
    }
 
    public EstateDto convertToDto(Element element) throws ParseException {
@@ -51,7 +54,7 @@ public class EstateElementConverter {
       String seller = element.elementText(SELLER);
       estateDto.setSellerId(seller);
       
-      Date dateRegistered = df.parse(element.elementText(DATE_REGISTERED));
+      LocalDateTime dateRegistered = LocalDateTime.parse(element.elementText(DATE_REGISTERED));
       estateDto.setDateRegistered(dateRegistered);
 
       return estateDto;
@@ -102,7 +105,7 @@ public class EstateElementConverter {
       
       
       String date = attributes.get(DATE_REGISTERED);
-      Date dateRegistered = df.parse(attributes.get(DATE_REGISTERED));
+      LocalDateTime dateRegistered = LocalDateTime.parse(attributes.get(DATE_REGISTERED));
       estateDto.setDateRegistered(dateRegistered);
 
       return estateDto;
