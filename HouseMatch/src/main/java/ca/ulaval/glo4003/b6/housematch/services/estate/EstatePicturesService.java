@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.web.multipart.MultipartFile;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.Album;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureSelector;
 import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
@@ -25,31 +26,39 @@ public class EstatePicturesService {
 
    public List<PictureDto> getPicturesOfEstate(String address)
          throws EstateNotFoundException, CouldNotAccessDataException {
-      PictureSelector picturesSelector = new PictureSelector(address, pictureRepository);
+      List<String> activePictureNames = new ArrayList<String>();
+      Album album = new Album(address, activePictureNames);
 
-      return createPictureDtos(picturesSelector.getRelevantPicturesUrl());
+      PictureSelector picturesSelector = new PictureSelector(album, pictureRepository);
+
+      return createPictureDtos(picturesSelector.getRelevantPictures());
    }
 
    public void addPicture(String address, String name, MultipartFile file)
          throws EstateNotFoundException, CouldNotAccessDataException, IOException {
+      List<String> activePictureNames = new ArrayList<String>();
+      Album album = new Album(address, activePictureNames);
 
-      PictureSelector picturesSelector = new PictureSelector(address, pictureRepository);
+      PictureSelector picturesSelector = new PictureSelector(album, pictureRepository);
       picturesSelector.addPicture(name, file);
 
    }
 
    public void deletePicture(String address, String name)
          throws EstateNotFoundException, CouldNotAccessDataException, IOException {
+      List<String> activePictureNames = new ArrayList<String>();
+      Album album = new Album(address, activePictureNames);
 
-      PictureSelector picturesSelector = new PictureSelector(address, pictureRepository);
+      PictureSelector picturesSelector = new PictureSelector(album, pictureRepository);
       picturesSelector.deletePicture(name);
-
    }
 
    public byte[] getPicture(String address, String name)
          throws IOException, EstateNotFoundException, CouldNotAccessDataException {
+      List<String> activePictureNames = new ArrayList<String>();
+      Album album = new Album(address, activePictureNames);
 
-      PictureSelector picturesSelector = new PictureSelector(address, pictureRepository);
+      PictureSelector picturesSelector = new PictureSelector(album, pictureRepository);
       return picturesSelector.getPicture(name);
 
    }

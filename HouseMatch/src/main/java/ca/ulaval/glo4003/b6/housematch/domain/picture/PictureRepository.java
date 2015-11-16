@@ -15,5 +15,5 @@ public interface PictureRepository {
 
    public byte[] getPicture(String pictureName, String estateAddress) throws IOException;
 
-   public byte[] getDefaultPicture() throws IOException;
+   public byte[] getEmptyPicture() throws IOException;
 }

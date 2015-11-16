@@ -83,7 +83,7 @@ public class InFilePictureRepository implements PictureRepository {
    }
 
    @Override
-   public byte[] getDefaultPicture() throws IOException {
+   public byte[] getEmptyPicture() throws IOException {
       File dir = new File("./persistence/uploadedPictures/DefaultPicture");
       if (!dir.exists()) {
          dir.mkdirs();
