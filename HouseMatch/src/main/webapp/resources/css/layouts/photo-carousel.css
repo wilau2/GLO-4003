@@ -1,0 +1,13 @@
+
+.photo-carousel {
+	text-transform : none !important;
+}
+.photo-caption {
+    color : white; 
+    margin-bottom : -35px;
+}
+
+.photo-image {
+	display : inline !important;
+	height : 250px !important;
+}

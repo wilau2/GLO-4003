@@ -1,10 +1,5 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
-
 public class Estate {
 
    private Integer price;
@@ -16,8 +11,6 @@ public class Estate {
    private String seller;
 
    private Description description;
-
-   private Album album;
 
    public Estate(String type, Address address, Integer price, String seller, Description description) {
       this.type = type;
@@ -47,27 +40,15 @@ public class Estate {
       return description;
    }
 
-   public void setAlbum(Album album) {
-      this.album = album;
-   }
-
-   public void deletePicture(String pictureName) {
-      album.deletePicture(pictureName, address.toString());
-   }
-
-   public void addPicture(String pictureName, MultipartFile file) throws IOException {
-      album.addPicture(pictureName, address.toString(), file);
-   }
-
-   public List<String> getEveryPicturesNames() {
-      return album.getEveryPicturesNames(address.toString());
-   }
-
    public boolean isFromSeller(String sellerName) {
       if (seller.equals(sellerName)) {
          return true;
       }
       return false;
+   }
+
+   public PicturesSelector makeCustomPictureSelector() {
+      return new PicturesSelector(address.toString());
    }
 
    public void editDescription(Description description) {

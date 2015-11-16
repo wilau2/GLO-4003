@@ -5,11 +5,15 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface Album {
+public interface PhotoAlbum {
 
    public void deletePicture(String pictureName, String estateAddress);
 
    public void addPicture(String pictureName, String estateAddress, MultipartFile file) throws IOException;
 
    public List<String> getEveryPicturesNames(String estateAddress);
+
+   public byte[] getPicture(String pictureName, String estateAddress) throws IOException;
+
+   public byte[] getDefaultPicture() throws IOException;
 }

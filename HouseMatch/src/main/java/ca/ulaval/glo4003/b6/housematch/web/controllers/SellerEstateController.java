@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -152,4 +153,11 @@ public class SellerEstateController {
       return "redirect:/seller/{userId}/estates/{address}";
    }
 
+   @RequestMapping(value = "/seller/{userId}/estates/{address}/{pictureName}", method = RequestMethod.GET, produces = "image/jpg")
+   public @ResponseBody byte[] getPicture(@PathVariable("address") String address,
+         @PathVariable("pictureName") String pictureName, HttpServletRequest request)
+               throws InvalidAccessException, IOException, EstateNotFoundException, CouldNotAccessDataException {
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      return estatePicturesService.getPicture(address, pictureName);
+   }
 }

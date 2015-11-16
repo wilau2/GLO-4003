@@ -92,8 +92,8 @@
     </beans:bean>
     
     <beans:bean
-        id="inFileAlbum"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.InFileAlbum">
+        id="inFilePhotoAlbum"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.InFilePhotoAlbum">
     </beans:bean>
 
 	<beans:bean
@@ -107,8 +107,8 @@
             name="estateRepositoryFactory"
             ref="estateRepositoryFactory" />
         <beans:constructor-arg
-            name="album"
-            ref="inFileAlbum" />
+            name="photoAlbum"
+            ref="inFilePhotoAlbum" />
     </beans:bean>
     <beans:bean
         id="addressCorruptionVerificator"

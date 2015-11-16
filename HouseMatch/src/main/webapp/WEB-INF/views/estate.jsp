@@ -17,7 +17,7 @@
 	</c:if>
      
 	<div class="splash">
-			<div id = "myCarousel" class = "carousel slide" style="text-transform:none">   
+			<div id="photoCarousel" class ="carousel slide photo-carousel">   
 		   <div class = "carousel-inner">
 		   <c:forEach items="${pictures}" var="picture" varStatus="counter">
 		   <c:choose>
@@ -28,16 +28,16 @@
 	            <div class = "item">
 	          </c:otherwise>
         	</c:choose>
-		         <img src = "${entryUrl}/picture/${estate.address.addressToUrl()}/${picture.name}" alt = "First slide" style="display:inline">
+		         <img class="photo-image" src = "${entryUrl}/seller/${loggedInUsername}/estates/${estate.address.addressToUrl()}/${picture.name}" alt = "First slide style="display:inline">
 		          <div class="carousel-caption">
-			          <h3 style="color:white; margin-bottom:-50px">${picture.name}</h3>
+			          <h3 class="photo-caption">${picture.name}</h3>
 			      </div>
 		      </div>
 			</c:forEach>
 		   </div>
 		   
-		   <a class = "carousel-control left" href = "#myCarousel" data-slide = "prev">&lsaquo;</a>
-		   <a class = "carousel-control right" href = "#myCarousel" data-slide = "next">&rsaquo;</a>
+		   <a class = "carousel-control left" href = "#photoCarousel" data-slide = "prev">&lsaquo;</a>
+		   <a class = "carousel-control right" href = "#photoCarousel" data-slide = "next">&rsaquo;</a>
 		   
 		</div>
 		<button id="btn_add_picture" type="button" class="pure-button">Add Picture</button>
