@@ -34,7 +34,7 @@ public class AdminStatisticController {
       this.adminStatisticService = adminStatisticService;
    }
 
-   @RequestMapping(path = "/admin/statistic/active_buyer", method = RequestMethod.GET)
+   @RequestMapping(path = "/admin/statistic/number_active_buyers", method = RequestMethod.GET)
    public ModelAndView getNumberOfActiveBuyer(HttpServletRequest request)
          throws InvalidAccessException, CouldNotAccessDataException {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
@@ -54,8 +54,8 @@ public class AdminStatisticController {
       return "admin_dashboard";
    }
 
-   @RequestMapping(path = "/admin/statistic/active_seller", method = RequestMethod.GET)
-   public ModelAndView getNumberOfActiveSeller(HttpServletRequest request)
+   @RequestMapping(path = "/admin/statistic/number_active_sellers", method = RequestMethod.GET)
+   public ModelAndView getNumberOfActiveSellers(HttpServletRequest request)
          throws InvalidAccessException, CouldNotAccessDataException {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 

@@ -125,7 +125,7 @@ public class AdminStatisticControllerTest {
       // Given
 
       // When
-      ModelAndView returnedViewModel = adminStatisticController.getNumberOfActiveSeller(request);
+      ModelAndView returnedViewModel = adminStatisticController.getNumberOfActiveSellers(request);
 
       // Then
       assertEquals("admin_active_seller", returnedViewModel.getViewName());
@@ -137,7 +137,7 @@ public class AdminStatisticControllerTest {
       // Given
 
       // When
-      adminStatisticController.getNumberOfActiveSeller(request);
+      adminStatisticController.getNumberOfActiveSellers(request);
 
       // Then
       verify(adminStatisticService, times(1)).getNumberOfActiveSeller();
@@ -151,7 +151,7 @@ public class AdminStatisticControllerTest {
       when(adminStatisticService.getNumberOfActiveSeller()).thenReturn(expectedNumberOfActiveSeller);
 
       // When
-      ModelAndView modelAndView = adminStatisticController.getNumberOfActiveSeller(request);
+      ModelAndView modelAndView = adminStatisticController.getNumberOfActiveSellers(request);
       Map<String, Object> model = modelAndView.getModel();
 
       // Then
@@ -166,7 +166,7 @@ public class AdminStatisticControllerTest {
             Role.ADMIN);
 
       // When
-      adminStatisticController.getNumberOfActiveSeller(request);
+      adminStatisticController.getNumberOfActiveSellers(request);
 
       // Then an invalid access exception is thrown
    }
