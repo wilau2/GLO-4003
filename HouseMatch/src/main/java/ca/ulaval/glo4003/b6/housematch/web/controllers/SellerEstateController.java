@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.PictureCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
@@ -44,6 +45,8 @@ public class SellerEstateController {
 
    private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
 
+   private PictureCorruptionVerificator pictureCorruptionVerificator;
+
    private UserAuthorizationService userAuthorizationService;
 
    private EstatesFetcher estatesFetcher;
@@ -54,12 +57,13 @@ public class SellerEstateController {
    public SellerEstateController(EstateCorruptionVerificator estateCorruptionVerificator,
          UserAuthorizationService userAuthorizationService, EstatesFetcher estatesFetcher,
          DescriptionCorruptionVerificator descriptionCorruptionVerificator,
-         EstatePicturesService estatePicturesService) {
+         PictureCorruptionVerificator pictureCorruptionVerificator, EstatePicturesService estatePicturesService) {
 
       this.estateCorruptionVerificator = estateCorruptionVerificator;
       this.userAuthorizationService = userAuthorizationService;
       this.estatesFetcher = estatesFetcher;
       this.descriptionCorruptionVerificator = descriptionCorruptionVerificator;
+      this.pictureCorruptionVerificator = pictureCorruptionVerificator;
       this.estatePicturesService = estatePicturesService;
    }
 
@@ -132,10 +136,12 @@ public class SellerEstateController {
    @RequestMapping(value = "/seller/{userId}/estates/{address}/addPicture", method = RequestMethod.POST)
    public String addPicture(@PathVariable("address") String address, @RequestParam("name") final String name,
          @RequestParam("file") MultipartFile file, HttpServletRequest request)
-               throws IOException, InvalidAccessException, EstateNotFoundException, CouldNotAccessDataException {
+               throws IOException, InvalidAccessException, EstateNotFoundException, CouldNotAccessDataException,
+               InvalidEstateFieldException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
+      pictureCorruptionVerificator.validatePictureValidity(name, file.getOriginalFilename());
       estatePicturesService.addPicture(address, name, file);
 
       return "redirect:/seller/{userId}/estates/{address}";

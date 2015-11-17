@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.PictureCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
@@ -74,6 +75,9 @@ public class SellerEstateControllerTest {
 
    @Mock
    private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
+
+   @Mock
+   private PictureCorruptionVerificator pictureCorruptionVerificator;
 
    @Mock
    private Model model;
@@ -237,8 +241,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenAddingPictureShouldCallAddingMethodOfServiceLayer()
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
+   public void whenAddingPictureShouldCallAddingMethodOfServiceLayer() throws EstateNotFoundException,
+         CouldNotAccessDataException, InvalidAccessException, IOException, InvalidEstateFieldException {
       // Given no changes
 
       // When
@@ -249,8 +253,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenAddingPictureShouldVerifyAuthorization()
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
+   public void whenAddingPictureShouldVerifyAuthorization() throws EstateNotFoundException, CouldNotAccessDataException,
+         InvalidAccessException, IOException, InvalidEstateFieldException {
       // Given no changes
 
       // When

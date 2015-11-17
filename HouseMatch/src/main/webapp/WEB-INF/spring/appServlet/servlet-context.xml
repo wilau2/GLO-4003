@@ -113,6 +113,11 @@
         id="addressCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.AddressCorruptionVerificator"
         scope="session" />
+        
+    <beans:bean
+        id="pictureCorruptionVerificator"
+        class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.PictureCorruptionVerificator"
+        scope="session" />
 
     <beans:bean
         id="estateCorruptionVerificator"
@@ -143,6 +148,9 @@
         <beans:constructor-arg
             name="descriptionCorruptionVerificator"
             ref="descriptionCorruptionVerificator" />
+        <beans:constructor-arg
+            name="pictureCorruptionVerificator"
+            ref="pictureCorruptionVerificator" />
         <beans:constructor-arg
             name="estatePicturesService"
             ref="estatePicturesService" />
