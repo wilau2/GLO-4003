@@ -2,43 +2,34 @@
 
 <users> 
   <user> 
-    <firstName>carki2</firstName>  
-    <lastName>carki</lastName>  
-    <password>carki</password>  
-    <role>buyer</role>  
-    <phoneNumber>123</phoneNumber>  
-    <isActive>true</isActive>  
-    <email>bofoc52@gmail.com</email>  
-    <username>carki</username> 
-  </user>  
-  <user> 
-    <firstName>Bruce</firstName>  
-    <lastName>Lee</lastName>  
-    <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>123-123-1234</phoneNumber>  
-    <isActive>true</isActive>  
-    <email>bruce@lee.com</email>  
-    <username>seller</username> 
-  </user>  
-  <user> 
     <firstName>Kid</firstName>  
     <lastName>Kiddy</lastName>  
     <password>123</password>  
     <role>buyer</role>  
     <phoneNumber>123-456-7891</phoneNumber>  
-    <dateLastActivity>2015-11-16T21:48:39.639</dateLastActivity>  
+    <dateLastActivity>2015-11-16T22:41:11.632</dateLastActivity>  
     <isActive>true</isActive>  
     <email>kid@kiddy.com</email>  
     <username>buyer</username> 
+  </user>  
+  <user> 
+    <firstName>Bruce</firstName>  
+    <lastName>Leee</lastName>  
+    <password>123</password>  
+    <role>seller</role>  
+    <phoneNumber>123-123-1234</phoneNumber>  
+    <dateLastActivity>2015-11-16T22:41:18.062</dateLastActivity>  
+    <isActive>true</isActive>  
+    <email>bruce@lee.com</email>  
+    <username>seller</username> 
   </user>  
   <user>
     <firstName>Ding</firstName>
     <lastName>Dong</lastName>
     <password>123</password>
     <role>admin</role>
-    <phoneNumber>111-222-3333</phoneNumber>
-    <dateLastActivity>2015-11-16T22:36:38.506</dateLastActivity>
+    <phoneNumber>123-456-7899</phoneNumber>
+    <dateLastActivity>2015-11-16T22:41:34.821</dateLastActivity>
     <isActive>true</isActive>
     <email>ding@dong.com</email>
     <username>admin</username>

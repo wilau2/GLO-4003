@@ -4,6 +4,9 @@ import static org.mockito.BDDMockito.given;
 
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,7 +18,6 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 public class UserAuthorizationServiceTest {
@@ -41,11 +43,16 @@ public class UserAuthorizationServiceTest {
    @Mock
    private Object roleObject;
 
+   private List<String> listOfExpectedRoles;
+
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
+
       configureUser();
       configureRequest();
+
+      listOfExpectedRoles = new ArrayList<String>();
    }
 
    @Test
@@ -128,7 +135,7 @@ public class UserAuthorizationServiceTest {
    }
 
    @Test(expected = InvalidAccessException.class)
-   public void givenExpectedRoleDifferentTehnSessionRoleWhenIsSessionAllowedThenShouldThrowException()
+   public void givenExpectedRoleDifferentThanSessionRoleWhenIsSessionAllowedThenShouldThrowException()
          throws InvalidAccessException {
 
       // Given
@@ -141,8 +148,41 @@ public class UserAuthorizationServiceTest {
 
    }
 
+   @Test
+   public void givenExpectedRolesDifferentContainedInSessionRoleWhenIsSessionAllowedThenShouldNotThrowException()
+         throws InvalidAccessException {
+      // Given
+      configureBuyerSession();
+      listOfExpectedRoles.add(EXPECTED_BUYER_ROLE);
+
+      // When
+      userAuthorizationService.verifySessionIsAllowed(request, listOfExpectedRoles);
+
+      // Then no exception is thrown
+   }
+
+   @Test(expected = InvalidAccessException.class)
+   public void verifingIfSessionContainsRoleInExpectedRolesWhenRoleInSessionNotInListShouldThrowException()
+         throws InvalidAccessException {
+      // Given
+      listOfExpectedRoles.add(EXPECTED_BUYER_ROLE);
+      listOfExpectedRoles.add(EXPECTED_SELLER_ROLE);
+      configureAdminRole();
+
+      // When
+      userAuthorizationService.verifySessionIsAllowed(request, listOfExpectedRoles);
+
+      // Then an invalid access exception is thrown
+   }
+
+   private void configureAdminRole() {
+      given(session.getAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE)).willReturn(roleObject);
+      given(roleObject.toString()).willReturn("admin");
+
+   }
+
    private void configureBuyerSession() {
-      given(session.getAttribute(userAuthorizationService.LOGGED_IN_USER_ROLE)).willReturn(roleObject);
+      given(session.getAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE)).willReturn(roleObject);
       given(roleObject.toString()).willReturn("buyer");
 
    }
