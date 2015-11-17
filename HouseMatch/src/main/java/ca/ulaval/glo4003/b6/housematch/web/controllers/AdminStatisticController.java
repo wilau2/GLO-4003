@@ -18,6 +18,8 @@ import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessExc
 @Controller
 public class AdminStatisticController {
 
+   private static final String NUMBER_OF_ACTIVE_SELLER_KEY = "numberOfActiveSeller";
+
    private static final String NUMBER_OF_ACTIVE_BUYER_KEY = "numberOfActiveBuyer";
 
    private static final String ADMIN_ROLE = Role.ADMIN;
@@ -33,7 +35,7 @@ public class AdminStatisticController {
       this.adminStatisticService = adminStatisticService;
    }
 
-   @RequestMapping(path = "/admin/statistic/active_buyer", method = RequestMethod.GET)
+   @RequestMapping(path = "/admin/statistic/number_active_buyers", method = RequestMethod.GET)
    public ModelAndView getNumberOfActiveBuyer(HttpServletRequest request)
          throws InvalidAccessException, CouldNotAccessDataException, DocumentException {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
@@ -51,6 +53,19 @@ public class AdminStatisticController {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 
       return "admin_dashboard";
+   }
+
+   @RequestMapping(path = "/admin/statistic/number_active_sellers", method = RequestMethod.GET)
+   public ModelAndView getNumberOfActiveSellers(HttpServletRequest request)
+         throws InvalidAccessException, CouldNotAccessDataException {
+      userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
+
+      int numberOfActiveSeller = adminStatisticService.getNumberOfActiveSeller();
+
+      ModelAndView modelAndView = new ModelAndView("admin_active_seller");
+      modelAndView.addObject(NUMBER_OF_ACTIVE_SELLER_KEY, numberOfActiveSeller);
+
+      return modelAndView;
    }
 
 }

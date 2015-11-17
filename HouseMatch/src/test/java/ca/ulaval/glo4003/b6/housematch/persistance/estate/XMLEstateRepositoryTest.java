@@ -38,12 +38,15 @@ import ca.ulaval.glo4003.b6.housematch.dto.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.XMLPersistence.XMLFileEditor;
-import ca.ulaval.glo4003.b6.housematch.persistance.estate.XMLEstateRepository;
 import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverter;
 import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElementConverterFactory;
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepositoryTest {
+
+   private static final String SECOND_SELLER = "SECOND_SELLER";
+
+   private static final String FIRST_SELLER = "FIRST_SELLER";
 
    private static final String PATH_TO_ADDRESS = "estates/estate/address";
 

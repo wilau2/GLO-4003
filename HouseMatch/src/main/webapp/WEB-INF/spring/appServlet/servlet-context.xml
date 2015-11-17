@@ -89,6 +89,11 @@
     </beans:bean>
 
     <beans:bean
+        id="estatesProcessor"
+        class="ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor"
+        scope="session" />
+
+    <beans:bean
         id="addressCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.AddressCorruptionVerificator"
         scope="session" />
@@ -419,6 +424,14 @@
         <beans:constructor-arg
             name="userProcessor"
             ref="userProcessor" />
+
+       <beans:constructor-arg
+            name="estateRepositoryFactory"
+            ref="estateRepositoryFactory" />
+        <beans:constructor-arg
+            name="estateProcessor"
+            ref="estatesProcessor" />
+
     </beans:bean>
 
     <beans:bean
@@ -432,6 +445,7 @@
         <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />
+
     </beans:bean>
 
 </beans:beans>
