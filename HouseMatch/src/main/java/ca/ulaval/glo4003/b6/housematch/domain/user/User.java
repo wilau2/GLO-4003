@@ -88,4 +88,8 @@ public class User {
       return dateOfLastActivity;
    }
 
+   public void updateLastActivity() {
+      dateOfLastActivity = LocalDateTime.now();
+   }
+
 }

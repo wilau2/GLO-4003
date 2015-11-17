@@ -154,7 +154,8 @@ public class UserLoginServiceTest {
       userLoginService.login(request, userDto);
 
       // Then
-      verify(userRepository, times(1)).updateUserLastActivity(user);
+      verify(user, times(1)).updateLastActivity();
+      verify(userRepository, times(1)).updateUser(user);
    }
 
    private void configureValidPassword() {

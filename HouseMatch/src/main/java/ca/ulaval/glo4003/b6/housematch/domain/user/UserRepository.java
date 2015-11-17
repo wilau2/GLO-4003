@@ -18,7 +18,5 @@ public interface UserRepository {
 
    void setUserActivity(String username, boolean value) throws CouldNotAccessDataException, UserNotFoundException;
 
-   void updateUserLastActivity(User user) throws CouldNotAccessDataException;
-
    List<User> getAllUser() throws DocumentException;
 }

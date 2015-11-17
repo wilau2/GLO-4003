@@ -3,13 +3,10 @@ package ca.ulaval.glo4003.b6.housematch.persistance.user;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 
-import static org.mockito.Matchers.any;
-
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -388,28 +385,4 @@ public class XMLUserRepositoryTest {
       given(editor.getAllElementsFromDocument(usedDocument, "users/user")).willReturn(listOfUserELement);
    }
 
-   @Test
-   public void whenUpdatingUserLastActivityDateShouldChangeTheUserDateOfLastActivity()
-         throws CouldNotAccessDataException {
-      // Given
-
-      // When
-      repository.updateUserLastActivity(user);
-
-      // Then
-      verify(user).setDateOfLastActivity(any(LocalDateTime.class));
-   }
-
-   @Test
-   public void whenUpdatingUserLastActivityDateShouldUpdateUserInRepository() throws CouldNotAccessDataException {
-      // Given no changes
-
-      // When
-      repository.updateUserLastActivity(user);
-
-      // Then
-      verify(editor, times(1)).deleteExistingElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
-            existingUsername);
-      verify(editor, times(1)).addNewElementToDocument(usedDocument, userDto);
-   }
 }

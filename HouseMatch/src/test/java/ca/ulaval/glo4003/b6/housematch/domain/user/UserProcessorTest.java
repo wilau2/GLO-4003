@@ -39,15 +39,20 @@ public class UserProcessorTest {
    public void whenAskingNumberOfActiveBuyerShouldVerifyIfUserHasBuyerRole()
          throws UsernameAlreadyExistsException, CouldNotAccessDataException {
       // Given
-      int numberOfUserInSystem = 3;
-      configureUsers(numberOfUserInSystem);
-      when(user.isBuyer()).thenReturn(true);
+      int numberOfUserInSystem = configureBuyerActive();
 
       // When
       userProcessor.getNumberOfActiveBuyer(users);
 
       // Then
       verify(user, times(numberOfUserInSystem)).isBuyer();
+   }
+
+   private int configureBuyerActive() {
+      int numberOfUserInSystem = 3;
+      configureUsers(numberOfUserInSystem);
+      when(user.isBuyer()).thenReturn(true);
+      return numberOfUserInSystem;
    }
 
    private void configureUsers(int numberOfUserInSystem) {
@@ -76,17 +81,20 @@ public class UserProcessorTest {
    public void askingNumberOfActiveBuyerWhenNotAllBuyerIsActiveShouldReturnNumberOfActiveBuyer()
          throws CouldNotAccessDataException {
       // Given
-      int numberOfUserInSystem = 3;
-      configureUsers(numberOfUserInSystem);
-      when(user.isBuyer()).thenReturn(true);
-      when(user.wasActiveInTheLastSixMonths()).thenReturn(true, false, true);
-      int expectedNumberOfActiveBuyer = 2;
+      int expectedNumberOfActiveBuyer = configureNotAllBuyersActiveTest();
 
       // When
       int actualNumberOfActiveBuyer = userProcessor.getNumberOfActiveBuyer(users);
 
       // Then
       assertEquals(expectedNumberOfActiveBuyer, actualNumberOfActiveBuyer);
+   }
+
+   private int configureNotAllBuyersActiveTest() {
+      int numberOfUserInSystem = configureBuyerActive();
+      when(user.wasActiveInTheLastSixMonths()).thenReturn(true, false, true);
+      int expectedNumberOfActiveBuyer = 2;
+      return expectedNumberOfActiveBuyer;
    }
 
 }

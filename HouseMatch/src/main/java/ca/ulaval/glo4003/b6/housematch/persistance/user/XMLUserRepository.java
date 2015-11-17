@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.persistance.user;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +27,9 @@ public class XMLUserRepository implements UserRepository {
 
    private static final String PATH_TO_ALL_USER = "users/user";
 
-   private final String pathToXML = "persistence/users.xml";
+   private static final String PATH_TO_XML = "persistence/users.xml";
 
-   private final String pathToUsernameValue = "users/user/username";
+   private static final String PATH_TO_USERNAME_VALUE = "users/user/username";
 
    private XMLFileEditor fileEditor;
 
@@ -79,7 +78,7 @@ public class XMLUserRepository implements UserRepository {
    public void updateUser(User user) throws CouldNotAccessDataException {
       try {
          Document usersXML = readUsersXML();
-         fileEditor.deleteExistingElementWithCorrespondingValue(usersXML, pathToUsernameValue, user.getUsername());
+         fileEditor.deleteExistingElementWithCorrespondingValue(usersXML, PATH_TO_USERNAME_VALUE, user.getUsername());
          addNewUserToDocument(usersXML, user);
          saveFile(usersXML);
       } catch (DocumentException exception) {
@@ -104,7 +103,7 @@ public class XMLUserRepository implements UserRepository {
 
    private User returnUserWithGivenUsername(Document existingDocument, String username) {
       HashMap<String, String> attributes = fileEditor.returnAttributesOfElementWithCorrespondingValue(existingDocument,
-            pathToUsernameValue, username);
+            PATH_TO_USERNAME_VALUE, username);
 
       User user = assembler.assembleUserFromAttributes(attributes);
 
@@ -116,18 +115,18 @@ public class XMLUserRepository implements UserRepository {
 
    private void saveFile(Document usersXML) throws DocumentException {
       try {
-         fileEditor.formatAndWriteDocument(usersXML, pathToXML);
+         fileEditor.formatAndWriteDocument(usersXML, PATH_TO_XML);
       } catch (IOException e) {
          throw new DocumentException("Could not access the specified file");
       }
    }
 
    private boolean usernameAlreadyExists(Document existingDocument, String username) {
-      return fileEditor.elementWithCorrespondingValueExists(existingDocument, pathToUsernameValue, username);
+      return fileEditor.elementWithCorrespondingValueExists(existingDocument, PATH_TO_USERNAME_VALUE, username);
    }
 
    private Document readUsersXML() throws DocumentException {
-      return fileEditor.readXMLFile(pathToXML);
+      return fileEditor.readXMLFile(PATH_TO_XML);
    }
 
    @Override
@@ -146,9 +145,4 @@ public class XMLUserRepository implements UserRepository {
       return users;
    }
 
-   @Override
-   public void updateUserLastActivity(User user) throws CouldNotAccessDataException {
-      user.setDateOfLastActivity(LocalDateTime.now());
-      updateUser(user);
-   }
 }

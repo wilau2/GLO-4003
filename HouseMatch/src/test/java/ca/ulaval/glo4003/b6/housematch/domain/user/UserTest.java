@@ -148,7 +148,18 @@ public class UserTest {
 
       // Then
       assertTrue(wasActiveInTheLastSixMonths);
+   }
 
+   @Test
+   public void whenUpdateUserLastActivityShouldSetDateToCurrentDate() {
+      // Given no changes
+
+      // When
+      user.updateLastActivity();
+      LocalDateTime dateOfLastActivity = user.getDateOfLastActivity();
+
+      // Then
+      assertEquals(LocalDateTime.now(), dateOfLastActivity);
    }
 
    private void configureAdminRole() {

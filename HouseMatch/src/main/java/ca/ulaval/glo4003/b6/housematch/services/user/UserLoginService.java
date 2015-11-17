@@ -33,7 +33,8 @@ public class UserLoginService {
       validatePassword(userLoginDto, user);
       validateActivation(user);
 
-      userRepository.updateUserLastActivity(user);
+      user.updateLastActivity();
+      userRepository.updateUser(user);
 
       request = userAuthorizationService.setSessionUserAuthorisation(request, user);
 
