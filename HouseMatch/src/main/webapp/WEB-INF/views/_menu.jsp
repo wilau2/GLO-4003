@@ -15,7 +15,7 @@
 	        <a class="pure-menu-heading" href="${entryUrl}">House Match</a>
 	        <ul class="pure-menu-list">
 	            <c:if test="${loggedInUserRole == 'admin'}">
-	              <li class="pure-menu-item"><a href="${entryUrl}/" class="pure-menu-link">Admin</a></li>
+	              <li class="pure-menu-item"><a href="${entryUrl}/admin/" class="pure-menu-link">Admin</a></li>
 	            </c:if>
 
 	            <c:if test="${loggedInUserRole == 'buyer'}">

@@ -32,8 +32,6 @@ public class InactivePictureApproverService {
    public byte[] getInactivePictureByte(String uid) throws CouldNotAccessDataException {
 
       InactivePicture inactivePicture = inactivePictureRepository.getInactivePictureByUid(uid);
-      System.out.println(inactivePicture.getName());
-      System.out.println(inactivePicture.getAddress());
       return pictureRepository.getPicture(inactivePicture.getName(), inactivePicture.getAddress());
 
    }
@@ -54,8 +52,8 @@ public class InactivePictureApproverService {
       List<InactivePicture> inactivePictures = inactivePictureRepository.getInactivePicturesByUids(inactivePictureUids);
       for (Iterator<InactivePicture> inactivePictureIterator = inactivePictures.iterator(); inactivePictureIterator
             .hasNext();) {
-         pictureRepository.deletePicture(inactivePictureIterator.next().getName(),
-               inactivePictureIterator.next().getAddress());
+         InactivePicture inactivePicture = inactivePictureIterator.next();
+         pictureRepository.deletePicture(inactivePicture.getName(), inactivePicture.getAddress());
       }
    }
 
