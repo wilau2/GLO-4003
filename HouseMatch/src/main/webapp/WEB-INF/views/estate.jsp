@@ -28,7 +28,7 @@
 	            <div class = "item">
 	          </c:otherwise>
         	</c:choose>
-		         <img class="photo-image" src = "${entryUrl}/seller/${loggedInUsername}/estates/${estate.address.addressToUrl()}/${picture.name}" alt = "First slide style="display:inline">
+		         <img class="photo-image" src = "${entryUrl}/${loggedInUsername}/estates/${estate.address.addressToUrl()}/${picture.name}" alt = "First slide style="display:inline">
 		          <div class="carousel-caption">
 			          <h3 class="photo-caption">${picture.name}</h3>
 			      </div>
@@ -50,7 +50,7 @@
 	    </div>
 		<div id="upload_picture" style="text-align:left">
 			<form method="POST" action="${entryUrl}/seller/${loggedInUsername}/estates/${estate.address.addressToUrl()}/addPicture" enctype="multipart/form-data">
-		        File to upload: <input type="file" name="file"><br /> 
+		        File to upload: <input type="file" name="file" accept=".jpg"><br /> 
 		        Name: <input type="text" name="name"><br /> <br /> 
 		        <input type="submit" value="Upload"> Press here to upload the file!
 		    </form> 
