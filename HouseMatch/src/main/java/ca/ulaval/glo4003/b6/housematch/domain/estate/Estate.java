@@ -68,14 +68,14 @@ public class Estate {
       this.description = description;
    }
    
-   public void editType(String type) {
-      this.type = type;
+   public void editType(String newType) {
+      this.type = newType;
    }
    
-   public void editPrice(Integer price) {
-      if(this.price != price){
+   public void editPrice(Integer newPrice) {
+      if(this.price != newPrice){
          this.priceHistory.add(this.price);
-         this.price = price;
+         this.price = newPrice;
       }
    }
 }
