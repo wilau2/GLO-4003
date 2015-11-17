@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -19,7 +18,6 @@ import ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.user.converter.RepositoryUserConverter;
 
-@Singleton
 public class XMLUserRepository implements UserRepository {
 
    private FileEditor fileEditor;
