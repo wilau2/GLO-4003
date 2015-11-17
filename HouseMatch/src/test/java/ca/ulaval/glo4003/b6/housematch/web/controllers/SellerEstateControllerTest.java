@@ -34,6 +34,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
@@ -242,8 +243,9 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenAddingPictureShouldCallAddingMethodOfServiceLayer() throws InvalidAccessException,
-         CouldNotAccessDataException, InvalidEstateFieldException, PictureAlreadyExistsException {
+   public void whenAddingPictureShouldCallAddingMethodOfServiceLayer()
+         throws InvalidAccessException, CouldNotAccessDataException, InvalidEstateFieldException,
+         PictureAlreadyExistsException, UUIDAlreadyExistsException {
       // Given no changes
 
       // When
@@ -255,7 +257,7 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenAddingPictureShouldVerifyAuthorization() throws InvalidAccessException, CouldNotAccessDataException,
-         InvalidEstateFieldException, PictureAlreadyExistsException {
+         InvalidEstateFieldException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
       // Given no changes
 
       // When

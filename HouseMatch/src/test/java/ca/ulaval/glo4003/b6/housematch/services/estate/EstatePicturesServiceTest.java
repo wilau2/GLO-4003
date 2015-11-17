@@ -13,9 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Album;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.InactivePictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureSelector;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
 
@@ -42,6 +44,9 @@ public class EstatePicturesServiceTest {
 
    private EstatePicturesService estatesPicturesService;
 
+   @Mock
+   private InactivePictureRepository inactivePictureRepository;
+
    @Before
    public void setUp() throws EstateNotFoundException, CouldNotAccessDataException {
       MockitoAnnotations.initMocks(this);
@@ -49,7 +54,8 @@ public class EstatePicturesServiceTest {
       configurePictureRepository();
       configureAlbum();
 
-      estatesPicturesService = new EstatePicturesService(pictureRepository, albumPictureRepository);
+      estatesPicturesService = new EstatePicturesService(pictureRepository, albumPictureRepository,
+            inactivePictureRepository);
    }
 
    @Test
@@ -76,7 +82,7 @@ public class EstatePicturesServiceTest {
 
    @Test
    public void addingAPictureShouldCallAlbumPictureRepository()
-         throws CouldNotAccessDataException, PictureAlreadyExistsException {
+         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
       // Given no changes
 
       // When
@@ -88,7 +94,7 @@ public class EstatePicturesServiceTest {
 
    @Test
    public void addingAPictureShouldCallAddPictureFromSelector()
-         throws CouldNotAccessDataException, PictureAlreadyExistsException {
+         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
       // Given no changes
 
       // When

@@ -29,6 +29,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
@@ -136,8 +137,9 @@ public class SellerEstateController {
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}/addPicture", method = RequestMethod.POST)
    public String addPicture(@PathVariable("address") String address, @RequestParam("name") final String name,
-         @RequestParam("file") MultipartFile file, HttpServletRequest request) throws CouldNotAccessDataException,
-               InvalidAccessException, InvalidEstateFieldException, PictureAlreadyExistsException {
+         @RequestParam("file") MultipartFile file, HttpServletRequest request)
+               throws CouldNotAccessDataException, InvalidAccessException, InvalidEstateFieldException,
+               PictureAlreadyExistsException, UUIDAlreadyExistsException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 

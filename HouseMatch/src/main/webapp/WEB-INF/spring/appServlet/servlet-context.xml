@@ -97,6 +97,34 @@
         id="inFileAlbumPictureRepository"
         class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFileAlbumPictureRepository">
     </beans:bean>
+    
+    <beans:bean
+        id="inactivePictureAssembler"
+        class="ca.ulaval.glo4003.b6.housematch.dto.assembler.InactivePictureAssembler">
+    </beans:bean>
+    
+    <beans:bean
+        id="inactivePictureElementConverter"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.converter.InactivePictureElementConverter">
+    </beans:bean>
+    
+    <beans:bean
+        id="inFileInactivePictureRepository"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFileInactivePictureRepository">
+        <beans:constructor-arg
+            name="fileEditorId"
+            ref="fileEditorId" />
+        <beans:constructor-arg
+            name="persistenceDtoFactoryId"
+            ref="persistenceDtoFactoryId" />
+        <beans:constructor-arg
+            name="inactivePictureAssembler"
+            ref="inactivePictureAssembler" />
+        <beans:constructor-arg
+            name="inactivePictureElementConverter"
+            ref="inactivePictureElementConverter" />
+        
+    </beans:bean>
 
 	<beans:bean
         id="estatePicturesService"
@@ -108,6 +136,9 @@
         <beans:constructor-arg
             name="albumPictureRepository"
             ref="inFileAlbumPictureRepository" />
+        <beans:constructor-arg
+            name="inactivePictureRepository"
+            ref="inFileInactivePictureRepository" />
     </beans:bean>
     <beans:bean
         id="addressCorruptionVerificator"
