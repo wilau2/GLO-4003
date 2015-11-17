@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.b6.housematch.persistence.picture;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,12 +21,15 @@ import ca.ulaval.glo4003.b6.housematch.persistence.PersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.converter.InactivePictureElementConverter;
+import ca.ulaval.glo4003.b6.housematch.persistence.picture.converter.RepositoryInactivePictureConverter;
 
 public class InFileInactivePictureRepository implements InactivePictureRepository {
 
    private FileEditor fileEditor;
 
    private PersistenceDtoFactory dtoFactory;
+
+   private RepositoryInactivePictureConverter repositoryInactivePictureConverter;
 
    private InactivePictureAssembler inactivePictureAssembler;
 
@@ -39,11 +44,13 @@ public class InFileInactivePictureRepository implements InactivePictureRepositor
    @Inject
    public InFileInactivePictureRepository(PersistenceDtoFactory persistenceDtoFactory, FileEditor fileEditor,
          InactivePictureAssembler inactivePictureAssembler,
-         InactivePictureElementConverter inactivePictureElementConverter) {
+         InactivePictureElementConverter inactivePictureElementConverter,
+         RepositoryInactivePictureConverter repositoryInactivePictureConverter) {
       this.dtoFactory = persistenceDtoFactory;
       this.fileEditor = fileEditor;
       this.inactivePictureAssembler = inactivePictureAssembler;
       this.inactivePictureElementConverter = inactivePictureElementConverter;
+      this.repositoryInactivePictureConverter = repositoryInactivePictureConverter;
    }
 
    @Override
@@ -64,11 +71,10 @@ public class InFileInactivePictureRepository implements InactivePictureRepositor
    }
 
    @Override
-   public void deleteInactivePicture(InactivePicture inactivePicture) throws CouldNotAccessDataException {
+   public void deleteInactivePicture(String uid) throws CouldNotAccessDataException {
       try {
          Document inactivePicturesXML = readInactivePicturesXML();
-         fileEditor.deleteExistingElementWithCorrespondingValue(inactivePicturesXML, PATH_TO_UID,
-               inactivePicture.getUid());
+         fileEditor.deleteExistingElementWithCorrespondingValue(inactivePicturesXML, PATH_TO_UID, uid);
          saveFile(inactivePicturesXML);
       } catch (DocumentException exception) {
          throw new CouldNotAccessDataException("Something wrong happenned trying to access the data", exception);
@@ -93,6 +99,28 @@ public class InFileInactivePictureRepository implements InactivePictureRepositor
       return inactivePictures;
    }
 
+   @Override
+   public List<InactivePicture> getInactivePicturesByUids(List<String> uids) throws CouldNotAccessDataException {
+      List<InactivePicture> inactivePictures = new ArrayList<InactivePicture>();
+      for (Iterator<String> uidsIterator = uids.iterator(); uidsIterator.hasNext();) {
+         inactivePictures.add(getInactivePictureByUid(uidsIterator.next()));
+      }
+      return inactivePictures;
+
+   }
+
+   @Override
+   public InactivePicture getInactivePictureByUid(String uid) throws CouldNotAccessDataException {
+      Document inactivePicturesXML;
+      try {
+         inactivePicturesXML = readInactivePicturesXML();
+      } catch (DocumentException exception) {
+         throw new CouldNotAccessDataException("Something wrong happenned trying to access the data", exception);
+      }
+      return returnInactivePictureWithGivenUid(inactivePicturesXML, uid);
+
+   }
+
    private List<InactivePicture> getDtoListFromElements(List<Element> elementList,
          InactivePictureAssembler inactivePictureAssembler,
          InactivePictureElementConverter inactivePictureElementConverter) {
@@ -104,6 +132,16 @@ public class InFileInactivePictureRepository implements InactivePictureRepositor
          inactivePictures.add(inactivePicture);
       }
       return inactivePictures;
+   }
+
+   private InactivePicture returnInactivePictureWithGivenUid(Document existingDocument, String uid) {
+      HashMap<String, String> attributes = fileEditor.returnAttributesOfElementWithCorrespondingValue(existingDocument,
+            PATH_TO_UID, uid);
+
+      InactivePicture inactivePicture = repositoryInactivePictureConverter
+            .assembleInactivePictureFromAttributes(attributes);
+
+      return inactivePicture;
    }
 
    private boolean idAlreadyExists(Document existingDocument, String Uid) {

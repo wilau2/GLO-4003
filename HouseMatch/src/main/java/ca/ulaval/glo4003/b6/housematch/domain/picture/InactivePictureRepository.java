@@ -10,8 +10,12 @@ public interface InactivePictureRepository {
    void addInactivePicture(InactivePicture inactivePicture)
          throws UUIDAlreadyExistsException, CouldNotAccessDataException;
 
-   void deleteInactivePicture(InactivePicture inactivePicture) throws CouldNotAccessDataException;
-
    List<InactivePicture> getAllInactivePicture() throws CouldNotAccessDataException;
+
+   void deleteInactivePicture(String uid) throws CouldNotAccessDataException;
+
+   InactivePicture getInactivePictureByUid(String uid) throws CouldNotAccessDataException;
+
+   List<InactivePicture> getInactivePicturesByUids(List<String> uids) throws CouldNotAccessDataException;
 
 }
