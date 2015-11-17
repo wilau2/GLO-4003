@@ -136,8 +136,8 @@ public class SellerEstateController {
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}/addPicture", method = RequestMethod.POST)
    public String addPicture(@PathVariable("address") String address, @RequestParam("name") final String name,
-         @RequestParam("file") MultipartFile file, HttpServletRequest request)
-               throws IOException, InvalidAccessException, InvalidEstateFieldException, PictureAlreadyExistsException {
+         @RequestParam("file") MultipartFile file, HttpServletRequest request) throws CouldNotAccessDataException,
+               InvalidAccessException, InvalidEstateFieldException, PictureAlreadyExistsException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
@@ -149,7 +149,7 @@ public class SellerEstateController {
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}/deletePicture", method = RequestMethod.POST)
    public String deletePicture(@PathVariable("address") String address, @RequestParam("name") final String name,
-         HttpServletRequest request) throws IOException, InvalidAccessException {
+         HttpServletRequest request) throws CouldNotAccessDataException, InvalidAccessException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
@@ -161,7 +161,7 @@ public class SellerEstateController {
    @RequestMapping(value = "/{userId}/estates/{address}/{pictureName}", method = RequestMethod.GET, produces = "image/jpg")
    public @ResponseBody byte[] getPicture(@PathVariable("address") String address,
          @PathVariable("pictureName") String pictureName, HttpServletRequest request)
-               throws InvalidAccessException, IOException {
+               throws InvalidAccessException, CouldNotAccessDataException {
       return estatePicturesService.getPicture(address, pictureName);
    }
 }

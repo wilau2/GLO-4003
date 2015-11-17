@@ -4,8 +4,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -77,7 +75,8 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void addingAPictureShouldCallAlbumPictureRepository() throws IOException, PictureAlreadyExistsException {
+   public void addingAPictureShouldCallAlbumPictureRepository()
+         throws CouldNotAccessDataException, PictureAlreadyExistsException {
       // Given no changes
 
       // When
@@ -88,7 +87,8 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void addingAPictureShouldCallAddPictureFromSelector() throws IOException, PictureAlreadyExistsException {
+   public void addingAPictureShouldCallAddPictureFromSelector()
+         throws CouldNotAccessDataException, PictureAlreadyExistsException {
       // Given no changes
 
       // When
@@ -99,7 +99,8 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void deletingAPictureShouldCallAlbumPictureRepository() throws InvalidEstateException, IOException {
+   public void deletingAPictureShouldCallAlbumPictureRepository()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -110,7 +111,8 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void deletingAPictureShouldCallDeletePictureFromSelector() throws InvalidEstateException, IOException {
+   public void deletingAPictureShouldCallDeletePictureFromSelector()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -121,7 +123,8 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPictureShouldCallAlbumPictureRepository() throws InvalidEstateException, IOException {
+   public void gettingAPictureShouldCallAlbumPictureRepository()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -132,7 +135,8 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPictureShouldCallDeletePictureFromSelector() throws InvalidEstateException, IOException {
+   public void gettingAPictureShouldCallDeletePictureFromSelector()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When

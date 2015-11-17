@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.b6.housematch.domain.picture;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 
 public class PictureSelector {
 
@@ -18,7 +19,7 @@ public class PictureSelector {
       this.pictureRepository = pictureRepository;
    }
 
-   public byte[] getPicture(String pictureName) throws IOException {
+   public byte[] getPicture(String pictureName) throws CouldNotAccessDataException {
       if (pictureName.equals(NO_PHOTO_AVAILABLE_MESSAGE)) {
          return pictureRepository.getEmptyPicture();
 
@@ -30,7 +31,7 @@ public class PictureSelector {
       pictureRepository.deletePicture(pictureName, activePictureAlbum.getEstateAddress());
    }
 
-   public void addPicture(String pictureName, MultipartFile file) throws IOException {
+   public void addPicture(String pictureName, MultipartFile file) throws CouldNotAccessDataException {
       pictureRepository.addPicture(pictureName, activePictureAlbum.getEstateAddress(), file);
    }
 

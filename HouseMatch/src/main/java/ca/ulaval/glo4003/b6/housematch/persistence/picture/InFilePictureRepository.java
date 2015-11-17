@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import org.springframework.web.multipart.MultipartFile;
 
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 
 public class InFilePictureRepository implements PictureRepository {
 
@@ -27,19 +28,24 @@ public class InFilePictureRepository implements PictureRepository {
    }
 
    @Override
-   public void addPicture(String pictureName, String estateAddress, MultipartFile picture) throws IOException {
-      if (!picture.isEmpty()) {
-         byte[] bytes = picture.getBytes();
-         // Creating the directory to store file
-         File dir = new File("./persistence/uploadedPictures/" + estateAddress);
-         if (!dir.exists()) {
-            dir.mkdirs();
+   public void addPicture(String pictureName, String estateAddress, MultipartFile picture)
+         throws CouldNotAccessDataException {
+      try {
+         if (!picture.isEmpty()) {
+            byte[] bytes = picture.getBytes();
+            // Creating the directory to store file
+            File dir = new File("./persistence/uploadedPictures/" + estateAddress);
+            if (!dir.exists()) {
+               dir.mkdirs();
+            }
+            // Create the file on server
+            File serverFile = new File(dir.getAbsolutePath() + File.separator + pictureName + ".jpg");
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+            stream.write(bytes);
+            stream.close();
          }
-         // Create the file on server
-         File serverFile = new File(dir.getAbsolutePath() + File.separator + pictureName + ".jpg");
-         BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-         stream.write(bytes);
-         stream.close();
+      } catch (IOException ioException) {
+         throw new CouldNotAccessDataException("Could not access the stored pictures data", ioException);
       }
    }
 
@@ -63,41 +69,51 @@ public class InFilePictureRepository implements PictureRepository {
    }
 
    @Override
-   public byte[] getPicture(String pictureName, String estateAddress) throws IOException {
+   public byte[] getPicture(String pictureName, String estateAddress) throws CouldNotAccessDataException {
+      try {
+         File dir = new File("./persistence/uploadedPictures/" + estateAddress);
+         if (!dir.exists()) {
+            dir.mkdirs();
+         }
 
-      File dir = new File("./persistence/uploadedPictures/" + estateAddress);
-      if (!dir.exists()) {
-         dir.mkdirs();
+         // Create the file on server
+         File serverFile = new File(dir.getAbsolutePath() + File.separator + pictureName + ".jpg");
+         InputStream inputStream = new FileInputStream(serverFile);
+         BufferedImage picture = ImageIO.read(inputStream);
+
+         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+         ImageIO.write(picture, "jpg", outputStream);
+
+         return outputStream.toByteArray();
+      } catch (IOException ioException) {
+         throw new CouldNotAccessDataException("Could not access the stored pictures data", ioException);
       }
 
-      // Create the file on server
-      File serverFile = new File(dir.getAbsolutePath() + File.separator + pictureName + ".jpg");
-      InputStream inputStream = new FileInputStream(serverFile);
-      BufferedImage picture = ImageIO.read(inputStream);
-
-      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-      ImageIO.write(picture, "jpg", outputStream);
-
-      return outputStream.toByteArray();
    }
 
    @Override
-   public byte[] getEmptyPicture() throws IOException {
-      File dir = new File("./persistence/uploadedPictures/DefaultPicture");
-      if (!dir.exists()) {
-         dir.mkdirs();
+   public byte[] getEmptyPicture() throws CouldNotAccessDataException {
+
+      try {
+         File dir = new File("./persistence/uploadedPictures/DefaultPicture");
+         if (!dir.exists()) {
+            dir.mkdirs();
+         }
+
+         // Create the file on server
+         File serverFile = new File(dir.getAbsolutePath() + File.separator + "NoPhoto.jpg");
+         InputStream inputStream = new FileInputStream(serverFile);
+         BufferedImage picture = ImageIO.read(inputStream);
+
+         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+         ImageIO.write(picture, "jpg", outputStream);
+
+         return outputStream.toByteArray();
+
+      } catch (IOException ioException) {
+         throw new CouldNotAccessDataException("Could not access the stored pictures data", ioException);
       }
-
-      // Create the file on server
-      File serverFile = new File(dir.getAbsolutePath() + File.separator + "NoPhoto.jpg");
-      InputStream inputStream = new FileInputStream(serverFile);
-      BufferedImage picture = ImageIO.read(inputStream);
-
-      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-      ImageIO.write(picture, "jpg", outputStream);
-
-      return outputStream.toByteArray();
    }
 }

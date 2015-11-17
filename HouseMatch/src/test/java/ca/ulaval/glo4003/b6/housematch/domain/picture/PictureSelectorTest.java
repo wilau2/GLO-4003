@@ -5,7 +5,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +13,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.multipart.MultipartFile;
+
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 
 public class PictureSelectorTest {
 
@@ -43,7 +44,7 @@ public class PictureSelectorTest {
    }
 
    @Test
-   public void whenThereAreNoAvailablePicturesFetchDefaultFromRepository() throws IOException {
+   public void whenThereAreNoAvailablePicturesFetchDefaultFromRepository() throws CouldNotAccessDataException {
       // When
       pictureSelector.getPicture(NO_PHOTO_AVAILABLE_MESSAGE);
 
@@ -52,7 +53,7 @@ public class PictureSelectorTest {
    }
 
    @Test
-   public void whenAskedASpecificPictureFetchWithCorrespondingAddress() throws IOException {
+   public void whenAskedASpecificPictureFetchWithCorrespondingAddress() throws CouldNotAccessDataException {
       // When
       pictureSelector.getPicture(PHOTONAME);
 
@@ -61,7 +62,7 @@ public class PictureSelectorTest {
    }
 
    @Test
-   public void whenDeletingAPictureUseCorrespondingAddress() throws IOException {
+   public void whenDeletingAPictureUseCorrespondingAddress() throws CouldNotAccessDataException {
       // When
       pictureSelector.deletePicture(PHOTONAME);
 
@@ -70,7 +71,7 @@ public class PictureSelectorTest {
    }
 
    @Test
-   public void whenAddingAPictureUseCorrespondingAddress() throws IOException {
+   public void whenAddingAPictureUseCorrespondingAddress() throws CouldNotAccessDataException {
       // When
       pictureSelector.addPicture(PHOTONAME, pictureFile);
 
@@ -79,7 +80,7 @@ public class PictureSelectorTest {
    }
 
    @Test
-   public void whenAskedForRelevantPicturesAskRepositoryForEveryPicturesAvailable() throws IOException {
+   public void whenAskedForRelevantPicturesAskRepositoryForEveryPicturesAvailable() throws CouldNotAccessDataException {
       // When
       pictureSelector.getRelevantPictures();
 
@@ -88,7 +89,7 @@ public class PictureSelectorTest {
    }
 
    @Test
-   public void whenAskedForRelevantPicturesAndThereIsNoneReturnDefaultMessage() throws IOException {
+   public void whenAskedForRelevantPicturesAndThereIsNoneReturnDefaultMessage() throws CouldNotAccessDataException {
       // Given a repository that cant find pictures for the estate
       List<String> everyAvailablePictures = new ArrayList<String>();
       everyAvailablePictures.add(NO_PHOTO_AVAILABLE_MESSAGE);

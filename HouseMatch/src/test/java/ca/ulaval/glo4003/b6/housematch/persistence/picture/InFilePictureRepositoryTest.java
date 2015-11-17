@@ -15,6 +15,8 @@ import org.junit.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+
 public class InFilePictureRepositoryTest {
 
    private InFilePictureRepository inFilePictureRepository;
@@ -39,7 +41,7 @@ public class InFilePictureRepositoryTest {
    }
 
    @Test
-   public void shouldBeAbleToAddNewPicture() throws IOException {
+   public void shouldBeAbleToAddNewPicture() throws CouldNotAccessDataException, IOException {
       // Given
       File file = new File("./persistence/uploadedPictures/testData/firstPicture.jpg");
       FileInputStream input = new FileInputStream(file);
@@ -53,7 +55,7 @@ public class InFilePictureRepositoryTest {
    }
 
    @Test
-   public void shouldBeAbleToDeleteAPicture() throws IOException {
+   public void shouldBeAbleToDeleteAPicture() throws CouldNotAccessDataException {
       // When
       inFilePictureRepository.deletePicture(NEWPICTURE, TESTADDRESS);
       // Then
@@ -62,7 +64,7 @@ public class InFilePictureRepositoryTest {
    }
 
    @Test
-   public void shouldBeAbleToGetTheDefaultPicture() throws IOException {
+   public void shouldBeAbleToGetTheDefaultPicture() throws CouldNotAccessDataException {
       // When
       byte[] array1 = inFilePictureRepository.getEmptyPicture();
       byte[] array2 = inFilePictureRepository.getPicture("NoPhoto", "DefaultPicture");

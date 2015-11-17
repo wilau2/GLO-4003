@@ -242,8 +242,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenAddingPictureShouldCallAddingMethodOfServiceLayer()
-         throws InvalidAccessException, IOException, InvalidEstateFieldException, PictureAlreadyExistsException {
+   public void whenAddingPictureShouldCallAddingMethodOfServiceLayer() throws InvalidAccessException,
+         CouldNotAccessDataException, InvalidEstateFieldException, PictureAlreadyExistsException {
       // Given no changes
 
       // When
@@ -254,8 +254,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenAddingPictureShouldVerifyAuthorization()
-         throws InvalidAccessException, IOException, InvalidEstateFieldException, PictureAlreadyExistsException {
+   public void whenAddingPictureShouldVerifyAuthorization() throws InvalidAccessException, CouldNotAccessDataException,
+         InvalidEstateFieldException, PictureAlreadyExistsException {
       // Given no changes
 
       // When
@@ -266,7 +266,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenDeletingPictureShouldCallDeletingMethodOfServiceLayer() throws InvalidAccessException, IOException {
+   public void whenDeletingPictureShouldCallDeletingMethodOfServiceLayer()
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -277,7 +278,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenDeletingPictureShouldVerifyAuthorization() throws InvalidAccessException, IOException {
+   public void whenDeletingPictureShouldVerifyAuthorization()
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -288,7 +290,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenGettingPictureShouldCallGetMethodOfServiceLayer() throws InvalidAccessException, IOException {
+   public void whenGettingPictureShouldCallGetMethodOfServiceLayer()
+         throws InvalidAccessException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -299,8 +302,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenFetchingEstateByAddressShouldReturnModelAndViewOfWantedEstate()
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
+   public void whenFetchingEstateByAddressShouldReturnModelAndViewOfWantedEstate() throws EstateNotFoundException,
+         CouldNotAccessDataException, InvalidAccessException, CouldNotAccessDataException, IOException {
       // Given
       String expectedViewName = "estate";
 

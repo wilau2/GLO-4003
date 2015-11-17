@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.b6.housematch.services.estate;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureSelector;
 import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
+import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
 
 public class EstatePicturesService {
@@ -36,7 +36,7 @@ public class EstatePicturesService {
    }
 
    public void addPicture(String address, String name, MultipartFile file)
-         throws IOException, PictureAlreadyExistsException {
+         throws CouldNotAccessDataException, PictureAlreadyExistsException {
       Album album = albumPictureRepository.getAlbum(address);
 
       PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
@@ -48,14 +48,14 @@ public class EstatePicturesService {
       pictureSelector.addPicture(name, file);
    }
 
-   public void deletePicture(String address, String name) throws IOException {
+   public void deletePicture(String address, String name) throws CouldNotAccessDataException {
       Album album = albumPictureRepository.getAlbum(address);
 
       PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
       pictureSelector.deletePicture(name);
    }
 
-   public byte[] getPicture(String address, String name) throws IOException {
+   public byte[] getPicture(String address, String name) throws CouldNotAccessDataException {
       Album album = albumPictureRepository.getAlbum(address);
 
       PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
