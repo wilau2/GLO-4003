@@ -33,6 +33,7 @@ import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
@@ -136,8 +137,7 @@ public class SellerEstateController {
    @RequestMapping(value = "/seller/{userId}/estates/{address}/addPicture", method = RequestMethod.POST)
    public String addPicture(@PathVariable("address") String address, @RequestParam("name") final String name,
          @RequestParam("file") MultipartFile file, HttpServletRequest request)
-               throws IOException, InvalidAccessException, EstateNotFoundException, CouldNotAccessDataException,
-               InvalidEstateFieldException {
+               throws IOException, InvalidAccessException, InvalidEstateFieldException, PictureAlreadyExistsException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
@@ -149,8 +149,7 @@ public class SellerEstateController {
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}/deletePicture", method = RequestMethod.POST)
    public String deletePicture(@PathVariable("address") String address, @RequestParam("name") final String name,
-         HttpServletRequest request)
-               throws IOException, InvalidAccessException, EstateNotFoundException, CouldNotAccessDataException {
+         HttpServletRequest request) throws IOException, InvalidAccessException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
@@ -162,7 +161,7 @@ public class SellerEstateController {
    @RequestMapping(value = "/{userId}/estates/{address}/{pictureName}", method = RequestMethod.GET, produces = "image/jpg")
    public @ResponseBody byte[] getPicture(@PathVariable("address") String address,
          @PathVariable("pictureName") String pictureName, HttpServletRequest request)
-               throws InvalidAccessException, IOException, EstateNotFoundException, CouldNotAccessDataException {
+               throws InvalidAccessException, IOException {
       return estatePicturesService.getPicture(address, pictureName);
    }
 }

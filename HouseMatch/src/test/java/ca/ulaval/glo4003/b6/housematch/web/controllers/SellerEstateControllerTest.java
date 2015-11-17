@@ -39,6 +39,7 @@ import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
@@ -241,8 +242,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenAddingPictureShouldCallAddingMethodOfServiceLayer() throws EstateNotFoundException,
-         CouldNotAccessDataException, InvalidAccessException, IOException, InvalidEstateFieldException {
+   public void whenAddingPictureShouldCallAddingMethodOfServiceLayer()
+         throws InvalidAccessException, IOException, InvalidEstateFieldException, PictureAlreadyExistsException {
       // Given no changes
 
       // When
@@ -253,8 +254,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenAddingPictureShouldVerifyAuthorization() throws EstateNotFoundException, CouldNotAccessDataException,
-         InvalidAccessException, IOException, InvalidEstateFieldException {
+   public void whenAddingPictureShouldVerifyAuthorization()
+         throws InvalidAccessException, IOException, InvalidEstateFieldException, PictureAlreadyExistsException {
       // Given no changes
 
       // When
@@ -265,8 +266,7 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenDeletingPictureShouldCallDeletingMethodOfServiceLayer()
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
+   public void whenDeletingPictureShouldCallDeletingMethodOfServiceLayer() throws InvalidAccessException, IOException {
       // Given no changes
 
       // When
@@ -277,8 +277,7 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenDeletingPictureShouldVerifyAuthorization()
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
+   public void whenDeletingPictureShouldVerifyAuthorization() throws InvalidAccessException, IOException {
       // Given no changes
 
       // When
@@ -289,8 +288,7 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenGettingPictureShouldCallGetMethodOfServiceLayer()
-         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
+   public void whenGettingPictureShouldCallGetMethodOfServiceLayer() throws InvalidAccessException, IOException {
       // Given no changes
 
       // When

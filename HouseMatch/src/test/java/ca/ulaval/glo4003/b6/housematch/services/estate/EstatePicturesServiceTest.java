@@ -19,6 +19,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureSelector;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
 
 public class EstatePicturesServiceTest {
 
@@ -54,8 +55,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPicturesShouldCallAlbumPictureRepository()
-         throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException {
+   public void gettingAPicturesShouldCallAlbumPictureRepository() throws InvalidEstateException {
       // Given no changes
 
       // When
@@ -66,8 +66,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPicturesShouldCallGetRelevantPicturesFromSelector()
-         throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException {
+   public void gettingAPicturesShouldCallGetRelevantPicturesFromSelector() throws InvalidEstateException {
       // Given no changes
 
       // When
@@ -78,8 +77,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void addingAPictureShouldCallAlbumPictureRepository()
-         throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException, IOException {
+   public void addingAPictureShouldCallAlbumPictureRepository() throws IOException, PictureAlreadyExistsException {
       // Given no changes
 
       // When
@@ -90,8 +88,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void addingAPictureShouldCallAddPictureFromSelector()
-         throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException, IOException {
+   public void addingAPictureShouldCallAddPictureFromSelector() throws IOException, PictureAlreadyExistsException {
       // Given no changes
 
       // When
@@ -102,8 +99,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void deletingAPictureShouldCallAlbumPictureRepository()
-         throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException, IOException {
+   public void deletingAPictureShouldCallAlbumPictureRepository() throws InvalidEstateException, IOException {
       // Given no changes
 
       // When
@@ -114,8 +110,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void deletingAPictureShouldCallDeletePictureFromSelector()
-         throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException, IOException {
+   public void deletingAPictureShouldCallDeletePictureFromSelector() throws InvalidEstateException, IOException {
       // Given no changes
 
       // When
@@ -126,8 +121,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPictureShouldCallAlbumPictureRepository()
-         throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException, IOException {
+   public void gettingAPictureShouldCallAlbumPictureRepository() throws InvalidEstateException, IOException {
       // Given no changes
 
       // When
@@ -138,8 +132,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPictureShouldCallDeletePictureFromSelector()
-         throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException, IOException {
+   public void gettingAPictureShouldCallDeletePictureFromSelector() throws InvalidEstateException, IOException {
       // Given no changes
 
       // When
