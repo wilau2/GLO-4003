@@ -65,16 +65,20 @@ public class UserProcessorTest {
    @Test
    public void whenAskingTheNumberOfActiveBuyerShouldCallMethodsOnUser() throws CouldNotAccessDataException {
       // Given
-      int numberOfUserInSystem = 1;
-      configureUsers(numberOfUserInSystem);
-      when(user.isBuyer()).thenReturn(true);
-      when(user.isActive()).thenReturn(true);
+      configureVerifyingMethodOnUser();
 
       // When
       userProcessor.getNumberOfActiveBuyer(users);
 
       // Then
       verify(user, times(1)).wasActiveInTheLastSixMonths();
+   }
+
+   private void configureVerifyingMethodOnUser() {
+      int numberOfUserInSystem = 1;
+      configureUsers(numberOfUserInSystem);
+      when(user.isBuyer()).thenReturn(true);
+      when(user.isActive()).thenReturn(true);
    }
 
    @Test
@@ -91,7 +95,7 @@ public class UserProcessorTest {
    }
 
    private int configureNotAllBuyersActiveTest() {
-      int numberOfUserInSystem = configureBuyerActive();
+      configureBuyerActive();
       when(user.wasActiveInTheLastSixMonths()).thenReturn(true, false, true);
       int expectedNumberOfActiveBuyer = 2;
       return expectedNumberOfActiveBuyer;
