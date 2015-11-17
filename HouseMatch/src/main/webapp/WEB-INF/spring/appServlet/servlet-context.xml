@@ -35,7 +35,7 @@
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
  
          <!-- setting maximum upload size -->
-        <beans:property name="maxUploadSize" value="100000" />
+        <beans:property name="maxUploadSize" value="10000000" />
  
     </beans:bean>
 
@@ -55,8 +55,7 @@
     <beans:bean
         id="estateService"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService"
-        scope="session"
-    >
+        scope="session">
         <beans:constructor-arg
             name="estateValidatorFactory"
             ref="estateValidatorFactory" />
@@ -71,8 +70,7 @@
     <beans:bean
         id="descriptionCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator"
-        scope="session"
-    >
+        scope="session">
         <beans:constructor-arg
             name="estateService"
             ref="estateService" />
@@ -81,8 +79,7 @@
     <beans:bean
         id="estatesFetcher"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher"
-        scope="session"
-    >
+        scope="session">
         <beans:constructor-arg
             name="estateRepositoryFactory"
             ref="estateRepositoryFactory" />
@@ -90,17 +87,42 @@
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
     </beans:bean>
+    
+    <beans:bean
+        id="inFilePictureRepository"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFilePictureRepository">
+    </beans:bean>
+    
+    <beans:bean
+        id="inFileAlbumPictureRepository"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFileAlbumPictureRepository">
+    </beans:bean>
 
+	<beans:bean
+        id="estatePicturesService"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService"
+        scope="session">
+        <beans:constructor-arg
+            name="pictureRepository"
+            ref="inFilePictureRepository" />
+        <beans:constructor-arg
+            name="albumPictureRepository"
+            ref="inFileAlbumPictureRepository" />
+    </beans:bean>
     <beans:bean
         id="addressCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.AddressCorruptionVerificator"
+        scope="session" />
+        
+    <beans:bean
+        id="pictureCorruptionVerificator"
+        class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.PictureCorruptionVerificator"
         scope="session" />
 
     <beans:bean
         id="estateCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator"
-        scope="session"
-    >
+        scope="session">
         <beans:constructor-arg
             name="addressCorruptionVerificator"
             ref="addressCorruptionVerificator" />
@@ -110,12 +132,10 @@
             ref="estateService" />
     </beans:bean>
 
-
     <beans:bean
         id="sellerEstateController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.SellerEstateController"
-        scope="session"
-    >
+        scope="session">
         <beans:constructor-arg
             name="estateCorruptionVerificator"
             ref="estateCorruptionVerificator" />
@@ -128,15 +148,23 @@
         <beans:constructor-arg
             name="descriptionCorruptionVerificator"
             ref="descriptionCorruptionVerificator" />
+        <beans:constructor-arg
+            name="pictureCorruptionVerificator"
+            ref="pictureCorruptionVerificator" />
+        <beans:constructor-arg
+            name="estatePicturesService"
+            ref="estatePicturesService" />
     </beans:bean>
     <beans:bean
         id="buyerSearchEstatesController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.BuyerSearchEstatesController"
-        scope="session"
-    >
+        scope="session">
         <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />
+        <beans:constructor-arg
+            name="estatePicturesService"
+            ref="estatePicturesService" />
     </beans:bean>
 
     <beans:bean

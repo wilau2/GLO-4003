@@ -21,10 +21,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.PictureCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
@@ -34,10 +36,12 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateEditDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
@@ -48,6 +52,10 @@ public class SellerEstateControllerTest {
    private static final String ADDRESS = "address";
    
    private static final String EXPECTED_ROLE = "GOD";
+
+   private static final String PHOTONAME = "PHOTONAME";
+
+   private static final String SELLER = "seller";
 
    @InjectMocks
    private SellerEstateController estateController;
@@ -68,13 +76,22 @@ public class SellerEstateControllerTest {
    private EstatesFetcher estateFetcherService;
 
    @Mock
+   private EstatePicturesService estatePictureService;
+
+   @Mock
    private EstateCorruptionVerificator estateCorruptionVerificator;
    
    @Mock
    private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
 
    @Mock
+   private PictureCorruptionVerificator pictureCorruptionVerificator;
+
+   @Mock
    private Model model;
+
+   @Mock
+   private MultipartFile pictureFile;
 
    @Mock
    private UserAuthorizationService userAuthorizationService;
@@ -213,8 +230,93 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenFetchingEstateByAddressShouldReturnModelAndViewOfWantedEstate()
+   public void whenFetchingEstateByAddressShouldFetchPicturesFromServiceLayer()
          throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
+      // Given no changes
+
+      // When
+      estateController.getEstateByAddress(ADDRESS, request);
+
+      // Then
+      verify(estatePictureService, times(1)).getPicturesOfEstate(ADDRESS);
+   }
+
+   @Test
+   public void whenEditingDescriptionEstateShouldCallDescriptionCorruptionVerificator() throws EstateNotFoundException,
+         CouldNotAccessDataException, InvalidAccessException, IOException, InvalidEstateFieldException,
+         InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
+      // Given no changes
+
+      // When
+      estateController.editDescription(ADDRESS, request, descriptionDto);
+
+      // Then
+      verify(descriptionCorruptionVerificator, times(1)).editDescription(ADDRESS, descriptionDto);
+   }
+
+   @Test
+   public void whenAddingPictureShouldCallAddingMethodOfServiceLayer() throws InvalidAccessException,
+         CouldNotAccessDataException, InvalidEstateFieldException, PictureAlreadyExistsException {
+      // Given no changes
+
+      // When
+      estateController.addPicture(ADDRESS, PHOTONAME, pictureFile, request);
+
+      // Then
+      verify(estatePictureService, times(1)).addPicture(ADDRESS, PHOTONAME, pictureFile);
+   }
+
+   @Test
+   public void whenAddingPictureShouldVerifyAuthorization() throws InvalidAccessException, CouldNotAccessDataException,
+         InvalidEstateFieldException, PictureAlreadyExistsException {
+      // Given no changes
+
+      // When
+      estateController.addPicture(ADDRESS, PHOTONAME, pictureFile, request);
+
+      // Then
+      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, SELLER);
+   }
+
+   @Test
+   public void whenDeletingPictureShouldCallDeletingMethodOfServiceLayer()
+         throws InvalidAccessException, CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      estateController.deletePicture(ADDRESS, PHOTONAME, request);
+
+      // Then
+      verify(estatePictureService, times(1)).deletePicture(ADDRESS, PHOTONAME);
+   }
+
+   @Test
+   public void whenDeletingPictureShouldVerifyAuthorization()
+         throws InvalidAccessException, CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      estateController.deletePicture(ADDRESS, PHOTONAME, request);
+
+      // Then
+      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, SELLER);
+   }
+
+   @Test
+   public void whenGettingPictureShouldCallGetMethodOfServiceLayer()
+         throws InvalidAccessException, CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      estateController.getPicture(ADDRESS, PHOTONAME, request);
+
+      // Then
+      verify(estatePictureService, times(1)).getPicture(ADDRESS, PHOTONAME);
+   }
+
+   @Test
+   public void whenFetchingEstateByAddressShouldReturnModelAndViewOfWantedEstate() throws EstateNotFoundException,
+         CouldNotAccessDataException, InvalidAccessException, CouldNotAccessDataException, IOException {
       // Given
       String expectedViewName = "estate";
 

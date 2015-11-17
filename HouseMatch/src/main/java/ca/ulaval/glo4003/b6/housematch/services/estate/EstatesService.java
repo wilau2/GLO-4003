@@ -60,7 +60,7 @@ public class EstatesService {
    }
    
    public void editDescription(String address, DescriptionDto descriptionDto)
-         throws InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException {
+         throws CouldNotAccessDataException, EstateNotFoundException {
 
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
       Description description = estateAssembler.assembleDescription(descriptionDto);
@@ -70,6 +70,5 @@ public class EstatesService {
       Estate estate = estateRepository.getEstateByAddress(address);
       estate.editDescription(description);
       estateRepository.updateEstate(estate);
-
    }
 }

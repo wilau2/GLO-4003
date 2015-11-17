@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.PictureCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
@@ -27,9 +30,11 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateEditDto;
 import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
@@ -42,20 +47,26 @@ public class SellerEstateController {
 
    private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
 
+   private PictureCorruptionVerificator pictureCorruptionVerificator;
+
    private UserAuthorizationService userAuthorizationService;
 
    private EstatesFetcher estatesFetcher;
 
+   private EstatePicturesService estatePicturesService;
+
    @Autowired
    public SellerEstateController(EstateCorruptionVerificator estateCorruptionVerificator,
          UserAuthorizationService userAuthorizationService, EstatesFetcher estatesFetcher,
-         DescriptionCorruptionVerificator descriptionCorruptionVerificator) {
+         DescriptionCorruptionVerificator descriptionCorruptionVerificator,
+         PictureCorruptionVerificator pictureCorruptionVerificator, EstatePicturesService estatePicturesService) {
 
       this.estateCorruptionVerificator = estateCorruptionVerificator;
       this.userAuthorizationService = userAuthorizationService;
       this.estatesFetcher = estatesFetcher;
       this.descriptionCorruptionVerificator = descriptionCorruptionVerificator;
-
+      this.pictureCorruptionVerificator = pictureCorruptionVerificator;
+      this.estatePicturesService = estatePicturesService;
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.POST)
@@ -99,21 +110,14 @@ public class SellerEstateController {
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
-      // No actual persistence for now so i created 2 pictures to test
-      PictureDto picture = new PictureDto("/picture/1");
-      PictureDto picture2 = new PictureDto("/picture/2");
-
-      List<PictureDto> manyPictures = new ArrayList<PictureDto>();
-
-      manyPictures.add(picture);
-      manyPictures.add(picture2);
-
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
+
+      List<PictureDto> pictures = estatePicturesService.getPicturesOfEstate(address);
 
       ModelAndView sellerEstateViewModel = new ModelAndView("estate");
       sellerEstateViewModel.addObject("estate", estateByAddress);
       sellerEstateViewModel.addObject("description", descriptionDto);
-      sellerEstateViewModel.addObject("pictures", manyPictures);
+      sellerEstateViewModel.addObject("pictures", pictures);
 
       return sellerEstateViewModel;
    }
@@ -139,5 +143,36 @@ public class SellerEstateController {
       descriptionCorruptionVerificator.editDescription(address, descriptionDto);
 
       return "redirect:/seller/{userId}/estates/{address}";
+   }
+
+   @RequestMapping(value = "/seller/{userId}/estates/{address}/addPicture", method = RequestMethod.POST)
+   public String addPicture(@PathVariable("address") String address, @RequestParam("name") final String name,
+         @RequestParam("file") MultipartFile file, HttpServletRequest request) throws CouldNotAccessDataException,
+               InvalidAccessException, InvalidEstateFieldException, PictureAlreadyExistsException {
+
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      pictureCorruptionVerificator.validatePictureValidity(name, file.getOriginalFilename());
+      estatePicturesService.addPicture(address, name, file);
+
+      return "redirect:/seller/{userId}/estates/{address}";
+   }
+
+   @RequestMapping(value = "/seller/{userId}/estates/{address}/deletePicture", method = RequestMethod.POST)
+   public String deletePicture(@PathVariable("address") String address, @RequestParam("name") final String name,
+         HttpServletRequest request) throws CouldNotAccessDataException, InvalidAccessException {
+
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      estatePicturesService.deletePicture(address, name);
+
+      return "redirect:/seller/{userId}/estates/{address}";
+   }
+
+   @RequestMapping(value = "/{userId}/estates/{address}/{pictureName}", method = RequestMethod.GET, produces = "image/jpg")
+   public @ResponseBody byte[] getPicture(@PathVariable("address") String address,
+         @PathVariable("pictureName") String pictureName, HttpServletRequest request)
+               throws InvalidAccessException, CouldNotAccessDataException {
+      return estatePicturesService.getPicture(address, pictureName);
    }
 }

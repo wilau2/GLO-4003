@@ -6,7 +6,9 @@ $(document).ready(function() {
 	 $("#btn_save_description").hide();
 	 $("#btn_cancel_description").hide();
 	 $("#upload_picture").hide();
+	 $("#delete_picture").hide();
 	 $("#btn_add_picture").hide();
+	 $("#btn_del_picture").hide();
 	 $("#dForm input").prop('disabled', true)
 	 $("#eForm input").prop('disabled', true)
 	 $("#eForm select").prop('disabled', true)
@@ -18,6 +20,7 @@ $(document).ready(function() {
 	        $("#btn_cancel_estate").toggle("slow");
 
 	        $("#btn_add_picture").toggle("slow");
+	        $("#btn_del_picture").toggle("slow");
 	        
 	        $("#eForm input").prop('disabled', false)
 	        $("#eForm select").prop('disabled', false)
@@ -52,9 +55,9 @@ $(document).ready(function() {
 	        $("#btn_save_description").toggle("slow");
 	        $("#btn_edit_description").toggle("slow");
 	        $("#btn_cancel_description").toggle("slow");
-
+			
 	        $("#dForm input").prop('disabled', true)
-	    });
+		});
 	});
 	
 	$(function() {
@@ -63,5 +66,10 @@ $(document).ready(function() {
 	    });
 	});
 
+	$(function() {
+	    $("#btn_del_picture").click(function() {
+	    	$("#delete_picture").toggle("slow");
+		});
+	});
 });
 </script>

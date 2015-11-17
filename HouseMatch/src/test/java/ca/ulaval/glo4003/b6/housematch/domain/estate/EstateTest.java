@@ -27,16 +27,12 @@ public class EstateTest {
    @Mock
    private Description description;
 
-   @Mock
-   private Album album;
-
    private Estate estate;
 
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
-
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, album, PRICE_HISTORY);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, PRICE_HISTORY);
    }
 
    @Test

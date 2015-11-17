@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import java.util.ArrayList;
 
+import ca.ulaval.glo4003.b6.housematch.domain.picture.Album;
+
 public class Estate {
 
    private Integer price;
@@ -18,14 +20,12 @@ public class Estate {
    
    private ArrayList<Integer> priceHistory;
    
-   public Estate(String type, Address address, Integer price, String seller, Description description, Album album, ArrayList<Integer> priceHistory) {
-
+   public Estate(String type, Address address, Integer price, String seller, Description description, ArrayList<Integer> priceHistory) {
       this.type = type;
       this.address = address;
       this.price = price;
       this.seller = seller;
       this.description = description;
-      this.album = album;
       this.priceHistory = priceHistory;
    }
 

@@ -2,17 +2,13 @@ package ca.ulaval.glo4003.b6.housematch.dto;
 
 public class PictureDto {
 
-   private String url;
+   private String name;
 
-   public PictureDto(String url) {
-      this.url = url;
+   public PictureDto(String name) {
+      this.name = name;
    }
 
-   public void setUrl(String url) {
-      this.url = url;
-   }
-
-   public String getUrl() {
-      return this.url;
+   public String getName() {
+      return this.name;
    }
 }

@@ -13,8 +13,6 @@ public class EstateDto {
    private String sellerId;
 
    private DescriptionDto descriptionDto;
-
-   private AlbumDto albumDto;
    
    private ArrayList<Integer> priceHistory;
 
@@ -22,14 +20,12 @@ public class EstateDto {
       this.address = new AddressDto();
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId, DescriptionDto descriptionDto,
-         AlbumDto albumDto, ArrayList<Integer> priceHistory) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, DescriptionDto descriptionDto, ArrayList<Integer> priceHistory) {
       this.type = type;
       this.address = address;
       this.price = price;
       this.sellerId = sellerId;
       this.descriptionDto = descriptionDto;
-      this.albumDto = albumDto;
       this.priceHistory = priceHistory;
    }
 
@@ -72,10 +68,6 @@ public class EstateDto {
    public DescriptionDto getDescriptionDto() {
       return this.descriptionDto;
    }
-
-   public Object getAlbumDto() {
-      return this.albumDto;
-   }
    
    public ArrayList<Integer> getPriceHistory() {
       return priceHistory;
@@ -84,5 +76,4 @@ public class EstateDto {
    public void setPriceHistory(ArrayList<Integer> priceHistory) {
       this.priceHistory = priceHistory;
    }
-
 }

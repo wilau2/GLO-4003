@@ -14,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
@@ -28,11 +30,14 @@ public class BuyerSearchEstatesController {
 
    private UserAuthorizationService userAuthorizationService;
 
+   private EstatePicturesService estatePicturesService;
+
    @Autowired
-   public BuyerSearchEstatesController(EstatesFetcher estatesFetcher,
-         UserAuthorizationService userAuthorizationService) {
+   public BuyerSearchEstatesController(EstatesFetcher estatesFetcher, UserAuthorizationService userAuthorizationService,
+         EstatePicturesService estatePicturesService) {
       this.estatesFetcher = estatesFetcher;
       this.userAuthorizationService = userAuthorizationService;
+      this.estatePicturesService = estatePicturesService;
    }
 
    @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates")
@@ -56,9 +61,11 @@ public class BuyerSearchEstatesController {
       ModelAndView modelAndView = new ModelAndView("estate");
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
-      modelAndView.addObject("estate", estateByAddress);
 
+      List<PictureDto> pictures = estatePicturesService.getPicturesOfEstate(address);
+      modelAndView.addObject("estate", estateByAddress);
       modelAndView.addObject("description", estateByAddress.getDescriptionDto());
+      modelAndView.addObject("pictures", pictures);
 
       return modelAndView;
    }
