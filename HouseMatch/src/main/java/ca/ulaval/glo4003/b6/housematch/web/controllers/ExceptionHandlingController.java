@@ -12,6 +12,7 @@ import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidCon
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
@@ -94,7 +95,14 @@ public class ExceptionHandlingController {
    }
 
    @ExceptionHandler(PictureAlreadyExistsException.class)
-   public ModelAndView handleIPictureAlreadyExistsException(HttpServletRequest request, Exception exceptionThrown) {
+   public ModelAndView handlePictureAlreadyExistsException(HttpServletRequest request, Exception exceptionThrown) {
+      ModelAndView modelAndView = new ModelAndView("exception");
+      modelAndView.addObject("errorMessage", exceptionThrown.getMessage());
+      return modelAndView;
+   }
+
+   @ExceptionHandler(UserNotFoundException.class)
+   public ModelAndView handleUserNotFoundException(HttpServletRequest request, Exception exceptionThrown) {
       ModelAndView modelAndView = new ModelAndView("exception");
       modelAndView.addObject("errorMessage", exceptionThrown.getMessage());
       return modelAndView;
