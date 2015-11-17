@@ -1,36 +1,41 @@
 package ca.ulaval.glo4003.b6.housematch.services.admin;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import ca.ulaval.glo4003.b6.housematch.domain.picture.InactivePicture;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.InactivePictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 
-public class InactivePictureApprover {
+public class InactivePictureApproverService {
 
    private InactivePictureRepository inactivePictureRepository;
 
    private PictureRepository pictureRepository;
 
-   public InactivePictureApprover(InactivePictureRepository inactivePictureRepository,
+   @Inject
+   public InactivePictureApproverService(InactivePictureRepository inactivePictureRepository,
          PictureRepository pictureRepository) {
       this.inactivePictureRepository = inactivePictureRepository;
       this.pictureRepository = pictureRepository;
    }
 
-   public List<byte[]> getAllInactivePictures() throws CouldNotAccessDataException {
-      List<byte[]> pictures = new ArrayList<byte[]>();
-      List<InactivePicture> inactivePictures = inactivePictureRepository.getAllInactivePicture();
+   public List<InactivePicture> getAllInactivePictures() throws CouldNotAccessDataException {
 
-      for (Iterator<InactivePicture> inactivePictureIterator = inactivePictures.iterator(); inactivePictureIterator
-            .hasNext();) {
-         InactivePicture inactivePicture = inactivePictureIterator.next();
-         pictures.add(pictureRepository.getPicture(inactivePicture.getName(), inactivePicture.getAddress()));
-      }
-      return pictures;
+      return inactivePictureRepository.getAllInactivePicture();
+
+   }
+
+   public byte[] getInactivePictureByte(String uid) throws CouldNotAccessDataException {
+
+      InactivePicture inactivePicture = inactivePictureRepository.getInactivePictureByUid(uid);
+      System.out.println(inactivePicture.getName());
+      System.out.println(inactivePicture.getAddress());
+      return pictureRepository.getPicture(inactivePicture.getName(), inactivePicture.getAddress());
+
    }
 
    public void approuvePictures(List<String> inactivePictureUids) throws CouldNotAccessDataException {

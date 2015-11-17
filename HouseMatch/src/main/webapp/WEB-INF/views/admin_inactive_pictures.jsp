@@ -9,9 +9,8 @@
 	
 	<c:forEach items="${pictures}" var="picture" varStatus="counter">
 		   
-		<img class="photo-image" src = "picture" >
+		<img class="photo-image" src = "${entryUrl}/admin/pictures/${picture.getUid()}" >
 		       
-		      
 	</c:forEach>
 	
 </t:wrapper>

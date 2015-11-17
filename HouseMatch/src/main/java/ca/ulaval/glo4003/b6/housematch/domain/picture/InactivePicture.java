@@ -11,7 +11,7 @@ public class InactivePicture {
    private String uid;
 
    public InactivePicture(String uid, String address, String name) {
-      if (uid.isEmpty() || uid == null) {
+      if (uid == null || uid.isEmpty()) {
          this.uid = UUID.randomUUID().toString();
       } else {
          this.uid = uid;

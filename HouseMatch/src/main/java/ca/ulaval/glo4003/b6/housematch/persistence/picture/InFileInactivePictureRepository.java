@@ -39,7 +39,7 @@ public class InFileInactivePictureRepository implements InactivePictureRepositor
 
    private final static String PATH_TO_INACTIVE_PICTURE = "inactivePictures/inactivePicture";
 
-   private static final String PATH_TO_UID = PATH_TO_INACTIVE_PICTURE + "/Uid";
+   private static final String PATH_TO_UID = PATH_TO_INACTIVE_PICTURE + "/uid";
 
    @Inject
    public InFileInactivePictureRepository(PersistenceDtoFactory persistenceDtoFactory, FileEditor fileEditor,
