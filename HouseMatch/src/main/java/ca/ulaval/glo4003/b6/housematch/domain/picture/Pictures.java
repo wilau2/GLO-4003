@@ -40,7 +40,6 @@ public class Pictures {
 
    public String getEstatePictureUid(String address, String name) {
       String uid = "";
-
       for (Iterator<Picture> picturesIterator = this.pictures.iterator(); picturesIterator.hasNext();) {
          Picture picture = picturesIterator.next();
          if (picture.isFromEstate(address) && picture.getName().equals(name)) {

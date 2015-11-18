@@ -22,11 +22,12 @@ public class Picture {
       this.name = name;
       if (active == null || active.isEmpty()) {
          this.active = false;
-      }
-      if (active.equals("true")) {
-         this.active = true;
       } else {
-         this.active = false;
+         if (active.equals("true")) {
+            this.active = true;
+         } else {
+            this.active = false;
+         }
       }
 
    }
