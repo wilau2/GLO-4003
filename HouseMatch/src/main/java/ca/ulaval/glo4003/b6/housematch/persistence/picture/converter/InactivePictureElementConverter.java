@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.persistence.picture.converter;
 
 import org.dom4j.Element;
 
-import ca.ulaval.glo4003.b6.housematch.dto.InactivePictureDto;
+import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
 
 public class InactivePictureElementConverter {
 
@@ -18,8 +18,8 @@ public class InactivePictureElementConverter {
 
    }
 
-   public InactivePictureDto convertToDto(Element element) {
-      InactivePictureDto inactivePictureDto = new InactivePictureDto(element.elementText(UUID),
+   public InformationPictureDto convertToDto(Element element) {
+      InformationPictureDto inactivePictureDto = new InformationPictureDto(element.elementText(UUID),
             element.elementText(ADDRESS), element.elementText(NAME), element.elementText(ACTIVE));
       return inactivePictureDto;
    }

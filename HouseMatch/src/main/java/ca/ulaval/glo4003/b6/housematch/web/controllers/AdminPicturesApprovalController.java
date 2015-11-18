@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
-import ca.ulaval.glo4003.b6.housematch.dto.InactivePictureDto;
+import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.admin.PictureApprobationService;
@@ -52,13 +52,13 @@ public class AdminPicturesApprovalController {
 
       ModelAndView adminInactivePicturesViewModel = new ModelAndView("admin_inactive_pictures");
       adminInactivePicturesViewModel.addObject("pictures", inactivePictures);
-      adminInactivePicturesViewModel.addObject("album", new InactivePictureDto());
+      adminInactivePicturesViewModel.addObject("album", new InformationPictureDto());
 
       return adminInactivePicturesViewModel;
    }
 
    @RequestMapping(value = "/admin/pictures", params = "approve", method = RequestMethod.POST)
-   public String approveInactivesPictures(HttpServletRequest request, InactivePictureDto inactivePictureDto)
+   public String approveInactivesPictures(HttpServletRequest request, InformationPictureDto inactivePictureDto)
          throws CouldNotAccessDataException, InvalidAccessException, UUIDAlreadyExistsException {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
@@ -68,7 +68,7 @@ public class AdminPicturesApprovalController {
    }
 
    @RequestMapping(value = "/admin/pictures", params = "delete", method = RequestMethod.POST)
-   public String deleteInactivesPictures(HttpServletRequest request, InactivePictureDto inactivePictureDto)
+   public String deleteInactivesPictures(HttpServletRequest request, InformationPictureDto inactivePictureDto)
          throws CouldNotAccessDataException, InvalidAccessException {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 

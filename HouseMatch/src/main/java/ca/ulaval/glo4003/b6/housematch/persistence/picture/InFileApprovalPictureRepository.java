@@ -15,7 +15,7 @@ import org.dom4j.Element;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.ApprovalPictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Pictures;
-import ca.ulaval.glo4003.b6.housematch.dto.InactivePictureDto;
+import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.InactivePictureAssembler;
 import ca.ulaval.glo4003.b6.housematch.persistence.PersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.PersistenceDtoFactory;
@@ -135,7 +135,7 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
          InactivePictureElementConverter inactivePictureElementConverter) {
       List<Picture> inactivePictures = new ArrayList<Picture>();
       for (Element element : elementList) {
-         InactivePictureDto convertedInactivePictureDto = inactivePictureElementConverter.convertToDto(element);
+         InformationPictureDto convertedInactivePictureDto = inactivePictureElementConverter.convertToDto(element);
          Picture inactivePicture = inactivePictureAssembler.assembleInactivePicture(convertedInactivePictureDto);
          inactivePictures.add(inactivePicture);
       }

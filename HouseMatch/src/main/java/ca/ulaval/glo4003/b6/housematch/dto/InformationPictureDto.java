@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InactivePictureDto {
+public class InformationPictureDto {
 
    private String[] uids;
 
@@ -13,11 +13,11 @@ public class InactivePictureDto {
 
    private String active;
 
-   public InactivePictureDto() {
+   public InformationPictureDto() {
 
    }
 
-   public InactivePictureDto(String uid, String address, String name, String active) {
+   public InformationPictureDto(String uid, String address, String name, String active) {
       this.address = address;
       this.name = name;
       this.uid = uid;

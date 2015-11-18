@@ -52,19 +52,19 @@ public class PictureApprobationService {
 
    private void deletePicturesFromPictureRepository(List<String> inactivePictureUids)
          throws CouldNotAccessDataException {
-      List<Picture> inactivePictures = approvalPictureRepository.getPicturesByUids(inactivePictureUids);
-      for (Iterator<Picture> inactivePictureIterator = inactivePictures.iterator(); inactivePictureIterator
+      List<Picture> pictureList = approvalPictureRepository.getPicturesByUids(inactivePictureUids);
+      for (Iterator<Picture> pictureListIterator = pictureList.iterator(); pictureListIterator
             .hasNext();) {
-         Picture inactivePicture = inactivePictureIterator.next();
+         Picture inactivePicture = pictureListIterator.next();
          pictureRepository.deletePicture(inactivePicture.getName(), inactivePicture.getAddress());
       }
    }
 
    private void deletePicturesFromApprovalRepository(List<String> inactivePictureUids)
          throws CouldNotAccessDataException {
-      for (Iterator<String> inactivePictureUidsIterator = inactivePictureUids.iterator(); inactivePictureUidsIterator
+      for (Iterator<String> pictureUidsIterator = inactivePictureUids.iterator(); pictureUidsIterator
             .hasNext();) {
-         approvalPictureRepository.deletePicture(inactivePictureUidsIterator.next());
+         approvalPictureRepository.deletePicture(pictureUidsIterator.next());
       }
    }
 

@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
-import ca.ulaval.glo4003.b6.housematch.dto.InactivePictureDto;
+import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.admin.PictureApprobationService;
@@ -49,7 +49,7 @@ public class AdminPicturesApprovalControllerTest {
    private List<Picture> pictures;
 
    @Mock
-   private InactivePictureDto inactivePictureDto;
+   private InformationPictureDto inactivePictureDto;
 
    @Mock
    private List<String> approvalPictureUids;
@@ -128,7 +128,7 @@ public class AdminPicturesApprovalControllerTest {
 
       // Then
       Map<String, Object> model = returnedModelAndView.getModel();
-      assertTrue(model.get("album") instanceof InactivePictureDto);
+      assertTrue(model.get("album") instanceof InformationPictureDto);
    }
 
    @Test(expected = InvalidAccessException.class)
