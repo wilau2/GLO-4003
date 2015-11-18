@@ -11,13 +11,13 @@ public class InactivePicturePersistanceDto implements PersistenceDto {
 
    private HashMap<String, String> attributes;
 
-   public InactivePicturePersistanceDto(Picture inactivePicture) {
+   public InactivePicturePersistanceDto(Picture picture) {
 
       HashMap<String, String> attributes = new HashMap<String, String>();
-      attributes.put("uid", inactivePicture.getUid());
-      attributes.put("name", inactivePicture.getName());
-      attributes.put("address", inactivePicture.getAddress());
-      attributes.put("active", inactivePicture.getActive().toString());
+      attributes.put("uid", picture.getUid());
+      attributes.put("name", picture.getName());
+      attributes.put("address", picture.getAddress());
+      attributes.put("active", picture.getActive().toString());
 
       this.attributes = attributes;
    }

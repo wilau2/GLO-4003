@@ -119,6 +119,17 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
 
    }
 
+   @Override
+   public void updatePictures(List<Picture> pictures) throws CouldNotAccessDataException, UUIDAlreadyExistsException {
+
+      for (Iterator<Picture> picturesIterator = pictures.iterator(); picturesIterator.hasNext();) {
+         Picture picture = picturesIterator.next();
+         deletePicture(picture.getUid());
+         addPicture(picture);
+      }
+
+   }
+
    private List<Picture> getDtoListFromElements(List<Element> elementList,
          InactivePictureAssembler inactivePictureAssembler,
          InactivePictureElementConverter inactivePictureElementConverter) {
@@ -161,17 +172,6 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
       } catch (IOException e) {
          throw new DocumentException("Could not access the specified file");
       }
-   }
-
-   @Override
-   public void updatePictures(List<Picture> pictures) throws CouldNotAccessDataException, UUIDAlreadyExistsException {
-
-      for (Iterator<Picture> picturesIterator = pictures.iterator(); picturesIterator.hasNext();) {
-         Picture picture = picturesIterator.next();
-         deletePicture(picture.getUid());
-         addPicture(picture);
-      }
-
    }
 
 }
