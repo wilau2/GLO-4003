@@ -161,4 +161,59 @@ public class ExceptionHandlingControllerTest {
       assertEquals(expectedRedirectedUrl, redirectedUrl);
    }
 
+   @Test
+   public void whenHandlingPictureAlreadyExistsExceptionShouldReturnExceptionViewModel() {
+      // Given no changes
+
+      // When
+      ModelAndView returnedModelAndView = exceptionHandlingController.handlePictureAlreadyExistsException(request,
+            exceptionThrown);
+      Map<String, Object> model = returnedModelAndView.getModel();
+
+      // Then
+      assertEquals(EXPECTED_VIEW_NAME, returnedModelAndView.getViewName());
+      assertEquals(EXPECTED_MESSAGE, model.get("errorMessage"));
+   }
+
+   @Test
+   public void whenUserNotFoundExceptionShouldReturnExceptionViewModel() {
+      // Given no changes
+
+      // When
+      ModelAndView returnedModelAndView = exceptionHandlingController.handleUserNotFoundException(request,
+            exceptionThrown);
+      Map<String, Object> model = returnedModelAndView.getModel();
+
+      // Then
+      assertEquals(EXPECTED_VIEW_NAME, returnedModelAndView.getViewName());
+      assertEquals(EXPECTED_MESSAGE, model.get("errorMessage"));
+   }
+
+   @Test
+   public void whenInvalidUserSignupExceptionShouldReturnExceptionViewModel() {
+      // Given no changes
+
+      // When
+      ModelAndView returnedModelAndView = exceptionHandlingController.handleInvalidUserSignupFieldException(request,
+            exceptionThrown);
+      Map<String, Object> model = returnedModelAndView.getModel();
+
+      // Then
+      assertEquals(EXPECTED_VIEW_NAME, returnedModelAndView.getViewName());
+      assertEquals(EXPECTED_MESSAGE, model.get("errorMessage"));
+   }
+
+   @Test
+   public void whenInvalidUserLoginExceptionShouldReturnExceptionViewModel() {
+      // Given no changes
+
+      // When
+      ModelAndView returnedModelAndView = exceptionHandlingController.handleInvalidUserLoginFieldException(request,
+            exceptionThrown);
+      Map<String, Object> model = returnedModelAndView.getModel();
+
+      // Then
+      assertEquals(EXPECTED_VIEW_NAME, returnedModelAndView.getViewName());
+      assertEquals(EXPECTED_MESSAGE, model.get("errorMessage"));
+   }
 }
