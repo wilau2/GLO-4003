@@ -12,13 +12,15 @@ public class InactivePictureElementConverter {
 
    private static final String NAME = "name";
 
+   private static final String ACTIVE = "active";
+
    public InactivePictureElementConverter() {
 
    }
 
    public InactivePictureDto convertToDto(Element element) {
       InactivePictureDto inactivePictureDto = new InactivePictureDto(element.elementText(UUID),
-            element.elementText(ADDRESS), element.elementText(NAME));
+            element.elementText(ADDRESS), element.elementText(NAME), element.elementText(ACTIVE));
       return inactivePictureDto;
    }
 

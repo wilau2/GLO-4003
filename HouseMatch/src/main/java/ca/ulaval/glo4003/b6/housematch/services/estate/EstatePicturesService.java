@@ -8,11 +8,12 @@ import javax.inject.Inject;
 import org.springframework.web.multipart.MultipartFile;
 
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Album;
-import ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureRepository;
-import ca.ulaval.glo4003.b6.housematch.domain.picture.InactivePicture;
-import ca.ulaval.glo4003.b6.housematch.domain.picture.InactivePictureRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureFactory;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.ApprovalPictureRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureSelector;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.Pictures;
 import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
@@ -22,20 +23,23 @@ public class EstatePicturesService {
 
    private PictureRepository pictureRepository;
 
-   private AlbumPictureRepository albumPictureRepository;
+   private AlbumPictureFactory albumPictureFactory;
 
-   private InactivePictureRepository inactivePictureRepository;
+   private ApprovalPictureRepository approvalPictureRepository;
 
    @Inject
-   public EstatePicturesService(PictureRepository pictureRepository, AlbumPictureRepository albumPictureRepository,
-         InactivePictureRepository inactivePictureRepository) {
+   public EstatePicturesService(PictureRepository pictureRepository, AlbumPictureFactory albumPictureFactory,
+         ApprovalPictureRepository approvalPictureRepository) {
       this.pictureRepository = pictureRepository;
-      this.albumPictureRepository = albumPictureRepository;
-      this.inactivePictureRepository = inactivePictureRepository;
+      this.albumPictureFactory = albumPictureFactory;
+      this.approvalPictureRepository = approvalPictureRepository;
    }
 
-   public List<PictureDto> getPicturesOfEstate(String address) {
-      Album album = albumPictureRepository.getAlbum(address);
+   public List<PictureDto> getPicturesOfEstate(String address) throws CouldNotAccessDataException {
+
+      Pictures pictures = approvalPictureRepository.getAllPictures();
+      List<String> estatePicturesNames = pictures.getActiveEstatePicturesNames(address);
+      Album album = albumPictureFactory.createAlbum(estatePicturesNames, address);
 
       PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
 
@@ -44,7 +48,7 @@ public class EstatePicturesService {
 
    public void addPicture(String address, String name, MultipartFile file)
          throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
-      Album album = albumPictureRepository.getAlbum(address);
+      Album album = albumPictureFactory.createAlbum(address);
 
       PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
 
@@ -53,18 +57,18 @@ public class EstatePicturesService {
          throw new PictureAlreadyExistsException("The picture with name " + name + " already exists");
       }
       pictureSelector.addPicture(name, file);
-      inactivePictureRepository.addInactivePicture(new InactivePicture("", address, name));
+      approvalPictureRepository.addPicture(new Picture("", address, name, ""));
    }
 
    public void deletePicture(String address, String name) throws CouldNotAccessDataException {
-      Album album = albumPictureRepository.getAlbum(address);
+      Album album = albumPictureFactory.createAlbum(address);
 
       PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
       pictureSelector.deletePicture(name);
    }
 
    public byte[] getPicture(String address, String name) throws CouldNotAccessDataException {
-      Album album = albumPictureRepository.getAlbum(address);
+      Album album = albumPictureFactory.createAlbum(address);
 
       PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
       return pictureSelector.getPicture(name);

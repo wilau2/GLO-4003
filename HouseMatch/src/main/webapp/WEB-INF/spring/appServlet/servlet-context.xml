@@ -94,8 +94,8 @@
     </beans:bean>
     
     <beans:bean
-        id="inFileAlbumPictureRepository"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFileAlbumPictureRepository">
+        id="albumPictureFactory"
+        class="ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureFactory">
     </beans:bean>
     
     <beans:bean
@@ -109,8 +109,8 @@
     </beans:bean>
     
     <beans:bean
-        id="inFileInactivePictureRepository"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFileInactivePictureRepository">
+        id="inFileApprovalPictureRepository"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFileApprovalPictureRepository">
         <beans:constructor-arg
             name="persistenceDtoFactoryId"
             ref="persistenceDtoFactoryId" />
@@ -142,10 +142,10 @@
             ref="inFilePictureRepository" />
         <beans:constructor-arg
             name="albumPictureRepository"
-            ref="inFileAlbumPictureRepository" />
+            ref="albumPictureFactory" />
         <beans:constructor-arg
             name="inactivePictureRepository"
-            ref="inFileInactivePictureRepository" />
+            ref="inFileApprovalPictureRepository" />
     </beans:bean>
     <beans:bean
         id="addressCorruptionVerificator"
@@ -213,16 +213,16 @@
             name="userAuthorizationService"
             ref="userAuthorizationService" />
         <beans:constructor-arg
-            name="inactivePictureApproverService"
-            ref="inactivePictureApproverService" />
+            name="pictureApprobationService"
+            ref="pictureApprobationService" />
     </beans:bean>
     
     <beans:bean
-        id="inactivePictureApproverService"
-        class="ca.ulaval.glo4003.b6.housematch.services.admin.InactivePictureApproverService">
+        id="pictureApprobationService"
+        class="ca.ulaval.glo4003.b6.housematch.services.admin.PictureApprobationService">
     	<beans:constructor-arg
             name="InactivePictureRepository"
-            ref="inFileInactivePictureRepository" />
+            ref="inFileApprovalPictureRepository" />
         <beans:constructor-arg
             name="PictureRepository"
             ref="inFilePictureRepository" />

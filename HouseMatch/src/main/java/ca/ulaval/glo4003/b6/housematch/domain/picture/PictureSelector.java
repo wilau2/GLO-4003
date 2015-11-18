@@ -36,8 +36,7 @@ public class PictureSelector {
    }
 
    public List<String> getRelevantPictures() {
-      List<String> everyAvailablePictures = pictureRepository
-            .getEveryPicturesNames(activePictureAlbum.getEstateAddress());
+      List<String> everyAvailablePictures = activePictureAlbum.getActivePictureNames();
       if (everyAvailablePictures.isEmpty()) {
          everyAvailablePictures.add(NO_PHOTO_AVAILABLE_MESSAGE);
       }

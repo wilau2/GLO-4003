@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<inactivePictures> 
-  <inactivePicture> 
-    <uid>82b65909-c6a9-408e-a7b5-cb45dac8da49</uid>  
-    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
-    <name>asdasd</name> 
-  </inactivePicture> 
+<inactivePictures>
+  <inactivePicture>
+    <uid>4d852871-c505-4042-9daa-267acf1ac3a6</uid>
+    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>
+    <name>qwe</name>
+    <active>true</active>
+  </inactivePicture>
 </inactivePictures>

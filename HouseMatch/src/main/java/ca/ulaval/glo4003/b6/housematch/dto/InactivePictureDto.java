@@ -11,14 +11,17 @@ public class InactivePictureDto {
 
    private String name;
 
+   private String active;
+
    public InactivePictureDto() {
 
    }
 
-   public InactivePictureDto(String uid, String address, String name) {
+   public InactivePictureDto(String uid, String address, String name, String active) {
       this.address = address;
       this.name = name;
       this.uid = uid;
+      this.active = active;
    }
 
    private String uid;
@@ -58,6 +61,10 @@ public class InactivePictureDto {
 
    public String getUid() {
       return uid;
+   }
+
+   public String getActive() {
+      return active;
    }
 
    public void setUid(String uid) {

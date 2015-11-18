@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Album;
-import ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureRepository;
-import ca.ulaval.glo4003.b6.housematch.domain.picture.InactivePictureRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureFactory;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.ApprovalPictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureSelector;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
@@ -31,7 +31,7 @@ public class EstatePicturesServiceTest {
    private PictureRepository pictureRepository;
 
    @Mock
-   private AlbumPictureRepository albumPictureRepository;
+   private AlbumPictureFactory albumPictureRepository;
 
    @Mock
    private PictureSelector pictureSelector;
@@ -45,7 +45,7 @@ public class EstatePicturesServiceTest {
    private EstatePicturesService estatesPicturesService;
 
    @Mock
-   private InactivePictureRepository inactivePictureRepository;
+   private ApprovalPictureRepository inactivePictureRepository;
 
    @Before
    public void setUp() throws EstateNotFoundException, CouldNotAccessDataException {
@@ -59,18 +59,20 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPicturesShouldCallAlbumPictureRepository() throws InvalidEstateException {
+   public void gettingAPicturesShouldCallAlbumPictureRepository()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When
       estatesPicturesService.getPicturesOfEstate(ADDRESS);
 
       // Then
-      verify(albumPictureRepository, times(1)).getAlbum(ADDRESS);;
+      verify(albumPictureRepository, times(1)).createAlbum(ADDRESS);;
    }
 
    @Test
-   public void gettingAPicturesShouldCallGetRelevantPicturesFromSelector() throws InvalidEstateException {
+   public void gettingAPicturesShouldCallGetRelevantPicturesFromSelector()
+         throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
       // When
@@ -89,7 +91,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.addPicture(ADDRESS, PICTURENAME, pictureFile);
 
       // Then
-      verify(albumPictureRepository, times(1)).getAlbum(ADDRESS);;
+      verify(albumPictureRepository, times(1)).createAlbum(ADDRESS);;
    }
 
    @Test
@@ -113,7 +115,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.deletePicture(ADDRESS, PICTURENAME);
 
       // Then
-      verify(albumPictureRepository, times(1)).getAlbum(ADDRESS);;
+      verify(albumPictureRepository, times(1)).createAlbum(ADDRESS);;
    }
 
    @Test
@@ -137,7 +139,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.getPicture(ADDRESS, PICTURENAME);
 
       // Then
-      verify(albumPictureRepository, times(1)).getAlbum(ADDRESS);;
+      verify(albumPictureRepository, times(1)).createAlbum(ADDRESS);;
    }
 
    @Test
@@ -153,7 +155,7 @@ public class EstatePicturesServiceTest {
    }
 
    private void configurePictureRepository() {
-      when(albumPictureRepository.getAlbum(ADDRESS)).thenReturn(album);
+      when(albumPictureRepository.createAlbum(ADDRESS)).thenReturn(album);
    }
 
    private void configureAlbum() {
