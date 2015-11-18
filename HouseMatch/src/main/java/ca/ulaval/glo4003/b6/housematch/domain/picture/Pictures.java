@@ -38,6 +38,19 @@ public class Pictures {
       return inactivePictures;
    }
 
+   public String getActiveEstatePictureUid(String address, String name) {
+      this.pictures = getActivePictures();
+      String uid = "";
+
+      for (Iterator<Picture> picturesIterator = this.pictures.iterator(); picturesIterator.hasNext();) {
+         Picture picture = picturesIterator.next();
+         if (picture.isFromEstate(address) && picture.getName().equals(name)) {
+            uid = picture.getUid();
+         }
+      }
+      return uid;
+   }
+
    public List<String> getActiveEstatePicturesNames(String address) {
       this.pictures = getActivePictures();
       List<String> activeEstatePicturesNames = new ArrayList<String>();

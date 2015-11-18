@@ -65,6 +65,9 @@ public class EstatePicturesService {
 
       PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
       pictureSelector.deletePicture(name);
+      Pictures pictures = approvalPictureRepository.getAllPictures();
+      String uid = pictures.getActiveEstatePictureUid(address, name);
+      approvalPictureRepository.deletePicture(uid);
    }
 
    public byte[] getPicture(String address, String name) throws CouldNotAccessDataException {
