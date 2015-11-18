@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.domain.picture;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Pictures {
@@ -13,13 +12,12 @@ public class Pictures {
    }
 
    public List<Picture> getPictures() {
-      return this.pictures;
+      return pictures;
    }
 
    public List<Picture> getActivePictures() {
       List<Picture> activePictures = new ArrayList<Picture>();
-      for (Iterator<Picture> picturesIterator = pictures.iterator(); picturesIterator.hasNext();) {
-         Picture picture = picturesIterator.next();
+      for (Picture picture : pictures) {
          if (picture.isActive()) {
             activePictures.add(picture);
          }
@@ -29,8 +27,8 @@ public class Pictures {
 
    public List<Picture> getInactivePictures() {
       List<Picture> inactivePictures = new ArrayList<Picture>();
-      for (Iterator<Picture> picturesIterator = pictures.iterator(); picturesIterator.hasNext();) {
-         Picture picture = picturesIterator.next();
+
+      for (Picture picture : pictures) {
          if (!picture.isActive()) {
             inactivePictures.add(picture);
          }
@@ -40,8 +38,7 @@ public class Pictures {
 
    public String getEstatePictureUid(String address, String name) {
       String uid = "";
-      for (Iterator<Picture> picturesIterator = this.pictures.iterator(); picturesIterator.hasNext();) {
-         Picture picture = picturesIterator.next();
+      for (Picture picture : pictures) {
          if (picture.isFromEstate(address) && picture.getName().equals(name)) {
             uid = picture.getUid();
          }
@@ -50,11 +47,10 @@ public class Pictures {
    }
 
    public List<String> getActiveEstatePicturesNames(String address) {
-      this.pictures = getActivePictures();
+      pictures = getActivePictures();
       List<String> activeEstatePicturesNames = new ArrayList<String>();
 
-      for (Iterator<Picture> picturesIterator = this.pictures.iterator(); picturesIterator.hasNext();) {
-         Picture picture = picturesIterator.next();
+      for (Picture picture : pictures) {
          if (picture.isFromEstate(address)) {
             activeEstatePicturesNames.add(picture.getName());
          }
@@ -63,25 +59,26 @@ public class Pictures {
    }
 
    public List<Picture> getPicturesFromUids(List<String> uids) {
-      List<Picture> pictures = new ArrayList<Picture>();
-      for (Iterator<Picture> picturesIterator = this.pictures.iterator(); picturesIterator.hasNext();) {
-         Picture picture = picturesIterator.next();
+      List<Picture> picturesFromUids = new ArrayList<Picture>();
+
+      for (Picture picture : pictures) {
          if (uids.contains(picture.getUid())) {
-            pictures.add(picture);
+            picturesFromUids.add(picture);
          }
       }
-      return pictures;
+      return picturesFromUids;
    }
 
    public List<Picture> activatePicturesFromUids(List<String> uids) {
       List<Picture> pictureList = new ArrayList<Picture>();
-      for (Iterator<Picture> picturesIterator = this.pictures.iterator(); picturesIterator.hasNext();) {
-         Picture picture = picturesIterator.next();
+
+      for (Picture picture : pictures) {
          if (uids.contains(picture.getUid())) {
             picture.activate();
             pictureList.add(picture);
          }
       }
+
       return pictureList;
 
    }

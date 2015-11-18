@@ -13,11 +13,7 @@ public class Picture {
    private Boolean active;
 
    public Picture(String uid, String address, String name, String active) {
-      if (uid == null || uid.isEmpty()) {
-         this.uid = UUID.randomUUID().toString();
-      } else {
-         this.uid = uid;
-      }
+      generateUid(uid);
       this.address = address;
       this.name = name;
       if (active == null || active.isEmpty()) {
@@ -30,6 +26,14 @@ public class Picture {
          }
       }
 
+   }
+
+   private void generateUid(String uid) {
+      if (uid == null || uid.isEmpty()) {
+         this.uid = UUID.randomUUID().toString();
+      } else {
+         this.uid = uid;
+      }
    }
 
    public String getAddress() {

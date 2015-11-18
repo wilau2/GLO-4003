@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<inactivePictures></inactivePictures>
+<inactivePictures>
+  <inactivePicture>
+    <uid>4a63eead-6f98-4236-9993-d9f3b1fe129f</uid>
+    <address>0-1-Test Sans Description-qc-qc-g12022</address>
+    <name>qwqeq</name>
+    <active>true</active>
+  </inactivePicture>
+</inactivePictures>
