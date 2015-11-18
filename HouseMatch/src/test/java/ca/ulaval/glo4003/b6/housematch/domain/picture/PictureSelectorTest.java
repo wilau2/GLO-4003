@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,13 +34,13 @@ public class PictureSelectorTest {
    @Mock
    private MultipartFile pictureFile;
 
+   @InjectMocks
    private PictureSelector pictureSelector;
 
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
       configureAlbum();
-
       pictureSelector = new PictureSelector(album, pictureRepository);
    }
 
@@ -80,12 +81,12 @@ public class PictureSelectorTest {
    }
 
    @Test
-   public void whenAskedForRelevantPicturesAskRepositoryForEveryPicturesAvailable() throws CouldNotAccessDataException {
+   public void whenAskedForRelevantPicturesAskAlbumForActivePicturesName() throws CouldNotAccessDataException {
       // When
       pictureSelector.getRelevantPictures();
 
       // Then
-      verify(pictureRepository, times(1)).getEveryPicturesNames(ADDRESS);
+      verify(album, times(1)).getActivePictureNames();
    }
 
    @Test

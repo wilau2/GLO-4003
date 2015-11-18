@@ -38,8 +38,7 @@ public class Pictures {
       return inactivePictures;
    }
 
-   public String getActiveEstatePictureUid(String address, String name) {
-      this.pictures = getActivePictures();
+   public String getEstatePictureUid(String address, String name) {
       String uid = "";
 
       for (Iterator<Picture> picturesIterator = this.pictures.iterator(); picturesIterator.hasNext();) {

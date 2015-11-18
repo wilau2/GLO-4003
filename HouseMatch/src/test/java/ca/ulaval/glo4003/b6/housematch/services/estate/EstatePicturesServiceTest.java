@@ -4,6 +4,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -16,6 +18,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.ApprovalPictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureSelector;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.Pictures;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
@@ -31,7 +34,7 @@ public class EstatePicturesServiceTest {
    private PictureRepository pictureRepository;
 
    @Mock
-   private AlbumPictureFactory albumPictureRepository;
+   private AlbumPictureFactory albumPictureFactory;
 
    @Mock
    private PictureSelector pictureSelector;
@@ -45,17 +48,26 @@ public class EstatePicturesServiceTest {
    private EstatePicturesService estatesPicturesService;
 
    @Mock
-   private ApprovalPictureRepository inactivePictureRepository;
+   private ApprovalPictureRepository approvalPictureRepository;
+
+   @Mock
+   private Pictures pictures;
+
+   @Mock
+   private List<String> names;
 
    @Before
    public void setUp() throws EstateNotFoundException, CouldNotAccessDataException {
       MockitoAnnotations.initMocks(this);
 
       configurePictureRepository();
+      configureApprovalPictureRepository();
+      configurePictures();
       configureAlbum();
+      configureAlbumFactory();
 
-      estatesPicturesService = new EstatePicturesService(pictureRepository, albumPictureRepository,
-            inactivePictureRepository);
+      estatesPicturesService = new EstatePicturesService(pictureRepository, albumPictureFactory,
+            approvalPictureRepository);
    }
 
    @Test
@@ -67,7 +79,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.getPicturesOfEstate(ADDRESS);
 
       // Then
-      verify(albumPictureRepository, times(1)).createAlbum(ADDRESS);;
+      verify(albumPictureFactory, times(1)).createAlbum(names, ADDRESS);;
    }
 
    @Test
@@ -91,7 +103,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.addPicture(ADDRESS, PICTURENAME, pictureFile);
 
       // Then
-      verify(albumPictureRepository, times(1)).createAlbum(ADDRESS);;
+      verify(albumPictureFactory, times(1)).createAlbum(ADDRESS);;
    }
 
    @Test
@@ -115,7 +127,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.deletePicture(ADDRESS, PICTURENAME);
 
       // Then
-      verify(albumPictureRepository, times(1)).createAlbum(ADDRESS);;
+      verify(albumPictureFactory, times(1)).createAlbum(ADDRESS);;
    }
 
    @Test
@@ -139,7 +151,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.getPicture(ADDRESS, PICTURENAME);
 
       // Then
-      verify(albumPictureRepository, times(1)).createAlbum(ADDRESS);;
+      verify(albumPictureFactory, times(1)).createAlbum(ADDRESS);;
    }
 
    @Test
@@ -155,11 +167,27 @@ public class EstatePicturesServiceTest {
    }
 
    private void configurePictureRepository() {
-      when(albumPictureRepository.createAlbum(ADDRESS)).thenReturn(album);
+      when(albumPictureFactory.createAlbum(ADDRESS)).thenReturn(album);
    }
 
    private void configureAlbum() {
+
       when(album.createCustomPictureSelector(pictureRepository)).thenReturn(pictureSelector);
+   }
+
+   private void configureAlbumFactory() {
+      when(albumPictureFactory.createAlbum(names, ADDRESS)).thenReturn(album);
+
+   }
+
+   private void configurePictures() {
+      when(pictures.getActiveEstatePicturesNames(ADDRESS)).thenReturn(names);
+
+   }
+
+   private void configureApprovalPictureRepository() throws CouldNotAccessDataException {
+      when(approvalPictureRepository.getAllPictures()).thenReturn(pictures);
+
    }
 
 }
