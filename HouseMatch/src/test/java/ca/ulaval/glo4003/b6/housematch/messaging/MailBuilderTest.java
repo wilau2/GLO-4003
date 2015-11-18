@@ -18,7 +18,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.MessageBuilder;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.messaging.exceptions.MessageBuilderException;
 
-class MailBuilderTest {
+public class MailBuilderTest {
 
    private static final String EMAIL = "m.savoie@live.ca";
 
