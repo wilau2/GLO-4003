@@ -47,16 +47,20 @@ public class AdminPicturesApprovalController {
    public ModelAndView getInactivePictures(HttpServletRequest request)
          throws CouldNotAccessDataException, InvalidAccessException {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
       List<Picture> inactivePictures = inactivePictureApprover.getAllInactivePictures();
+
       ModelAndView adminInactivePicturesViewModel = new ModelAndView("admin_inactive_pictures");
       adminInactivePicturesViewModel.addObject("pictures", inactivePictures);
       adminInactivePicturesViewModel.addObject("album", new InactivePictureDto());
+
       return adminInactivePicturesViewModel;
    }
 
    @RequestMapping(value = "/admin/pictures", params = "approve", method = RequestMethod.POST)
    public String approveInactivesPictures(HttpServletRequest request, InactivePictureDto inactivePictureDto)
          throws CouldNotAccessDataException, InvalidAccessException, UUIDAlreadyExistsException {
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       inactivePictureApprover.approuvePictures(inactivePictureDto.getUidsToList());
 
@@ -66,7 +70,10 @@ public class AdminPicturesApprovalController {
    @RequestMapping(value = "/admin/pictures", params = "delete", method = RequestMethod.POST)
    public String deleteInactivesPictures(HttpServletRequest request, InactivePictureDto inactivePictureDto)
          throws CouldNotAccessDataException, InvalidAccessException {
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
       inactivePictureApprover.unapprouvePictures(inactivePictureDto.getUidsToList());
+
       return "redirect:/admin/pictures/";
    }
 
