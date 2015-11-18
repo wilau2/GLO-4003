@@ -29,7 +29,7 @@ $(document).ready(function() {
 	        $("#btn_del_picture").toggle("slow");
 	        $("#dForm input").prop('disabled', true)
 	    });
-	});
+	});	
 	
 	$(function() {
 	    $("#btn_add_picture").click(function() {
@@ -41,5 +41,11 @@ $(document).ready(function() {
 	    	$("#delete_picture").toggle("slow");
 	    });
 	});
+  $('#upload_form').on('submit', function(e){
+	  window.open("${entryUrl}/approbationWarning",null,
+	  "height=100,width=400,status=yes,toolbar=no,menubar=no,location=no");
+	});
+	
+	
 });
 </script>

@@ -10,4 +10,10 @@ public class HomeController {
    public String index() {
       return "index";
    }
+
+   @RequestMapping("/approbationWarning")
+   public String approbationWarning() {
+      return "approbation_warning";
+   }
+
 }
