@@ -64,7 +64,7 @@ public class Pictures {
 
    public List<Picture> getPicturesFromUids(List<String> uids) {
       List<Picture> pictures = new ArrayList<Picture>();
-      for (Iterator<Picture> picturesIterator = pictures.iterator(); picturesIterator.hasNext();) {
+      for (Iterator<Picture> picturesIterator = this.pictures.iterator(); picturesIterator.hasNext();) {
          Picture picture = picturesIterator.next();
          if (uids.contains(picture.getUid())) {
             pictures.add(picture);

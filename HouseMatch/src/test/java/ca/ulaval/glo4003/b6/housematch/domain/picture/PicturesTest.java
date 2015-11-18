@@ -1,9 +1,11 @@
 package ca.ulaval.glo4003.b6.housematch.domain.picture;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,6 +36,8 @@ public class PicturesTest {
    private final String UID = "uid";
 
    private final String INVALID_NAME = "invalid name";
+
+   private final String INVALID_UID = "uid2";
 
    @Before
    public void setup() {
@@ -196,6 +200,64 @@ public class PicturesTest {
 
       // When
       List<String> rep = pictures.getActiveEstatePicturesNames(ADDRESS);
+
+      // Then
+      assertTrue(rep.isEmpty());
+   }
+
+   @Test
+   public void givenListThatContaisUidWhenGetPicturesFromUidsShouldReturnPicture() {
+      // Given
+      congigureEstatePictureList();
+      List<String> uidList = new ArrayList<String>();
+      uidList.add(UID);
+
+      // When
+      List<Picture> rep = pictures.getPicturesFromUids(uidList);
+
+      // Then
+      assertFalse(rep.isEmpty());
+   }
+
+   @Test
+   public void givenListThatDoesNotContaisUidWhenGetPicturesFromUidsShouldReturnPicture() {
+      // Given
+      congigureEstatePictureList();
+      List<String> uidList = new ArrayList<String>();
+      uidList.add(INVALID_UID);
+
+      // When
+      List<Picture> rep = pictures.getPicturesFromUids(uidList);
+
+      // Then
+      assertTrue(rep.isEmpty());
+   }
+
+   @Test
+   public void givenInactivePictureListWhenActivatePicturesFromUidsShouldReturnActivatedPicture() {
+      // Given
+      configureInactivePictureList();
+      when(picture.getUid()).thenReturn(UID);
+      List<String> uidList = new ArrayList<String>();
+      uidList.add(UID);
+
+      // When
+      List<Picture> rep = pictures.activatePicturesFromUids(uidList);
+
+      // Then
+      assertFalse(rep.isEmpty());
+   }
+
+   @Test
+   public void givenInactivePictureListButWrongUidWhenActivatePicturesFromUidsShouldReturnNothing() {
+      // Given
+      configureInactivePictureList();
+      when(picture.getUid()).thenReturn(UID);
+      List<String> uidList = new ArrayList<String>();
+      uidList.add(INVALID_UID);
+
+      // When
+      List<Picture> rep = pictures.activatePicturesFromUids(uidList);
 
       // Then
       assertTrue(rep.isEmpty());
