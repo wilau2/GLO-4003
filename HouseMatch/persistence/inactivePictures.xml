@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<inactivePictures>
+<inactivePictures> 
+  <inactivePicture> 
+    <uid>4d852871-c505-4042-9daa-267acf1ac3a6</uid>  
+    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
+    <name>qwe</name>  
+    <active>true</active> 
+  </inactivePicture>  
+  <inactivePicture> 
+    <uid>ffc6e63e-ba02-4e36-a411-e861ae8a8542</uid>  
+    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
+    <name>zxc</name>  
+    <active>true</active> 
+  </inactivePicture>  
+  <inactivePicture> 
+    <uid>a5591574-c427-4b57-be29-05609b38e7c4</uid>  
+    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
+    <name>asdasd</name>  
+    <active>false</active> 
+  </inactivePicture>  
+  <inactivePicture> 
+    <uid>338ef9e8-54af-4ac7-b033-a84ca6aa25b2</uid>  
+    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
+    <name>asdasdfsdagahdsffas</name>  
+    <active>false</active> 
+  </inactivePicture>  
+  <inactivePicture> 
+    <uid>c67d3b4b-0120-46a9-a5d2-883cf4181b93</uid>  
+    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
+    <name>bjmghffkyduiodkc</name>  
+    <active>false</active> 
+  </inactivePicture>  
   <inactivePicture>
-    <uid>4d852871-c505-4042-9daa-267acf1ac3a6</uid>
+    <uid>79046f7f-1822-4fae-b4dc-423b13bfabe3</uid>
     <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>
-    <name>qwe</name>
-    <active>true</active>
+    <name>fklo8hjmghgfn</name>
+    <active>false</active>
   </inactivePicture>
 </inactivePictures>
