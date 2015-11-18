@@ -35,10 +35,10 @@ public class FileEditorTest {
    final String pathToXmlFileDelete = "persistenceTestData/deleteElementTest.xml";
 
    @Mock
-   PersistenceDto dto;
+   private PersistenceDto dto;
 
    @Mock
-   Document document;
+   private Document document;
 
    @Before
    public void setup() throws DocumentException {

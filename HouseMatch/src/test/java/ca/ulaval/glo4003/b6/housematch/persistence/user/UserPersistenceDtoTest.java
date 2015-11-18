@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.persistence.user;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import org.junit.Before;
@@ -64,7 +65,9 @@ public class UserPersistenceDtoTest {
       given(user.getPassword()).willReturn("password");
       given(user.isActive()).willReturn(true);
 
+      given(user.getDateOfLastActivity()).willReturn(LocalDateTime.MIN);
       given(user.getRole()).willReturn(role);
+
       given(role.getRoles()).willReturn("roles");
 
       given(user.getContactInformation()).willReturn(userInfos);
@@ -85,7 +88,7 @@ public class UserPersistenceDtoTest {
       attributes.put("email", "email");
       attributes.put("password", "password");
       attributes.put("isActive", "true");
-
+      attributes.put("dateLastActivity", LocalDateTime.MIN.toString());
       return attributes;
    }
 

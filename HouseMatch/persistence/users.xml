@@ -2,36 +2,6 @@
 
 <users> 
   <user> 
-    <firstName>Bruce</firstName>  
-    <lastName>Lee</lastName>  
-    <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>123-123-1234</phoneNumber>  
-    <email>bruce@lee.com</email>  
-    <username>seller</username>  
-    <isActive>true</isActive> 
-  </user>  
-  <user> 
-    <firstName>Ding</firstName>  
-    <lastName>Dong</lastName>  
-    <password>123</password>  
-    <role>admin</role>  
-    <phoneNumber>111-222-3333</phoneNumber>  
-    <email>ding@dong.com</email>  
-    <username>admin</username>  
-    <isActive>true</isActive> 
-  </user>  
-  <user> 
-    <firstName>carki2</firstName>  
-    <lastName>carki</lastName>  
-    <password>carki</password>  
-    <role>buyer</role>  
-    <phoneNumber>123</phoneNumber>  
-    <isActive>true</isActive>  
-    <email>bofoc52@gmail.com</email>  
-    <username>carki</username> 
-  </user>  
-  <user> 
     <firstName>Kid</firstName>  
     <lastName>Kiddy</lastName>  
     <password>123</password>  
@@ -41,14 +11,37 @@
     <email>kid@kiddy.com</email>  
     <username>buyer</username> 
   </user>  
+  <user> 
+    <firstName>qwe</firstName>  
+    <lastName>qwe</lastName>  
+    <password>123</password>  
+    <role>buyer</role>  
+    <phoneNumber>123-456-7891</phoneNumber>  
+    <dateLastActivity>2015-11-17T19:26:00.387</dateLastActivity>  
+    <isActive>true</isActive>  
+    <email>william.lauze@gmail.com</email>  
+    <username>123</username> 
+  </user>  
+  <user> 
+    <firstName>Bruce</firstName>  
+    <lastName>Leee</lastName>  
+    <password>123</password>  
+    <role>seller</role>  
+    <phoneNumber>123-123-1234</phoneNumber>  
+    <dateLastActivity>2015-11-18T13:33:06.329</dateLastActivity>  
+    <isActive>true</isActive>  
+    <email>bruce@lee.com</email>  
+    <username>seller</username> 
+  </user>  
   <user>
-    <firstName>qwe</firstName>
-    <lastName>qwe</lastName>
+    <firstName>Ding</firstName>
+    <lastName>Dong</lastName>
     <password>123</password>
-    <role>buyer</role>
-    <phoneNumber>qqwe</phoneNumber>
+    <role>admin</role>
+    <phoneNumber>123-456-7899</phoneNumber>
+    <dateLastActivity>2015-11-18T13:33:29.735</dateLastActivity>
     <isActive>true</isActive>
-    <email>william.lauze@gmail.com</email>
-    <username>123</username>
+    <email>ding@dong.com</email>
+    <username>admin</username>
   </user>
 </users>

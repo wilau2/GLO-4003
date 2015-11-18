@@ -1,8 +1,11 @@
 package ca.ulaval.glo4003.b6.housematch.domain.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
+
+import java.time.LocalDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -106,6 +109,57 @@ public class UserTest {
 
       // Then
       assertTrue(user.isSeller());
+   }
+
+   @Test
+   public void whenAskingIfUserWasActiveInLastSixMonthsShouldReturnFalseIfUserNotActive() {
+      // Given
+      user.setActive(false);
+
+      // When
+      boolean activeInTheLastSixMonths = user.wasActiveInTheLastSixMonths();
+
+      // Then
+      assertFalse(activeInTheLastSixMonths);
+   }
+
+   @Test
+   public void askingIfUserWasActiveInLastSixMonthsWhenUserWasNotActiveInLastSixMonthsShouldReturnFalse() {
+      // Given
+      user.setActive(true);
+      LocalDateTime dateBeforeSixMonthsAgo = LocalDateTime.now().minusMonths(6).minusSeconds(1);
+      user.setDateOfLastActivity(dateBeforeSixMonthsAgo);
+
+      // When
+      boolean wasActiveInTheLastSixMonths = user.wasActiveInTheLastSixMonths();
+
+      // Then
+      assertFalse(wasActiveInTheLastSixMonths);
+   }
+
+   @Test
+   public void askingIfUserWasActiveInLastSixMonthsWhenUserWasActiveShouldReturnTrue() {
+      // Given
+      user.setActive(true);
+      user.setDateOfLastActivity(LocalDateTime.now());
+
+      // When
+      boolean wasActiveInTheLastSixMonths = user.wasActiveInTheLastSixMonths();
+
+      // Then
+      assertTrue(wasActiveInTheLastSixMonths);
+   }
+
+   @Test
+   public void whenUpdateUserLastActivityShouldSetDateToCurrentDate() {
+      // Given no changes
+
+      // When
+      user.updateLastActivity();
+      LocalDateTime dateOfLastActivity = user.getDateOfLastActivity();
+
+      // Then
+      assertEquals(LocalDateTime.now(), dateOfLastActivity);
    }
 
    private void configureAdminRole() {

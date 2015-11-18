@@ -3,6 +3,8 @@ package ca.ulaval.glo4003.b6.housematch.persistence;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
+import java.time.LocalDateTime;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -49,6 +51,7 @@ public class PersistenceDtoFactoryTest {
    private void configureUser() {
       given(user.getUsername()).willReturn("username");
       given(user.getPassword()).willReturn("password");
+      given(user.getDateOfLastActivity()).willReturn(LocalDateTime.now());
 
       given(user.getRole()).willReturn(role);
       given(role.getRoles()).willReturn("roles");

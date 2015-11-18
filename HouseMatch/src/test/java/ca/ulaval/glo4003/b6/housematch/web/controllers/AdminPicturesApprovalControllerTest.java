@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -69,7 +68,7 @@ public class AdminPicturesApprovalControllerTest {
    @Test
    public void whenGettingTheAdminPageShouldReturnTheCorrespondingString() throws InvalidAccessException {
       // Given no changes
-      String expectedViewName = "admin";
+      String expectedViewName = "admin_dashboard";
 
       // When
       String returnViewName = adminPicturesApprovalController.admin(request);

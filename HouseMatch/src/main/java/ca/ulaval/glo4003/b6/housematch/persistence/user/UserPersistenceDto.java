@@ -22,7 +22,7 @@ public class UserPersistenceDto implements PersistenceDto {
       attributes.put("email", user.getContactInformation().getEmail());
       attributes.put("password", user.getPassword());
       attributes.put("isActive", user.isActive().toString());
-
+      attributes.put("dateLastActivity", user.getDateOfLastActivity().toString());
       this.attributes = attributes;
    }
 

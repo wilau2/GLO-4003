@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.UserProfilCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserSignupFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
@@ -46,8 +49,6 @@ public class ProfilUserControllerTest {
    @Mock
    private HttpServletRequest request;
 
-   private String expectedRole = "buyer";
-
    @Mock
    private UserDto userDto;
 
@@ -64,10 +65,12 @@ public class ProfilUserControllerTest {
       configureUserFetcher();
       configureRequest();
       configureSession();
+
    }
 
    private void configureSession() {
       given(session.getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME)).willReturn(username);
+      given(session.getAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE)).willReturn(Role.BUYER);
    }
 
    private void configureRequest() {
@@ -88,7 +91,7 @@ public class ProfilUserControllerTest {
       profilUserController.getProfil(request);
 
       // Then
-      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, expectedRole);
+      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(eq(request), anyList());
    }
 
    @Test
@@ -132,8 +135,8 @@ public class ProfilUserControllerTest {
          throws UserNotFoundException, CouldNotAccessDataException, InvalidAccessException {
 
       // Given
-      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
-            expectedRole);
+      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(eq(request),
+            anyList());
 
       // When
       profilUserController.getProfil(request);
@@ -161,6 +164,7 @@ public class ProfilUserControllerTest {
          throws UserNotFoundException, CouldNotAccessDataException, InvalidAccessException {
 
       // Given
+
       doThrow(new CouldNotAccessDataException("", null)).when(userFetcher).getUserByUsername(USERNAME);
 
       // When
@@ -187,13 +191,13 @@ public class ProfilUserControllerTest {
    public void givenValidViewModelWhenUpdateProfilShouldDelegateAuthentification()
          throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException,
          InvalidUserSignupFieldException, InvalidContactInformationFieldException, UserNotifyingException {
-      // Given
+      // Given no changes
 
       // When
       profilUserController.updateProfil(request, userDto);
 
       // Then
-      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, expectedRole);;
+      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(eq(request), anyList());
    }
 
    @Test
@@ -215,8 +219,8 @@ public class ProfilUserControllerTest {
          InvalidUserSignupFieldException, InvalidContactInformationFieldException, UserNotifyingException {
 
       // Given
-      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
-            expectedRole);
+      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(eq(request),
+            anyList());
 
       // When
       profilUserController.updateProfil(request, userDto);

@@ -194,7 +194,9 @@ small screens.
 .menu-link span:after {
 	margin-top: 0.6em;
 }
-
+.pure-menu-item{
+	height: 10%;
+}
 /* -- Responsive Styles (Media Queries) ------------------------------------- */
 
 /*

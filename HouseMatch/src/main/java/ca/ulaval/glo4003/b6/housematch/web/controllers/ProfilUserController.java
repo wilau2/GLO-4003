@@ -1,5 +1,8 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +25,7 @@ import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingExc
 @Controller
 public class ProfilUserController {
 
-   private static final String EXPECTED_ROLE = Role.BUYER;
+   private static final List<String> LIST_OF_EXPECTED_ROLES = new ArrayList<String>();
 
    private UserAuthorizationService userAuthorizationService;
 
@@ -33,17 +36,22 @@ public class ProfilUserController {
    @Autowired
    public ProfilUserController(UserAuthorizationService userAuthorizationService, UserFetcher userFetcher,
          UserProfilCorruptionVerificator userProfilCorruptionVerificator) {
-
       this.userAuthorizationService = userAuthorizationService;
       this.userFetcher = userFetcher;
       this.userProfilCorruptionVerificator = userProfilCorruptionVerificator;
+      configureAcceptedRoles();
+   }
+
+   private void configureAcceptedRoles() {
+      LIST_OF_EXPECTED_ROLES.add(Role.SELLER);
+      LIST_OF_EXPECTED_ROLES.add(Role.BUYER);
    }
 
    @RequestMapping(value = "/profil", method = RequestMethod.GET)
    public ModelAndView getProfil(HttpServletRequest request)
          throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userAuthorizationService.verifySessionIsAllowed(request, LIST_OF_EXPECTED_ROLES);
 
       UserDto userDto = userFetcher.getUserByUsername(
             request.getSession().getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME).toString());
@@ -59,7 +67,7 @@ public class ProfilUserController {
          throws InvalidAccessException, CouldNotAccessDataException, UserNotFoundException,
          InvalidContactInformationFieldException, UserNotifyingException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userAuthorizationService.verifySessionIsAllowed(request, LIST_OF_EXPECTED_ROLES);
 
       userProfilCorruptionVerificator.update(userDetailedDto);
 

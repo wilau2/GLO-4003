@@ -16,7 +16,12 @@
 					<tr>
 						<th>Type</th>
 						<th>Address</th>
-						<th>Price</th>
+						<th>Date 
+						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateDescendant">Des</a>
+						</th>
+						<th>Price 
+						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?priceAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?priceDescendant">Des</a>
+						</th>
 						<th>Select</th>
 					</tr>
 				</thead>
@@ -26,6 +31,7 @@
 						<tr>
 							<td>${estate.type}</td>
 							<td>${estate.address.addressToString()}</td>
+							<td>${estate.dateRegistered}</td>
 							<td>${estate.price}</td>
 							<td><a class="pure-button"
 								href="${entryUrl}/buyer/${loggedInUsername}/estates/${estate.address.addressToUrl()}">Select</a></td>
@@ -35,6 +41,7 @@
 				</tbody>
 			</table>
 		</c:if>
+		
 		<c:if test="${estates.isEmpty()}">
 			<h2>It seems that you don't have any Estates for sale!</h2>
 			<h3>
@@ -43,6 +50,6 @@
 					an Estate</a>
 			</h3>
 		</c:if>
+		
 	</div>
 </t:wrapper>
->

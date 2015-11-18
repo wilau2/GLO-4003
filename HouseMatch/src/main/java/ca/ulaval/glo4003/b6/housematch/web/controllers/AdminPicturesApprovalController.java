@@ -40,7 +40,7 @@ public class AdminPicturesApprovalController {
    @RequestMapping("/admin")
    public String admin(HttpServletRequest request) throws InvalidAccessException {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
-      return "admin";
+      return "admin_dashboard";
    }
 
    @RequestMapping(value = "/admin/pictures", method = RequestMethod.GET)

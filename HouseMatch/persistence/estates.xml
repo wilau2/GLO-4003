@@ -3,26 +3,10 @@
 <estates> 
   <estate> 
     <seller>seller</seller>  
-    <address>0-1235-ewfa-awefwa-wfeewaf-afea</address>  
-    <price>1000</price>  
-    <type>MULTIPLEX</type>  
-    <description> 
-      <numberOfBedRooms>1</numberOfBedRooms>  
-      <municipalValuation>0</municipalValuation>  
-      <dimensionsBuilding/>  
-      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>0</numberOfRooms>  
-      <yearsOfConstruction>0</yearsOfConstruction>  
-      <backyardFaces/>  
-      <numberOfLevel>0</numberOfLevel>  
-      <numberOfBathrooms>0</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-1-Test Sans Description-qc-qc-g12022</address>  
-    <price>1000</price>  
-    <type>CONDO</type>  
+    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
+    <price>50000</price>  
+    <type>APPARTMENT</type>  
+    <date_registered>2007-12-03T10:15:30</date_registered>  
     <description> 
       <numberOfBedRooms>20</numberOfBedRooms>  
       <municipalValuation>125000</municipalValuation>  
@@ -37,32 +21,10 @@
   </estate>  
   <estate> 
     <seller>seller</seller>  
-    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
-    <price>50000</price>  
-    <type>APPARTMENT</type>  
-    <description> 
-      <numberOfBedRooms>20</numberOfBedRooms>  
-      <municipalValuation>125000</municipalValuation>  
-      <dimensionsBuilding>4x42</dimensionsBuilding>  
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>2</numberOfRooms>  
-      <yearsOfConstruction>2002</yearsOfConstruction>  
-      <backyardFaces>FRONT</backyardFaces>  
-      <numberOfLevel>1</numberOfLevel>  
-      <numberOfBathrooms>1</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-12-awfewa-fwaefwa-weafwa-fwaefa</address>  
-    <price>3500</price>  
-    <type>SINGLE_FAMILY</type> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
     <address>0-40-Rue des mirtilles-Qc-Ca-G1b3fwaf</address>  
     <price>1000000</price>  
     <type>CONDO</type>  
+    <date_registered>2009-12-03T10:15:30</date_registered>  
     <description> 
       <numberOfBedRooms>10</numberOfBedRooms>  
       <municipalValuation>123</municipalValuation>  
@@ -77,11 +39,12 @@
   </estate>  
   <estate> 
     <seller>seller</seller>  
-    <address>0-1-1234e1-1241fdewa-awfaw-warwa</address>  
-    <price>1000</price>  
-    <type>CONDO</type>  
+    <address>0-2222-222-quebec-canada-g1l1s8</address>  
+    <price>25000</price>  
+    <type>APPARTMENT</type>  
+    <date_registered>2007-12-03T10:15:30</date_registered>  
     <description> 
-      <numberOfBedRooms>3</numberOfBedRooms>  
+      <numberOfBedRooms>4</numberOfBedRooms>  
       <municipalValuation>0</municipalValuation>  
       <dimensionsBuilding/>  
       <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
@@ -94,18 +57,19 @@
   </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-1234-Patetea-Zoo-Doawewa-hippo</address>
+    <address>0-1-Test Sans Description-qc-qc-g12022</address>
     <price>1000</price>
-    <type>SINGLE_FAMILY</type>
+    <type>CONDO</type>
+    <date_registered>2007-12-03T10:15:30</date_registered>
     <description>
-      <numberOfBedRooms>1</numberOfBedRooms>
-      <municipalValuation>0</municipalValuation>
-      <dimensionsBuilding></dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
-      <numberOfRooms>2</numberOfRooms>
-      <yearsOfConstruction>0</yearsOfConstruction>
-      <backyardFaces></backyardFaces>
-      <numberOfLevel>0</numberOfLevel>
+      <numberOfBedRooms>20</numberOfBedRooms>
+      <municipalValuation>125000</municipalValuation>
+      <dimensionsBuilding>4x42</dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
+      <numberOfRooms>1</numberOfRooms>
+      <yearsOfConstruction>2002</yearsOfConstruction>
+      <backyardFaces>FRONT</backyardFaces>
+      <numberOfLevel>1</numberOfLevel>
       <numberOfBathrooms>1</numberOfBathrooms>
     </description>
   </estate>

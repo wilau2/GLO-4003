@@ -1,12 +1,15 @@
 package ca.ulaval.glo4003.b6.housematch.persistence.user;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
@@ -21,6 +24,8 @@ import ca.ulaval.glo4003.b6.housematch.persistence.user.converter.RepositoryUser
 public class XMLUserRepository implements UserRepository {
 
    private FileEditor fileEditor;
+
+   private static final String PATH_TO_ALL_USER = "users/user";
 
    private PersistenceDtoFactory dtoFactory;
 
@@ -112,5 +117,23 @@ public class XMLUserRepository implements UserRepository {
 
    private Document readUsersXML() throws DocumentException {
       return fileEditor.readXMLFile(PATH_TO_XML);
+
    }
+
+   @Override
+   public List<User> getAllUser() throws DocumentException {
+
+      Document userDocument = readUsersXML();
+      List<Element> allElementsFromDocument = fileEditor.getAllElementsFromDocument(userDocument, PATH_TO_ALL_USER);
+
+      List<User> users = new ArrayList<User>();
+
+      for (Element userElement : allElementsFromDocument) {
+         User userFromElement = assembler.assembleUserFromElement(userElement);
+         users.add(userFromElement);
+      }
+
+      return users;
+   }
+
 }

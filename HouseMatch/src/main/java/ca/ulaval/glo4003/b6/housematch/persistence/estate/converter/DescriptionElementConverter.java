@@ -69,11 +69,7 @@ public class DescriptionElementConverter {
 
    public Integer tryParseInt(String str) {
       Integer retVal = 0;
-      try {
-         retVal = Integer.parseInt(str);
-      } finally {
-         return retVal;
-      }
-
+      retVal = Integer.parseInt(str);
+      return retVal;
    }
 }

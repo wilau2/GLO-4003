@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.services.user;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,7 @@ public class UserLoginServiceTest {
    private static String INVALID_PASSWORD = "not";
 
    @Mock
-   User user;
+   private User user;
 
    @Mock
    private UserRepository userRepository;
@@ -131,7 +132,7 @@ public class UserLoginServiceTest {
    }
 
    @Test(expected = UserActivationException.class)
-   public void whenExistingUserIsNotActiveShouldThrow()
+   public void whenExistingUserIsNotActiveShouldThrowException()
          throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
       // Given
       configureUserIsNotValidate();
@@ -140,6 +141,20 @@ public class UserLoginServiceTest {
       userLoginService.login(request, userDto);
 
       // Then exception is thrown
+   }
+
+   @Test
+   public void whenExistingUserIsActiveShouldUpdateTheUserDateOfLastActivity()
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+      // Given
+      configureUserIsValidate();
+
+      // When
+      userLoginService.login(request, userDto);
+
+      // Then
+      verify(user, times(1)).updateLastActivity();
+      verify(userRepository, times(1)).updateUser(user);
    }
 
    private void configureValidPassword() {

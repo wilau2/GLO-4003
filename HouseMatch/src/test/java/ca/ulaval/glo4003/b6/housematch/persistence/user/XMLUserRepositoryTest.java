@@ -2,13 +2,18 @@ package ca.ulaval.glo4003.b6.housematch.persistence.user;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -55,6 +60,9 @@ public class XMLUserRepositoryTest {
 
    @InjectMocks
    private XMLUserRepository repository;
+
+   @Mock
+   private Element userElement;
 
    @Before
    public void setup() throws DocumentException {
@@ -304,5 +312,40 @@ public class XMLUserRepositoryTest {
             existingUsername)).willReturn(mapWithUserData);
 
       given(assembler.assembleUserFromAttributes(mapWithUserData)).willReturn(user);
+      given(assembler.assembleUserFromElement(userElement)).willReturn(user);
    }
+
+   @Test
+   public void whenGettingAllUserInSystemShouldGetAllElementsFromXmlDocument() throws DocumentException {
+      // Given no changes
+
+      // When
+      repository.getAllUser();
+
+      // Then
+      verify(editor, times(1)).readXMLFile("persistence/users.xml");
+      verify(editor, times(1)).getAllElementsFromDocument(usedDocument, "users/user");
+   }
+
+   @Test
+   public void whenGettingAllUserInSystemShouldAssembleAllDocumentReturnedByFileEditor() throws DocumentException {
+      // Given
+      int numberOfDocumentReturned = 3;
+      configureFileEditorGetAllUserElement(numberOfDocumentReturned);
+
+      // When
+      repository.getAllUser();
+
+      // Then
+      verify(assembler, times(numberOfDocumentReturned)).assembleUserFromElement(userElement);
+   }
+
+   private void configureFileEditorGetAllUserElement(int numberOfDocumentReturned) {
+      List<Element> listOfUserELement = new ArrayList<Element>();
+      for (int i = 0; i < numberOfDocumentReturned; i++) {
+         listOfUserELement.add(userElement);
+      }
+      given(editor.getAllElementsFromDocument(usedDocument, "users/user")).willReturn(listOfUserELement);
+   }
+
 }
