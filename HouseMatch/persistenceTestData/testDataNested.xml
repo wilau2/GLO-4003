@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<test>This is the content of the test data
-  <element>
-  	<field>field value</field>
-    <nested>
-    	<nestedField>nested</nestedField>
-   	</nested> 
-  </element>  
+<test>
+    This is the content of the test data
+    <element>
+        <field>field value</field>
+        <nested>
+            <nestedField>nested</nestedField>
+        </nested>
+    </element>
 </test>
+ 

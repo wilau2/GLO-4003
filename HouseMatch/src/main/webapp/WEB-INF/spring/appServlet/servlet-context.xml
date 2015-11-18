@@ -48,6 +48,10 @@
     <beans:bean
         id="estateAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory" />
+        
+    <beans:bean
+        id="estateSorter"
+        class="ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter"/>
 
     <beans:bean
         id="estateService"
@@ -86,6 +90,9 @@
         <beans:constructor-arg
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
+        <beans:constructor-arg
+        	name="estateSorter"
+        	ref="estateSorter" />
     </beans:bean>
 
     <beans:bean

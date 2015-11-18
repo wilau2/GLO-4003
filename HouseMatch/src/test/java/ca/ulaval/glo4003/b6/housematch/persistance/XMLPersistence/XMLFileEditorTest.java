@@ -17,28 +17,22 @@ import ca.ulaval.glo4003.b6.housematch.persistance.PersistenceDto;
 public class XMLFileEditorTest {
 
    @Mock
-   XMLElementReader reader;
+   private XMLElementReader reader;
 
    @Mock
-   XMLElementWriter writer;
+   private XMLElementWriter writer;
 
    @Mock
-   XMLFileAccesser accesser;
+   private XMLFileAccesser accesser;
+
+   @Mock
+   private PersistenceDto dto;
+
+   @Mock
+   private Document document;
 
    @InjectMocks
    private XMLFileEditor editor;
-
-   final String pathToXmlFileStatic = "persistenceTestData/testData.xml";
-
-   final String pathToXmlFileModified = "persistenceTestData/changingTestData.xml";
-
-   final String pathToXmlFileDelete = "persistenceTestData/deleteElementTest.xml";
-
-   @Mock
-   PersistenceDto dto;
-
-   @Mock
-   Document document;
 
    @Before
    public void setup() throws DocumentException {

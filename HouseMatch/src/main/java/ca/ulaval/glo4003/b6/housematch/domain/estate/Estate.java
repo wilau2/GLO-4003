@@ -1,5 +1,8 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
+
 public class Estate {
 
    private Integer price;
@@ -12,21 +15,25 @@ public class Estate {
 
    private Description description;
 
-   public Estate(String type, Address address, Integer price, String seller, Description description) {
+   private LocalDateTime dateRegistered;
+
+   public Estate(String type, Address address, Integer price, String seller, Description description,
+         LocalDateTime dateRegistered) {
 
       this.type = type;
       this.address = address;
       this.price = price;
       this.seller = seller;
       this.description = description;
+      this.dateRegistered = dateRegistered;
    }
 
    public String getType() {
-      return this.type;
+      return type;
    }
 
    public Address getAddress() {
-      return this.address;
+      return address;
    }
 
    public Integer getPrice() {
@@ -47,4 +54,37 @@ public class Estate {
       }
       return false;
    }
+
+   public LocalDateTime getDateRegistered() {
+      return dateRegistered;
+   }
+
+   public static Comparator<Estate> EstatePriceAscendantComparator = new Comparator<Estate>() {
+
+      public int compare(Estate estate1, Estate estate2) {
+         return estate1.getPrice().compareTo(estate2.getPrice());
+      }
+   };
+
+   public static Comparator<Estate> EstatePriceDescendantComparator = new Comparator<Estate>() {
+
+      public int compare(Estate estate1, Estate estate2) {
+         return estate2.getPrice().compareTo(estate1.getPrice());
+      }
+   };
+
+   public static Comparator<Estate> EstateDateAscendantComparator = new Comparator<Estate>() {
+
+      public int compare(Estate estate1, Estate estate2) {
+         return estate1.getDateRegistered().compareTo(estate2.getDateRegistered());
+      }
+   };
+
+   public static Comparator<Estate> EstateDateDescendantComparator = new Comparator<Estate>() {
+
+      public int compare(Estate estate1, Estate estate2) {
+         return estate2.getDateRegistered().compareTo(estate1.getDateRegistered());
+      }
+   };
+
 }

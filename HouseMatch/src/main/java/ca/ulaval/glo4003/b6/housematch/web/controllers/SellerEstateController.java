@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,6 +61,7 @@ public class SellerEstateController {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
       estateDto.setSellerId(userId);
+      estateDto.setDateRegistered(LocalDateTime.now());
 
       estateCorruptionVerificator.addEstate(estateDto);
 

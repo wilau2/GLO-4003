@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDateTime;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -25,11 +27,15 @@ public class EstateTest {
 
    private Estate estate;
 
+   private LocalDateTime dateRegistered;
+
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description);
+      dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
+
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered);
    }
 
    @Test
@@ -86,4 +92,5 @@ public class EstateTest {
       // Then
       assertFalse(isFromSeller);
    }
+
 }

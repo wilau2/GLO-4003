@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
-import java.util.Properties;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
@@ -18,10 +16,9 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.domain.user.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.domain.user.MessageBuilder;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
-import ca.ulaval.glo4003.b6.housematch.messaging.MailBuilder;
 import ca.ulaval.glo4003.b6.housematch.messaging.exceptions.MessageBuilderException;
 
-public class MailBuilderTest {
+class MailBuilderTest {
 
    private static final String EMAIL = "m.savoie@live.ca";
 
@@ -32,7 +29,7 @@ public class MailBuilderTest {
 
    @Mock
    private ContactInformation contactInformation;
-   
+
    @InjectMocks
    private MailBuilder mailBuilder;
 

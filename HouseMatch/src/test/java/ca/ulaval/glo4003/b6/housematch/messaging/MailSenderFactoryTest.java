@@ -11,21 +11,21 @@ public class MailSenderFactoryTest {
 
    @InjectMocks
    private MailSenderFactory mailSenderFactory;
-   
+
    @Before
-   public void setup(){
+   public void setup() {
       MockitoAnnotations.initMocks(this);
    }
-   
+
    @Test
    public void whenMailSenderFactoryNewInstanceShouldReturnMailSender() {
       // Given
 
       // When
       MailSender newInstance = mailSenderFactory.newInstance();
-      
+
       // Then
       assertTrue(newInstance instanceof MailSender);
    }
-   
+
 }

@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,10 +44,6 @@ import ca.ulaval.glo4003.b6.housematch.persistance.estate.converter.EstateElemen
 import ca.ulaval.glo4003.b6.housematch.persistance.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepositoryTest {
-
-   private static final String SECOND_SELLER = "SECOND_SELLER";
-
-   private static final String FIRST_SELLER = "FIRST_SELLER";
 
    private static final String PATH_TO_ADDRESS = "estates/estate/address";
 
@@ -118,7 +115,7 @@ public class XMLEstateRepositoryTest {
    private XMLEstateRepository xmlEstateRepository;
 
    @Before
-   public void setUp() throws DocumentException {
+   public void setUp() throws DocumentException, ParseException {
       MockitoAnnotations.initMocks(this);
 
       configureXmlFileEditor();
@@ -128,7 +125,7 @@ public class XMLEstateRepositoryTest {
       when(estatePersistenceDtoFactory.newInstanceEstate(any(HashMap.class))).thenReturn(estatePersistenceDto);
    }
 
-   private void configureAssemblerBehavior() {
+   private void configureAssemblerBehavior() throws ParseException {
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateElementAssemblerFactory.createAssembler()).thenReturn(estateElementAssembler);
 
@@ -309,7 +306,7 @@ public class XMLEstateRepositoryTest {
 
    @Test
    public void whenGettingAllEstateShouldCallEstateElementAssemblerForAllReturnedXmlElement()
-         throws CouldNotAccessDataException {
+         throws CouldNotAccessDataException, ParseException {
       // Given
       configureGetAllEstate();
       int numberOfReturnedDto = 1;
@@ -453,7 +450,7 @@ public class XMLEstateRepositoryTest {
 
    @Test
    public void fetchingEstateByAddressWhenEstateIsFoundShouldConvertAttributesToEstateDto()
-         throws DocumentException, EstateNotFoundException, CouldNotAccessDataException {
+         throws DocumentException, EstateNotFoundException, CouldNotAccessDataException, ParseException {
       // Given
       configureFetchingEstateByAddress();
 
