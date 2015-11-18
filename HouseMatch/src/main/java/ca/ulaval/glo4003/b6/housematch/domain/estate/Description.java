@@ -36,6 +36,15 @@ public class Description {
    }
 
    public Description() {
+      this.numberOfBedRooms = 0;
+      this.numberOfBathrooms = 0;
+      this.numberOfRooms = 0;
+      this.numberOfLevel = 0;
+      this.yearOfConstruction = 0;
+      this.buildingDimensions = "";
+      this.livingSpaceAreaSquareMeter = 0;
+      this.municipalAssessment = 0;
+      this.backyardOrientation = "";
    }
 
    public Integer getNumberOfBedRooms() {

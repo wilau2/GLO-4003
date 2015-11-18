@@ -9,6 +9,7 @@ public class DescriptionAssembler {
    public Description assembleDescription(DescriptionDto descriptionDto) {
 
       if (descriptionDto == null) {
+
          return new Description();
       }
 

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Estate {
@@ -17,15 +18,21 @@ public class Estate {
 
    private LocalDateTime dateRegistered;
 
+   private ArrayList<Integer> priceHistory;
+
    public Estate(String type, Address address, Integer price, String seller, Description description,
-         LocalDateTime dateRegistered) {
+         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory) {
 
       this.type = type;
       this.address = address;
       this.price = price;
       this.seller = seller;
       this.description = description;
+
       this.dateRegistered = dateRegistered;
+
+      this.priceHistory = priceHistory;
+
    }
 
    public String getType() {
@@ -46,6 +53,10 @@ public class Estate {
 
    public Description getDescription() {
       return description;
+   }
+
+   public ArrayList<Integer> getPriceHistory() {
+      return this.priceHistory;
    }
 
    public boolean isFromSeller(String sellerName) {
@@ -91,4 +102,14 @@ public class Estate {
       }
    };
 
+   public void editType(String newType) {
+      this.type = newType;
+   }
+
+   public void editPrice(Integer newPrice) {
+      if (this.price != newPrice) {
+         this.priceHistory.add(this.price);
+         this.price = newPrice;
+      }
+   }
 }

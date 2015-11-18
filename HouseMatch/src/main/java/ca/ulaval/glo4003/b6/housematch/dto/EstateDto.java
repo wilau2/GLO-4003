@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class EstateDto {
 
@@ -13,6 +14,8 @@ public class EstateDto {
    private String sellerId;
 
    private DescriptionDto descriptionDto;
+
+   private ArrayList<Integer> priceHistory;
 
    private LocalDateTime dateRegistered;
 
@@ -29,7 +32,7 @@ public class EstateDto {
    }
 
    public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered,
-         DescriptionDto descriptionDto) {
+         DescriptionDto descriptionDto, ArrayList<Integer> priceHistory) {
 
       this.type = type;
       this.address = address;
@@ -37,6 +40,7 @@ public class EstateDto {
       this.sellerId = sellerId;
       this.dateRegistered = dateRegistered;
       this.descriptionDto = descriptionDto;
+      this.priceHistory = priceHistory;
    }
 
    public void setDescriptionDto(DescriptionDto descriptionDto) {
@@ -79,6 +83,10 @@ public class EstateDto {
       return this.descriptionDto;
    }
 
+   public ArrayList<Integer> getPriceHistory() {
+      return priceHistory;
+   }
+
    public void setDateRegistered(LocalDateTime localDateTime) {
       this.dateRegistered = localDateTime;
 
@@ -90,6 +98,10 @@ public class EstateDto {
 
    public boolean isEarlyer(EstateDto estate) {
       return this.dateRegistered.isBefore(estate.getDateRegistered());
+   }
+
+   public void setPriceHistory(ArrayList<Integer> priceHistory) {
+      this.priceHistory = priceHistory;
    }
 
 }

@@ -30,9 +30,11 @@ public class EstatePicturesService {
    @Inject
    public EstatePicturesService(PictureRepository pictureRepository, AlbumPictureFactory albumPictureFactory,
          ApprovalPictureRepository approvalPictureRepository) {
+
       this.pictureRepository = pictureRepository;
       this.albumPictureFactory = albumPictureFactory;
       this.approvalPictureRepository = approvalPictureRepository;
+
    }
 
    public List<PictureDto> getPicturesOfEstate(String address) throws CouldNotAccessDataException {
@@ -41,7 +43,7 @@ public class EstatePicturesService {
       List<String> estatePicturesNames = pictures.getActiveEstatePicturesNames(address);
       Album album = albumPictureFactory.createAlbum(estatePicturesNames, address);
 
-      PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
+      PictureSelector pictureSelector = album.createAlbumPictureSelector(pictureRepository);
 
       return createPictureModel(pictureSelector.getRelevantPictures());
    }
@@ -50,7 +52,7 @@ public class EstatePicturesService {
          throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
       Album album = albumPictureFactory.createAlbum(address);
 
-      PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
+      PictureSelector pictureSelector = album.createAlbumPictureSelector(pictureRepository);
 
       List<String> existingPicturesNames = pictureSelector.getRelevantPictures();
       if (existingPicturesNames.contains(name)) {
@@ -63,7 +65,7 @@ public class EstatePicturesService {
    public void deletePicture(String address, String name) throws CouldNotAccessDataException {
       Album album = albumPictureFactory.createAlbum(address);
 
-      PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
+      PictureSelector pictureSelector = album.createAlbumPictureSelector(pictureRepository);
       pictureSelector.deletePicture(name);
       Pictures pictures = approvalPictureRepository.getAllPictures();
       String uid = pictures.getEstatePictureUid(address, name);
@@ -73,7 +75,7 @@ public class EstatePicturesService {
    public byte[] getPicture(String address, String name) throws CouldNotAccessDataException {
       Album album = albumPictureFactory.createAlbum(address);
 
-      PictureSelector pictureSelector = album.createCustomPictureSelector(pictureRepository);
+      PictureSelector pictureSelector = album.createAlbumPictureSelector(pictureRepository);
       return pictureSelector.getPicture(name);
    }
 

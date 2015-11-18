@@ -48,7 +48,7 @@ public class AlbumTest {
       Album album = new Album(ESTATE_ADDRESS, activePictureNames);
 
       // When
-      PictureSelector rep = album.createCustomPictureSelector(pictureRepo);
+      PictureSelector rep = album.createAlbumPictureSelector(pictureRepo);
 
       // Then
       assertTrue(rep instanceof PictureSelector);

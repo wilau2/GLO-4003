@@ -172,7 +172,7 @@ public class EstatePicturesServiceTest {
 
    private void configureAlbum() {
 
-      when(album.createCustomPictureSelector(pictureRepository)).thenReturn(pictureSelector);
+      when(album.createAlbumPictureSelector(pictureRepository)).thenReturn(pictureSelector);
    }
 
    private void configureAlbumFactory() {

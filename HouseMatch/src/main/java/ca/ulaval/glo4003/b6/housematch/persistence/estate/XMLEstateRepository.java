@@ -101,6 +101,7 @@ public class XMLEstateRepository implements EstateRepository {
 
          addNewEstateToDocument(estateDocument, attributes, estatePersistenceDtoFactory);
          Description description = estate.getDescription();
+
          if (description != null) {
             HashMap<String, String> descriptionAttributes = estateElementAssembler
                   .convertDescriptionToAttributes(description);

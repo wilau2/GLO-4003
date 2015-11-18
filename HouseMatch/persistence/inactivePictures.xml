@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<inactivePictures>
+<inactivePictures> 
+  <inactivePicture> 
+    <uid>4a63eead-6f98-4236-9993-d9f3b1fe129f</uid>  
+    <address>0-1-Test Sans Description-qc-qc-g12022</address>  
+    <name>qwqeq</name>  
+    <active>true</active> 
+  </inactivePicture>  
   <inactivePicture>
-    <uid>4a63eead-6f98-4236-9993-d9f3b1fe129f</uid>
-    <address>0-1-Test Sans Description-qc-qc-g12022</address>
-    <name>qwqeq</name>
+    <uid>f943f5a2-faaa-421e-b2ac-1b5f76eff15c</uid>
+    <address>0-1234-Rue des Bisous-PatateLand-Canada-Patate</address>
+    <name>Une belle patate</name>
     <active>true</active>
   </inactivePicture>
 </inactivePictures>

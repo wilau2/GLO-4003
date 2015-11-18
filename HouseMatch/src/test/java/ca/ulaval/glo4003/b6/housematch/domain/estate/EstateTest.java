@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,8 @@ public class EstateTest {
 
    private static final String TYPE = "TYPE";
 
+   private static final ArrayList<Integer> PRICE_HISTORY = new ArrayList<Integer>();
+
    @Mock
    private Address address;
 
@@ -31,11 +34,12 @@ public class EstateTest {
 
    @Before
    public void setup() {
+
       MockitoAnnotations.initMocks(this);
 
       dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
 
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY);
    }
 
    @Test

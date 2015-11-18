@@ -21,7 +21,7 @@ public class Album {
       return activePictureNames;
    }
 
-   public PictureSelector createCustomPictureSelector(PictureRepository pictureRepo) {
+   public PictureSelector createAlbumPictureSelector(PictureRepository pictureRepo) {
       return new PictureSelector(this, pictureRepo);
    }
 

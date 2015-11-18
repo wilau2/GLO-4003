@@ -8,6 +8,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.dto.EstateEditDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
@@ -46,6 +47,17 @@ public class EstatesService {
       EstateValidator estateValidator = estateValidatorFactory.getValidator();
       estateValidator.validate(estateDto);
 
+   }
+
+   public void editEstate(String address, EstateEditDto estateEditDto)
+         throws EstateNotFoundException, CouldNotAccessDataException {
+      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
+      Estate estate = estateRepository.getEstateByAddress(address);
+
+      estate.editType(estateEditDto.getType());
+      estate.editPrice(estateEditDto.getPrice());
+
+      estateRepository.updateEstate(estate);
    }
 
    public void editDescription(String address, DescriptionDto descriptionDto)

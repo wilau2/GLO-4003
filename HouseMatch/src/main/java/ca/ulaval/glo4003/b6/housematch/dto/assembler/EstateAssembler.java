@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.dto.assembler;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
@@ -25,10 +26,13 @@ public class EstateAssembler {
       String type = estateDto.getType();
       Integer price = estateDto.getPrice();
       String seller = estateDto.getSeller();
+
       LocalDateTime dateRegistered = estateDto.getDateRegistered();
       Description description = descriptionAssembler.assembleDescription(estateDto.getDescriptionDto());
+      ArrayList<Integer> priceHistory = estateDto.getPriceHistory();
 
-      Estate estate = new Estate(type, address, price, seller, description, dateRegistered);
+      Estate estate = new Estate(type, address, price, seller, description, dateRegistered, priceHistory);
+
       return estate;
    }
 
@@ -37,10 +41,14 @@ public class EstateAssembler {
       String type = estate.getType();
       Integer price = estate.getPrice();
       String sellerId = estate.getSeller();
+
       LocalDateTime dateRegistered = estate.getDateRegistered();
       DescriptionDto descriptionDto = descriptionAssembler.assembleDescriptionDto(estate.getDescription());
 
-      EstateDto estateDto = new EstateDto(type, address, price, sellerId, dateRegistered, descriptionDto);
+      ArrayList<Integer> priceHistory = estate.getPriceHistory();
+
+      EstateDto estateDto = new EstateDto(type, address, price, sellerId, dateRegistered, descriptionDto, priceHistory);
+
       return estateDto;
    }
 

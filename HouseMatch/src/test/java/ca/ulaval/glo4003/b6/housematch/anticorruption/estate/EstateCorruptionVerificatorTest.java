@@ -13,8 +13,10 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.AddressFieldInvalidException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
+import ca.ulaval.glo4003.b6.housematch.dto.EstateEditDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
@@ -28,9 +30,14 @@ public class EstateCorruptionVerificatorTest {
    private static final String TYPE = "TYPE";
 
    private static final Integer PRICE = 1;
+   
+   private static final String ADDRESS_KEY = "ADDRESS_KEY";
 
    @Mock
    private EstateDto estateDto;
+   
+   @Mock
+   private EstateEditDto estateEditDto;
 
    @Mock
    private EstatesService estateService;
@@ -55,8 +62,10 @@ public class EstateCorruptionVerificatorTest {
       when(estateDto.getType()).thenReturn(TYPE);
       when(estateDto.getPrice()).thenReturn(PRICE);
       when(estateDto.getSeller()).thenReturn(USER_ID);
-
       when(estateDto.getAddress()).thenReturn(addressDto);
+      
+      when(estateEditDto.getType()).thenReturn(TYPE);
+      when(estateEditDto.getPrice()).thenReturn(PRICE);
    }
 
    @Test
@@ -177,6 +186,54 @@ public class EstateCorruptionVerificatorTest {
 
       // Then
       verify(addressCorruptionVerificator, times(1)).validate(addressDto);
+   }
+   
+   @Test
+   public void verificatingEditEstateCorruptionWhenEditEstateHasNoCorruptionShouldCallEditEstateFromService()
+         throws InvalidEstateFieldException, CouldNotAccessDataException, EstateNotFoundException {
+      // Given
+
+      // When
+      estateCorruptionVerificator.editEstate(ADDRESS_KEY, estateEditDto);
+
+      // Then
+      verify(estateService, times(1)).editEstate(ADDRESS_KEY, estateEditDto);
+   }
+   
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingEstateFromCorruptionVerificatorWhenEstateTypeIsNullShouldThrowAnException()
+         throws InvalidEstateFieldException, CouldNotAccessDataException, EstateNotFoundException {
+      // Given
+      when(estateEditDto.getType()).thenReturn(null);
+
+      // When
+      estateCorruptionVerificator.editEstate(ADDRESS_KEY, estateEditDto);
+
+      // Then an InvalidEstateFieldException is thrown
+   }
+
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingEstateFromCorruptionVerificatorWhenEstateTypeIsEmptyShouldThrowAnException()
+         throws InvalidEstateFieldException, CouldNotAccessDataException, EstateNotFoundException {
+      // Given
+      when(estateEditDto.getType()).thenReturn(EMPTY_FIELD);
+
+      // When
+      estateCorruptionVerificator.editEstate(ADDRESS_KEY, estateEditDto);
+
+      // Then an InvalidEstateFieldException is thrown
+   }
+   
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingEstateFromCorruptionVerificatorWhenPriceIsNegativeShouldThrowException()
+         throws InvalidEstateFieldException, CouldNotAccessDataException, EstateNotFoundException {
+      // Given
+      when(estateEditDto.getPrice()).thenReturn(-1);
+
+      // When
+      estateCorruptionVerificator.editEstate(ADDRESS_KEY, estateEditDto);
+
+      // Then an InvalidEstateFieldException is thrown
    }
 
 }

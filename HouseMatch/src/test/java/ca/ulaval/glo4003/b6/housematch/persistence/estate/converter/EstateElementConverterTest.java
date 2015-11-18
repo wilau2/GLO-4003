@@ -1,10 +1,13 @@
 package ca.ulaval.glo4003.b6.housematch.persistence.estate.converter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.dom4j.Element;
@@ -29,6 +32,8 @@ public class EstateElementConverterTest {
 
    private static final String TYPE_KEY = "type";
 
+   private static final String PRICE_HISTORY_KEY = "price_history";
+
    private static final String COUNTRY = "TEST_COUNTRY";
 
    private static final String PROVINCE = "Test";
@@ -48,6 +53,10 @@ public class EstateElementConverterTest {
    private static final Address ADDRESS = new Address(APPARTMENT, CIVI_NUMBER, STREET, POSTAL_CODE, PROVINCE, COUNTRY);
 
    private static final Integer PRICE = 1;
+
+   private static ArrayList<Integer> PRICE_HISTORY = new ArrayList<Integer>();
+
+   private static final String PRICE_HISTORY_STRING = "100-200";
 
    private static final String DATE_REGISTERED_KEY = "date_registered";
 
@@ -84,6 +93,7 @@ public class EstateElementConverterTest {
       when(attributes.get(SELLER_KEY)).thenReturn(USER_ID);
       when(attributes.get(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
       when(attributes.get(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString());
+      when(attributes.get(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
 
    }
 
@@ -93,6 +103,7 @@ public class EstateElementConverterTest {
       when(estate.getType()).thenReturn(TYPE);
       when(estate.getAddress()).thenReturn(ADDRESS);
       when(estate.getDateRegistered()).thenReturn(dateRegistered);
+      when(estate.getPriceHistory()).thenReturn(PRICE_HISTORY);
 
    }
 
@@ -101,7 +112,10 @@ public class EstateElementConverterTest {
       when(element.elementText(PRICE_KEY)).thenReturn(PRICE.toString());
       when(element.elementText(SELLER_KEY)).thenReturn(USER_ID);
       when(element.elementText(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
+
       when(element.elementText(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString());
+
+      when(element.elementText(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
 
    }
 
@@ -193,4 +207,15 @@ public class EstateElementConverterTest {
       assertEquals(POSTAL_CODE, addressDto.getPostalCode());
    }
 
+   @Test
+   public void assemblingEstateDtoWhenPriceHistoryIsEmptyShouldSetPriceToEmptyList() throws ParseException {
+      // Given
+      when(attributes.get(PRICE_HISTORY_KEY)).thenReturn("");
+
+      // When
+      EstateDto estateDto = estateElementAssembler.convertAttributesToDto(attributes);
+
+      // Then
+      assertTrue(estateDto.getPriceHistory().isEmpty());
+   }
 }

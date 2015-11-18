@@ -7,8 +7,9 @@
     <price>50000</price>  
     <type>APPARTMENT</type>  
     <date_registered>2007-12-03T10:15:30</date_registered>  
+    <price_history>1016-1020-50000-</price_history>  
     <description> 
-      <numberOfBedRooms>20</numberOfBedRooms>  
+      <numberOfBedRooms>21</numberOfBedRooms>  
       <municipalValuation>125000</municipalValuation>  
       <dimensionsBuilding>4x42</dimensionsBuilding>  
       <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
@@ -25,6 +26,7 @@
     <price>1000000</price>  
     <type>CONDO</type>  
     <date_registered>2009-12-03T10:15:30</date_registered>  
+    <price_history>3500-1000000-</price_history>  
     <description> 
       <numberOfBedRooms>10</numberOfBedRooms>  
       <municipalValuation>123</municipalValuation>  
@@ -42,6 +44,7 @@
     <address>0-2222-222-quebec-canada-g1l1s8</address>  
     <price>25000</price>  
     <type>APPARTMENT</type>  
+    <price_history>3500-25000-</price_history>  
     <date_registered>2007-12-03T10:15:30</date_registered>  
     <description> 
       <numberOfBedRooms>4</numberOfBedRooms>  
@@ -55,22 +58,61 @@
       <numberOfBathrooms>0</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
+    <price>49999</price>  
+    <type>COTTAGE</type>  
+    <date_registered>2007-12-03T10:15:30</date_registered>  
+    <price_history>3500-49994-49996-49999-</price_history>  
+    <description> 
+      <numberOfBedRooms>20</numberOfBedRooms>  
+      <municipalValuation>125004</municipalValuation>  
+      <dimensionsBuilding>4x42</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>2</numberOfRooms>  
+      <yearsOfConstruction>2006</yearsOfConstruction>  
+      <backyardFaces>FRONT</backyardFaces>  
+      <numberOfLevel>1</numberOfLevel>  
+      <numberOfBathrooms>1</numberOfBathrooms> 
+    </description> 
+  </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-340-Rue des Bisous-Glo-Gloland-134</address>  
+    <price>1000</price>  
+    <type>APPARTMENT</type>  
+    <date_registered>2015-11-18T17:52:05.790</date_registered>  
+    <price_history/>  
+    <description> 
+      <numberOfBedRooms>0</numberOfBedRooms>  
+      <municipalValuation>0</municipalValuation>  
+      <dimensionsBuilding/>  
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>0</numberOfRooms>  
+      <yearsOfConstruction>0</yearsOfConstruction>  
+      <backyardFaces/>  
+      <numberOfLevel>0</numberOfLevel>  
+      <numberOfBathrooms>0</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-1-Test Sans Description-qc-qc-g12022</address>
-    <price>1000</price>
-    <type>CONDO</type>
-    <date_registered>2007-12-03T10:15:30</date_registered>
+    <address>0-1234-Rue des Bisous-PatateLand-Canada-Patate</address>
+    <price>100000</price>
+    <type>MULTIPLEX</type>
+    <date_registered>2015-11-18T18:09:09.588</date_registered>
+    <price_history></price_history>
     <description>
-      <numberOfBedRooms>20</numberOfBedRooms>
-      <municipalValuation>125000</municipalValuation>
-      <dimensionsBuilding>4x42</dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
-      <numberOfRooms>1</numberOfRooms>
-      <yearsOfConstruction>2002</yearsOfConstruction>
-      <backyardFaces>FRONT</backyardFaces>
-      <numberOfLevel>1</numberOfLevel>
-      <numberOfBathrooms>1</numberOfBathrooms>
+      <numberOfBedRooms>0</numberOfBedRooms>
+      <municipalValuation>0</municipalValuation>
+      <dimensionsBuilding></dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
+      <numberOfRooms>0</numberOfRooms>
+      <yearsOfConstruction>0</yearsOfConstruction>
+      <backyardFaces></backyardFaces>
+      <numberOfLevel>0</numberOfLevel>
+      <numberOfBathrooms>0</numberOfBathrooms>
     </description>
   </estate>
 </estates>
