@@ -58,7 +58,7 @@ public class XMLUserRepository implements UserRepository {
    }
 
    @Override
-   public void addUser(User newUser) throws UsernameAlreadyExistsException, CouldNotAccessDataException {
+   public void add(User newUser) throws UsernameAlreadyExistsException, CouldNotAccessDataException {
       try {
          Document usersXML = readUsersXML();
          if (usernameAlreadyExists(usersXML, newUser.getUsername())) {
@@ -73,7 +73,7 @@ public class XMLUserRepository implements UserRepository {
    }
 
    @Override
-   public void updateUser(User user) throws CouldNotAccessDataException {
+   public void update(User user) throws CouldNotAccessDataException {
       try {
          Document usersXML = readUsersXML();
          fileEditor.deleteExistingElementWithCorrespondingValue(usersXML, PATH_TO_USERNAME_VALUE, user.getUsername());
@@ -121,7 +121,7 @@ public class XMLUserRepository implements UserRepository {
    }
 
    @Override
-   public List<User> getAllUser() throws DocumentException {
+   public List<User> getAllUsers() throws DocumentException {
 
       Document userDocument = readUsersXML();
       List<Element> allElementsFromDocument = fileEditor.getAllElementsFromDocument(userDocument, PATH_TO_ALL_USER);

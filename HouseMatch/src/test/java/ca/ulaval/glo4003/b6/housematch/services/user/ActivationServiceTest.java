@@ -43,7 +43,7 @@ public class ActivationServiceTest {
       activationService.activateAccount(CORRECT_USERNAME);
 
       // Then
-      verify(userRepository).updateUser(user);
+      verify(userRepository).update(user);
 
    }
 

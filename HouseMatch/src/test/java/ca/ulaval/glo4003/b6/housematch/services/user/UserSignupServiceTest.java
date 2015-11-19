@@ -127,7 +127,7 @@ public class UserSignupServiceTest {
       userSignupService.signup(userDto);
 
       // Then
-      verify(userRepository).addUser(user);
+      verify(userRepository).add(user);
    }
 
    @Test
@@ -159,7 +159,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      doThrow(new CouldNotAccessDataException(null, null)).when(userRepository).addUser(user);
+      doThrow(new CouldNotAccessDataException(null, null)).when(userRepository).add(user);
       userSignupService.signup(userDto);
 
       // Then throw CouldNotAccessUserDataException
@@ -171,7 +171,7 @@ public class UserSignupServiceTest {
       // Given
 
       // When
-      doThrow(new UsernameAlreadyExistsException(null)).when(userRepository).addUser(user);
+      doThrow(new UsernameAlreadyExistsException(null)).when(userRepository).add(user);
       userSignupService.signup(userDto);
 
       // Then throw UsernameAlreadyExistsException

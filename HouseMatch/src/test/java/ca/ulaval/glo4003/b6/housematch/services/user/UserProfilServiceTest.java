@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.services.user;
 
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -111,7 +112,7 @@ public class UserProfilServiceTest {
       userProfilService.update(userDto);
 
       // Then
-      verify(userRepository, times(1)).updateUser(user);
+      verify(userRepository, times(1)).update(user);
    }
 
    @Test
@@ -186,7 +187,7 @@ public class UserProfilServiceTest {
    public void givenInvalidDataAccessWhenUpdatingUserShouldReturnException()
          throws CouldNotAccessDataException, UserNotFoundException, UserNotifyingException {
       // Given
-      doThrow(new CouldNotAccessDataException("", null)).when(userRepository).updateUser(user);
+      doThrow(new CouldNotAccessDataException("", null)).when(userRepository).update(user);
 
       // When
       userProfilService.update(userDto);

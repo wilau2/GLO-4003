@@ -59,7 +59,7 @@ public class AdminStatisticServiceTest {
       adminStatisticService = new AdminStatisticService(userRepository, userProcessor, estateRepositoryFactory,
             estateProcessor);
 
-      when(userRepository.getAllUser()).thenReturn(users);
+      when(userRepository.getAllUsers()).thenReturn(users);
       when(estateRepositoryFactory.newInstance(any(EstateAssemblerFactory.class))).thenReturn(estateRepository);
       when(estateRepository.getAllEstates()).thenReturn(estates);
       when(estateProcessor.retrieveUniqueSellersName(estates)).thenReturn(uniqueSellersName);
@@ -75,7 +75,7 @@ public class AdminStatisticServiceTest {
       adminStatisticService.getNumberOfActiveBuyer();
 
       // Then
-      verify(userRepository, times(1)).getAllUser();
+      verify(userRepository, times(1)).getAllUsers();
       verify(userProcessor, times(1)).getNumberOfActiveBuyer(users);
    }
 

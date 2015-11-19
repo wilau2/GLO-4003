@@ -44,7 +44,7 @@ public class UserSignupService {
       UserAssembler userAssembler = userAssemblerFactory.createUserAssembler();
       User newUser = userAssembler.assembleUser(userSignupDto);
 
-      userRepository.addUser(newUser);
+      userRepository.add(newUser);
       notifyAllObservers(newUser);
    }
 

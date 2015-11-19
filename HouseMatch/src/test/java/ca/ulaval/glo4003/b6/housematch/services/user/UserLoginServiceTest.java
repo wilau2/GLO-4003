@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.services.user;
 
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -91,7 +92,18 @@ public class UserLoginServiceTest {
       userLoginService.login(request, userDto);
 
       // Then does not throw exception
+   }
 
+   @Test
+   public void givenValidScenarioWhenLoginUserShouldCallUserVerifyPassword()
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+      // Given no changes
+
+      // When
+      userLoginService.login(request, userDto);
+
+      // Then
+      verify(user, times(1)).validateLoginCredential(userDto.getPassword());
    }
 
    @Test(expected = InvalidPasswordException.class)
@@ -154,16 +166,16 @@ public class UserLoginServiceTest {
 
       // Then
       verify(user, times(1)).updateLastActivity();
-      verify(userRepository, times(1)).updateUser(user);
+      verify(userRepository, times(1)).update(user);
    }
 
    private void configureValidPassword() {
-      given(user.getPassword()).willReturn(PASSWORD);
+      given(user.validateLoginCredential(PASSWORD)).willReturn(true);
       given(userDto.getPassword()).willReturn(PASSWORD);
    }
 
    private void configureInvalidPassword() {
-      given(user.getPassword()).willReturn(PASSWORD);
+      given(user.validateLoginCredential(INVALID_PASSWORD)).willReturn(false);
       given(userDto.getPassword()).willReturn(INVALID_PASSWORD);
    }
 

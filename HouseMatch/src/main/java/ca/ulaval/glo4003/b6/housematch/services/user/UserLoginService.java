@@ -34,7 +34,7 @@ public class UserLoginService {
       validateActivation(user);
 
       user.updateLastActivity();
-      userRepository.updateUser(user);
+      userRepository.update(user);
 
       request = userAuthorizationService.setSessionUserAuthorisation(request, user);
 
@@ -44,12 +44,10 @@ public class UserLoginService {
       if (!user.isActive()) {
          throw new UserActivationException("User is not active");
       }
-
    }
 
    private void validatePassword(UserDto userLoginDto, User user) throws InvalidPasswordException {
-
-      if (!user.getPassword().equals(userLoginDto.getPassword())) {
+      if (!user.validateLoginCredential(userLoginDto.getPassword())) {
          throw new InvalidPasswordException("This password is not good, you fool");
       }
    }
