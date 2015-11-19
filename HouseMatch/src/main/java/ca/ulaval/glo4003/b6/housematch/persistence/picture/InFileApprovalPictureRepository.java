@@ -58,10 +58,12 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
    public void addPicture(Picture inactivePicture) throws UUIDAlreadyExistsException, CouldNotAccessDataException {
       try {
          Document inactivePictures = readInactivePicturesXML();
+
          if (idAlreadyExists(inactivePictures, inactivePicture.getUid())) {
             throw new UUIDAlreadyExistsException("This UUID is already used");
          } else {
             addInactivePictureToDocument(inactivePictures, inactivePicture);
+
             saveFile(inactivePictures);
          }
       } catch (DocumentException exception) {
@@ -75,6 +77,7 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
       try {
          Document inactivePicturesXML = readInactivePicturesXML();
          fileEditor.deleteExistingElementWithCorrespondingValue(inactivePicturesXML, PATH_TO_UID, uid);
+
          saveFile(inactivePicturesXML);
       } catch (DocumentException exception) {
          throw new CouldNotAccessDataException("Something wrong happenned trying to access the data", exception);
@@ -100,6 +103,7 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
    @Override
    public List<Picture> getPicturesByUids(List<String> uids) throws CouldNotAccessDataException {
       List<Picture> inactivePictures = new ArrayList<Picture>();
+
       for (Iterator<String> uidsIterator = uids.iterator(); uidsIterator.hasNext();) {
          inactivePictures.add(getPictureByUid(uidsIterator.next()));
       }
@@ -110,6 +114,7 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
    @Override
    public Picture getPictureByUid(String uid) throws CouldNotAccessDataException {
       Document inactivePicturesXML;
+
       try {
          inactivePicturesXML = readInactivePicturesXML();
       } catch (DocumentException exception) {
@@ -121,22 +126,23 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
 
    @Override
    public void updatePictures(List<Picture> pictures) throws CouldNotAccessDataException, UUIDAlreadyExistsException {
-
       for (Iterator<Picture> picturesIterator = pictures.iterator(); picturesIterator.hasNext();) {
          Picture picture = picturesIterator.next();
+
          deletePicture(picture.getUid());
          addPicture(picture);
       }
-
    }
 
    private List<Picture> getDtoListFromElements(List<Element> elementList,
          InactivePictureAssembler inactivePictureAssembler,
          InactivePictureElementConverter inactivePictureElementConverter) {
       List<Picture> inactivePictures = new ArrayList<Picture>();
+
       for (Element element : elementList) {
          InformationPictureDto convertedInactivePictureDto = inactivePictureElementConverter.convertToDto(element);
          Picture inactivePicture = inactivePictureAssembler.assembleInactivePicture(convertedInactivePictureDto);
+
          inactivePictures.add(inactivePicture);
       }
       return inactivePictures;
@@ -147,7 +153,6 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
             PATH_TO_UID, uid);
 
       Picture inactivePicture = repositoryInactivePictureConverter.assembleInactivePictureFromAttributes(attributes);
-
       return inactivePicture;
    }
 
@@ -160,7 +165,6 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
    }
 
    private void addInactivePictureToDocument(Document existingDocument, Picture inactivePicture) {
-
       PersistenceDto inactivePictureDto = dtoFactory.getRepositoryDto(inactivePicture);
 
       fileEditor.addNewElementToDocument(existingDocument, inactivePictureDto);

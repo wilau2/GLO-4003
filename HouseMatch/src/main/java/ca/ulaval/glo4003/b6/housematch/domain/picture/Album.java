@@ -20,9 +20,4 @@ public class Album {
    public List<String> getActivePictureNames() {
       return activePictureNames;
    }
-
-   public PictureSelector createAlbumPictureSelector(PictureRepository pictureRepo) {
-      return new PictureSelector(this, pictureRepo);
-   }
-
 }

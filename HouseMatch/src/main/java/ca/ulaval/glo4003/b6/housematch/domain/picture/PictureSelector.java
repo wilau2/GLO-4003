@@ -22,7 +22,6 @@ public class PictureSelector {
    public byte[] getPicture(String pictureName) throws CouldNotAccessDataException {
       if (pictureName.equals(NO_PHOTO_AVAILABLE_MESSAGE)) {
          return pictureRepository.getEmptyPicture();
-
       }
       return pictureRepository.getPicture(pictureName, activePictureAlbum.getEstateAddress());
    }
@@ -37,6 +36,7 @@ public class PictureSelector {
 
    public List<String> getRelevantPictures() {
       List<String> everyAvailablePictures = activePictureAlbum.getActivePictureNames();
+
       if (everyAvailablePictures.isEmpty()) {
          everyAvailablePictures.add(NO_PHOTO_AVAILABLE_MESSAGE);
       }

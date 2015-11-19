@@ -78,8 +78,6 @@ public class Pictures {
             pictureList.add(picture);
          }
       }
-
       return pictureList;
-
    }
 }

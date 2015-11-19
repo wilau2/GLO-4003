@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.domain.picture;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -40,17 +39,5 @@ public class AlbumTest {
 
       // Then
       assertEquals(ESTATE_ADDRESS, rep);
-   }
-
-   @Test
-   public void givenValidAlbumWhenGetCreateCustomPictureSelectorShoudlReturnIt() {
-      // Given
-      Album album = new Album(ESTATE_ADDRESS, activePictureNames);
-
-      // When
-      PictureSelector rep = album.createAlbumPictureSelector(pictureRepo);
-
-      // Then
-      assertTrue(rep instanceof PictureSelector);
    }
 }
