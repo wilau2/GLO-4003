@@ -4,7 +4,7 @@ import org.dom4j.Element;
 
 import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
 
-public class InactivePictureElementConverter {
+public class PictureElementConverter {
 
    private static final String UUID = "uid";
 
@@ -14,7 +14,7 @@ public class InactivePictureElementConverter {
 
    private static final String ACTIVE = "active";
 
-   public InactivePictureElementConverter() {
+   public PictureElementConverter() {
 
    }
 
