@@ -3,6 +3,10 @@ package ca.ulaval.glo4003.b6.housematch.persistence.user;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -133,7 +137,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.addUser(user);
+      repository.add(user);
 
       // Then
       verify(editor).readXMLFile(correctPathToFile);
@@ -147,7 +151,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.addUser(user);
+      repository.add(user);
 
       // Then
       verify(editor).elementWithCorrespondingValueExists(usedDocument, correctPathToUsernameValue, newUsername);
@@ -159,7 +163,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.addUser(user);
+      repository.add(user);
 
       // Then
       verify(dtoFactory).getRepositoryDto(user);
@@ -173,7 +177,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.addUser(user);
+      repository.add(user);
 
       // Then
       verify(editor).addNewElementToDocument(usedDocument, userDto);
@@ -187,7 +191,7 @@ public class XMLUserRepositoryTest {
       configureDifferentUser();
 
       // When
-      repository.addUser(user);
+      repository.add(user);
 
       // Then
       verify(editor).formatAndWriteDocument(usedDocument, correctPathToFile);
@@ -200,7 +204,7 @@ public class XMLUserRepositoryTest {
       // Given
 
       // When
-      repository.updateUser(user);
+      repository.update(user);
 
       // Then
       verify(editor).deleteExistingElementWithCorrespondingValue(usedDocument, correctPathToUsernameValue,
@@ -214,7 +218,7 @@ public class XMLUserRepositoryTest {
       // Given
 
       // When
-      repository.updateUser(user);
+      repository.update(user);
 
       // Then
       verify(editor).addNewElementToDocument(usedDocument, userDto);
@@ -238,7 +242,7 @@ public class XMLUserRepositoryTest {
       // Given An existing user
 
       // When
-      repository.addUser(user);
+      repository.add(user);
 
       // Then Exception is thrown
    }
@@ -262,7 +266,7 @@ public class XMLUserRepositoryTest {
       given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
 
       // When
-      repository.updateUser(user);
+      repository.update(user);
 
       // Then Exception is thrown
    }
@@ -274,7 +278,7 @@ public class XMLUserRepositoryTest {
       given(editor.readXMLFile(correctPathToFile)).willThrow(new DocumentException());
 
       // When
-      repository.addUser(user);
+      repository.add(user);
 
       // Then Exception is thrown
    }
@@ -320,7 +324,7 @@ public class XMLUserRepositoryTest {
       // Given no changes
 
       // When
-      repository.getAllUser();
+      repository.getAllUsers();
 
       // Then
       verify(editor, times(1)).readXMLFile("persistence/users.xml");
@@ -334,10 +338,22 @@ public class XMLUserRepositoryTest {
       configureFileEditorGetAllUserElement(numberOfDocumentReturned);
 
       // When
-      repository.getAllUser();
+      repository.getAllUsers();
 
       // Then
       verify(assembler, times(numberOfDocumentReturned)).assembleUserFromElement(userElement);
+   }
+
+   @Test(expected = CouldNotAccessDataException.class)
+   public void updatingUserWhenSavingFileThrowIOExceptionShouldThrowException()
+         throws UsernameAlreadyExistsException, CouldNotAccessDataException, IOException {
+      // Given
+      doThrow(new IOException("")).when(editor).formatAndWriteDocument(any(), eq("persistence/users.xml"));
+
+      // When
+      repository.update(user);
+
+      // Then a Could not access data exception is thrown
    }
 
    private void configureFileEditorGetAllUserElement(int numberOfDocumentReturned) {

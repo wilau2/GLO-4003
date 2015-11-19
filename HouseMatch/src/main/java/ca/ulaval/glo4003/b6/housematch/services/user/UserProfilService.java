@@ -45,7 +45,7 @@ public class UserProfilService {
 
       existingUser.updateContactInformation(newInfos);
 
-      userRepository.updateUser(existingUser);
+      userRepository.update(existingUser);
 
       if (emailIsChanged) {
          notifyAllObservers(existingUser);

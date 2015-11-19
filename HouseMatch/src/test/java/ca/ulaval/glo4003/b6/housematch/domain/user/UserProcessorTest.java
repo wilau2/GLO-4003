@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.domain.user;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -91,6 +92,26 @@ public class UserProcessorTest {
 
       // Then
       assertEquals(expectedNumberOfActiveBuyer, actualNumberOfActiveBuyer);
+   }
+
+   @Test
+   public void askingNumberOfActiveBuyerWhenNotAllUserAreBuyerShouldReturnNumberOfActiveBuyer() {
+      // Given
+      int expectedNumberOfActiveBuyer = configureNotAllUserArBuyer();
+
+      // When
+      int numberOfActiveBuyer = userProcessor.getNumberOfActiveBuyer(users);
+
+      // Then
+      assertEquals(expectedNumberOfActiveBuyer, numberOfActiveBuyer);
+   }
+
+   private int configureNotAllUserArBuyer() {
+      configureBuyerActive();
+      when(user.isBuyer()).thenReturn(true, true, false);
+      when(user.wasActiveInTheLastSixMonths()).thenReturn(true, false, true);
+      int expectedNumberOfActiveBuyer = 1;
+      return expectedNumberOfActiveBuyer;
    }
 
    private int configureNotAllBuyersActiveTest() {

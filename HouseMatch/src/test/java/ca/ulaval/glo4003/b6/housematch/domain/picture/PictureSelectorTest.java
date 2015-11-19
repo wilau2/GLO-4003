@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.domain.picture;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,6 +34,9 @@ public class PictureSelectorTest {
 
    @Mock
    private MultipartFile pictureFile;
+
+   @Mock
+   private List<String> pictures;
 
    @InjectMocks
    private PictureSelector pictureSelector;
@@ -82,6 +86,8 @@ public class PictureSelectorTest {
 
    @Test
    public void whenAskedForRelevantPicturesAskAlbumForActivePicturesName() throws CouldNotAccessDataException {
+      // Given no changes
+
       // When
       pictureSelector.getRelevantPictures();
 
@@ -101,6 +107,19 @@ public class PictureSelectorTest {
 
       // Then
       assertEquals(everyAvailablePictures, pictureSelector.getRelevantPictures());
+   }
+
+   @Test
+   public void whenAskingForRelevantPicturesWithPicturesFoundShouldReturnListOfPicturesFound() {
+      // Given
+      when(album.getActivePictureNames()).thenReturn(pictures);
+      when(pictures.isEmpty()).thenReturn(false);
+
+      // When
+      List<String> relevantPictures = pictureSelector.getRelevantPictures();
+
+      // Then
+      assertEquals(pictures, relevantPictures);
    }
 
    private void configureAlbum() {

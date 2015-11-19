@@ -12,10 +12,10 @@ public interface UserRepository {
 
    User getUser(String username) throws UserNotFoundException, CouldNotAccessDataException;
 
-   void addUser(User user) throws UsernameAlreadyExistsException, CouldNotAccessDataException;
+   void add(User user) throws UsernameAlreadyExistsException, CouldNotAccessDataException;
 
-   void updateUser(User user) throws CouldNotAccessDataException;
+   void update(User user) throws CouldNotAccessDataException;
 
-   List<User> getAllUser() throws DocumentException;
+   List<User> getAllUsers() throws DocumentException;
 
 }
