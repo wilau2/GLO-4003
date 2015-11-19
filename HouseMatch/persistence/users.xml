@@ -24,25 +24,25 @@
     <username>buyer</username> 
   </user>  
   <user> 
-    <firstName>Bruce</firstName>  
-    <lastName>Leee</lastName>  
+    <firstName>Ding</firstName>  
+    <lastName>Dong</lastName>  
     <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>123-123-1234</phoneNumber>  
-    <dateLastActivity>2015-11-18T18:08:30.425</dateLastActivity>  
+    <role>admin</role>  
+    <phoneNumber>123-456-7899</phoneNumber>  
+    <dateLastActivity>2015-11-18T20:56:18.529</dateLastActivity>  
     <isActive>true</isActive>  
-    <email>bruce@lee.com</email>  
-    <username>seller</username> 
+    <email>ding@dong.com</email>  
+    <username>admin</username> 
   </user>  
   <user>
-    <firstName>Ding</firstName>
-    <lastName>Dong</lastName>
+    <firstName>Bruce</firstName>
+    <lastName>Leee</lastName>
     <password>123</password>
-    <role>admin</role>
-    <phoneNumber>123-456-7899</phoneNumber>
-    <dateLastActivity>2015-11-18T18:09:51.936</dateLastActivity>
+    <role>seller</role>
+    <phoneNumber>123-123-1234</phoneNumber>
+    <dateLastActivity>2015-11-18T20:56:57.201</dateLastActivity>
     <isActive>true</isActive>
-    <email>ding@dong.com</email>
-    <username>admin</username>
+    <email>bruce@lee.com</email>
+    <username>seller</username>
   </user>
 </users>
