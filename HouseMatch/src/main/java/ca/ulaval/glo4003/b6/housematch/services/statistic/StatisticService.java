@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.services.admin;
+package ca.ulaval.glo4003.b6.housematch.services.statistic;
 
 import java.util.List;
 
@@ -12,26 +12,24 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 
-public class AdminStatisticService {
+public class StatisticService {
 
    private UserRepository userRepository;
 
    private UserProcessor userProcessor;
 
-   private EstateRepositoryFactory estateRepositoryFactory;
+   private EstateRepository estateRepository;
 
    private EstatesProcessor estateProcessor;
 
    @Inject
-   public AdminStatisticService(UserRepository userRepository, UserProcessor userProcessor,
-         EstateRepositoryFactory estateRepositoryFactory, EstatesProcessor estateProcessor) {
+   public StatisticService(UserRepository userRepository, UserProcessor userProcessor,
+         EstateRepository estateRepository, EstatesProcessor estateProcessor) {
       this.userRepository = userRepository;
       this.userProcessor = userProcessor;
-      this.estateRepositoryFactory = estateRepositoryFactory;
+      this.estateRepository = estateRepository;
       this.estateProcessor = estateProcessor;
 
    }
@@ -42,7 +40,7 @@ public class AdminStatisticService {
    }
 
    public int getNumberOfActiveSeller() throws CouldNotAccessDataException {
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(new EstateAssemblerFactory());
+
       List<Estate> estates = estateRepository.getAllEstates();
       List<String> uniqueSellersName = estateProcessor.retrieveUniqueSellersName(estates);
       return uniqueSellersName.size();

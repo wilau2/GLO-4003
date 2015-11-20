@@ -61,7 +61,10 @@ public class UserAuthorizationService {
    }
 
    public boolean isUserLogged(HttpServletRequest request) {
-      // TODO Auto-generated method stub
-      return false;
+      String username = (String) request.getSession().getAttribute(LOGGED_IN_USERNAME);
+      if (username == null) {
+         return false;
+      }
+      return true;
    }
 }

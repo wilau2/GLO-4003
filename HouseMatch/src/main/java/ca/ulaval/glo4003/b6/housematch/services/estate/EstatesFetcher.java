@@ -15,22 +15,21 @@ import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessData
 
 public class EstatesFetcher {
 
-   private EstateRepositoryFactory estateRepositoryFactory;
+   private EstateRepository estateRepository;
 
    private EstateSorter estateSorter;
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
-   public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepositoryFactory estateRepositoryFactory,
+   public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepository estateRepository,
          EstateSorter estateSorter) {
       this.estateAssemblerFactory = estateAssemblerFactory;
-      this.estateRepositoryFactory = estateRepositoryFactory;
+      this.estateRepository = estateRepository;
       this.estateSorter = estateSorter;
    }
 
    public List<EstateDto> getEstatesBySeller(String sellerName)
          throws SellerNotFoundException, CouldNotAccessDataException {
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
 
       List<Estate> sellerEstates = estateRepository.getEstateFromSeller(sellerName);
 
@@ -41,7 +40,6 @@ public class EstatesFetcher {
 
    public EstateDto getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException {
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       Estate estate = estateRepository.getEstateByAddress(address);
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
@@ -52,7 +50,6 @@ public class EstatesFetcher {
 
    public List<EstateDto> getAllEstates() throws CouldNotAccessDataException {
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       List<Estate> estates = estateRepository.getAllEstates();
 
       estateSorter.setEstates(estates);

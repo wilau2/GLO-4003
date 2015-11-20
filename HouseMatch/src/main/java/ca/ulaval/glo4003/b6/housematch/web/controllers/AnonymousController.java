@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.admin.AdminStatisticService;
+import ca.ulaval.glo4003.b6.housematch.services.statistic.StatisticService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 
 @Controller
@@ -17,10 +17,10 @@ public class AnonymousController {
 
    private UserAuthorizationService userAuthorizationSerive;
 
-   private AdminStatisticService statisticService;
+   private StatisticService statisticService;
 
    public AnonymousController(UserAuthorizationService userAuthorizationSerive,
-         AdminStatisticService statisticService) {
+         StatisticService statisticService) {
       this.userAuthorizationSerive = userAuthorizationSerive;
       this.statisticService = statisticService;
    }

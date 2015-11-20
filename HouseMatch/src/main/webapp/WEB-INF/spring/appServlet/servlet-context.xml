@@ -45,18 +45,40 @@
     </beans:bean>
 
     <beans:bean
-        id="estateRepositoryFactory"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.estate.factory.XmlEstateRepositoryFactory" />
-    <beans:bean
         id="descriptionValidatorFactory"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.DescriptionValidatorFactory" />
     <beans:bean
         id="estateValidatorFactory"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.EstateValidatorFactoryImpl" />
+
     <beans:bean
         id="estateAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory" />
+    <beans:bean
+        id="estateElementAssemblerFactory"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.estate.converter.EstateElementConverterFactory" />
+    <beans:bean
+        id="estatePersistenceDtoFactory"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.estate.EstatePersistenceDtoFactory" />
 
+    <beans:bean
+        id="estateRepository"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.estate.XMLEstateRepository"
+        scope="session"
+    >
+        <beans:constructor-arg
+            name="estateAssemblerFactory"
+            ref="estateAssemblerFactory" />
+        <beans:constructor-arg
+            name="estateElementAssemblerFactory"
+            ref="estateElementAssemblerFactory" />
+        <beans:constructor-arg
+            name="estatePersistenceDtoFactory"
+            ref="estatePersistenceDtoFactory" />
+        <beans:constructor-arg
+            name="FileEditor"
+            ref="fileEditorId" />
+    </beans:bean>
     <beans:bean
         id="estateSorter"
         class="ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter" />
@@ -73,8 +95,8 @@
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
         <beans:constructor-arg
-            name="estateRepositoryFactory"
-            ref="estateRepositoryFactory" />
+            name="estateRepository"
+            ref="estateRepository" />
     </beans:bean>
 
     <beans:bean
@@ -93,8 +115,8 @@
         scope="session"
     >
         <beans:constructor-arg
-            name="estateRepositoryFactory"
-            ref="estateRepositoryFactory" />
+            name="estateRepository"
+            ref="estateRepository" />
         <beans:constructor-arg
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
@@ -536,8 +558,8 @@
         class="ca.ulaval.glo4003.b6.housematch.domain.user.UserProcessor"
         scope="session" />
     <beans:bean
-        id="adminStatisticService"
-        class="ca.ulaval.glo4003.b6.housematch.services.admin.AdminStatisticService"
+        id="statisticService"
+        class="ca.ulaval.glo4003.b6.housematch.services.statistic.StatisticService"
         scope="session"
     >
         <beans:constructor-arg
@@ -548,8 +570,8 @@
             ref="userProcessor" />
 
         <beans:constructor-arg
-            name="estateRepositoryFactory"
-            ref="estateRepositoryFactory" />
+            name="estateRepository"
+            ref="estateRepository" />
         <beans:constructor-arg
             name="estateProcessor"
             ref="estatesProcessor" />
@@ -563,7 +585,7 @@
     >
         <beans:constructor-arg
             name="adminStatisticService"
-            ref="adminStatisticService" />
+            ref="statisticService" />
         <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />
@@ -585,7 +607,7 @@
     >
         <beans:constructor-arg
             name="statisticService"
-            ref="adminStatisticService" />
+            ref="statisticService" />
         <beans:constructor-arg
             name="userAuthorizationSerive"
             ref="userAuthorizationService" />

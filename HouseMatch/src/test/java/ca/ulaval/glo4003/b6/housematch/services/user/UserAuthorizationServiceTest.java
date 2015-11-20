@@ -1,8 +1,11 @@
 package ca.ulaval.glo4003.b6.housematch.services.user;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -173,6 +176,31 @@ public class UserAuthorizationServiceTest {
       userAuthorizationService.verifySessionIsAllowed(request, listOfExpectedRoles);
 
       // Then an invalid access exception is thrown
+   }
+
+   @Test
+   public void verifyingIfUserIsLoggedWhenUserIsNotLoggedShouldReturnFalse() {
+      // Given
+      when(session.getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME)).thenReturn(null);
+
+      // When
+      boolean userLogged = userAuthorizationService.isUserLogged(request);
+
+      // Then
+      assertFalse(userLogged);
+
+   }
+
+   @Test
+   public void verifyingIfUserIsLoggedWhenUserIsLoggedShouldReturnTrue() {
+      // Given
+      when(session.getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME)).thenReturn(USERNAME);
+
+      // When
+      boolean userLogged = userAuthorizationService.isUserLogged(request);
+
+      // Then
+      assertTrue(userLogged);
    }
 
    private void configureAdminRole() {
