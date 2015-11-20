@@ -15,7 +15,7 @@ public class UserAuthorizationService {
    public static final String LOGGED_IN_USERNAME = "loggedInUsername";
 
    private static final String INVALID_ACCESS_MESSAGE = "You don't have the access to do that, "
-         + "be a gentlement and stay in your field of work";
+                                                        + "be a gentlement and stay in your field of work";
 
    public HttpServletRequest setSessionUserAuthorisation(HttpServletRequest request, User user) {
 
@@ -58,5 +58,10 @@ public class UserAuthorizationService {
          return;
       }
       throw new InvalidAccessException(INVALID_ACCESS_MESSAGE);
+   }
+
+   public boolean isUserLogged(HttpServletRequest request) {
+      // TODO Auto-generated method stub
+      return false;
    }
 }

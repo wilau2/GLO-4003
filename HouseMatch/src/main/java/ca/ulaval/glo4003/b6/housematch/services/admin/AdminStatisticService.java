@@ -36,7 +36,7 @@ public class AdminStatisticService {
 
    }
 
-   public int getNumberOfActiveBuyer() throws CouldNotAccessDataException, DocumentException {
+   public int getNumberOfActiveBuyers() throws CouldNotAccessDataException, DocumentException {
       List<User> users = userRepository.getAllUsers();
       return userProcessor.getNumberOfActiveBuyer(users);
    }

@@ -72,7 +72,7 @@ public class AdminStatisticServiceTest {
       // Given no changes
 
       // When
-      adminStatisticService.getNumberOfActiveBuyer();
+      adminStatisticService.getNumberOfActiveBuyers();
 
       // Then
       verify(userRepository, times(1)).getAllUsers();
@@ -87,7 +87,7 @@ public class AdminStatisticServiceTest {
       when(userProcessor.getNumberOfActiveBuyer(users)).thenReturn(expectedNumberOfActiveBuyer);
 
       // When
-      int actualNumberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyer();
+      int actualNumberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyers();
 
       // Then
       assertEquals(expectedNumberOfActiveBuyer, actualNumberOfActiveBuyer);

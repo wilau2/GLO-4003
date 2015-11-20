@@ -78,7 +78,7 @@ public class AdminStatisticControllerTest {
       adminStatisticController.getNumberOfActiveBuyer(request);
 
       // Then
-      verify(adminStatisticService, times(1)).getNumberOfActiveBuyer();
+      verify(adminStatisticService, times(1)).getNumberOfActiveBuyers();
    }
 
    @Test
@@ -86,7 +86,7 @@ public class AdminStatisticControllerTest {
          throws InvalidAccessException, CouldNotAccessDataException, DocumentException {
       // Given
       int expectedNumberOfActiveBuyer = 3;
-      when(adminStatisticService.getNumberOfActiveBuyer()).thenReturn(expectedNumberOfActiveBuyer);
+      when(adminStatisticService.getNumberOfActiveBuyers()).thenReturn(expectedNumberOfActiveBuyer);
 
       // When
       ModelAndView returnedViewModel = adminStatisticController.getNumberOfActiveBuyer(request);
