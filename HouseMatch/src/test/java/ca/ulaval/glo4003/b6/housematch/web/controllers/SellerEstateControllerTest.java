@@ -258,7 +258,7 @@ public class SellerEstateControllerTest {
    @Test
    public void whenAddingPictureShouldCallAddingMethodOfServiceLayer()
          throws InvalidAccessException, CouldNotAccessDataException, InvalidEstateFieldException,
-         PictureAlreadyExistsException, UUIDAlreadyExistsException {
+         PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given no changes
 
       // When
@@ -270,7 +270,7 @@ public class SellerEstateControllerTest {
 
    @Test
    public void whenAddingPictureShouldVerifyAuthorization() throws InvalidAccessException, CouldNotAccessDataException,
-         InvalidEstateFieldException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
+         InvalidEstateFieldException, PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given no changes
 
       // When

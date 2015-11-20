@@ -18,4 +18,6 @@ public interface EstateRepository {
 
    void updateEstate(Estate estate) throws CouldNotAccessDataException;
 
+   void updateEstateModifiedDate(String address) throws EstateNotFoundException, CouldNotAccessDataException;
+
 }

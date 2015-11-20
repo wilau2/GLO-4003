@@ -67,6 +67,9 @@ public class Estate {
    }
 
    public void editDescription(Description description) {
+      if(this.description.compareChanges(description) > 25.00){
+         this.udateModifiedDate();
+      }
       this.description = description;
    }
 
@@ -123,6 +126,7 @@ public class Estate {
 
    public void editType(String newType) {
       this.type = newType;
+      udateModifiedDate();
    }
 
    
@@ -130,6 +134,11 @@ public class Estate {
       if (this.price != newPrice) {
          this.priceHistory.add(this.price);
          this.price = newPrice;
+         udateModifiedDate();
       }
+   }
+   
+   public void udateModifiedDate(){
+      dateModified = LocalDateTime.now();
    }
 }

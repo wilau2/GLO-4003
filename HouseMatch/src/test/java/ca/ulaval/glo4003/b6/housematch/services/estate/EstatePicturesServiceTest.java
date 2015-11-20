@@ -38,6 +38,7 @@ public class EstatePicturesServiceTest {
 
    @Mock
    private PictureSelector pictureSelector;
+   
 
    @Mock
    private Album album;
@@ -96,7 +97,7 @@ public class EstatePicturesServiceTest {
 
    @Test
    public void addingAPictureShouldCallAlbumPictureRepository()
-         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
+         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given no changes
 
       // When
@@ -108,7 +109,7 @@ public class EstatePicturesServiceTest {
 
    @Test
    public void addingAPictureShouldCallAddPictureFromSelector()
-         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
+         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given no changes
 
       // When

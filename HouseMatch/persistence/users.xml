@@ -40,7 +40,7 @@
     <password>123</password>  
     <role>seller</role>  
     <phoneNumber>123-123-1234</phoneNumber>  
-    <dateLastActivity>2015-11-20T10:52:10.995</dateLastActivity>  
+    <dateLastActivity>2015-11-20T13:21:50.461</dateLastActivity>  
     <isActive>true</isActive>  
     <email>bruce@lee.com</email>  
     <username>seller</username> 
@@ -51,7 +51,7 @@
     <password>123</password>
     <role>buyer</role>
     <phoneNumber>123-456-7899</phoneNumber>
-    <dateLastActivity>2015-11-20T12:13:28.253</dateLastActivity>
+    <dateLastActivity>2015-11-20T13:22:14.666</dateLastActivity>
     <isActive>true</isActive>
     <email>kid@kiddy.com</email>
     <username>buyer</username>

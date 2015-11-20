@@ -82,4 +82,8 @@ public class Description {
    public String getBackyardOrientation() {
       return backyardOrientation;
    }
+
+   public double compareChanges(Description description) {
+      return 25.55;
+   }
 }

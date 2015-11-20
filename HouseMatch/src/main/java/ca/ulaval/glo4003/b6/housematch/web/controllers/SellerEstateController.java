@@ -34,6 +34,7 @@ import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessData
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
@@ -61,7 +62,8 @@ public class SellerEstateController {
    public SellerEstateController(EstateCorruptionVerificator estateCorruptionVerificator,
          UserAuthorizationService userAuthorizationService, EstatesFetcher estatesFetcher,
          DescriptionCorruptionVerificator descriptionCorruptionVerificator,
-         PictureCorruptionVerificator pictureCorruptionVerificator, EstatePicturesService estatePicturesService) {
+         PictureCorruptionVerificator pictureCorruptionVerificator, 
+         EstatePicturesService estatePicturesService) {
 
       this.estateCorruptionVerificator = estateCorruptionVerificator;
       this.userAuthorizationService = userAuthorizationService;
@@ -154,13 +156,13 @@ public class SellerEstateController {
    public String addPicture(@PathVariable("address") String address, @RequestParam("name") final String name,
          @RequestParam("file") MultipartFile file, HttpServletRequest request)
                throws CouldNotAccessDataException, InvalidAccessException, InvalidEstateFieldException,
-               PictureAlreadyExistsException, UUIDAlreadyExistsException {
+               PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       pictureCorruptionVerificator.validatePictureValidity(name, file.getOriginalFilename());
       estatePicturesService.addPicture(address, name, file);
-
+      
       return "redirect:/seller/{userId}/estates/{address}";
    }
 

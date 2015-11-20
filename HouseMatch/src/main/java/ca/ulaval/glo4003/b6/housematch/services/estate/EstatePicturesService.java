@@ -7,6 +7,9 @@ import javax.inject.Inject;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Album;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.ApprovalPictureRepository;
@@ -49,7 +52,8 @@ public class EstatePicturesService {
    }
 
    public void addPicture(String address, String name, MultipartFile file)
-         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
+         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
+      
       Album album = albumPictureFactory.createAlbum(address);
 
       PictureSelector pictureSelector = album.createAlbumPictureSelector(pictureRepository);
