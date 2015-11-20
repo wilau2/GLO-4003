@@ -117,7 +117,7 @@ public class AdminStatisticControllerTest {
       adminStatisticController.getNumberOfActiveSellers(request);
 
       // Then
-      verify(adminStatisticService, times(1)).getNumberOfActiveSeller();
+      verify(adminStatisticService, times(1)).getNumberOfActiveSellers();
    }
 
    @Test
@@ -125,7 +125,7 @@ public class AdminStatisticControllerTest {
          throws InvalidAccessException, CouldNotAccessDataException {
       // Given
       int expectedNumberOfActiveSeller = 1;
-      when(adminStatisticService.getNumberOfActiveSeller()).thenReturn(expectedNumberOfActiveSeller);
+      when(adminStatisticService.getNumberOfActiveSellers()).thenReturn(expectedNumberOfActiveSeller);
 
       // When
       ModelAndView modelAndView = adminStatisticController.getNumberOfActiveSellers(request);

@@ -21,9 +21,9 @@ import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessData
 import ca.ulaval.glo4003.b6.housematch.services.statistic.StatisticService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 
-public class AnonymousControllerTest {
+public class AnonymousDashboardControllerTest {
 
-   private AnonymousController anonymousController;
+   private AnonymousDashboardController anonymousController;
 
    @Mock
    private HttpServletRequest request;
@@ -38,7 +38,7 @@ public class AnonymousControllerTest {
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
-      anonymousController = new AnonymousController(userAuthorizationSerive, statisticService);
+      anonymousController = new AnonymousDashboardController(userAuthorizationSerive, statisticService);
    }
 
    @Test
@@ -91,5 +91,32 @@ public class AnonymousControllerTest {
       // Then
       Map<String, Object> model = homePage.getModel();
       assertEquals(expectedNumberOfActiveBuyer, model.get("numberOfActiveBuyers"));
+   }
+
+   @Test
+   public void whenGettingTheAnonymeHomePageShouldCallNumberOfActiveSellersFromStatisticService()
+         throws CouldNotAccessDataException, DocumentException {
+      // Given no changes
+
+      // When
+      anonymousController.getHomePage(request);
+
+      // Then
+      verify(statisticService, times(1)).getNumberOfActiveSellers();
+   }
+
+   @Test
+   public void whenGettingTheHomePAgeSHouldReturnTheNumberOfActiveSellersInsideViewModel()
+         throws CouldNotAccessDataException, DocumentException {
+      // Given
+      int expectedNumberOfActiveSellers = 3;
+      when(statisticService.getNumberOfActiveSellers()).thenReturn(expectedNumberOfActiveSellers);
+
+      // When
+      ModelAndView homePageModel = anonymousController.getHomePage(request);
+
+      // Then
+      Map<String, Object> model = homePageModel.getModel();
+      assertEquals(expectedNumberOfActiveSellers, model.get("numberOfActiveSellers"));
    }
 }

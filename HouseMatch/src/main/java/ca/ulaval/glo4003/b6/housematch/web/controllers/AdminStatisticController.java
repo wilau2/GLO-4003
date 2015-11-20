@@ -53,7 +53,7 @@ public class AdminStatisticController {
          throws InvalidAccessException, CouldNotAccessDataException {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 
-      int numberOfActiveSeller = adminStatisticService.getNumberOfActiveSeller();
+      int numberOfActiveSeller = adminStatisticService.getNumberOfActiveSellers();
 
       ModelAndView modelAndView = new ModelAndView("admin_active_seller");
       modelAndView.addObject(NUMBER_OF_ACTIVE_SELLER_KEY, numberOfActiveSeller);
