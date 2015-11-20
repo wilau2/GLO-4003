@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.persistence.user;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
@@ -22,6 +23,9 @@ public class UserPersistenceDto implements PersistenceDto {
       attributes.put("email", user.getContactInformation().getEmail());
       attributes.put("password", user.getPassword());
       attributes.put("isActive", user.isActive().toString());
+      if (user.getDateOfLastActivity() == null) {
+         user.setDateOfLastActivity(LocalDateTime.MIN);
+      }
       attributes.put("dateLastActivity", user.getDateOfLastActivity().toString());
       this.attributes = attributes;
    }

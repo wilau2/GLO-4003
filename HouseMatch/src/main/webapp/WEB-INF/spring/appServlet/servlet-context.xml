@@ -31,13 +31,17 @@
             name="suffix"
             value=".jsp" />
     </beans:bean>
-    
-    <beans:bean id="multipartResolver"
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
- 
-         <!-- setting maximum upload size -->
-        <beans:property name="maxUploadSize" value="10000000" />
- 
+
+    <beans:bean
+        id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+    >
+
+        <!-- setting maximum upload size -->
+        <beans:property
+            name="maxUploadSize"
+            value="10000000" />
+
     </beans:bean>
 
     <beans:bean
@@ -52,15 +56,16 @@
     <beans:bean
         id="estateAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory" />
-        
+
     <beans:bean
         id="estateSorter"
-        class="ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter"/>
+        class="ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter" />
 
     <beans:bean
         id="estateService"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService"
-        scope="session">
+        scope="session"
+    >
         <beans:constructor-arg
             name="estateValidatorFactory"
             ref="estateValidatorFactory" />
@@ -75,7 +80,8 @@
     <beans:bean
         id="descriptionCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator"
-        scope="session">
+        scope="session"
+    >
         <beans:constructor-arg
             name="estateService"
             ref="estateService" />
@@ -84,7 +90,8 @@
     <beans:bean
         id="estatesFetcher"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher"
-        scope="session">
+        scope="session"
+    >
         <beans:constructor-arg
             name="estateRepositoryFactory"
             ref="estateRepositoryFactory" />
@@ -92,33 +99,38 @@
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
         <beans:constructor-arg
-        	name="estateSorter"
-        	ref="estateSorter" />
+            name="estateSorter"
+            ref="estateSorter" />
     </beans:bean>
-    
+
     <beans:bean
         id="inFilePictureRepository"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFilePictureRepository">
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFilePictureRepository"
+    >
     </beans:bean>
-    
+
     <beans:bean
         id="albumPictureFactory"
-        class="ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureFactory">
+        class="ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureFactory"
+    >
     </beans:bean>
-    
+
     <beans:bean
         id="inactivePictureAssembler"
-        class="ca.ulaval.glo4003.b6.housematch.dto.assembler.InactivePictureAssembler">
+        class="ca.ulaval.glo4003.b6.housematch.dto.assembler.InactivePictureAssembler"
+    >
     </beans:bean>
-    
+
     <beans:bean
         id="inactivePictureElementConverter"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.converter.InactivePictureElementConverter">
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.converter.InactivePictureElementConverter"
+    >
     </beans:bean>
-    
+
     <beans:bean
         id="inFileApprovalPictureRepository"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFileApprovalPictureRepository">
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFileApprovalPictureRepository"
+    >
         <beans:constructor-arg
             name="persistenceDtoFactoryId"
             ref="persistenceDtoFactoryId" />
@@ -133,18 +145,20 @@
             ref="inactivePictureElementConverter" />
         <beans:constructor-arg
             name="repositoryInactivePictureConverter"
-            ref="repositoryInactivePictureConverter" />  
+            ref="repositoryInactivePictureConverter" />
     </beans:bean>
-   
-    
+
+
     <beans:bean
         id="repositoryInactivePictureConverter"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.converter.RepositoryInactivePictureConverter">
-	</beans:bean>
-	<beans:bean
+        class="ca.ulaval.glo4003.b6.housematch.persistence.picture.converter.RepositoryInactivePictureConverter"
+    >
+    </beans:bean>
+    <beans:bean
         id="estatePicturesService"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService"
-        scope="session">
+        scope="session"
+    >
         <beans:constructor-arg
             name="pictureRepository"
             ref="inFilePictureRepository" />
@@ -164,7 +178,7 @@
         id="addressCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.AddressCorruptionVerificator"
         scope="session" />
-        
+
     <beans:bean
         id="pictureCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.PictureCorruptionVerificator"
@@ -173,7 +187,8 @@
     <beans:bean
         id="estateCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator"
-        scope="session">
+        scope="session"
+    >
         <beans:constructor-arg
             name="addressCorruptionVerificator"
             ref="addressCorruptionVerificator" />
@@ -186,7 +201,8 @@
     <beans:bean
         id="sellerEstateController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.SellerEstateController"
-        scope="session">
+        scope="session"
+    >
         <beans:constructor-arg
             name="estateCorruptionVerificator"
             ref="estateCorruptionVerificator" />
@@ -209,7 +225,8 @@
     <beans:bean
         id="buyerSearchEstatesController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.BuyerSearchEstatesController"
-        scope="session">
+        scope="session"
+    >
         <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />
@@ -217,11 +234,12 @@
             name="estatePicturesService"
             ref="estatePicturesService" />
     </beans:bean>
-    
+
     <beans:bean
         id="adminPicturesApprovalController"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.AdminPicturesApprovalController"
-        scope="session">
+        scope="session"
+    >
         <beans:constructor-arg
             name="userAuthorizationService"
             ref="userAuthorizationService" />
@@ -229,11 +247,12 @@
             name="pictureApprobationService"
             ref="pictureApprobationService" />
     </beans:bean>
-    
+
     <beans:bean
         id="pictureApprobationService"
-        class="ca.ulaval.glo4003.b6.housematch.services.admin.PictureApprobationService">
-    	<beans:constructor-arg
+        class="ca.ulaval.glo4003.b6.housematch.services.admin.PictureApprobationService"
+    >
+        <beans:constructor-arg
             name="InactivePictureRepository"
             ref="inFileApprovalPictureRepository" />
         <beans:constructor-arg
@@ -252,7 +271,7 @@
     <beans:bean
         id="fileElementReaderId"
         class="ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileElementReader" />
-        
+
 
     <beans:bean
         id="fileElementWriterId"
@@ -261,10 +280,11 @@
     <beans:bean
         id="fileAccesserId"
         class="ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileAccesser" />
-	
-	<beans:bean
+
+    <beans:bean
         id="fileEditorId"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileEditor">
+        class="ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileEditor"
+    >
 
         <beans:constructor-arg
             name="fileElementReader"
@@ -280,14 +300,15 @@
     <beans:bean
         id="persistenceDtoFactoryId"
         class="ca.ulaval.glo4003.b6.housematch.persistence.PersistenceDtoFactory" />
-        
+
     <beans:bean
         id="repositoryUserConverterId"
         class="ca.ulaval.glo4003.b6.housematch.persistence.user.converter.RepositoryUserConverter" />
-          
+
     <beans:bean
         id="userRepository"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.user.XMLUserRepository">
+        class="ca.ulaval.glo4003.b6.housematch.persistence.user.XMLUserRepository"
+    >
 
         <beans:constructor-arg
             name="persistenceDtoFactory"
@@ -457,19 +478,27 @@
         id="contactInformationCorruptionVerificator"
         class="ca.ulaval.glo4003.b6.housematch.anticorruption.user.ContactInformationCorruptionVerificator"
         scope="session" />
-
+    <beans:bean
+        id="contactInformationAssembler"
+        class="ca.ulaval.glo4003.b6.housematch.dto.assembler.ContactInformationAssembler"
+        scope="session" />
     <beans:bean
         id="userProfilService"
         class="ca.ulaval.glo4003.b6.housematch.services.user.UserProfilService"
-        scope="session">
+        scope="session"
+    >
         <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />
+        <beans:constructor-arg
+            name="contactInformationAssembler"
+            ref="contactInformationAssembler"/>
+        
         <beans:constructor-arg>
             <beans:list>
                 <beans:ref bean="mailSenderObserver" />
-            </beans:list>
-        </beans:constructor-arg>
+    </beans:list>
+    </beans:constructor-arg>
 
     </beans:bean>
 
@@ -518,7 +547,7 @@
             name="userProcessor"
             ref="userProcessor" />
 
-       <beans:constructor-arg
+        <beans:constructor-arg
             name="estateRepositoryFactory"
             ref="estateRepositoryFactory" />
         <beans:constructor-arg

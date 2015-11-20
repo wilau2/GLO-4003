@@ -7,9 +7,15 @@
     <name>qwqeq</name>  
     <active>true</active> 
   </inactivePicture>  
+  <inactivePicture> 
+    <uid>f943f5a2-faaa-421e-b2ac-1b5f76eff15c</uid>  
+    <address>0-1234-Rue des Bisous-PatateLand-Canada-Patate</address>  
+    <name>Une belle patate</name>  
+    <active>true</active> 
+  </inactivePicture>  
   <inactivePicture>
-    <uid>f943f5a2-faaa-421e-b2ac-1b5f76eff15c</uid>
-    <address>0-1234-Rue des Bisous-PatateLand-Canada-Patate</address>
+    <uid>a6036056-5f4f-47ba-8ea5-c93f298c22eb</uid>
+    <address>0-40-Rue des mirtilles-Qc-Ca-G1b3fwaf</address>
     <name>Une belle patate</name>
     <active>true</active>
   </inactivePicture>
