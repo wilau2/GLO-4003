@@ -29,35 +29,31 @@
     <password>123</password>  
     <role>seller</role>  
     <phoneNumber>123-123-1234</phoneNumber>  
-<<<<<<< 276b22c88dd24fa2af350ca0f4f489f5fca20a84
     <dateLastActivity>2015-11-19T19:35:09.433</dateLastActivity>  
-=======
-    <dateLastActivity>2015-11-18T18:17:59.363</dateLastActivity>  
->>>>>>> Adding testing for the user, and adding logic for login in user
     <isActive>true</isActive>  
     <email>bruce@lee.com</email>  
     <username>seller</username> 
   </user>  
   <user> 
-    <firstName>Ding</firstName>  
-    <lastName>Dong</lastName>  
+    <firstName>Kid</firstName>  
+    <lastName>Kiddy</lastName>  
     <password>123</password>  
-    <role>admin</role>  
+    <role>buyer</role>  
     <phoneNumber>123-456-7899</phoneNumber>  
-    <dateLastActivity>2015-11-19T19:35:56.839</dateLastActivity>  
+    <dateLastActivity>2015-11-19T19:36:12.920</dateLastActivity>  
     <isActive>true</isActive>  
-    <email>ding@dong.com</email>  
-    <username>admin</username> 
+    <email>kid@kiddy.com</email>  
+    <username>buyer</username> 
   </user>  
   <user>
-    <firstName>Kid</firstName>
-    <lastName>Kiddy</lastName>
+    <firstName>Ding</firstName>
+    <lastName>Dong</lastName>
     <password>123</password>
-    <role>buyer</role>
+    <role>admin</role>
     <phoneNumber>123-456-7899</phoneNumber>
-    <dateLastActivity>2015-11-19T19:36:12.920</dateLastActivity>
+    <dateLastActivity>2015-11-20T09:07:34.747</dateLastActivity>
     <isActive>true</isActive>
-    <email>kid@kiddy.com</email>
-    <username>buyer</username>
+    <email>ding@dong.com</email>
+    <username>admin</username>
   </user>
 </users>
