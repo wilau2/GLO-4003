@@ -26,6 +26,8 @@ public class EstateElementConverter {
    private static final String PRICE_HISTORY = "price_history";
 
    private static final String DATE_REGISTERED = "date_registered";
+   
+   private static final String DATE_MODIFIED = "date_modified";
 
    private DescriptionElementConverter descriptionElementAssembler;
 
@@ -55,6 +57,9 @@ public class EstateElementConverter {
 
       LocalDateTime dateRegistered = LocalDateTime.parse(element.elementText(DATE_REGISTERED));
       estateDto.setDateRegistered(dateRegistered);
+      
+      LocalDateTime dateModified = LocalDateTime.parse(element.elementText(DATE_MODIFIED));
+      estateDto.setDateModified(dateModified);
 
       return estateDto;
    }
@@ -114,6 +119,7 @@ public class EstateElementConverter {
       attributes.put(PRICE, estate.getPrice().toString());
       attributes.put(TYPE, estate.getType());
       attributes.put(DATE_REGISTERED, estate.getDateRegistered().toString());
+      attributes.put(DATE_MODIFIED, estate.getDateModified().toString());
       attributes.put(ADDRESS, estate.getAddress().toString());
       attributes.put(PRICE_HISTORY, constructStringFromPriceHistory(estate));
 
@@ -137,6 +143,9 @@ public class EstateElementConverter {
 
       LocalDateTime dateRegistered = LocalDateTime.parse(attributes.get(DATE_REGISTERED));
       estateDto.setDateRegistered(dateRegistered);
+      
+      LocalDateTime dateModified = LocalDateTime.parse(attributes.get(DATE_MODIFIED));
+      estateDto.setDateModified(dateModified);
 
       return estateDto;
    }

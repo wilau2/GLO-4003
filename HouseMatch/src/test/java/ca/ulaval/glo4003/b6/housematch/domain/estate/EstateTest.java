@@ -31,6 +31,8 @@ public class EstateTest {
    private Estate estate;
 
    private LocalDateTime dateRegistered;
+   
+   private LocalDateTime dateModified;
 
    @Before
    public void setup() {
@@ -38,8 +40,9 @@ public class EstateTest {
       MockitoAnnotations.initMocks(this);
 
       dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
+      dateModified = LocalDateTime.of(2000, 12, 12, 12, 12);
 
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, dateModified, PRICE_HISTORY);
    }
 
    @Test

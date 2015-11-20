@@ -28,10 +28,11 @@ public class EstateAssembler {
       String seller = estateDto.getSeller();
 
       LocalDateTime dateRegistered = estateDto.getDateRegistered();
+      LocalDateTime dateModified = estateDto.getDateModified();
       Description description = descriptionAssembler.assembleDescription(estateDto.getDescriptionDto());
       ArrayList<Integer> priceHistory = estateDto.getPriceHistory();
 
-      Estate estate = new Estate(type, address, price, seller, description, dateRegistered, priceHistory);
+      Estate estate = new Estate(type, address, price, seller, description, dateRegistered, dateModified ,priceHistory);
 
       return estate;
    }
@@ -43,11 +44,12 @@ public class EstateAssembler {
       String sellerId = estate.getSeller();
 
       LocalDateTime dateRegistered = estate.getDateRegistered();
+      LocalDateTime dateModified = estate.getDateModified();
       DescriptionDto descriptionDto = descriptionAssembler.assembleDescriptionDto(estate.getDescription());
 
       ArrayList<Integer> priceHistory = estate.getPriceHistory();
 
-      EstateDto estateDto = new EstateDto(type, address, price, sellerId, dateRegistered, descriptionDto, priceHistory);
+      EstateDto estateDto = new EstateDto(type, address, price, sellerId, dateRegistered, dateModified, descriptionDto, priceHistory);
 
       return estateDto;
    }

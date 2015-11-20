@@ -6,7 +6,8 @@
     <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
     <price>50000</price>  
     <type>APPARTMENT</type>  
-    <date_registered>2007-12-03T10:15:30</date_registered>  
+    <date_registered>2007-12-03T10:15:30</date_registered>
+    <date_modified>2007-12-03T10:15:30</date_modified>
     <price_history>1016-1020-50000-</price_history>  
     <description> 
       <numberOfBedRooms>21</numberOfBedRooms>  
@@ -27,6 +28,7 @@
     <type>APPARTMENT</type>  
     <price_history>3500-25000-</price_history>  
     <date_registered>2007-12-03T10:15:30</date_registered>  
+    <date_modified>2007-12-03T10:15:30</date_modified>
     <description> 
       <numberOfBedRooms>4</numberOfBedRooms>  
       <municipalValuation>0</municipalValuation>  
@@ -45,6 +47,7 @@
     <price>49999</price>  
     <type>COTTAGE</type>  
     <date_registered>2007-12-03T10:15:30</date_registered>  
+    <date_modified>2007-12-03T10:15:30</date_modified>
     <price_history>3500-49994-49996-49999-</price_history>  
     <description> 
       <numberOfBedRooms>20</numberOfBedRooms>  
@@ -64,6 +67,7 @@
     <price>1000</price>  
     <type>APPARTMENT</type>  
     <date_registered>2015-11-18T17:52:05.790</date_registered>  
+    <date_modified>2010-12-03T10:15:30</date_modified>
     <price_history/>  
     <description> 
       <numberOfBedRooms>0</numberOfBedRooms>  
@@ -83,6 +87,7 @@
     <price>100000</price>  
     <type>MULTIPLEX</type>  
     <date_registered>2015-11-18T18:09:09.588</date_registered>  
+    <date_modified>2009-12-03T10:15:30</date_modified>
     <price_history/>  
     <description> 
       <numberOfBedRooms>0</numberOfBedRooms>  
@@ -102,6 +107,7 @@
     <price>20000000</price>
     <type>CONDO</type>
     <date_registered>2009-12-03T10:15:30</date_registered>
+    <date_modified>2008-12-03T10:15:30</date_modified>
     <price_history>3500-1000000-1000000-10000000-</price_history>
     <description>
       <numberOfBedRooms>10</numberOfBedRooms>

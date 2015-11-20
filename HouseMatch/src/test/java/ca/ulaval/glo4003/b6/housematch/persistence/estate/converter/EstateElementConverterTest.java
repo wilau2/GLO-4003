@@ -60,7 +60,11 @@ public class EstateElementConverterTest {
 
    private static final String DATE_REGISTERED_KEY = "date_registered";
 
+   private static final String DATE_MODIFIED_KEY = "date_modified";
+
    private LocalDateTime dateRegistered;
+   
+   private LocalDateTime dateModified;
 
    @Mock
    private Element element;
@@ -79,6 +83,7 @@ public class EstateElementConverterTest {
       MockitoAnnotations.initMocks(this);
 
       dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
+      dateModified = LocalDateTime.of(2000, 12, 12, 12, 12);
 
       configureElement();
 
@@ -93,6 +98,7 @@ public class EstateElementConverterTest {
       when(attributes.get(SELLER_KEY)).thenReturn(USER_ID);
       when(attributes.get(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
       when(attributes.get(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString());
+      when(attributes.get(DATE_MODIFIED_KEY)).thenReturn(dateModified.toString());
       when(attributes.get(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
 
    }
@@ -103,8 +109,8 @@ public class EstateElementConverterTest {
       when(estate.getType()).thenReturn(TYPE);
       when(estate.getAddress()).thenReturn(ADDRESS);
       when(estate.getDateRegistered()).thenReturn(dateRegistered);
+      when(estate.getDateModified()).thenReturn(dateModified);
       when(estate.getPriceHistory()).thenReturn(PRICE_HISTORY);
-
    }
 
    private void configureElement() {
@@ -112,11 +118,9 @@ public class EstateElementConverterTest {
       when(element.elementText(PRICE_KEY)).thenReturn(PRICE.toString());
       when(element.elementText(SELLER_KEY)).thenReturn(USER_ID);
       when(element.elementText(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
-
       when(element.elementText(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString());
-
+      when(element.elementText(DATE_MODIFIED_KEY)).thenReturn(dateModified.toString());
       when(element.elementText(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
-
    }
 
    @Test

@@ -32,4 +32,14 @@ public class EstateSorter {
       Collections.sort(estates, Estate.EstateDateAscendantComparator);
       return estates;
    }
+
+   public List<Estate> getDateModifiedAscendantSort() {
+      Collections.sort(estates, Estate.EstateDateModifiedAscendantComparator);
+      return estates;
+   }
+
+   public List<Estate> getDateModifiedDescendantSort() {
+      Collections.sort(estates, Estate.EstateDateModifiedDescendantComparator);
+      return estates;
+   }
 }

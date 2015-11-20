@@ -19,6 +19,9 @@
 						<th>Date 
 						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateDescendant">Des</a>
 						</th>
+						<th>Date Modified 
+						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateModifiedAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateModifiedDescendant">Des</a>
+						</th>
 						<th>Price 
 						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?priceAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?priceDescendant">Des</a>
 						</th>
@@ -32,6 +35,7 @@
 							<td>${estate.type}</td>
 							<td>${estate.address.addressToString()}</td>
 							<td>${estate.dateRegistered}</td>
+							<td>${estate.dateModified}</td>
 							<td>${estate.price}</td>
 							<td><a class="pure-button"
 								href="${entryUrl}/buyer/${loggedInUsername}/estates/${estate.address.addressToUrl()}">Select</a></td>

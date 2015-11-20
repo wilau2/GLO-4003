@@ -106,6 +106,32 @@ public class BuyerSearchEstatesController {
 
       return modelAndView;
    }
+   
+   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params = "dateModifiedAscendant")
+   public ModelAndView searchAllEstatesDateModifiedAscendant(HttpServletRequest request)
+         throws CouldNotAccessDataException, InvalidAccessException {
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      ModelAndView modelAndView = new ModelAndView("buyer_search");
+
+      List<EstateDto> allEstates = estatesFetcher.getDateModifiedOrderedAscendantEstates();
+      modelAndView.addObject("estates", allEstates);
+
+      return modelAndView;
+   }
+
+   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params = "dateModifiedDescendant")
+   public ModelAndView searchAllEstatesDateModifiedDescendant(HttpServletRequest request)
+         throws CouldNotAccessDataException, InvalidAccessException {
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      ModelAndView modelAndView = new ModelAndView("buyer_search");
+
+      List<EstateDto> allEstates = estatesFetcher.getDateModifiedOrderedDescendantEstates();
+      modelAndView.addObject("estates", allEstates);
+
+      return modelAndView;
+   }
 
    @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates/{address}")
    public ModelAndView getEstateByAddress(@PathVariable("address") String address, HttpServletRequest request)

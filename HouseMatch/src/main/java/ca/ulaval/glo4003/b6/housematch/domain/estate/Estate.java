@@ -17,22 +17,22 @@ public class Estate {
    private Description description;
 
    private LocalDateTime dateRegistered;
+   
+   private LocalDateTime dateModified;
 
    private ArrayList<Integer> priceHistory;
 
    public Estate(String type, Address address, Integer price, String seller, Description description,
-         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory) {
+         LocalDateTime dateRegistered, LocalDateTime dateModified, ArrayList<Integer> priceHistory) {
 
       this.type = type;
       this.address = address;
       this.price = price;
       this.seller = seller;
       this.description = description;
-
       this.dateRegistered = dateRegistered;
-
+      this.dateModified = dateModified;
       this.priceHistory = priceHistory;
-
    }
 
    public String getType() {
@@ -73,6 +73,11 @@ public class Estate {
    public LocalDateTime getDateRegistered() {
       return dateRegistered;
    }
+   
+   public LocalDateTime getDateModified() {
+      return this.dateModified;
+   }
+
 
    public static Comparator<Estate> EstatePriceAscendantComparator = new Comparator<Estate>() {
 
@@ -101,11 +106,26 @@ public class Estate {
          return estate2.getDateRegistered().compareTo(estate1.getDateRegistered());
       }
    };
+   
+   public static Comparator<Estate> EstateDateModifiedAscendantComparator = new Comparator<Estate>() {
+
+      public int compare(Estate estate1, Estate estate2) {
+         return estate1.getDateModified().compareTo(estate2.getDateModified());
+      }
+   };
+
+   public static Comparator<Estate> EstateDateModifiedDescendantComparator = new Comparator<Estate>() {
+
+      public int compare(Estate estate1, Estate estate2) {
+         return estate2.getDateModified().compareTo(estate1.getDateModified());
+      }
+   };
 
    public void editType(String newType) {
       this.type = newType;
    }
 
+   
    public void editPrice(Integer newPrice) {
       if (this.price != newPrice) {
          this.priceHistory.add(this.price);

@@ -19,19 +19,22 @@ public class EstateDto {
 
    private LocalDateTime dateRegistered;
 
+   private LocalDateTime dateModified;
+
    public EstateDto() {
       this.address = new AddressDto();
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered, LocalDateTime dateModified) {
       this.type = type;
       this.address = address;
       this.price = price;
       this.sellerId = sellerId;
       this.dateRegistered = dateRegistered;
+      this.dateModified = dateModified;
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered,
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered, LocalDateTime dateModified,
          DescriptionDto descriptionDto, ArrayList<Integer> priceHistory) {
 
       this.type = type;
@@ -39,6 +42,7 @@ public class EstateDto {
       this.price = price;
       this.sellerId = sellerId;
       this.dateRegistered = dateRegistered;
+      this.dateModified = dateModified;
       this.descriptionDto = descriptionDto;
       this.priceHistory = priceHistory;
    }
@@ -102,6 +106,15 @@ public class EstateDto {
 
    public void setPriceHistory(ArrayList<Integer> priceHistory) {
       this.priceHistory = priceHistory;
+   }
+
+   public LocalDateTime getDateModified() {
+      return this.dateModified;
+   }
+
+   public void setDateModified(LocalDateTime dateModified) {
+      this.dateModified = dateModified;
+      
    }
 
 }

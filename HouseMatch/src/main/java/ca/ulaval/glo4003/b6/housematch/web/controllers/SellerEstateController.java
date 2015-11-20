@@ -77,7 +77,9 @@ public class SellerEstateController {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
       estateDto.setSellerId(userId);
-      estateDto.setDateRegistered(LocalDateTime.now());
+      LocalDateTime now = LocalDateTime.now();
+      estateDto.setDateRegistered(now);
+      estateDto.setDateModified(now);
 
       estateCorruptionVerificator.addEstate(estateDto);
 

@@ -94,6 +94,20 @@ public class EstatesFetcher {
       List<EstateDto> estatesDto = assembleEstatesDto(estates);
       return estatesDto;
    }
+   
+   public List<EstateDto> getDateModifiedOrderedAscendantEstates() {
+      List<Estate> estates = estateSorter.getDateModifiedAscendantSort();
+      
+      List<EstateDto> estatesDto = assembleEstatesDto(estates);
+      return estatesDto;
+   }
+
+   public List<EstateDto> getDateModifiedOrderedDescendantEstates() {
+      List<Estate> estates = estateSorter.getDateModifiedDescendantSort();
+      
+      List<EstateDto> estatesDto = assembleEstatesDto(estates);
+      return estatesDto;
+   }
 
    private List<EstateDto> assembleEstatesDto(List<Estate> estates) {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
@@ -106,5 +120,7 @@ public class EstatesFetcher {
 
       return estatesDto;
    }
+
+   
 
 }
