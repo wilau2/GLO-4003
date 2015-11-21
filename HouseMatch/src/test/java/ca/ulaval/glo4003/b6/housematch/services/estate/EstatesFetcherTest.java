@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilter;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
@@ -28,6 +29,8 @@ public class EstatesFetcherTest {
    private static final int FIRST = 0;
    private static final String SELLER_NAME = "SELLER";
    private static final String ADDRESS = "ADDRESS";
+   private static final int MIN_PRICE = 1000;
+   private static final int MAX_PRICE = 5000;
 
    @Mock
    private EstateRepositoryFactory estateRepositoryFactory;
@@ -45,6 +48,9 @@ public class EstatesFetcherTest {
    
    @Mock
    private EstateSorter estateSorter;
+   
+   @Mock
+   private EstateFilter estateFilter;
 
    @Mock
    private EstateAssembler estateAssembler;
@@ -62,8 +68,14 @@ public class EstatesFetcherTest {
       configureEstateAssembler();
       configureFetchingEstateByAddress();
       configureEstateSorter();
+      configureEstateFilter();
 
-      estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepositoryFactory, estateSorter);
+      estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepositoryFactory, estateSorter, estateFilter);
+   }
+
+   private void configureEstateFilter() {
+      when(estateFilter.getPriceFilteredEstates(MIN_PRICE, MAX_PRICE)).thenReturn(estates);
+      
    }
 
    private void configureEstateSorter() {
@@ -289,4 +301,31 @@ public class EstatesFetcherTest {
       // Then
       assertTrue(listDto.get(FIRST) == estateDto);
    }
+   
+   @Test
+   public void whenGetPriceFilteredShouldReturnListNotNull() {
+      // Given
+
+      // When
+      List<EstateDto> listDto = estateFetcher.getPriceFilteredEstates(MIN_PRICE, MAX_PRICE);
+      
+      // Then
+      
+      assertTrue(listDto != null);
+   }
+   
+   @Test
+   public void whenGetPriceFilteredShouldReturnListEstateDto() {
+      // Given
+
+      // When
+
+      // Then
+   }
+   
+   
+   
+   
+   
+   
 }

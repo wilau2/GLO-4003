@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilter;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
@@ -18,14 +19,17 @@ public class EstatesFetcher {
    private EstateRepositoryFactory estateRepositoryFactory;
 
    private EstateSorter estateSorter;
+   
+   private EstateFilter estateFilter;
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
    public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepositoryFactory estateRepositoryFactory,
-         EstateSorter estateSorter) {
+         EstateSorter estateSorter, EstateFilter estateFilter) {
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepositoryFactory = estateRepositoryFactory;
       this.estateSorter = estateSorter;
+      this.estateFilter = estateFilter;
    }
 
    public List<EstateDto> getEstatesBySeller(String sellerName)
@@ -95,6 +99,13 @@ public class EstatesFetcher {
       return estatesDto;
    }
 
+
+   public List<EstateDto> getPriceFilteredEstates(int minPrice, int maxPrice) {
+      List<Estate> estates = estateFilter.getPriceFilteredEstates(minPrice, maxPrice);
+      List<EstateDto> estatesDto = assembleEstatesDto(estates);
+      return estatesDto;
+   }
+   
    private List<EstateDto> assembleEstatesDto(List<Estate> estates) {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
@@ -106,5 +117,6 @@ public class EstatesFetcher {
 
       return estatesDto;
    }
+
 
 }
