@@ -62,7 +62,7 @@ public class BuyerSearchEstatesController {
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
 
-      List<EstateDto> allEstates = estatesFetcher.getPriceOrderedAscendantEstates();
+      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("priceAscendant");
       modelAndView.addObject("estates", allEstates);
 
       return modelAndView;
@@ -75,7 +75,7 @@ public class BuyerSearchEstatesController {
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
 
-      List<EstateDto> allEstates = estatesFetcher.getPriceOrderedDescendantEstates();
+      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("priceDescendant");
       modelAndView.addObject("estates", allEstates);
 
       return modelAndView;
@@ -88,7 +88,7 @@ public class BuyerSearchEstatesController {
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
 
-      List<EstateDto> allEstates = estatesFetcher.getDateOrderedAscendantEstates();
+      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("dateAscendant");
       modelAndView.addObject("estates", allEstates);
 
       return modelAndView;
@@ -101,7 +101,7 @@ public class BuyerSearchEstatesController {
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
 
-      List<EstateDto> allEstates = estatesFetcher.getDateOrderedDescendantEstates();
+      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("dateDescendant");
       modelAndView.addObject("estates", allEstates);
 
       return modelAndView;
@@ -114,7 +114,7 @@ public class BuyerSearchEstatesController {
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
 
-      List<EstateDto> allEstates = estatesFetcher.getDateModifiedOrderedAscendantEstates();
+      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("dateModifiedAscendant");
       modelAndView.addObject("estates", allEstates);
 
       return modelAndView;
@@ -127,7 +127,7 @@ public class BuyerSearchEstatesController {
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
 
-      List<EstateDto> allEstates = estatesFetcher.getDateModifiedOrderedDescendantEstates();
+      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("dateModifiedDescendant");
       modelAndView.addObject("estates", allEstates);
 
       return modelAndView;

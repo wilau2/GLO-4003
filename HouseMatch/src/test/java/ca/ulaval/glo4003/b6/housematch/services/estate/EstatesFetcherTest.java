@@ -15,9 +15,9 @@ import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstateSorter;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
@@ -61,16 +61,8 @@ public class EstatesFetcherTest {
       configureEstateRepository();
       configureEstateAssembler();
       configureFetchingEstateByAddress();
-      configureEstateSorter();
 
       estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepositoryFactory, estateSorter);
-   }
-
-   private void configureEstateSorter() {
-      when(estateSorter.getDateAscendantSort()).thenReturn(estates);
-      when(estateSorter.getDateDescendantSort()).thenReturn(estates);
-      when(estateSorter.getPriceAscendantSort()).thenReturn(estates);
-      when(estateSorter.getPriceDescendantSort()).thenReturn(estates);
    }
 
    private void configureFetchingEstateByAddress() throws EstateNotFoundException, CouldNotAccessDataException {
@@ -244,49 +236,5 @@ public class EstatesFetcherTest {
       
       // Then
       verify(estateSorter, times(1)).setEstates(estates);
-   }
-   
-   @Test
-   public void whenGetPriceOrderedAscendentShouldReturnListEstate() {
-      // Given
-
-      // When
-      List<EstateDto> listDto = estateFetcher.getPriceOrderedAscendantEstates();
-      
-      // Then
-      assertTrue(listDto.get(FIRST) == estateDto);
-   }
-   
-   @Test
-   public void whenGetPriceOrderedDescendantShouldReturnListEstate() {
-      // Given
-
-      // When
-      List<EstateDto> listDto = estateFetcher.getPriceOrderedDescendantEstates();
-      
-      // Then
-      assertTrue(listDto.get(FIRST) == estateDto);
-   }
-   
-   @Test
-   public void whenGetDateOrderedAscendantShouldReturnListEstate() {
-      // Given
-
-      // When
-      List<EstateDto> listDto = estateFetcher.getDateOrderedAscendantEstates();
-      
-      // Then
-      assertTrue(listDto.get(FIRST) == estateDto);
-   }
-   
-   @Test
-   public void whenGetDateOrderedDescendantShouldReturnListEstate() {
-      // Given
-
-      // When
-      List<EstateDto> listDto = estateFetcher.getDateOrderedDescendantEstates();
-      
-      // Then
-      assertTrue(listDto.get(FIRST) == estateDto);
    }
 }

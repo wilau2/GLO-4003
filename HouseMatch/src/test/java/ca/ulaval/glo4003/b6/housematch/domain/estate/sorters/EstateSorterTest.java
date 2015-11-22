@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.domain.estate;
+package ca.ulaval.glo4003.b6.housematch.domain.estate.sorters;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,6 +14,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstateSorter;
+
 public class EstateSorterTest {
 
    private static final int MIN_PRICE = 1;
@@ -28,11 +31,16 @@ public class EstateSorterTest {
 
    private static final LocalDateTime MAX_DATE = LocalDateTime.of(2010, 12, 12, 12, 12);
 
+   private static final String STRING = "STRING";
+
    @Mock
    private Estate estateMin;
 
    @Mock
    private Estate estateMid;
+   
+   @Mock
+   private SortingStrategyFactory sortingStrategyFactory;
 
    @Mock
    private Estate estateMax;
@@ -76,9 +84,12 @@ public class EstateSorterTest {
    @Test
    public void whenEstateSorterPriceAscendantShouldReturnListSortAscendant() {
       // Given
-
+      when(sortingStrategyFactory.getStrategy(STRING)).thenReturn(new PriceAscendantSortingStrategy());
+      SortingStrategy sortingStrategy = sortingStrategyFactory.getStrategy(STRING);
+      estateSorter.setContext(sortingStrategy);
       // When
-      estatesSort = estateSorter.getPriceAscendantSort();
+      
+      estatesSort = estateSorter.sortUsingContext();
 
       // Then
       assertTrue(estatesSort.get(0).getPrice() == MIN_PRICE);
@@ -89,9 +100,11 @@ public class EstateSorterTest {
    @Test
    public void whenEstateSorterPriceDescendantShouldReturnListSortDescendant() {
       // Given
-
+      when(sortingStrategyFactory.getStrategy(STRING)).thenReturn(new PriceDescendantSortingStrategy());
+      SortingStrategy sortingStrategy = sortingStrategyFactory.getStrategy(STRING);
+      estateSorter.setContext(sortingStrategy);
       // When
-      estatesSort = estateSorter.getPriceDescendantSort();
+      estatesSort = estateSorter.sortUsingContext();
 
       // Then
       assertTrue(estatesSort.get(0).getPrice() == MAX_PRICE);
@@ -102,9 +115,11 @@ public class EstateSorterTest {
    @Test
    public void whenEstateSorterDateAscendantShouldReturnListSortAscendant() {
       // Given
-
+      when(sortingStrategyFactory.getStrategy(STRING)).thenReturn(new DateAscendantSortingStrategy());
+      SortingStrategy sortingStrategy = sortingStrategyFactory.getStrategy(STRING);
+      estateSorter.setContext(sortingStrategy);
       // When
-      estatesSort = estateSorter.getDateAscendantSort();
+      estatesSort = estateSorter.sortUsingContext();
 
       // Then
       assertEquals(estatesSort.get(0).getDateRegistered(), MIN_DATE);
@@ -115,9 +130,11 @@ public class EstateSorterTest {
    @Test
    public void whenEstateSorterDateDescendantShouldReturnListSortDescendant() {
       // Given
-
+      when(sortingStrategyFactory.getStrategy(STRING)).thenReturn(new DateDescendantSortingStrategy());
+      SortingStrategy sortingStrategy = sortingStrategyFactory.getStrategy(STRING);
+      estateSorter.setContext(sortingStrategy);
       // When
-      estatesSort = estateSorter.getDateDescendantSort();
+      estatesSort = estateSorter.sortUsingContext();
 
       // Then
       assertTrue(estatesSort.get(0).getDateRegistered() == MAX_DATE);

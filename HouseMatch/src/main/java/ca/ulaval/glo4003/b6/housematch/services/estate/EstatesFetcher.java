@@ -5,9 +5,11 @@ import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstateSorter;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.SortingStrategy;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.SortingStrategyFactory;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
@@ -63,52 +65,6 @@ public class EstatesFetcher {
 
    }
 
-   public List<EstateDto> getPriceOrderedAscendantEstates() {
-
-      List<Estate> estates = estateSorter.getPriceAscendantSort();
-
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
-      return estatesDto;
-   }
-
-   public List<EstateDto> getPriceOrderedDescendantEstates() {
-
-      List<Estate> estates = estateSorter.getPriceDescendantSort();
-
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
-      return estatesDto;
-   }
-
-   public List<EstateDto> getDateOrderedAscendantEstates() {
-
-      List<Estate> estates = estateSorter.getDateAscendantSort();
-
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
-      return estatesDto;
-   }
-
-   public List<EstateDto> getDateOrderedDescendantEstates() {
-
-      List<Estate> estates = estateSorter.getDateDescendantSort();
-
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
-      return estatesDto;
-   }
-   
-   public List<EstateDto> getDateModifiedOrderedAscendantEstates() {
-      List<Estate> estates = estateSorter.getDateModifiedAscendantSort();
-      
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
-      return estatesDto;
-   }
-
-   public List<EstateDto> getDateModifiedOrderedDescendantEstates() {
-      List<Estate> estates = estateSorter.getDateModifiedDescendantSort();
-      
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
-      return estatesDto;
-   }
-
    private List<EstateDto> assembleEstatesDto(List<Estate> estates) {
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
@@ -119,6 +75,13 @@ public class EstatesFetcher {
       }
 
       return estatesDto;
+   }
+
+   public List<EstateDto> getOrderedEstates(String string) {
+      SortingStrategyFactory sortingStrategyFactory = new SortingStrategyFactory();
+      SortingStrategy sortingStrategy = sortingStrategyFactory.getStrategy(string);
+      estateSorter.setContext(sortingStrategy);
+      return assembleEstatesDto(estateSorter.sortUsingContext());
    }
 
    
