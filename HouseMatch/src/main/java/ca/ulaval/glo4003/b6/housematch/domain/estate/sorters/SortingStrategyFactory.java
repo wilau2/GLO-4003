@@ -12,7 +12,7 @@ public class SortingStrategyFactory {
 
    public SortingStrategy getStrategy(String strategyName) {
       
-      if(strategyName.equals(DATE_ASCENDANT)){
+      if(strategyName == null || strategyName.equals(DATE_ASCENDANT)){
          return new DateAscendantSortingStrategy();
       }
       

@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Description {
 
    private Integer numberOfBedRooms;
@@ -83,7 +85,37 @@ public class Description {
       return backyardOrientation;
    }
 
-   public double compareChanges(Description description) {
-      return 25.55;
+   public boolean isChangeSignificant(Description description) {
+      
+      boolean result = false;
+      
+      if(this.buildingDimensions.length() == 0 || this.backyardOrientation.length() == 0){
+         return true;
+      }
+      
+      double differenceBuildingDimensions = StringUtils.getLevenshteinDistance(this.buildingDimensions, description.getBuildingDimensions()) / this.buildingDimensions.length() * 100;
+      double differencebackyardOrientation = StringUtils.getLevenshteinDistance(this.backyardOrientation, description.getBackyardOrientation()) / this.backyardOrientation.length() * 100;
+      
+      if( getDifferencePercentage(this.livingSpaceAreaSquareMeter, description.getLivingSpaceAreaSquareMeter()) > 25.00 ||
+            getDifferencePercentage(this.getMunicipalAssessment(), description.getMunicipalAssessment()) > 25.00 ||
+            getDifferencePercentage(this.getNumberOfBathrooms(), description.getNumberOfBathrooms()) > 25.00 ||
+            getDifferencePercentage(this.getNumberOfBedRooms(), description.getNumberOfBedRooms()) > 25.00 ||
+            getDifferencePercentage(this.getNumberOfLevel(), description.getNumberOfLevel()) > 25.00 ||
+            getDifferencePercentage(this.getNumberOfRooms(), description.getNumberOfRooms()) > 25.00 ||
+            getDifferencePercentage(this.getYearOfConstruction(), description.getYearOfConstruction()) > 25.00 ||
+            differencebackyardOrientation > 25.00 ||
+            differenceBuildingDimensions > 25.00)
+         {
+            result = true;
+         }
+      
+      return result;
+   }
+   
+   public double getDifferencePercentage(int numberOne, int numberTwo){
+      if (numberOne == 0){
+         return 100;
+      }
+      return Math.abs((numberOne-numberTwo)/numberOne * 100);
    }
 }

@@ -85,7 +85,7 @@ public class BuyerSearchEstatesControllerTest {
       String expectedView = "buyer_search";
 
       // When
-      ModelAndView returnedViewAndModel = buyerSearchEstatesController.searchAllEstates(request);
+      ModelAndView returnedViewAndModel = buyerSearchEstatesController.searchAllEstates(request,null);
 
       // Then
       assertEquals(expectedView, returnedViewAndModel.getViewName());
@@ -97,7 +97,7 @@ public class BuyerSearchEstatesControllerTest {
       // Given
 
       // When
-      ModelAndView modelAndView = buyerSearchEstatesController.searchAllEstates(request);
+      ModelAndView modelAndView = buyerSearchEstatesController.searchAllEstates(request,null);
 
       // Then
       Map<String, Object> model = modelAndView.getModel();
@@ -110,10 +110,10 @@ public class BuyerSearchEstatesControllerTest {
       // Given no changes
 
       // When
-      buyerSearchEstatesController.searchAllEstates(request);
+      buyerSearchEstatesController.searchAllEstates(request,null);
 
       // Then
-      verify(estatesFetcherService, times(1)).getAllEstates();
+      verify(estatesFetcherService, times(1)).getOrderedEstates(null);
    }
 
    @Test
@@ -174,7 +174,7 @@ public class BuyerSearchEstatesControllerTest {
       // Given no changes
 
       // When
-      buyerSearchEstatesController.searchAllEstates(request);
+      buyerSearchEstatesController.searchAllEstates(request,null);
 
       // Then
       verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, EXPECTED_ROLE);
@@ -188,7 +188,7 @@ public class BuyerSearchEstatesControllerTest {
             EXPECTED_ROLE);
 
       // When
-      buyerSearchEstatesController.searchAllEstates(request);
+      buyerSearchEstatesController.searchAllEstates(request, null);
 
       // Then
    }

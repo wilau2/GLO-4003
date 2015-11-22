@@ -67,7 +67,7 @@ public class Estate {
    }
 
    public void editDescription(Description description) {
-      if(this.description.compareChanges(description) > 25.00){
+      if(this.description.isChangeSignificant(description)){
          this.udateModifiedDate();
       }
       this.description = description;
