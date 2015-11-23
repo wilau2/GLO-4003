@@ -129,9 +129,10 @@ public class BuyerSearchEstatesController {
       return modelAndView;
    }
 
-   @RequestMapping(method = RequestMethod.POST, path = "/buyer/{address}/estates/{address}")
-   public String buyAnEstate(String address, HttpServletRequest request) throws InvalidAccessException,
-         EstateNotFoundException, CouldNotAccessDataException, EstateAlreadyBoughtException {
+   @RequestMapping(method = RequestMethod.POST, path = "/buyer/{userId}/estates/{address}")
+   public String buyAnEstate(@PathVariable("address") String address, HttpServletRequest request)
+         throws InvalidAccessException, EstateNotFoundException, CouldNotAccessDataException,
+         EstateAlreadyBoughtException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 

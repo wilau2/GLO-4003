@@ -24,6 +24,8 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
 public class EstateElementConverterTest {
 
+   private static final String BOUGHT_KEY = "bought";
+
    private static final String ADDRESS_KEY = "address";
 
    private static final String SELLER_KEY = "seller";
@@ -94,6 +96,7 @@ public class EstateElementConverterTest {
       when(attributes.get(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
       when(attributes.get(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString());
       when(attributes.get(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
+      when(attributes.get(BOUGHT_KEY)).thenReturn("true");
 
    }
 
@@ -104,6 +107,7 @@ public class EstateElementConverterTest {
       when(estate.getAddress()).thenReturn(ADDRESS);
       when(estate.getDateRegistered()).thenReturn(dateRegistered);
       when(estate.getPriceHistory()).thenReturn(PRICE_HISTORY);
+      when(estate.hasBeenBought()).thenReturn(true);
 
    }
 
@@ -116,7 +120,7 @@ public class EstateElementConverterTest {
       when(element.elementText(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString());
 
       when(element.elementText(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
-
+      when(element.elementText(BOUGHT_KEY)).thenReturn(Boolean.TRUE.toString());
    }
 
    @Test
@@ -128,7 +132,7 @@ public class EstateElementConverterTest {
 
       // Then
       assertEquals(TYPE, estateDto.getType());
-
+      assertTrue(estateDto.isBought());
       assertEquals(PRICE, estateDto.getPrice());
       assertEquals(USER_ID, estateDto.getSeller());
    }
@@ -162,6 +166,7 @@ public class EstateElementConverterTest {
       assertEquals(USER_ID, returnedAttributes.get(SELLER_KEY));
       assertEquals(PRICE.toString(), returnedAttributes.get(PRICE_KEY));
       assertEquals(TYPE, returnedAttributes.get(TYPE_KEY));
+      assertTrue(Boolean.parseBoolean(returnedAttributes.get(BOUGHT_KEY)));
    }
 
    @Test
@@ -187,6 +192,7 @@ public class EstateElementConverterTest {
       assertEquals(USER_ID, assembledEstateDto.getSeller());
       assertEquals(PRICE, assembledEstateDto.getPrice());
       assertEquals(TYPE, assembledEstateDto.getType());
+      assertTrue(assembledEstateDto.isBought());
    }
 
    @Test

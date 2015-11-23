@@ -79,14 +79,31 @@
 						<form:input id="price" type="number" path="price" />
 					</div>
 				</div>
+				<c:if test="${estate.bought == false}">
+					<div class="pure-control-group">
+						<p>Still for sale</p>
+					</div>
+				</c:if>
+				<c:if test="${estate.bought == true}">
+					<div class="pure-control-group">
+						<p>Too late, this house is beginning a new era</p>
+					</div>
+				</c:if>
 			</fieldset>
+
 				<c:if test="${loggedInUserRole == 'seller'}">
 					<button id="btn_edit_estate" type="button" class="pure-button">Edit</button>
 					<button id="btn_save_estate" type="submit" class="pure-button">Save</button>
 					<button id="btn_cancel_estate" type="button" class="pure-button">Cancel</button>
 				</c:if>
 		</form:form>
-
+		
+		<c:if test="${loggedInUserRole == 'buyer'}">
+			<form:form action="${estate.address.addressToUrl()}" method="POST"
+				class="pure-form pure-form-aligned content-subhead" id="eForm" modelAttribute="estate" >
+					<button id="btn_buy" type="submit" class="pure-button">Buy</button>
+				</form:form>
+		</c:if>
 		<form:form action="${estate.address.addressToUrl()}/edit/description" method="POST" commandName="description" 
 			class="pure-form pure-form-aligned content-subhead" id="dForm">
 			<fieldset>

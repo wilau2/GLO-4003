@@ -25,7 +25,7 @@ public class Estate {
    private boolean bought;
 
    public Estate(String type, Address address, Integer price, String seller, Description description,
-         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory) {
+         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory, boolean bought) {
 
       this.type = type;
       this.address = address;
@@ -36,7 +36,7 @@ public class Estate {
       this.dateRegistered = dateRegistered;
 
       this.priceHistory = priceHistory;
-
+      this.bought = bought;
    }
 
    public String getType() {
@@ -124,7 +124,7 @@ public class Estate {
       bought = true;
    }
 
-   protected boolean hasBeenBought() {
+   public Boolean hasBeenBought() {
       return bought;
    }
 }

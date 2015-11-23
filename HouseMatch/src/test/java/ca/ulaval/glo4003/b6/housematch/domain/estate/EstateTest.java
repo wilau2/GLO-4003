@@ -24,6 +24,8 @@ public class EstateTest {
 
    private static final ArrayList<Integer> PRICE_HISTORY = new ArrayList<Integer>();
 
+   private static final boolean BOUGHT = false;
+
    @Mock
    private Address address;
 
@@ -41,7 +43,7 @@ public class EstateTest {
 
       dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
 
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, BOUGHT);
    }
 
    @Test

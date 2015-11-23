@@ -15,6 +15,8 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
 public class EstateElementConverter {
 
+   private static final String BOUGHT = "bought";
+
    private static final String SELLER = "seller";
 
    private static final String PRICE = "price";
@@ -55,6 +57,9 @@ public class EstateElementConverter {
 
       LocalDateTime dateRegistered = LocalDateTime.parse(element.elementText(DATE_REGISTERED));
       estateDto.setDateRegistered(dateRegistered);
+
+      Boolean bought = Boolean.parseBoolean(element.elementText(BOUGHT));
+      estateDto.setBought(bought);
 
       return estateDto;
    }
@@ -116,7 +121,7 @@ public class EstateElementConverter {
       attributes.put(DATE_REGISTERED, estate.getDateRegistered().toString());
       attributes.put(ADDRESS, estate.getAddress().toString());
       attributes.put(PRICE_HISTORY, constructStringFromPriceHistory(estate));
-
+      attributes.put(BOUGHT, estate.hasBeenBought().toString());
       return attributes;
    }
 
@@ -137,6 +142,9 @@ public class EstateElementConverter {
 
       LocalDateTime dateRegistered = LocalDateTime.parse(attributes.get(DATE_REGISTERED));
       estateDto.setDateRegistered(dateRegistered);
+
+      Boolean bought = Boolean.parseBoolean(attributes.get(BOUGHT));
+      estateDto.setBought(bought);
 
       return estateDto;
    }
