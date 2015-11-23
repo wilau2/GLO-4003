@@ -12,6 +12,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateAlreadyBoughtException;
+
 public class EstateTest {
 
    private static final String SELLER_NAME = "SELLER";
@@ -97,4 +99,46 @@ public class EstateTest {
       assertFalse(isFromSeller);
    }
 
+   @Test
+   public void buyingAnEstateWhenEstateIsStillForSaleShouldNotThrowException() throws EstateAlreadyBoughtException {
+      // Given no changes
+
+      // When
+      estate.buy();
+
+      // Then no exception is thrown;
+   }
+
+   @Test(expected = EstateAlreadyBoughtException.class)
+   public void buyingAnEstateWhenEstateIsAlreadyBoughtShouldThrowException() throws EstateAlreadyBoughtException {
+      // Given
+      estate.buy(); // buying for the first time the estate
+
+      // When
+      estate.buy();
+
+      // Then an estate already bought exception
+   }
+
+   @Test
+   public void whenBuyingAnEstateShouldChangeTheBoughtStatusToTrue() throws EstateAlreadyBoughtException {
+      // Given no changes
+
+      // When
+      estate.buy();
+
+      // Then
+      assertTrue(estate.hasBeenBought());
+   }
+
+   @Test
+   public void estateHasBeenBoughtWhenAnEstateIsStillForSaleShouldReturnFalse() {
+      // Given no changes
+
+      // When
+      boolean hasBeenBought = estate.hasBeenBought();
+
+      // Then
+      assertFalse(hasBeenBought);
+   }
 }
