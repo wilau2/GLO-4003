@@ -101,4 +101,24 @@
       <numberOfBathrooms>0</numberOfBathrooms>
     </description>
   </estate>
+  <estate>
+    <seller>seller</seller>
+    <address>0-2222-222-tumbukto-canada-g1l1s8</address>
+    <date_modified>2015-11-22T14:04:02.288</date_modified>
+    <price>5000</price>
+    <type>APPARTMENT</type>
+    <date_registered>2007-12-03T10:15:30</date_registered>
+    <price_history>3500-25000-</price_history>
+    <description>
+      <numberOfBedRooms>4</numberOfBedRooms>
+      <municipalValuation>0</municipalValuation>
+      <dimensionsBuilding></dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
+      <numberOfRooms>0</numberOfRooms>
+      <yearsOfConstruction>0</yearsOfConstruction>
+      <backyardFaces>46mille</backyardFaces>
+      <numberOfLevel>0</numberOfLevel>
+      <numberOfBathrooms>0</numberOfBathrooms>
+    </description>
+  </estate>
 </estates>

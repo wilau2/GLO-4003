@@ -10,20 +10,47 @@
 	<jsp:include page="_buyer_side_menu.jsp" />
 	<div class="splash">
 		<h2>Estates that are for sale!</h2>
+			Price filter: 
+			<c:set var="minPrice" value="${param['minPrice']}"></c:set>
+			<c:set var="maxPrice" value="${param['maxPrice']}"></c:set>
+			<form name="form1" method="GET">	
+				<input id="minPrice" name="minPrice" value="${minPrice}" type="number" min="1" max="1000000000"/> 				
+				<input id="maxPrice" name="maxPrice" value="${maxPrice}" type="number" min="1" max="1000000000" />	
+				<input type="button" class="pure-button" value="Filter" onclick="filter()">
+				<a class="pure-button" href="${entryUrl}/buyer/${loggedInUsername}/estates">Reset</a> 
+			</form>	
+			
+			<script>
+     
+	            function filter()
+	            {   
+	            	
+	                form1.submit()
+	                var minPrice = document.getElementById('minPrice').value;
+	                var maxPrice = document.getElementById('maxPrice').value;
+	                var pageURL = "${entryUrl}/buyer/${loggedInUsername}/estates?filtered&type=PRICE&minPrice=" + minPrice + "&maxPrice=" + maxPrice;
+	                	                      	                
+	                window.location.href = pageURL;
+	            }    
+         
+        	</script>			
+			
 		<c:if test="${!estates.isEmpty()}">
 			<table class="pure-table">
 				<thead>
 					<tr>
+					
 						<th>Type</th>
 						<th>Address</th>
 						<th>Date 
-						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateDescendant">Des</a>
+						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateDescendant">Des</a>
 						</th>
 						<th>Date Modified 
-						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateModifiedAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?dateModifiedDescendant">Des</a>
+						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateModifiedAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateModifiedDescendant">Des</a>
 						</th>
 						<th>Price 
-						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?priceAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?priceDescendant">Des</a>
+
+						<a href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=priceAscendant">Asc</a>/<a href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=priceDescendant">Des</a>
 						</th>
 						<th>Select</th>
 					</tr>

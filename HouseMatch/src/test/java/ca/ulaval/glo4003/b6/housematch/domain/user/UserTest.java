@@ -159,7 +159,7 @@ public class UserTest {
       LocalDateTime dateOfLastActivity = user.getDateOfLastActivity();
 
       // Then
-      assertEquals(LocalDateTime.now(), dateOfLastActivity);
+      assertEquals(LocalDateTime.now(), dateOfLastActivity); 
    }
 
    private void configureAdminRole() {

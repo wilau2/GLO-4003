@@ -14,7 +14,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilter;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilterFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.InconsistentFilterParamaterException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.WrongFilterTypeException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstateSorter;
@@ -25,9 +29,14 @@ import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessData
 
 public class EstatesFetcherTest {
 
-   private static final int FIRST = 0;
    private static final String SELLER_NAME = "SELLER";
    private static final String ADDRESS = "ADDRESS";
+   private static final int MIN_PRICE = 1000;
+   private static final int MAX_PRICE = 10000;
+   private static final String PRICE = "PRICE";
+   private static final int FIRST = 0;
+   private static final String WRONG_TYPE = "really_wrong_type";
+   private static final String MESSAGE = "bad_parameter";
 
    @Mock
    private EstateRepositoryFactory estateRepositoryFactory;
@@ -51,18 +60,25 @@ public class EstatesFetcherTest {
 
    @Mock
    private EstateDto estateDto;
+   
+   @Mock
+   private EstateFilterFactory estateFilterFactory;
+   
+   @Mock
+   private EstateFilter estateFilter;
 
    private EstatesFetcher estateFetcher;
 
    @Before
-   public void setup() throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException {
+   public void setup() throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException, WrongFilterTypeException, InconsistentFilterParamaterException {
       MockitoAnnotations.initMocks(this);
 
       configureEstateRepository();
       configureEstateAssembler();
       configureFetchingEstateByAddress();
+      configureEstateFilter();
 
-      estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepositoryFactory, estateSorter);
+      estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepositoryFactory, estateSorter, estateFilterFactory);
    }
 
    private void configureFetchingEstateByAddress() throws EstateNotFoundException, CouldNotAccessDataException {
@@ -80,6 +96,13 @@ public class EstatesFetcherTest {
       when(estateRepositoryFactory.newInstance(estateAssemblerFactory)).thenReturn(estateRepository);
       when(estateRepository.getEstateFromSeller(SELLER_NAME)).thenReturn(estates);
       when(estateRepository.getAllEstates()).thenReturn(estates);
+   }
+   
+   private void configureEstateFilter() throws WrongFilterTypeException, InconsistentFilterParamaterException {
+      when(estateFilterFactory.getFilter(PRICE)).thenReturn(estateFilter);
+      when(estateFilter.filter(estates, MIN_PRICE, MAX_PRICE)).thenReturn(estates);
+
+        
    }
 
    @Test
@@ -237,4 +260,38 @@ public class EstatesFetcherTest {
       // Then
       verify(estateSorter, times(1)).setEstates(estates);
    }
+   
+   @Test
+   public void whenFilterWithPriceParameterShouldReturnEstatesNonNull() throws WrongFilterTypeException, InconsistentFilterParamaterException {
+      // Given
+     
+      // When
+      List<EstateDto> estates = estateFetcher.filter(PRICE, MIN_PRICE, MAX_PRICE);
+      
+      // Then
+      assertTrue(estates != null);
+   }
+   
+   @Test(expected = WrongFilterTypeException.class)
+   public void whenFilterWithWrongTypeParameterShouldThrowWrongFilterTypeException() throws WrongFilterTypeException, InconsistentFilterParamaterException {
+      // Given
+      when(estateFilterFactory.getFilter(WRONG_TYPE)).thenThrow(new WrongFilterTypeException(MESSAGE));
+     
+      // When
+      estateFetcher.filter(WRONG_TYPE, MIN_PRICE, MAX_PRICE);
+      
+      // Then
+   }
+   
+   @Test
+   public void whenFilterWithPriceParameterShouldReturnEstatesWithValue() throws WrongFilterTypeException, InconsistentFilterParamaterException {
+      // Given
+      when(estateSorter.getEstates()).thenReturn(estates); 
+      // When
+      List<EstateDto> estatesDto = estateFetcher.filter(PRICE, MIN_PRICE, MAX_PRICE);
+      
+      // Then
+      assertTrue(estatesDto.get(FIRST) != null);
+   }
+   
 }

@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilter;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilterFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.InconsistentFilterParamaterException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.WrongFilterTypeException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstateSorter;
@@ -22,12 +26,15 @@ public class EstatesFetcher {
    private EstateSorter estateSorter;
 
    private EstateAssemblerFactory estateAssemblerFactory;
+   
+   private EstateFilterFactory estateFilterFactory;
 
    public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepositoryFactory estateRepositoryFactory,
-         EstateSorter estateSorter) {
+         EstateSorter estateSorter, EstateFilterFactory estateFilterFactory) {
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepositoryFactory = estateRepositoryFactory;
       this.estateSorter = estateSorter;
+      this.estateFilterFactory = estateFilterFactory;
    }
 
    public List<EstateDto> getEstatesBySeller(String sellerName)
@@ -81,9 +88,15 @@ public class EstatesFetcher {
       SortingStrategyFactory sortingStrategyFactory = new SortingStrategyFactory();
       SortingStrategy sortingStrategy = sortingStrategyFactory.getStrategy(string);
       estateSorter.setContext(sortingStrategy);
-      return assembleEstatesDto(estateSorter.sortUsingContext());
+      List<Estate> estates = estateSorter.sortUsingContext();
+      return assembleEstatesDto(estates);
    }
 
-   
+   public List<EstateDto> filter(String price, int minPrice, int maxPrice) throws WrongFilterTypeException, InconsistentFilterParamaterException {
+      EstateFilter estateFilter = estateFilterFactory.getFilter(price);
+      List<Estate> estates = estateFilter.filter(estateSorter.getEstates(), minPrice, maxPrice);
+      estateSorter.setEstates(estates);
+      return assembleEstatesDto(estates);
+   }
 
 }

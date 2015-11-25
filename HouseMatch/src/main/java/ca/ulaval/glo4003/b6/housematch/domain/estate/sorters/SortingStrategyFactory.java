@@ -11,7 +11,7 @@ public class SortingStrategyFactory {
    private static final String PRICE_DESCENDANT = "priceDescendant";
 
    public SortingStrategy getStrategy(String strategyName) {
-      
+
       if(strategyName == null || strategyName.equals(DATE_ASCENDANT)){
          return new DateAscendantSortingStrategy();
       }
@@ -32,9 +32,11 @@ public class SortingStrategyFactory {
          return new PriceAscendantSortingStrategy();
       }
       
-      else{
+      if(strategyName.equals(PRICE_DESCENDANT)){
          return new PriceDescendantSortingStrategy();
       }
+      return null;
+      
    }
 
 }

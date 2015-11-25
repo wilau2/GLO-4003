@@ -60,6 +60,10 @@
     <beans:bean
         id="estateSorter"
         class="ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstateSorter" />
+        
+    <beans:bean
+        id="estateFilterFactory"
+        class="ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilterFactory"/>
 
     <beans:bean
         id="estateService"
@@ -101,6 +105,9 @@
         <beans:constructor-arg
             name="estateSorter"
             ref="estateSorter" />
+        <beans:constructor-arg
+            name="estateFilterFactory"
+            ref="estateFilterFactory" />
     </beans:bean>
 
     <beans:bean

@@ -16,6 +16,10 @@ public class EstateSorter {
       this.estates = estates;
    }
    
+   public List<Estate> getEstates(){
+      return estates;
+   }
+   
   public void setContext(SortingStrategy sortingStrategy){
      this.sortingStrategy = sortingStrategy;
   }

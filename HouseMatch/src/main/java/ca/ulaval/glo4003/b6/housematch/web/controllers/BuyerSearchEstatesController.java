@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.InconsistentFilterParamaterException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.WrongFilterTypeException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
@@ -44,95 +47,44 @@ public class BuyerSearchEstatesController {
    }
 
    @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates")
-   public ModelAndView searchAllEstates(HttpServletRequest request, @RequestParam("sort")String sort)
+   public ModelAndView searchAllEstates(HttpServletRequest request)
          throws CouldNotAccessDataException, InvalidAccessException {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
 
-      allEstates = estatesFetcher.getOrderedEstates(sort);
+      allEstates = estatesFetcher.getAllEstates();
       modelAndView.addObject("estates", allEstates);
 
       return modelAndView;
    }
 
-//   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params = "priceAscendant")
-//   public ModelAndView searchAllEstatesPriceAscendant(HttpServletRequest request)
-//         throws CouldNotAccessDataException, InvalidAccessException {
-//      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
-//
-//      ModelAndView modelAndView = new ModelAndView("buyer_search");
-//
-//      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("priceAscendant");
-//      modelAndView.addObject("estates", allEstates);
-//
-//      return modelAndView;
-//   }
-//
-//   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params = "priceDescendant")
-//   public ModelAndView searchAllEstatesPriceDescendant(HttpServletRequest request)
-//         throws CouldNotAccessDataException, InvalidAccessException {
-//      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
-//
-//      ModelAndView modelAndView = new ModelAndView("buyer_search");
-//
-//      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("priceDescendant");
-//      modelAndView.addObject("estates", allEstates);
-//
-//      return modelAndView;
-//   }
-//
-//   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params = "dateAscendant")
-//   public ModelAndView searchAllEstatesDateAscendant(HttpServletRequest request)
-//         throws CouldNotAccessDataException, InvalidAccessException {
-//      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
-//
-//      ModelAndView modelAndView = new ModelAndView("buyer_search");
-//
-//      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("dateAscendant");
-//      modelAndView.addObject("estates", allEstates);
-//
-//      return modelAndView;
-//   }
-//
-//   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params = "dateDescendant")
-//   public ModelAndView searchAllEstatesDateDescendant(HttpServletRequest request)
-//         throws CouldNotAccessDataException, InvalidAccessException {
-//      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
-//
-//      ModelAndView modelAndView = new ModelAndView("buyer_search");
-//
-//      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("dateDescendant");
-//      modelAndView.addObject("estates", allEstates);
-//
-//      return modelAndView;
-//   }
-//   
-//   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params = "dateModifiedAscendant")
-//   public ModelAndView searchAllEstatesDateModifiedAscendant(HttpServletRequest request)
-//         throws CouldNotAccessDataException, InvalidAccessException {
-//      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
-//
-//      ModelAndView modelAndView = new ModelAndView("buyer_search");
-//
-//      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("dateModifiedAscendant");
-//      modelAndView.addObject("estates", allEstates);
-//
-//      return modelAndView;
-//   }
-//
-//   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params = "dateModifiedDescendant")
-//   public ModelAndView searchAllEstatesDateModifiedDescendant(HttpServletRequest request)
-//         throws CouldNotAccessDataException, InvalidAccessException {
-//      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
-//
-//      ModelAndView modelAndView = new ModelAndView("buyer_search");
-//
-//      List<EstateDto> allEstates = estatesFetcher.getOrderedEstates("dateModifiedDescendant");
-//      modelAndView.addObject("estates", allEstates);
-//
-//      return modelAndView;
-//   }
+   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params="sort")
+   public ModelAndView searchAllEstatesSort(HttpServletRequest request, @RequestParam("sort") String sortType)
+         throws CouldNotAccessDataException, InvalidAccessException {
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      ModelAndView modelAndView = new ModelAndView("buyer_search");
+      allEstates = estatesFetcher.getOrderedEstates(sortType);
+      modelAndView.addObject("estates", allEstates);
+
+      return modelAndView;
+   }
+   
+   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params="filtered")
+   public ModelAndView searchAllEstatesFilter(HttpServletRequest request, 
+         @RequestParam("type") String filterType,
+         @RequestParam("minPrice") int minPrice, 
+         @RequestParam("maxPrice") int maxPrice)
+         throws CouldNotAccessDataException, InvalidAccessException, WrongFilterTypeException, InconsistentFilterParamaterException {
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      ModelAndView modelAndView = new ModelAndView("buyer_search");
+      allEstates = estatesFetcher.filter(filterType, minPrice, maxPrice);
+      modelAndView.addObject("estates", allEstates);
+
+      return modelAndView;
+   }
 
    @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates/{address}")
    public ModelAndView getEstateByAddress(@PathVariable("address") String address, HttpServletRequest request)
