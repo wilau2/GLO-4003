@@ -21,6 +21,8 @@ public class EstateDto {
 
    private boolean bought;
 
+   private LocalDateTime dateOfPurchase;
+
    public EstateDto() {
       this.address = new AddressDto();
    }
@@ -34,7 +36,7 @@ public class EstateDto {
    }
 
    public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered,
-         DescriptionDto descriptionDto, ArrayList<Integer> priceHistory, boolean bought) {
+         DescriptionDto descriptionDto, ArrayList<Integer> priceHistory, boolean bought, LocalDateTime dateOfPurchase) {
 
       this.type = type;
       this.address = address;
@@ -44,6 +46,7 @@ public class EstateDto {
       this.descriptionDto = descriptionDto;
       this.priceHistory = priceHistory;
       this.bought = bought;
+      this.dateOfPurchase = dateOfPurchase;
    }
 
    public void setDescriptionDto(DescriptionDto descriptionDto) {
@@ -113,6 +116,14 @@ public class EstateDto {
 
    public void setBought(Boolean bought) {
       this.bought = bought;
+   }
+
+   public LocalDateTime getDateOfPurchase() {
+      return dateOfPurchase;
+   }
+
+   public void setDateOfPurchase(LocalDateTime dateOfPurchase) {
+      this.dateOfPurchase = dateOfPurchase;
    }
 
 }

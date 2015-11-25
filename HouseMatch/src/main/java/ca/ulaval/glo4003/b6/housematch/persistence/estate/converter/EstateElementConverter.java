@@ -15,6 +15,8 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
 public class EstateElementConverter {
 
+   private static final String PURCHASE_DATE = "purchase_date";
+
    private static final String BOUGHT = "bought";
 
    private static final String SELLER = "seller";
@@ -61,7 +63,19 @@ public class EstateElementConverter {
       Boolean bought = Boolean.parseBoolean(element.elementText(BOUGHT));
       estateDto.setBought(bought);
 
+      String purchaseDateFromElement = element.elementText(PURCHASE_DATE);
+      setDateOfPurchaseToEstateDto(estateDto, purchaseDateFromElement);
+
       return estateDto;
+   }
+
+   private void setDateOfPurchaseToEstateDto(EstateDto estateDto, String purchaseDateFromElement) {
+      if (purchaseDateFromElement == null || purchaseDateFromElement.isEmpty()) {
+         estateDto.setDateOfPurchase(null);
+      } else {
+         LocalDateTime dateOfPurchase = LocalDateTime.parse(purchaseDateFromElement);
+         estateDto.setDateOfPurchase(dateOfPurchase);
+      }
    }
 
    private ArrayList<Integer> constructPriceHistoryFromString(String priceHistoryFromElement) {
@@ -122,6 +136,8 @@ public class EstateElementConverter {
       attributes.put(ADDRESS, estate.getAddress().toString());
       attributes.put(PRICE_HISTORY, constructStringFromPriceHistory(estate));
       attributes.put(BOUGHT, estate.hasBeenBought().toString());
+      attributes.put(PURCHASE_DATE, estate.getDateOfPurchase().toString());
+
       return attributes;
    }
 
@@ -145,6 +161,9 @@ public class EstateElementConverter {
 
       Boolean bought = Boolean.parseBoolean(attributes.get(BOUGHT));
       estateDto.setBought(bought);
+
+      String purchaseDateAttributes = attributes.get(PURCHASE_DATE);
+      setDateOfPurchaseToEstateDto(estateDto, purchaseDateAttributes);
 
       return estateDto;
    }

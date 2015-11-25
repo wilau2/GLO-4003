@@ -24,8 +24,10 @@ public class Estate {
 
    private boolean bought;
 
+   private LocalDateTime dateOfPurchase;
+
    public Estate(String type, Address address, Integer price, String seller, Description description,
-         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory, boolean bought) {
+         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory, boolean bought, LocalDateTime dateOfPurchase) {
 
       this.type = type;
       this.address = address;
@@ -37,6 +39,8 @@ public class Estate {
 
       this.priceHistory = priceHistory;
       this.bought = bought;
+
+      this.dateOfPurchase = dateOfPurchase;
    }
 
    public String getType() {
@@ -122,9 +126,14 @@ public class Estate {
          throw new EstateAlreadyBoughtException("This estates already has a new familly, sorry :(");
       }
       bought = true;
+      dateOfPurchase = LocalDateTime.now();
    }
 
    public Boolean hasBeenBought() {
       return bought;
+   }
+
+   public LocalDateTime getDateOfPurchase() {
+      return dateOfPurchase;
    }
 }

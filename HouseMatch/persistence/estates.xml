@@ -42,28 +42,9 @@
   </estate>  
   <estate> 
     <seller>seller</seller>  
-    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
-    <price>50096</price>  
-    <type>MULTIPLEX</type>  
-    <date_registered>2007-12-03T10:15:30</date_registered>  
-    <price_history>1016-1020-50000-50000-50096-</price_history>  
-    <description> 
-      <numberOfBedRooms>21</numberOfBedRooms>  
-      <municipalValuation>125000</municipalValuation>  
-      <dimensionsBuilding>4x42</dimensionsBuilding>  
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>1</numberOfRooms>  
-      <yearsOfConstruction>2002</yearsOfConstruction>  
-      <backyardFaces>FRONT</backyardFaces>  
-      <numberOfLevel>1</numberOfLevel>  
-      <numberOfBathrooms>1</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
     <address>0-2222-222-quebec-canada-g1l1s8</address>  
     <price>25000</price>  
-    <bought>true</bought>  
+    <bought>false</bought>  
     <type>APPARTMENT</type>  
     <date_registered>2007-12-03T10:15:30</date_registered>  
     <price_history>3500-25000-</price_history>  
@@ -79,24 +60,45 @@
       <numberOfBathrooms>0</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-340-Rue des Bisous-Glo-Gloland-134</address>  
+    <price>1000</price>  
+    <bought>true</bought>  
+    <type>APPARTMENT</type>  
+    <date_registered>2015-11-18T17:52:05.790</date_registered>  
+    <price_history/>  
+    <description> 
+      <numberOfBedRooms>0</numberOfBedRooms>  
+      <municipalValuation>0</municipalValuation>  
+      <dimensionsBuilding/>  
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>0</numberOfRooms>  
+      <yearsOfConstruction>0</yearsOfConstruction>  
+      <backyardFaces/>  
+      <numberOfLevel>0</numberOfLevel>  
+      <numberOfBathrooms>0</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-340-Rue des Bisous-Glo-Gloland-134</address>
-    <price>1000</price>
+    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>
+    <price>50096</price>
     <bought>true</bought>
-    <type>APPARTMENT</type>
-    <date_registered>2015-11-18T17:52:05.790</date_registered>
-    <price_history></price_history>
+    <type>MULTIPLEX</type>
+    <purchase_date>2015-11-25T16:02:07.362</purchase_date>
+    <date_registered>2007-12-03T10:15:30</date_registered>
+    <price_history>1016-1020-50000-50000-50096-</price_history>
     <description>
-      <numberOfBedRooms>0</numberOfBedRooms>
-      <municipalValuation>0</municipalValuation>
-      <dimensionsBuilding></dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
-      <numberOfRooms>0</numberOfRooms>
-      <yearsOfConstruction>0</yearsOfConstruction>
-      <backyardFaces></backyardFaces>
-      <numberOfLevel>0</numberOfLevel>
-      <numberOfBathrooms>0</numberOfBathrooms>
+      <numberOfBedRooms>21</numberOfBedRooms>
+      <municipalValuation>125000</municipalValuation>
+      <dimensionsBuilding>4x42</dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
+      <numberOfRooms>1</numberOfRooms>
+      <yearsOfConstruction>2002</yearsOfConstruction>
+      <backyardFaces>FRONT</backyardFaces>
+      <numberOfLevel>1</numberOfLevel>
+      <numberOfBathrooms>1</numberOfBathrooms>
     </description>
   </estate>
 </estates>

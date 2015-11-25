@@ -94,6 +94,7 @@ public class EstateAssemblerTest {
       verify(estateDto, times(1)).getSeller();
       verify(estateDto, times(1)).getDateRegistered();
       verify(estateDto, times(1)).isBought();
+      verify(estateDto, times(1)).getDateOfPurchase();
    }
 
    @Test
@@ -134,6 +135,7 @@ public class EstateAssemblerTest {
       verify(estate, times(1)).getSeller();
       verify(estate, times(1)).getDateRegistered();
       verify(estate, times(1)).hasBeenBought();
+      verify(estate, times(1)).getDateOfPurchase();
    }
 
 }

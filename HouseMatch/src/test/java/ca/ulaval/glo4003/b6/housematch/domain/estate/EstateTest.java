@@ -36,6 +36,8 @@ public class EstateTest {
 
    private LocalDateTime dateRegistered;
 
+   private LocalDateTime dateOfPurchase;
+
    @Before
    public void setup() {
 
@@ -43,7 +45,8 @@ public class EstateTest {
 
       dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
 
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, BOUGHT);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, BOUGHT,
+            dateOfPurchase);
    }
 
    @Test
@@ -131,6 +134,19 @@ public class EstateTest {
 
       // Then
       assertTrue(estate.hasBeenBought());
+   }
+
+   @Test
+   public void whenBuyingAnEstateShouldAddADateBoughtTime() throws EstateAlreadyBoughtException {
+      // Given no changes
+      LocalDateTime expectedTimeOfPurchase = LocalDateTime.now();
+
+      // When
+      estate.buy();
+
+      // Then
+      LocalDateTime timeOfPurchase = estate.getDateOfPurchase();
+      assertEquals(expectedTimeOfPurchase, timeOfPurchase);
    }
 
    @Test
