@@ -136,4 +136,13 @@ public class Estate {
    public LocalDateTime getDateOfPurchase() {
       return dateOfPurchase;
    }
+
+   public boolean hasBeenBoughtInLastYear() {
+      if (hasBeenBought()) {
+         LocalDateTime lastYearDate = LocalDateTime.now().minusYears(1);
+
+         return dateOfPurchase.isAfter(lastYearDate);
+      }
+      return false;
+   }
 }
