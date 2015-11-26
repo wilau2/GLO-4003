@@ -3,9 +3,11 @@ package ca.ulaval.glo4003.b6.housematch.persistence.estate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -38,7 +40,6 @@ import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistence.estate.converter.EstateElementConverter;
-import ca.ulaval.glo4003.b6.housematch.persistence.estate.converter.EstateElementConverterFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepositoryTest {
@@ -84,9 +85,6 @@ public class XMLEstateRepositoryTest {
    private EstateElementConverter estateElementAssembler;
 
    @Mock
-   private EstateElementConverterFactory estateElementAssemblerFactory;
-
-   @Mock
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
 
    @Mock
@@ -125,7 +123,6 @@ public class XMLEstateRepositoryTest {
 
    private void configureAssemblerBehavior() throws ParseException {
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
-      when(estateElementAssemblerFactory.createAssembler()).thenReturn(estateElementAssembler);
 
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
 
@@ -168,17 +165,6 @@ public class XMLEstateRepositoryTest {
 
       // then
       verify(xmlFileEditor, times(1)).addNewElementToDocument(usedDocument, estatePersistenceDto);
-   }
-
-   @Test
-   public void whenAddingAnEstateShouldCallNewInstanceOfEstateElementAssebler() throws CouldNotAccessDataException {
-      // Given no changes
-
-      // When
-      xmlEstateRepository.addEstate(estate);
-
-      // Then
-      verify(estateElementAssemblerFactory, times(1)).createAssembler();
    }
 
    @Test
@@ -313,7 +299,6 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.getAllEstates();
 
       // Then
-      verify(estateElementAssemblerFactory, times(1)).createAssembler();
       verify(estateElementAssembler, times(numberOfReturnedDto)).convertToDto(element);
    }
 
@@ -443,7 +428,6 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.getEstateByAddress(VALID_ADDRESS.toString());
 
       // Then
-      verify(estateElementAssemblerFactory, times(1)).createAssembler();
       verify(estateElementAssembler, times(1)).convertAttributesToDto(attributes);
    }
 

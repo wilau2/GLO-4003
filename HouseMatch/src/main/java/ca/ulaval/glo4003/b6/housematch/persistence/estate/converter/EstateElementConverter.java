@@ -136,9 +136,16 @@ public class EstateElementConverter {
       attributes.put(ADDRESS, estate.getAddress().toString());
       attributes.put(PRICE_HISTORY, constructStringFromPriceHistory(estate));
       attributes.put(BOUGHT, estate.hasBeenBought().toString());
-      attributes.put(PURCHASE_DATE, estate.getDateOfPurchase().toString());
+
+      addDateOfPurchaseIfEstateBought(estate, attributes);
 
       return attributes;
+   }
+
+   private void addDateOfPurchaseIfEstateBought(Estate estate, HashMap<String, String> attributes) {
+      if (estate.hasBeenBought()) {
+         attributes.put(PURCHASE_DATE, estate.getDateOfPurchase().toString());
+      }
    }
 
    public EstateDto convertAttributesToDto(HashMap<String, String> attributes) throws ParseException {

@@ -15,21 +15,20 @@ import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFact
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.validators.EstateValidator;
-import ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.EstateValidatorFactory;
 
 public class EstatesService {
 
-   private EstateValidatorFactory estateValidatorFactory;
+   private EstateValidator estateValidator;
 
    private EstateRepository estateRepository;
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
    @Inject
-   public EstatesService(EstateValidatorFactory estateValidatorFactory, EstateAssemblerFactory estateAssemblerFactory,
+   public EstatesService(EstateValidator estateValidator, EstateAssemblerFactory estateAssemblerFactory,
          EstateRepository estateRepository) {
 
-      this.estateValidatorFactory = estateValidatorFactory;
+      this.estateValidator = estateValidator;
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepository = estateRepository;
    }
@@ -44,9 +43,7 @@ public class EstatesService {
    }
 
    private void validateEstate(EstateDto estateDto) throws InvalidEstateException {
-      EstateValidator estateValidator = estateValidatorFactory.getValidator();
       estateValidator.validate(estateDto);
-
    }
 
    public void editEstate(String address, EstateEditDto estateEditDto)

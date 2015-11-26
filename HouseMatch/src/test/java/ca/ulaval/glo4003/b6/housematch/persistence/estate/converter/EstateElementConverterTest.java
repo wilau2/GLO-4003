@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.persistence.estate.converter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import static org.mockito.Mockito.when;
@@ -257,4 +258,18 @@ public class EstateElementConverterTest {
       // Then
       assertEquals(null, estateDto.getDateOfPurchase());
    }
+
+   @Test
+   public void assemblingAttributesFromEstateWhenEstateHasNotBeenBoughtShouldNotAddPurchaseDateAttributes() {
+      // Given
+      when(estate.hasBeenBought()).thenReturn(false);
+      when(estate.getDateOfPurchase()).thenReturn(null);
+
+      // When
+      HashMap<String, String> estateAttributes = estateElementAssembler.convertToAttributes(estate);
+
+      // Then
+      assertFalse(estateAttributes.containsKey(PURCHASE_DATE_TIME_KEY));
+   }
+
 }

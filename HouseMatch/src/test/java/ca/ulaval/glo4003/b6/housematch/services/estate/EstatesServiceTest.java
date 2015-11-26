@@ -28,8 +28,6 @@ import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescrip
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.validators.DescriptionValidator;
 import ca.ulaval.glo4003.b6.housematch.services.estate.validators.EstateValidator;
-import ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.DescriptionValidatorFactory;
-import ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.EstateValidatorFactory;
 
 public class EstatesServiceTest {
 
@@ -38,9 +36,6 @@ public class EstatesServiceTest {
    private static final Integer PRICE = 1000;
 
    private static final String TYPE = "PRICE";
-
-   @Mock
-   private EstateValidatorFactory estateValidatorFactory;
 
    @Mock
    private EstateDto estateDto;
@@ -67,9 +62,6 @@ public class EstatesServiceTest {
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
 
    @Mock
-   private DescriptionValidatorFactory descriptionValidatorFactory;
-
-   @Mock
    private DescriptionAssembler descriptionAssembler;
 
    @Mock
@@ -92,7 +84,6 @@ public class EstatesServiceTest {
 
       configureDescriptionTests();
 
-      when(estateValidatorFactory.getValidator()).thenReturn(estateValidator);
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
 
@@ -102,7 +93,7 @@ public class EstatesServiceTest {
       when(estateEditDto.getType()).thenReturn(TYPE);
       when(estateEditDto.getPrice()).thenReturn(PRICE);
 
-      estatesService = new EstatesService(estateValidatorFactory, estateAssemblerFactory, estateRepository);
+      estatesService = new EstatesService(estateValidator, estateAssemblerFactory, estateRepository);
    }
 
    @Test
@@ -165,10 +156,7 @@ public class EstatesServiceTest {
    }
 
    private void configureDescriptionTests() {
-
       when(descriptionAssembler.assembleDescription(descriptionDto)).thenReturn(description);
-      when(descriptionValidatorFactory.createValidator()).thenReturn(descriptionValidator);
-
    }
 
    @Test(expected = EstateNotFoundException.class)

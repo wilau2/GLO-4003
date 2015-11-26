@@ -115,7 +115,7 @@ public class Estate {
    }
 
    public void editPrice(Integer newPrice) {
-      if (this.price != newPrice) {
+      if (this.price.intValue() != newPrice.intValue()) {
          this.priceHistory.add(this.price);
          this.price = newPrice;
       }

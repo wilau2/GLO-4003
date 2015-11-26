@@ -80,25 +80,45 @@
       <numberOfBathrooms>0</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
+    <price>50096</price>  
+    <bought>true</bought>  
+    <type>MULTIPLEX</type>  
+    <purchase_date>2015-11-25T16:02:07.362</purchase_date>  
+    <date_registered>2007-12-03T10:15:30</date_registered>  
+    <price_history>1016-1020-50000-50000-50096-</price_history>  
+    <description> 
+      <numberOfBedRooms>21</numberOfBedRooms>  
+      <municipalValuation>125000</municipalValuation>  
+      <dimensionsBuilding>4x42</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>1</numberOfRooms>  
+      <yearsOfConstruction>2002</yearsOfConstruction>  
+      <backyardFaces>FRONT</backyardFaces>  
+      <numberOfLevel>1</numberOfLevel>  
+      <numberOfBathrooms>1</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>
-    <price>50096</price>
-    <bought>true</bought>
-    <type>MULTIPLEX</type>
-    <purchase_date>2015-11-25T16:02:07.362</purchase_date>
-    <date_registered>2007-12-03T10:15:30</date_registered>
-    <price_history>1016-1020-50000-50000-50096-</price_history>
+    <address>0-500-Rue des patates-Rwandol-Afriqua-1232</address>
+    <price>60000</price>
+    <bought>false</bought>
+    <type>CONDO</type>
+    <date_registered>2015-11-26T10:42:55.427</date_registered>
+    <price_history></price_history>
     <description>
-      <numberOfBedRooms>21</numberOfBedRooms>
-      <municipalValuation>125000</municipalValuation>
-      <dimensionsBuilding>4x42</dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
-      <numberOfRooms>1</numberOfRooms>
-      <yearsOfConstruction>2002</yearsOfConstruction>
-      <backyardFaces>FRONT</backyardFaces>
-      <numberOfLevel>1</numberOfLevel>
-      <numberOfBathrooms>1</numberOfBathrooms>
+      <numberOfBedRooms>0</numberOfBedRooms>
+      <municipalValuation>0</municipalValuation>
+      <dimensionsBuilding></dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>42</livingSpaceAreaSquareMeter>
+      <numberOfRooms>0</numberOfRooms>
+      <yearsOfConstruction>0</yearsOfConstruction>
+      <backyardFaces>South</backyardFaces>
+      <numberOfLevel>0</numberOfLevel>
+      <numberOfBathrooms>0</numberOfBathrooms>
     </description>
   </estate>
 </estates>

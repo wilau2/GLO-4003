@@ -38,6 +38,9 @@ public class EstateTest {
 
    private LocalDateTime dateOfPurchase;
 
+   @Mock
+   private Description newDescription;
+
    @Before
    public void setup() {
 
@@ -158,5 +161,57 @@ public class EstateTest {
 
       // Then
       assertFalse(hasBeenBought);
+   }
+
+   @Test
+   public void editingPriceOfEstateWhenPriceIsTheSameShouldNotChangeThePrice() {
+      // Given
+      Integer newPrice = new Integer(PRICE);
+      int expectedEmptyListSize = 0;
+
+      // When
+      estate.editPrice(newPrice);
+
+      // Then
+      ArrayList<Integer> priceHistory = estate.getPriceHistory();
+      assertEquals(expectedEmptyListSize, priceHistory.size());
+   }
+
+   @Test
+   public void editingPriceOfEstateWhenPriceIsNotTheSameShouldAddOldPriceInsidePriceHistory() {
+      // Given
+      Integer newPrice = new Integer(PRICE.intValue() - 1);
+      int expectedListSize = 1;
+
+      // When
+      estate.editPrice(newPrice);
+
+      // Then
+      ArrayList<Integer> priceHistory = estate.getPriceHistory();
+      assertEquals(expectedListSize, priceHistory.size());
+      assertEquals(PRICE, priceHistory.get(expectedListSize - 1));
+   }
+
+   @Test
+   public void whenEditingTypeOfEstateShouldChangeTheTypeOfTheEstate() {
+      // Given
+      String newType = "Type";
+
+      // When
+      estate.editType(newType);
+
+      // Then
+      assertEquals(newType, estate.getType());
+   }
+
+   @Test
+   public void whenEditingDescriptionShouldSetNewDescription() {
+      // Given no changes
+
+      // When
+      estate.editDescription(newDescription);
+
+      // Then
+      assertEquals(estate.getDescription(), newDescription);
    }
 }

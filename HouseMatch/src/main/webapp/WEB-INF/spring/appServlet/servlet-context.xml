@@ -45,18 +45,28 @@
     </beans:bean>
 
     <beans:bean
-        id="descriptionValidatorFactory"
-        class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.DescriptionValidatorFactory" />
+        id="descriptionValidator"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.DescriptionValidator" />
     <beans:bean
-        id="estateValidatorFactory"
-        class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.EstateValidatorFactoryImpl" />
+        id="estateValidator"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.EstateValidator" />
 
     <beans:bean
         id="estateAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory" />
     <beans:bean
-        id="estateElementAssemblerFactory"
-        class="ca.ulaval.glo4003.b6.housematch.persistence.estate.converter.EstateElementConverterFactory" />
+        id="descriptionElementAssembler"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.estate.converter.DescriptionElementConverter"
+        scope="session" />
+    <beans:bean
+        id="estateElementAssembler"
+        class="ca.ulaval.glo4003.b6.housematch.persistence.estate.converter.EstateElementConverter"
+        scope="session"
+    >
+        <beans:constructor-arg
+            ref="descriptionElementAssembler"
+            name="descriptionElementAssembler" />
+    </beans:bean>
     <beans:bean
         id="estatePersistenceDtoFactory"
         class="ca.ulaval.glo4003.b6.housematch.persistence.estate.EstatePersistenceDtoFactory" />
@@ -70,8 +80,8 @@
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
         <beans:constructor-arg
-            name="estateElementAssemblerFactory"
-            ref="estateElementAssemblerFactory" />
+            name="estateElementAssembler"
+            ref="estateElementAssembler" />
         <beans:constructor-arg
             name="estatePersistenceDtoFactory"
             ref="estatePersistenceDtoFactory" />
@@ -89,8 +99,8 @@
         scope="session"
     >
         <beans:constructor-arg
-            name="estateValidatorFactory"
-            ref="estateValidatorFactory" />
+            name="estateValidator"
+            ref="estateValidator" />
         <beans:constructor-arg
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
