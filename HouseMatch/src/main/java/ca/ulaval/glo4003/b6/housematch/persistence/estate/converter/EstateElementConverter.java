@@ -70,9 +70,7 @@ public class EstateElementConverter {
    }
 
    private void setDateOfPurchaseToEstateDto(EstateDto estateDto, String purchaseDateFromElement) {
-      if (purchaseDateFromElement == null || purchaseDateFromElement.isEmpty()) {
-         estateDto.setDateOfPurchase(null);
-      } else {
+      if (estateDto.isBought()) {
          LocalDateTime dateOfPurchase = LocalDateTime.parse(purchaseDateFromElement);
          estateDto.setDateOfPurchase(dateOfPurchase);
       }

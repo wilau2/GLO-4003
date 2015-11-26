@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.persistence.estate.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import static org.mockito.Mockito.when;
@@ -237,13 +238,14 @@ public class EstateElementConverterTest {
    @Test
    public void assemblingEstateDtoWhenFieldDateOfPurchaseDoesnotExistShouldSetFieldToNull() throws ParseException {
       // Given
+      when(attributes.get(BOUGHT_KEY)).thenReturn("false");
       when(attributes.get(PURCHASE_DATE_TIME_KEY)).thenReturn(null);
 
       // When
       EstateDto estateDto = estateElementAssembler.convertAttributesToDto(attributes);
 
       // Then
-      assertEquals(null, estateDto.getDateOfPurchase());
+      assertNull(estateDto.getDateOfPurchase());
    }
 
    @Test
@@ -251,12 +253,13 @@ public class EstateElementConverterTest {
          throws ParseException {
       // Given
       when(element.elementText(PURCHASE_DATE_TIME_KEY)).thenReturn(null);
+      when(element.elementText(BOUGHT_KEY)).thenReturn("false");
 
       // When
       EstateDto estateDto = estateElementAssembler.convertToDto(element);
 
       // Then
-      assertEquals(null, estateDto.getDateOfPurchase());
+      assertNull(estateDto.getDateOfPurchase());
    }
 
    @Test
