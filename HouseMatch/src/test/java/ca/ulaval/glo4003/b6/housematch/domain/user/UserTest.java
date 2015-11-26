@@ -5,6 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import java.time.LocalDateTime;
 
 import org.junit.Before;
@@ -19,11 +22,16 @@ public class UserTest {
 
    private static final String PASSWORD = "password";
 
+   private static final String INVALID_PASSWORD = "invalid_password";
+
    @Mock
    private ContactInformation contactInformation;
 
    @Mock
    private Role role;
+
+   @Mock
+   private ContactInformation contactInformationForUpdate;
 
    @InjectMocks
    private User user;
@@ -160,6 +168,42 @@ public class UserTest {
 
       // Then
       assertEquals(LocalDateTime.now(), dateOfLastActivity);
+   }
+
+   @Test
+   public void whenValidatingUserCredentialShouldReturnTrueIsPasswordIsEqual() {
+      // Given no changes
+      configureUser();
+
+      // When
+      boolean loginCredential = user.validateLoginCredential(PASSWORD);
+
+      // Then
+      assertTrue(loginCredential);
+   }
+
+   @Test
+   public void validatingUserCredentialWhenPasswordToVerifyIsNotTheSameShouldReturnFalse() {
+      // Given
+      configureUser();
+
+      // When
+      boolean loginCredential = user.validateLoginCredential(INVALID_PASSWORD);
+
+      // Then
+      assertFalse(loginCredential);
+   }
+
+   @Test
+   public void whenUpdatingContactInformationShouldCallUpdateMethodOnContactInformation() {
+      // Given
+      configureUser();
+
+      // When
+      user.updateContactInformation(contactInformationForUpdate);
+
+      // Then
+      verify(contactInformation, times(1)).update(contactInformationForUpdate);
    }
 
    private void configureAdminRole() {

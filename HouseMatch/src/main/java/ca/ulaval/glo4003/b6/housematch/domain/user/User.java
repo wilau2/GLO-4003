@@ -37,8 +37,8 @@ public class User {
       return role.hasAdmin();
    }
 
-   public void updateContactInformation(ContactInformation contactInformation) {
-      this.contactInformation.update(contactInformation);
+   public void updateContactInformation(ContactInformation newContactInformation) {
+      contactInformation.update(newContactInformation);
    }
 
    public String getUsername() {
@@ -90,6 +90,13 @@ public class User {
 
    public void updateLastActivity() {
       dateOfLastActivity = LocalDateTime.now();
+   }
+
+   public boolean validateLoginCredential(String passwordToVerify) {
+      if (password.equals(passwordToVerify)) {
+         return true;
+      }
+      return false;
    }
 
 }
