@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.admin.AdminStatisticService;
+import ca.ulaval.glo4003.b6.housematch.services.statistic.StatisticService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
@@ -32,7 +32,7 @@ public class AdminStatisticControllerTest {
    private HttpServletRequest request;
 
    @Mock
-   private AdminStatisticService adminStatisticService;
+   private StatisticService adminStatisticService;
 
    private AdminStatisticController adminStatisticController;
 
@@ -78,7 +78,7 @@ public class AdminStatisticControllerTest {
       adminStatisticController.getNumberOfActiveBuyer(request);
 
       // Then
-      verify(adminStatisticService, times(1)).getNumberOfActiveBuyer();
+      verify(adminStatisticService, times(1)).getNumberOfActiveBuyers();
    }
 
    @Test
@@ -86,7 +86,7 @@ public class AdminStatisticControllerTest {
          throws InvalidAccessException, CouldNotAccessDataException, DocumentException {
       // Given
       int expectedNumberOfActiveBuyer = 3;
-      when(adminStatisticService.getNumberOfActiveBuyer()).thenReturn(expectedNumberOfActiveBuyer);
+      when(adminStatisticService.getNumberOfActiveBuyers()).thenReturn(expectedNumberOfActiveBuyer);
 
       // When
       ModelAndView returnedViewModel = adminStatisticController.getNumberOfActiveBuyer(request);

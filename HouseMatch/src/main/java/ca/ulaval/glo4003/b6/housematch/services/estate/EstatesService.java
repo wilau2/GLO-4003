@@ -20,17 +20,17 @@ public class EstatesService {
 
    private EstateValidatorFactory estateValidatorFactory;
 
-   private EstateRepositoryFactory estateRepositoryFactory;
+   private EstateRepository estateRepository;
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
    @Inject
    public EstatesService(EstateValidatorFactory estateValidatorFactory, EstateAssemblerFactory estateAssemblerFactory,
-         EstateRepositoryFactory estateRepositoryFactory) {
+         EstateRepository estateRepository) {
 
       this.estateValidatorFactory = estateValidatorFactory;
       this.estateAssemblerFactory = estateAssemblerFactory;
-      this.estateRepositoryFactory = estateRepositoryFactory;
+      this.estateRepository = estateRepository;
    }
 
    public void addEstate(EstateDto estateDto) throws InvalidEstateException, CouldNotAccessDataException {
@@ -39,7 +39,6 @@ public class EstatesService {
 
       Estate estate = estateAssembler.assembleEstate(estateDto);
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       estateRepository.addEstate(estate);
    }
 
@@ -51,7 +50,6 @@ public class EstatesService {
 
    public void editEstate(String address, EstateEditDto estateEditDto)
          throws EstateNotFoundException, CouldNotAccessDataException {
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       Estate estate = estateRepository.getEstateByAddress(address);
 
       estate.editType(estateEditDto.getType());
@@ -65,8 +63,6 @@ public class EstatesService {
 
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
       Description description = estateAssembler.assembleDescription(descriptionDto);
-
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
 
       Estate estate = estateRepository.getEstateByAddress(address);
       estate.editDescription(description);

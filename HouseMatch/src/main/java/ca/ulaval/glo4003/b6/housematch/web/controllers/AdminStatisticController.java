@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.admin.AdminStatisticService;
+import ca.ulaval.glo4003.b6.housematch.services.statistic.StatisticService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
@@ -26,11 +26,11 @@ public class AdminStatisticController {
 
    private UserAuthorizationService userAuthorizationService;
 
-   private AdminStatisticService adminStatisticService;
+   private StatisticService adminStatisticService;
 
    @Inject
    public AdminStatisticController(UserAuthorizationService userAuthorizationService,
-         AdminStatisticService adminStatisticService) {
+         StatisticService adminStatisticService) {
       this.userAuthorizationService = userAuthorizationService;
       this.adminStatisticService = adminStatisticService;
    }
@@ -40,7 +40,7 @@ public class AdminStatisticController {
          throws InvalidAccessException, CouldNotAccessDataException, DocumentException {
       userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 
-      int numberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyer();
+      int numberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyers();
 
       ModelAndView numberOfActiveUserViewModel = new ModelAndView("buyer_active_statistic");
       numberOfActiveUserViewModel.addObject(NUMBER_OF_ACTIVE_BUYER_KEY, numberOfActiveBuyer);

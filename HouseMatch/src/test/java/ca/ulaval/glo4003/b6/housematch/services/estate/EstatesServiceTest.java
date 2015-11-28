@@ -33,9 +33,9 @@ import ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.Estate
 public class EstatesServiceTest {
 
    private static final String ADDRESS = "address";
-   
+
    private static final Integer PRICE = 1000;
-   
+
    private static final String TYPE = "PRICE";
 
    @Mock
@@ -43,7 +43,7 @@ public class EstatesServiceTest {
 
    @Mock
    private EstateDto estateDto;
-   
+
    @Mock
    private EstateEditDto estateEditDto;
 
@@ -61,9 +61,6 @@ public class EstatesServiceTest {
 
    @Mock
    private EstateValidator estateValidator;
-
-   @Mock
-   private EstateRepositoryFactory estateRepositoryFactory;
 
    @Mock
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
@@ -97,15 +94,14 @@ public class EstatesServiceTest {
       when(estateValidatorFactory.getValidator()).thenReturn(estateValidator);
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
-      when(estateRepositoryFactory.newInstance(estateAssemblerFactory)).thenReturn(estateRepository);
+
       when(estateRepository.getEstateByAddress(ADDRESS)).thenReturn(estate);
       when(estateDto.getAddress()).thenReturn(addressDto);
       when(estateDto.getDescriptionDto()).thenReturn(descriptionDto);
       when(estateEditDto.getType()).thenReturn(TYPE);
       when(estateEditDto.getPrice()).thenReturn(PRICE);
 
-
-      estatesService = new EstatesService(estateValidatorFactory, estateAssemblerFactory, estateRepositoryFactory);
+      estatesService = new EstatesService(estateValidatorFactory, estateAssemblerFactory, estateRepository);
    }
 
    @Test
@@ -117,7 +113,6 @@ public class EstatesServiceTest {
       estatesService.addEstate(estateDto);
 
       // Then
-      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
       verify(estateRepository, times(1)).addEstate(estate);
    }
 
@@ -132,7 +127,7 @@ public class EstatesServiceTest {
       // Then
       verify(estateAssemblerFactory, times(1)).createEstateAssembler();
    }
-   
+
    @Test
    public void editingAnEstateWhenEstateIsValidShouldCallUpdateEstateAtRepository()
          throws CouldNotAccessDataException, EstateNotFoundException {
@@ -142,7 +137,6 @@ public class EstatesServiceTest {
       estatesService.editEstate(ADDRESS, estateEditDto);
 
       // Then
-      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
       verify(estateRepository, times(1)).updateEstate(estate);
    }
 

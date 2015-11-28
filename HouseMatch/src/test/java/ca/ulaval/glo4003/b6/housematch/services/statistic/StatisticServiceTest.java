@@ -1,7 +1,7 @@
-package ca.ulaval.glo4003.b6.housematch.services.admin;
+package ca.ulaval.glo4003.b6.housematch.services.statistic;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,13 +20,11 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 
-public class AdminStatisticServiceTest {
+public class StatisticServiceTest {
 
-   private AdminStatisticService adminStatisticService;
+   private StatisticService adminStatisticService;
 
    @Mock
    private UserRepository userRepository;
@@ -41,9 +39,6 @@ public class AdminStatisticServiceTest {
    private EstateRepository estateRepository;
 
    @Mock
-   private EstateRepositoryFactory estateRepositoryFactory;
-
-   @Mock
    private List<Estate> estates;
 
    @Mock
@@ -56,11 +51,10 @@ public class AdminStatisticServiceTest {
    public void setup() throws CouldNotAccessDataException, DocumentException {
       MockitoAnnotations.initMocks(this);
 
-      adminStatisticService = new AdminStatisticService(userRepository, userProcessor, estateRepositoryFactory,
-            estateProcessor);
+      adminStatisticService = new StatisticService(userRepository, userProcessor, estateRepository, estateProcessor);
 
       when(userRepository.getAllUsers()).thenReturn(users);
-      when(estateRepositoryFactory.newInstance(any(EstateAssemblerFactory.class))).thenReturn(estateRepository);
+
       when(estateRepository.getAllEstates()).thenReturn(estates);
       when(estateProcessor.retrieveUniqueSellersName(estates)).thenReturn(uniqueSellersName);
 
@@ -72,7 +66,7 @@ public class AdminStatisticServiceTest {
       // Given no changes
 
       // When
-      adminStatisticService.getNumberOfActiveBuyer();
+      adminStatisticService.getNumberOfActiveBuyers();
 
       // Then
       verify(userRepository, times(1)).getAllUsers();
@@ -87,7 +81,7 @@ public class AdminStatisticServiceTest {
       when(userProcessor.getNumberOfActiveBuyer(users)).thenReturn(expectedNumberOfActiveBuyer);
 
       // When
-      int actualNumberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyer();
+      int actualNumberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyers();
 
       // Then
       assertEquals(expectedNumberOfActiveBuyer, actualNumberOfActiveBuyer);
@@ -116,7 +110,6 @@ public class AdminStatisticServiceTest {
       adminStatisticService.getNumberOfActiveSeller();
 
       // Then
-      verify(estateRepositoryFactory, times(1)).newInstance(any(EstateAssemblerFactory.class));
       verify(estateRepository, times(1)).getAllEstates();
    }
 

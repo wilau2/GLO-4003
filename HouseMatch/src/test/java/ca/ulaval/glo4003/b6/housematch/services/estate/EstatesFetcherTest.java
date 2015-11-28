@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.services.estate;
 
 import static org.junit.Assert.assertTrue;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,11 +27,10 @@ import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessData
 public class EstatesFetcherTest {
 
    private static final int FIRST = 0;
-   private static final String SELLER_NAME = "SELLER";
-   private static final String ADDRESS = "ADDRESS";
 
-   @Mock
-   private EstateRepositoryFactory estateRepositoryFactory;
+   private static final String SELLER_NAME = "SELLER";
+
+   private static final String ADDRESS = "ADDRESS";
 
    @Mock
    private EstateAssemblerFactory estateAssemblerFactory;
@@ -42,7 +42,7 @@ public class EstatesFetcherTest {
 
    @Mock
    private Estate estate;
-   
+
    @Mock
    private EstateSorter estateSorter;
 
@@ -63,7 +63,7 @@ public class EstatesFetcherTest {
       configureFetchingEstateByAddress();
       configureEstateSorter();
 
-      estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepositoryFactory, estateSorter);
+      estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepository, estateSorter);
    }
 
    private void configureEstateSorter() {
@@ -85,7 +85,7 @@ public class EstatesFetcherTest {
    private void configureEstateRepository() throws SellerNotFoundException, CouldNotAccessDataException {
       estates = new ArrayList<Estate>();
       estates.add(estate);
-      when(estateRepositoryFactory.newInstance(estateAssemblerFactory)).thenReturn(estateRepository);
+
       when(estateRepository.getEstateFromSeller(SELLER_NAME)).thenReturn(estates);
       when(estateRepository.getAllEstates()).thenReturn(estates);
    }
@@ -100,18 +100,6 @@ public class EstatesFetcherTest {
 
       // Then
       assertTrue(estates.get(0) instanceof EstateDto);
-   }
-
-   @Test
-   public void whenFetchingEstateBySellerNameShouldGetEstateRepository()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given no changes
-
-      // When
-      estateFetcher.getEstatesBySeller(SELLER_NAME);
-
-      // Then
-      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
    }
 
    @Test
@@ -162,7 +150,6 @@ public class EstatesFetcherTest {
       estateFetcher.getEstateByAddress(ADDRESS);
 
       // Then
-      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
       verify(estateRepository, times(1)).getEstateByAddress(ADDRESS);
    }
 
@@ -206,17 +193,6 @@ public class EstatesFetcherTest {
    }
 
    @Test
-   public void whenAskedAllEstatesShouldDelegateTheAssemblerCreation() throws CouldNotAccessDataException {
-      // Given no changes
-
-      // When
-      estateFetcher.getAllEstates();
-
-      // Then
-      verify(estateRepositoryFactory, times(1)).newInstance(estateAssemblerFactory);
-   }
-
-   @Test
    public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() throws CouldNotAccessDataException {
       // given
       List<Estate> dumbEstateDtoList = new ArrayList<Estate>();
@@ -230,7 +206,7 @@ public class EstatesFetcherTest {
       // then
       verify(estateAssembler, times(1)).assembleEstateDto(estate);
    }
-   
+
    @Test
    public void whenAllEstatesShouldSetEstatesInEstateSorter() throws CouldNotAccessDataException {
       // Given
@@ -238,54 +214,54 @@ public class EstatesFetcherTest {
       dumbEstateDtoList.add(estate);
       when(estateRepository.getAllEstates()).thenReturn(dumbEstateDtoList);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
-      
+
       // When
       estateFetcher.getAllEstates();
-      
+
       // Then
       verify(estateSorter, times(1)).setEstates(estates);
    }
-   
+
    @Test
    public void whenGetPriceOrderedAscendentShouldReturnListEstate() {
       // Given
 
       // When
       List<EstateDto> listDto = estateFetcher.getPriceOrderedAscendantEstates();
-      
+
       // Then
       assertTrue(listDto.get(FIRST) == estateDto);
    }
-   
+
    @Test
    public void whenGetPriceOrderedDescendantShouldReturnListEstate() {
       // Given
 
       // When
       List<EstateDto> listDto = estateFetcher.getPriceOrderedDescendantEstates();
-      
+
       // Then
       assertTrue(listDto.get(FIRST) == estateDto);
    }
-   
+
    @Test
    public void whenGetDateOrderedAscendantShouldReturnListEstate() {
       // Given
 
       // When
       List<EstateDto> listDto = estateFetcher.getDateOrderedAscendantEstates();
-      
+
       // Then
       assertTrue(listDto.get(FIRST) == estateDto);
    }
-   
+
    @Test
    public void whenGetDateOrderedDescendantShouldReturnListEstate() {
       // Given
 
       // When
       List<EstateDto> listDto = estateFetcher.getDateOrderedDescendantEstates();
-      
+
       // Then
       assertTrue(listDto.get(FIRST) == estateDto);
    }
