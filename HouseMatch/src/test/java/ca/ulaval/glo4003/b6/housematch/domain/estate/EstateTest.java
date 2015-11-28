@@ -214,4 +214,44 @@ public class EstateTest {
       // Then
       assertEquals(estate.getDescription(), newDescription);
    }
+
+   @Test
+   public void askingIfEstateHasBeenSoldInThePastYearWhenEstateHasNotBeenBoughtShouldReturnFalse() {
+      // Given no changes
+
+      // When
+      boolean hasBeenBoughtInLastYear = estate.hasBeenBoughtInLastYear();
+
+      // Then
+      assertFalse(hasBeenBoughtInLastYear);
+   }
+
+   @Test
+   public void askingIfEstateHasBeenSoldInThePastYearWhenEstateHasBeenBoughtBeforeLastYearShouldReturnFalse()
+         throws EstateAlreadyBoughtException {
+      // Given
+      LocalDateTime dateOfPurchaseLastYear = LocalDateTime.now().minusYears(1).minusNanos(1);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, true,
+            dateOfPurchaseLastYear);
+
+      // When
+      boolean hasBeenBoughtInLastYear = estate.hasBeenBoughtInLastYear();
+
+      // Then
+      assertFalse(hasBeenBoughtInLastYear);
+   }
+
+   @Test
+   public void askingIfEstateHasBeenSoldInThePastYearWhenEstateHasBeenBoughtInTheLastYearShouldReturnTrue() {
+      // Given
+      LocalDateTime dateOfPurchaseLastYear = LocalDateTime.now().minusYears(1).plusNanos(1);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, true,
+            dateOfPurchaseLastYear);
+
+      // When
+      boolean hasBeenBoughtInLastYear = estate.hasBeenBoughtInLastYear();
+
+      // Then
+      assertTrue(hasBeenBoughtInLastYear);
+   }
 }

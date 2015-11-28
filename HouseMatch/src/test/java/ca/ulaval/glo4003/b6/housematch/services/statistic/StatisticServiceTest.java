@@ -47,6 +47,9 @@ public class StatisticServiceTest {
    @Mock
    private List<String> uniqueSellersName;
 
+   @Mock
+   private List<Estate> soldEstatesInLastYear;
+
    @Before
    public void setup() throws CouldNotAccessDataException, DocumentException {
       MockitoAnnotations.initMocks(this);
@@ -125,4 +128,42 @@ public class StatisticServiceTest {
       verify(estateProcessor, times(1)).retrieveUniqueSellersName(estates);
    }
 
+   @Test
+   public void whenAskingForNumberOfEstatesSoldLastYearShouldFetchAllEstatesInRepository()
+         throws CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      adminStatisticService.getNumberOfEstatesSoldLastYear();
+
+      // Then
+      verify(estateRepository, times(1)).getAllEstates();
+   }
+
+   @Test
+   public void whenAskingForNumberOfEstatesSoldLastYearShouldCallEstaesProcessorMethod()
+         throws CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      adminStatisticService.getNumberOfEstatesSoldLastYear();
+
+      // Then
+      verify(estateProcessor, times(1)).retrieveEstatesSoldLastYear(estates);
+   }
+
+   @Test
+   public void whenAskingForNumberOfEstatesSoldLastYearShouldReturnSizeOfListReturnedByEstatesProcessor()
+         throws CouldNotAccessDataException {
+      // Given
+      int expectedNumberOfEstaesSoldLastYear = 3;
+      when(estateProcessor.retrieveEstatesSoldLastYear(estates)).thenReturn(soldEstatesInLastYear);
+      when(soldEstatesInLastYear.size()).thenReturn(expectedNumberOfEstaesSoldLastYear);
+
+      // When
+      int numberOfEstatesSoldLastYear = adminStatisticService.getNumberOfEstatesSoldLastYear();
+
+      // Then
+      assertEquals(expectedNumberOfEstaesSoldLastYear, numberOfEstatesSoldLastYear);
+   }
 }

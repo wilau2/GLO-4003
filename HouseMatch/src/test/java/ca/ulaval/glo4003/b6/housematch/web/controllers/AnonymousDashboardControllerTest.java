@@ -106,7 +106,7 @@ public class AnonymousDashboardControllerTest {
    }
 
    @Test
-   public void whenGettingTheHomePAgeSHouldReturnTheNumberOfActiveSellersInsideViewModel()
+   public void whenGettingTheHomePageShouldReturnTheNumberOfActiveSellersInsideViewModel()
          throws CouldNotAccessDataException, DocumentException {
       // Given
       int expectedNumberOfActiveSellers = 3;
@@ -118,5 +118,32 @@ public class AnonymousDashboardControllerTest {
       // Then
       Map<String, Object> model = homePageModel.getModel();
       assertEquals(expectedNumberOfActiveSellers, model.get("numberOfActiveSellers"));
+   }
+
+   @Test
+   public void whenGettingTheHomePageShouldReturnTheNumberOfEstatesSoldInTheLastYearInsideViewModel()
+         throws CouldNotAccessDataException, DocumentException {
+      // Given
+      int expectedNumberOfEstatesSoldLastYear = 3;
+      when(statisticService.getNumberOfEstatesSoldLastYear()).thenReturn(expectedNumberOfEstatesSoldLastYear);
+
+      // When
+      ModelAndView homePageModel = anonymousController.getHomePage(request);
+
+      // Then
+      Map<String, Object> model = homePageModel.getModel();
+      assertEquals(expectedNumberOfEstatesSoldLastYear, model.get("numberOfEstatesSoldLastYear"));
+   }
+
+   @Test
+   public void whenGettingTheHomePageShouldReturnGetTheNumberOfEstatesSoldLastYearByTheService()
+         throws CouldNotAccessDataException, DocumentException {
+      // Given no changes
+
+      // When
+      anonymousController.getHomePage(request);
+
+      // Then
+      verify(statisticService, times(1)).getNumberOfEstatesSoldLastYear();
    }
 }

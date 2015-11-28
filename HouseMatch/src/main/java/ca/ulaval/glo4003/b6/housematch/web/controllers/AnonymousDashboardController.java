@@ -15,6 +15,12 @@ import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 @Controller
 public class AnonymousDashboardController {
 
+   private static final String NUMBER_OF_ESTATES_SOLD_LAST_YEAR_KEY = "numberOfEstatesSoldLastYear";
+
+   private static final String NUMBER_OF_ACTIVE_BUYERS_KEY = "numberOfActiveBuyers";
+
+   private static final String NUMBER_OF_ACTIVE_SELLERS_KEY = "numberOfActiveSellers";
+
    private UserAuthorizationService userAuthorizationSerive;
 
    private StatisticService statisticService;
@@ -31,10 +37,14 @@ public class AnonymousDashboardController {
 
       int numberOfActiveBuyers = statisticService.getNumberOfActiveBuyers();
       int numberOfActiveSellers = statisticService.getNumberOfActiveSellers();
+      int numberOfEstatesSoldLastYear = statisticService.getNumberOfEstatesSoldLastYear();
 
       ModelAndView modelAndView = new ModelAndView("home");
-      modelAndView.addObject("numberOfActiveBuyers", numberOfActiveBuyers);
-      modelAndView.addObject("numberOfActiveSellers", numberOfActiveSellers);
+
+      modelAndView.addObject(NUMBER_OF_ACTIVE_BUYERS_KEY, numberOfActiveBuyers);
+      modelAndView.addObject(NUMBER_OF_ACTIVE_SELLERS_KEY, numberOfActiveSellers);
+      modelAndView.addObject(NUMBER_OF_ESTATES_SOLD_LAST_YEAR_KEY, numberOfEstatesSoldLastYear);
+
       return modelAndView;
    }
 

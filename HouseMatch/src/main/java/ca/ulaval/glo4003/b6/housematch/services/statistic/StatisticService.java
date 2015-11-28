@@ -46,4 +46,12 @@ public class StatisticService {
       return uniqueSellersName.size();
    }
 
+   public int getNumberOfEstatesSoldLastYear() throws CouldNotAccessDataException {
+      List<Estate> estates = estateRepository.getAllEstates();
+
+      List<Estate> estatesSoldLastYear = estateProcessor.retrieveEstatesSoldLastYear(estates);
+
+      return estatesSoldLastYear.size();
+   }
+
 }

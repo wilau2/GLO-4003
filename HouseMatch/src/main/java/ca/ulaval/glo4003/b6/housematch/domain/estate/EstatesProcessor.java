@@ -17,4 +17,14 @@ public class EstatesProcessor {
       return uniqueSellersName;
    }
 
+   public List<Estate> retrieveEstatesSoldLastYear(List<Estate> estates) {
+      List<Estate> estatesSoldLastYear = new ArrayList<Estate>();
+      for (Estate estate : estates) {
+         if (estate.hasBeenBoughtInLastYear()) {
+            estatesSoldLastYear.add(estate);
+         }
+      }
+      return estatesSoldLastYear;
+   }
+
 }
