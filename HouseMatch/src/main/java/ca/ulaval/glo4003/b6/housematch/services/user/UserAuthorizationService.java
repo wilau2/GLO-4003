@@ -15,7 +15,7 @@ public class UserAuthorizationService {
    public static final String LOGGED_IN_USERNAME = "loggedInUsername";
 
    private static final String INVALID_ACCESS_MESSAGE = "You don't have the access to do that, "
-                                                        + "be a gentlement and stay in your field of work";
+                                                        + "be a gentleman and stay in your field of work";
 
    public HttpServletRequest setSessionUserAuthorisation(HttpServletRequest request, User user) {
 

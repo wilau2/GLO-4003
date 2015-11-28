@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateAlreadyBoughtException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
@@ -18,6 +19,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
@@ -34,12 +36,15 @@ public class BuyerSearchEstatesController {
 
    private List<EstateDto> allEstates;
 
+   private EstatesService estateService;
+
    @Autowired
    public BuyerSearchEstatesController(EstatesFetcher estatesFetcher, UserAuthorizationService userAuthorizationService,
-         EstatePicturesService estatePicturesService) {
+         EstatePicturesService estatePicturesService, EstatesService estateService) {
       this.estatesFetcher = estatesFetcher;
       this.userAuthorizationService = userAuthorizationService;
       this.estatePicturesService = estatePicturesService;
+      this.estateService = estateService;
    }
 
    @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates")
@@ -122,6 +127,18 @@ public class BuyerSearchEstatesController {
       modelAndView.addObject("pictures", pictures);
 
       return modelAndView;
+   }
+
+   @RequestMapping(method = RequestMethod.POST, path = "/buyer/{userId}/estates/{address}")
+   public String buyAnEstate(@PathVariable("address") String address, HttpServletRequest request)
+         throws InvalidAccessException, EstateNotFoundException, CouldNotAccessDataException,
+         EstateAlreadyBoughtException {
+
+      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      estateService.buyEstate(address);
+
+      return "redirect:/buyer/{userId}/estates/" + address;
    }
 
 }

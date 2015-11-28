@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateAlreadyBoughtException;
+
 public class Estate {
 
    private Integer price;
@@ -20,8 +22,12 @@ public class Estate {
 
    private ArrayList<Integer> priceHistory;
 
+   private boolean bought;
+
+   private LocalDateTime dateOfPurchase;
+
    public Estate(String type, Address address, Integer price, String seller, Description description,
-         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory) {
+         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory, boolean bought, LocalDateTime dateOfPurchase) {
 
       this.type = type;
       this.address = address;
@@ -32,7 +38,9 @@ public class Estate {
       this.dateRegistered = dateRegistered;
 
       this.priceHistory = priceHistory;
+      this.bought = bought;
 
+      this.dateOfPurchase = dateOfPurchase;
    }
 
    public String getType() {
@@ -107,9 +115,25 @@ public class Estate {
    }
 
    public void editPrice(Integer newPrice) {
-      if (this.price != newPrice) {
+      if (this.price.intValue() != newPrice.intValue()) {
          this.priceHistory.add(this.price);
          this.price = newPrice;
       }
+   }
+
+   public void buy() throws EstateAlreadyBoughtException {
+      if (hasBeenBought()) {
+         throw new EstateAlreadyBoughtException("This estates already has a new familly, sorry :(");
+      }
+      bought = true;
+      dateOfPurchase = LocalDateTime.now();
+   }
+
+   public Boolean hasBeenBought() {
+      return bought;
+   }
+
+   public LocalDateTime getDateOfPurchase() {
+      return dateOfPurchase;
    }
 }

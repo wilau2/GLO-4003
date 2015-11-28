@@ -216,4 +216,18 @@ public class ExceptionHandlingControllerTest {
       assertEquals(EXPECTED_VIEW_NAME, returnedModelAndView.getViewName());
       assertEquals(EXPECTED_MESSAGE, model.get("errorMessage"));
    }
+
+   @Test
+   public void whenHandlingEstateAlreadyBoughtExceptionShouldReturnExceptionViewModel() {
+      // Given no changes
+
+      // When
+      ModelAndView returnedModelAndView = exceptionHandlingController.handleEstateAlreadyBoughtException(request,
+            exceptionThrown);
+      Map<String, Object> model = returnedModelAndView.getModel();
+
+      // Then
+      assertEquals(EXPECTED_VIEW_NAME, returnedModelAndView.getViewName());
+      assertEquals(EXPECTED_MESSAGE, model.get("errorMessage"));
+   }
 }

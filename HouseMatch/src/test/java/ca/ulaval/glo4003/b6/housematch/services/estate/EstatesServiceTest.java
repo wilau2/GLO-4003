@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateAlreadyBoughtException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
@@ -27,8 +28,6 @@ import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescrip
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.validators.DescriptionValidator;
 import ca.ulaval.glo4003.b6.housematch.services.estate.validators.EstateValidator;
-import ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.DescriptionValidatorFactory;
-import ca.ulaval.glo4003.b6.housematch.services.estate.validators.factory.EstateValidatorFactory;
 
 public class EstatesServiceTest {
 
@@ -37,9 +36,6 @@ public class EstatesServiceTest {
    private static final Integer PRICE = 1000;
 
    private static final String TYPE = "PRICE";
-
-   @Mock
-   private EstateValidatorFactory estateValidatorFactory;
 
    @Mock
    private EstateDto estateDto;
@@ -66,9 +62,6 @@ public class EstatesServiceTest {
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
 
    @Mock
-   private DescriptionValidatorFactory descriptionValidatorFactory;
-
-   @Mock
    private DescriptionAssembler descriptionAssembler;
 
    @Mock
@@ -91,7 +84,6 @@ public class EstatesServiceTest {
 
       configureDescriptionTests();
 
-      when(estateValidatorFactory.getValidator()).thenReturn(estateValidator);
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
 
@@ -101,7 +93,7 @@ public class EstatesServiceTest {
       when(estateEditDto.getType()).thenReturn(TYPE);
       when(estateEditDto.getPrice()).thenReturn(PRICE);
 
-      estatesService = new EstatesService(estateValidatorFactory, estateAssemblerFactory, estateRepository);
+      estatesService = new EstatesService(estateValidator, estateAssemblerFactory, estateRepository);
    }
 
    @Test
@@ -164,10 +156,67 @@ public class EstatesServiceTest {
    }
 
    private void configureDescriptionTests() {
-
       when(descriptionAssembler.assembleDescription(descriptionDto)).thenReturn(description);
-      when(descriptionValidatorFactory.createValidator()).thenReturn(descriptionValidator);
+   }
+
+   @Test(expected = EstateNotFoundException.class)
+   public void buyingAnEstateWhenEstateDoesNotExistsShouldThrowException()
+         throws EstateNotFoundException, CouldNotAccessDataException, EstateAlreadyBoughtException {
+      // Given
+      doThrow(new EstateNotFoundException("")).when(estateRepository).getEstateByAddress(ADDRESS);
+
+      // When
+      estatesService.buyEstate(ADDRESS);
+
+      // Then an estate not found exception is thrown
+   }
+
+   @Test
+   public void buyingAnEstateWhenEstateWasBoughtShouldCallUpdateMethodOfRepository()
+         throws CouldNotAccessDataException, EstateNotFoundException, EstateAlreadyBoughtException {
+      // Given
+
+      // When
+      estatesService.buyEstate(ADDRESS);
+
+      // Then
+      verify(estateRepository, times(1)).updateEstate(estate);
 
    }
 
+   @Test(expected = EstateAlreadyBoughtException.class)
+   public void buyingAnEstateWhenEstateWasAlreadyBoughtShouldThrowException()
+         throws EstateAlreadyBoughtException, EstateNotFoundException, CouldNotAccessDataException {
+      // Given
+      doThrow(new EstateAlreadyBoughtException("")).when(estate).buy();
+
+      // When
+      estatesService.buyEstate(ADDRESS);
+
+      // Then an Estate already bought exception is thrown
+   }
+
+   @Test
+   public void whenBuyingAnEstateShouldFetchEstateFromRepository()
+         throws EstateNotFoundException, CouldNotAccessDataException, EstateAlreadyBoughtException {
+      // Given no changes
+
+      // When
+      estatesService.buyEstate(ADDRESS);
+
+      // Then
+      verify(estateRepository, times(1)).getEstateByAddress(ADDRESS);
+   }
+
+   @Test
+   public void whenBuyingAnEstateShouldCallBuyMethodOnEstateWithCorrespondingAddress()
+         throws EstateAlreadyBoughtException, EstateNotFoundException, CouldNotAccessDataException {
+      // Given
+
+      // When
+      estatesService.buyEstate(ADDRESS);
+
+      // Then
+      verify(estate, times(1)).buy();
+   }
 }
