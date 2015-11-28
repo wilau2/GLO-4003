@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,10 +21,11 @@ import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessData
 
 public class InFilePictureRepository implements PictureRepository {
 
+   private static final String PATH_TO_PICTURES = "./persistence/uploadedPictures/";
+
    @Override
    public void deletePicture(String pictureName, String estateAddress) {
-      File fileToDelete = new File(
-            "./persistence/uploadedPictures/" + estateAddress + File.separator + pictureName + ".jpg");
+      File fileToDelete = new File(PATH_TO_PICTURES + estateAddress + File.separator + pictureName + ".jpg");
       fileToDelete.delete();
    }
 
@@ -33,27 +35,40 @@ public class InFilePictureRepository implements PictureRepository {
       try {
          if (!picture.isEmpty()) {
 
-            File directory = makeSpecificEstateDirectory(estateAddress);
-            File serverFile = new File(directory.getAbsolutePath() + File.separator + pictureName + ".jpg");
-
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-
             byte[] bytes = picture.getBytes();
-            stream.write(bytes);
-            stream.close();
+            // Creating the directory to store file
+            File directory = new File(PATH_TO_PICTURES + estateAddress);
+            validateDirectoryExists(directory);
+            // Create the file on server
+            createFileOnDisk(pictureName, bytes, directory);
+
          }
       } catch (IOException ioException) {
          throw new CouldNotAccessDataException("Could not access the stored pictures data", ioException);
       }
    }
 
+   private void createFileOnDisk(String pictureName, byte[] bytes, File directory)
+         throws FileNotFoundException, IOException {
+      File serverFile = new File(directory.getAbsolutePath() + File.separator + pictureName + ".jpg");
+      BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+      stream.write(bytes);
+      stream.close();
+   }
+
+   protected void validateDirectoryExists(File dir) {
+      if (!dir.exists()) {
+         dir.mkdirs();
+      }
+   }
+
    @Override
    public List<String> getEveryPicturesNames(String estateAddress) {
-
-      File directory = makeSpecificEstateDirectory(estateAddress);
-
       List<String> nameOfPictures = new ArrayList<String>();
-      File[] filesList = directory.listFiles();
+      File dir = new File(PATH_TO_PICTURES + estateAddress);
+      validateDirectoryExists(dir);
+      File[] filesList = dir.listFiles();
+
       for (File f : filesList) {
          if (f.isFile()) {
             String nameOfPicture = f.getName();
@@ -69,9 +84,11 @@ public class InFilePictureRepository implements PictureRepository {
    public byte[] getPicture(String pictureName, String estateAddress) throws CouldNotAccessDataException {
       try {
 
-         File directory = makeSpecificEstateDirectory(estateAddress);
+         File dir = new File(PATH_TO_PICTURES + estateAddress);
+         validateDirectoryExists(dir);
 
-         File serverFile = new File(directory.getAbsolutePath() + File.separator + pictureName + ".jpg");
+         // Create the file on server
+         File serverFile = new File(dir.getAbsolutePath() + File.separator + pictureName + ".jpg");
 
          ByteArrayOutputStream outputStream = makeOutputStream(serverFile);
          return outputStream.toByteArray();
@@ -79,16 +96,18 @@ public class InFilePictureRepository implements PictureRepository {
       } catch (IOException ioException) {
          throw new CouldNotAccessDataException("Could not access the stored pictures data", ioException);
       }
-
    }
 
    @Override
    public byte[] getEmptyPicture() throws CouldNotAccessDataException {
 
       try {
-         File directory = makeSpecificEstateDirectory("DefaultPicture");
 
-         File serverFile = new File(directory.getAbsolutePath() + File.separator + "NoPhoto.jpg");
+         File dir = new File("./persistence/uploadedPictures/DefaultPicture");
+         validateDirectoryExists(dir);
+
+         // Create the file on server
+         File serverFile = new File(dir.getAbsolutePath() + File.separator + "NoPhoto.jpg");
 
          ByteArrayOutputStream outputStream = makeOutputStream(serverFile);
          return outputStream.toByteArray();
@@ -96,14 +115,6 @@ public class InFilePictureRepository implements PictureRepository {
       } catch (IOException ioException) {
          throw new CouldNotAccessDataException("Could not access the stored pictures data", ioException);
       }
-   }
-
-   private File makeSpecificEstateDirectory(String estateAddress) {
-      File directory = new File("./persistence/uploadedPictures/" + estateAddress);
-      if (!directory.exists()) {
-         directory.mkdirs();
-      }
-      return directory;
    }
 
    private ByteArrayOutputStream makeOutputStream(File serverFile) throws IOException {
