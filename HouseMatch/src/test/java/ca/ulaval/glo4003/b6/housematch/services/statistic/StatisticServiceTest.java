@@ -95,7 +95,7 @@ public class StatisticServiceTest {
       when(uniqueSellersName.size()).thenReturn(expectedNumberOfActiveSeller);
 
       // When
-      int numberOfActiveSeller = adminStatisticService.getNumberOfActiveSeller();
+      int numberOfActiveSeller = adminStatisticService.getNumberOfActiveSellers();
 
       // Then
       assertEquals(expectedNumberOfActiveSeller, numberOfActiveSeller);
@@ -107,7 +107,7 @@ public class StatisticServiceTest {
       // Given
 
       // When
-      adminStatisticService.getNumberOfActiveSeller();
+      adminStatisticService.getNumberOfActiveSellers();
 
       // Then
       verify(estateRepository, times(1)).getAllEstates();
@@ -119,7 +119,7 @@ public class StatisticServiceTest {
       // Given
 
       // When
-      adminStatisticService.getNumberOfActiveSeller();
+      adminStatisticService.getNumberOfActiveSellers();
 
       // Then
       verify(estateProcessor, times(1)).retrieveUniqueSellersName(estates);

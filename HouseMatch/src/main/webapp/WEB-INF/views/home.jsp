@@ -7,7 +7,10 @@
 <t:wrapper>
 	<jsp:include page="_menu.jsp" />
 	<div class="splash">
-		<h2>Here's the number of active buyer in Housematch</h2>
+		<h2>Here's some truly awesome statistics about HouseMatch</h2>
 		<p>Number of Buyer active in the last 6 months : ${numberOfActiveBuyers}</p>
+		<p>Number of Seller with at least one estate for sale : ${numberOfActiveSellers}</p>
+		
+		<h3>You should really sign up!</h3>
 	</div>
 </t:wrapper>

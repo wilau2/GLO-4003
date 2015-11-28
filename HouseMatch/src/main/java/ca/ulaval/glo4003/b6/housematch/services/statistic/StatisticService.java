@@ -39,7 +39,7 @@ public class StatisticService {
       return userProcessor.getNumberOfActiveBuyer(users);
    }
 
-   public int getNumberOfActiveSeller() throws CouldNotAccessDataException {
+   public int getNumberOfActiveSellers() throws CouldNotAccessDataException {
 
       List<Estate> estates = estateRepository.getAllEstates();
       List<String> uniqueSellersName = estateProcessor.retrieveUniqueSellersName(estates);

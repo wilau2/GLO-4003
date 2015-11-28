@@ -13,13 +13,13 @@ import ca.ulaval.glo4003.b6.housematch.services.statistic.StatisticService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 
 @Controller
-public class AnonymousController {
+public class AnonymousDashboardController {
 
    private UserAuthorizationService userAuthorizationSerive;
 
    private StatisticService statisticService;
 
-   public AnonymousController(UserAuthorizationService userAuthorizationSerive,
+   public AnonymousDashboardController(UserAuthorizationService userAuthorizationSerive,
          StatisticService statisticService) {
       this.userAuthorizationSerive = userAuthorizationSerive;
       this.statisticService = statisticService;
@@ -30,10 +30,11 @@ public class AnonymousController {
       userAuthorizationSerive.isUserLogged(request);
 
       int numberOfActiveBuyers = statisticService.getNumberOfActiveBuyers();
+      int numberOfActiveSellers = statisticService.getNumberOfActiveSellers();
 
       ModelAndView modelAndView = new ModelAndView("home");
       modelAndView.addObject("numberOfActiveBuyers", numberOfActiveBuyers);
-
+      modelAndView.addObject("numberOfActiveSellers", numberOfActiveSellers);
       return modelAndView;
    }
 
