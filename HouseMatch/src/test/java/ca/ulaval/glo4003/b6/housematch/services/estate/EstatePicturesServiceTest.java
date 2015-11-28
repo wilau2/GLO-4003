@@ -14,10 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Album;
-import ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.ApprovalPictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureSelector;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureUtilitiesFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Pictures;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
@@ -34,7 +34,7 @@ public class EstatePicturesServiceTest {
    private PictureRepository pictureRepository;
 
    @Mock
-   private AlbumPictureFactory albumPictureFactory;
+   private PictureUtilitiesFactory albumPictureFactory;
 
    @Mock
    private PictureSelector pictureSelector;
@@ -63,7 +63,6 @@ public class EstatePicturesServiceTest {
       configurePictureRepository();
       configureApprovalPictureRepository();
       configurePictures();
-      configureAlbum();
       configureAlbumFactory();
 
       estatesPicturesService = new EstatePicturesService(pictureRepository, albumPictureFactory,
@@ -170,14 +169,9 @@ public class EstatePicturesServiceTest {
       when(albumPictureFactory.createAlbum(ADDRESS)).thenReturn(album);
    }
 
-   private void configureAlbum() {
-
-      when(album.createAlbumPictureSelector(pictureRepository)).thenReturn(pictureSelector);
-   }
-
    private void configureAlbumFactory() {
       when(albumPictureFactory.createAlbum(names, ADDRESS)).thenReturn(album);
-
+      when(albumPictureFactory.createPictureSelector(album, pictureRepository)).thenReturn(pictureSelector);
    }
 
    private void configurePictures() {

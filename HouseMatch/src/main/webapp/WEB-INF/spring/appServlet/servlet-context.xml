@@ -110,9 +110,8 @@
     </beans:bean>
 
     <beans:bean
-        id="albumPictureFactory"
-        class="ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumPictureFactory"
-    >
+        id="pictureUtilitiesFactory"
+        class="ca.ulaval.glo4003.b6.housematch.domain.picture.PictureUtilitiesFactory">
     </beans:bean>
 
     <beans:bean
@@ -164,7 +163,7 @@
             ref="inFilePictureRepository" />
         <beans:constructor-arg
             name="albumPictureRepository"
-            ref="albumPictureFactory" />
+            ref="pictureUtilitiesFactory" />
         <beans:constructor-arg
             name="inactivePictureRepository"
             ref="inFileApprovalPictureRepository" />
