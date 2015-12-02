@@ -40,6 +40,7 @@ public class EstatesFetcher {
       List<EstateDto> sellerEstatesDto = createEstateAssembler.assembleEstatesDto(sellerEstates);
 
       return sellerEstatesDto;
+
    }
 
    public EstateDto getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException {
@@ -50,12 +51,15 @@ public class EstatesFetcher {
       EstateDto estateDto = createEstateAssembler.assembleEstateDto(estate);
 
       return estateDto;
+
    }
 
    public List<EstateDto> getAllEstates() throws CouldNotAccessDataException {
 
       Estates estates = estateRepository.getAllEstates();
+
       inSessionMemoryEstates = estates;
+
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
       List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(estates);
 
@@ -69,7 +73,9 @@ public class EstatesFetcher {
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
       List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
+
       return estatesDto;
+
    }
 
    public List<EstateDto> getPriceOrderedDescendantEstates() {
@@ -78,7 +84,9 @@ public class EstatesFetcher {
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
       List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
+
       return estatesDto;
+
    }
 
    public List<EstateDto> getDateOrderedAscendantEstates() {
@@ -87,7 +95,9 @@ public class EstatesFetcher {
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
       List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
+
       return estatesDto;
+
    }
 
    public List<EstateDto> getDateOrderedDescendantEstates() {
@@ -96,7 +106,9 @@ public class EstatesFetcher {
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
       List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
+
       return estatesDto;
+
    }
 
 }
