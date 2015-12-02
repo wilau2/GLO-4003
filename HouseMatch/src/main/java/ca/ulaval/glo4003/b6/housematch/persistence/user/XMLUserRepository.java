@@ -84,6 +84,22 @@ public class XMLUserRepository implements UserRepository {
       }
    }
 
+   @Override
+   public List<User> getAllUsers() throws DocumentException {
+
+      Document userDocument = readUsersXML();
+      List<Element> allElementsFromDocument = fileEditor.getAllElementsFromDocument(userDocument, PATH_TO_ALL_USER);
+
+      List<User> users = new ArrayList<User>();
+
+      for (Element userElement : allElementsFromDocument) {
+         User userFromElement = assembler.assembleUserFromElement(userElement);
+         users.add(userFromElement);
+      }
+
+      return users;
+   }
+
    private void addNewUserToDocument(Document existingDocument, User newUser) {
 
       PersistenceDto userDto = dtoFactory.getRepositoryDto(newUser);
@@ -118,22 +134,6 @@ public class XMLUserRepository implements UserRepository {
    private Document readUsersXML() throws DocumentException {
       return fileEditor.readXMLFile(PATH_TO_XML);
 
-   }
-
-   @Override
-   public List<User> getAllUsers() throws DocumentException {
-
-      Document userDocument = readUsersXML();
-      List<Element> allElementsFromDocument = fileEditor.getAllElementsFromDocument(userDocument, PATH_TO_ALL_USER);
-
-      List<User> users = new ArrayList<User>();
-
-      for (Element userElement : allElementsFromDocument) {
-         User userFromElement = assembler.assembleUserFromElement(userElement);
-         users.add(userFromElement);
-      }
-
-      return users;
    }
 
 }

@@ -3,33 +3,40 @@ package ca.ulaval.glo4003.b6.housematch.domain.estate;
 import java.util.Collections;
 import java.util.List;
 
-public class EstateSorter {
-   
-   private List<Estate> estates;
-   
-   public EstateSorter() {}
+public class Estates {
 
-   public void setEstates(List<Estate> estates) {
+   private List<Estate> estates;
+
+   public Estates(List<Estate> estates) {
       this.estates = estates;
    }
 
-   public List<Estate> getPriceDescendantSort() {
+   public void sortByHighestToLowestPrice() {
       Collections.sort(estates, Estate.EstatePriceDescendantComparator);
-      return estates;
    }
-   
-   public List<Estate> getPriceAscendantSort() {
+
+   public void sortByLowestToHighestPrice() {
       Collections.sort(estates, Estate.EstatePriceAscendantComparator);
-      return estates;
    }
-   
-   public List<Estate> getDateDescendantSort() {
+
+   public void sortByNewestToOldestDate() {
       Collections.sort(estates, Estate.EstateDateDescendantComparator);
-      return estates;
    }
-   
-   public List<Estate> getDateAscendantSort() {
+
+   public void sortByOldestToNewestDate() {
       Collections.sort(estates, Estate.EstateDateAscendantComparator);
-      return estates;
    }
+
+   public List<Estate> retreiveListOfEstate() {
+      return this.estates;
+   }
+
+   public void updateEstatesList(List<Estate> listEstates) {
+      estates = listEstates;
+   }
+
+   public int size() {
+      return this.estates.size();
+   }
+
 }

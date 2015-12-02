@@ -6,8 +6,8 @@ import javax.inject.Inject;
 
 import org.dom4j.DocumentException;
 
-import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserProcessor;
@@ -36,20 +36,20 @@ public class StatisticService {
 
    public int getNumberOfActiveBuyers() throws CouldNotAccessDataException, DocumentException {
       List<User> users = userRepository.getAllUsers();
+
       return userProcessor.getNumberOfActiveBuyer(users);
    }
 
    public int getNumberOfActiveSellers() throws CouldNotAccessDataException {
-
-      List<Estate> estates = estateRepository.getAllEstates();
+      Estates estates = estateRepository.getAllEstates();
       List<String> uniqueSellersName = estateProcessor.retrieveUniqueSellersName(estates);
+
       return uniqueSellersName.size();
    }
 
    public int getNumberOfEstatesSoldLastYear() throws CouldNotAccessDataException {
-      List<Estate> estates = estateRepository.getAllEstates();
-
-      List<Estate> estatesSoldLastYear = estateProcessor.retrieveEstatesSoldLastYear(estates);
+      Estates estates = estateRepository.getAllEstates();
+      Estates estatesSoldLastYear = estateProcessor.retrieveEstatesSoldLastYear(estates);
 
       return estatesSoldLastYear.size();
    }

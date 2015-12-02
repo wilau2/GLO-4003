@@ -1,11 +1,11 @@
 package ca.ulaval.glo4003.b6.housematch.services.estate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
@@ -17,25 +17,34 @@ public class EstatesFetcher {
 
    private EstateRepository estateRepository;
 
-   private EstateSorter estateSorter;
+   private Estates inSessionMemoryEstates;
+
+   private EstatesProcessor estatesProcessor;
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
    public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepository estateRepository,
-         EstateSorter estateSorter) {
+         EstatesProcessor estatesProcessor) {
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepository = estateRepository;
-      this.estateSorter = estateSorter;
+      this.estatesProcessor = estatesProcessor;
+   }
+
+   public Estates getInSessionMemoryEstates() {
+      return inSessionMemoryEstates;
    }
 
    public List<EstateDto> getEstatesBySeller(String sellerName)
          throws SellerNotFoundException, CouldNotAccessDataException {
 
-      List<Estate> sellerEstates = estateRepository.getEstateFromSeller(sellerName);
+      Estates estates = estateRepository.getAllEstates();
+      Estates sellerEstates = estatesProcessor.retrieveEstatesBySellerName(estates, sellerName);
 
-      List<EstateDto> sellerEstatesDto = assembleEstatesDto(sellerEstates);
+      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+      List<EstateDto> sellerEstatesDto = createEstateAssembler.assembleEstatesDto(sellerEstates);
 
       return sellerEstatesDto;
+
    }
 
    public EstateDto getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException {
@@ -46,15 +55,17 @@ public class EstatesFetcher {
       EstateDto estateDto = createEstateAssembler.assembleEstateDto(estate);
 
       return estateDto;
+
    }
 
    public List<EstateDto> getAllEstates() throws CouldNotAccessDataException {
 
-      List<Estate> estates = estateRepository.getAllEstates();
+      Estates estates = estateRepository.getAllEstates();
 
-      estateSorter.setEstates(estates);
+      inSessionMemoryEstates = estates;
 
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
+      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+      List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(estates);
 
       return estatesDto;
 
@@ -62,46 +73,46 @@ public class EstatesFetcher {
 
    public List<EstateDto> getPriceOrderedAscendantEstates() {
 
-      List<Estate> estates = estateSorter.getPriceAscendantSort();
+      inSessionMemoryEstates.sortByLowestToHighestPrice();
 
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
+      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+      List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
+
       return estatesDto;
+
    }
 
    public List<EstateDto> getPriceOrderedDescendantEstates() {
 
-      List<Estate> estates = estateSorter.getPriceDescendantSort();
+      inSessionMemoryEstates.sortByHighestToLowestPrice();
 
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
+      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+      List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
+
       return estatesDto;
+
    }
 
    public List<EstateDto> getDateOrderedAscendantEstates() {
 
-      List<Estate> estates = estateSorter.getDateAscendantSort();
+      inSessionMemoryEstates.sortByOldestToNewestDate();
 
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
+      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+      List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
+
       return estatesDto;
+
    }
 
    public List<EstateDto> getDateOrderedDescendantEstates() {
 
-      List<Estate> estates = estateSorter.getDateDescendantSort();
+      inSessionMemoryEstates.sortByNewestToOldestDate();
 
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
-      return estatesDto;
-   }
-
-   private List<EstateDto> assembleEstatesDto(List<Estate> estates) {
-      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-
-      List<EstateDto> estatesDto = new ArrayList<EstateDto>();
-      for (Estate estate : estates) {
-         EstateDto assembledEstateDto = estateAssembler.assembleEstateDto(estate);
-         estatesDto.add(assembledEstateDto);
-      }
+      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+      List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
 
       return estatesDto;
+
    }
 
 }

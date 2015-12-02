@@ -1,16 +1,15 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.dom4j.DocumentException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -22,20 +21,79 @@ public class EstatesProcessorTest {
 
    private static final String FIRST_SELLER = "FIRST_SELLER";
 
+   private static final String SELLER_NAME = "seller";
+
+   @InjectMocks
    private EstatesProcessor estatesProcessor;
 
-   private List<Estate> estates;
+   @Mock
+   private Estates estates;
 
    @Mock
    private Estate estate;
+
+   @Mock
+   private List<Estate> listEstates;
+
+   @Mock
+   private Iterator<Estate> iterator;
 
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
 
-      estatesProcessor = new EstatesProcessor();
+   }
 
-      estates = new ArrayList<Estate>();
+   private void configureOneValidListEstate() {
+      configureEstate();
+      when(listEstates.iterator()).thenReturn(iterator);
+      when(iterator.hasNext()).thenReturn(true, false);
+      when(iterator.next()).thenReturn(estate);
+      when(listEstates.size()).thenReturn(1);
+      configureEstates();
+   }
+
+   private void configureOneInValidListEstate() {
+      configureInvalidEstate();
+      when(listEstates.iterator()).thenReturn(iterator);
+      when(iterator.hasNext()).thenReturn(true, false);
+      when(iterator.next()).thenReturn(estate);
+      when(listEstates.size()).thenReturn(0);
+      configureEstates();
+   }
+
+   private void configureThreeDifferentValidListEstate() {
+      configureThreeEstateWithDifferentNames();
+      when(listEstates.iterator()).thenReturn(iterator);
+      when(iterator.hasNext()).thenReturn(true, true, true, false);
+      when(iterator.next()).thenReturn(estate);
+      configureEstates();
+   }
+
+   private void configureEstate() {
+      when(estate.getSeller()).thenReturn(SELLER_NAME);
+      when(estate.isFromSeller(SELLER_NAME)).thenReturn(true);
+      when(estate.hasBeenBoughtInLastYear()).thenReturn(true);
+
+   }
+
+   private void configureInvalidEstate() {
+      when(estate.getSeller()).thenReturn(FIRST_SELLER);
+      when(estate.isFromSeller(SELLER_NAME)).thenReturn(false);
+      when(estate.hasBeenBoughtInLastYear()).thenReturn(false);
+
+   }
+
+   private void configureThreeEstateWithDifferentNames() {
+      when(estate.getSeller()).thenReturn(SELLER_NAME, FIRST_SELLER, SELLER_NAME);
+      when(estate.isFromSeller(SELLER_NAME)).thenReturn(true);
+      when(estate.hasBeenBoughtInLastYear()).thenReturn(true);
+
+   }
+
+   private void configureEstates() {
+      when(estates.retreiveListOfEstate()).thenReturn(listEstates);
+
    }
 
    @Test
@@ -43,7 +101,7 @@ public class EstatesProcessorTest {
          throws DocumentException, CouldNotAccessDataException {
       // Given
       int expectedNumberOfUniqueSeller = 1;
-      configureEstateInEstates(expectedNumberOfUniqueSeller);
+      configureOneValidListEstate();
 
       // When
       List<String> returnedValue = estatesProcessor.retrieveUniqueSellersName(estates);
@@ -52,20 +110,12 @@ public class EstatesProcessorTest {
       assertEquals(expectedNumberOfUniqueSeller, returnedValue.size());
    }
 
-   private void configureEstateInEstates(int numberOfEstates) {
-      for (int i = 0; i < numberOfEstates; i++) {
-         estates.add(estate);
-      }
-   }
-
    @Test
    public void askingForTheNumberOfUniqueSellerWhenMoreThanOneSellerEstateWithAnEstateShouldReturnNumberOfEstate()
          throws DocumentException, CouldNotAccessDataException {
       // Given
       int expectedNumberOfUniqueSeller = 2;
-
-      configureEstateInEstates(expectedNumberOfUniqueSeller + 1);
-      when(estate.getSeller()).thenReturn(FIRST_SELLER, SECOND_SELLER, FIRST_SELLER);
+      configureThreeDifferentValidListEstate();
 
       // When
       List<String> returnedValue = estatesProcessor.retrieveUniqueSellersName(estates);
@@ -90,57 +140,74 @@ public class EstatesProcessorTest {
    @Test
    public void askingForEstatesSoldLastYearWhenNoEstatesHasBeenSoldShouldReturnEmptyList() {
       // Given
-      int wantedNumberOfEstates = 3;
-      configureEstateInEstates(wantedNumberOfEstates);
-      when(estate.hasBeenBought()).thenReturn(false);
+      configureOneInValidListEstate();
 
       // When
-      List<Estate> estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
+      Estates estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
 
       // Then
-      assertTrue(estatesSoldLastYear.isEmpty());
+      assertEquals(0, estatesSoldLastYear.retreiveListOfEstate().size());
    }
 
    @Test
    public void askingForEstatesSoldLastYearWhenAllEstatesHasBeenSoldForMoreThanAYearShouldReturnEmptyList() {
       // Given
-      int wantedNumberOfEstates = 3;
-      configureEstateInEstates(wantedNumberOfEstates);
-      when(estate.hasBeenBoughtInLastYear()).thenReturn(false);
+      configureOneInValidListEstate();
 
       // When
-      List<Estate> estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
+      Estates estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
 
       // Then
-      assertTrue(estatesSoldLastYear.isEmpty());
+      assertEquals(0, estatesSoldLastYear.retreiveListOfEstate().size());
    }
 
    @Test
    public void askingForEstatesSoldLastYearWhenOneEstatesHasBeenSoldLastYearShouldReturnListWithEstateInside() {
       // Given
-      int wantedNumberOfEstates = 3;
-      configureEstateInEstates(wantedNumberOfEstates);
-      when(estate.hasBeenBoughtInLastYear()).thenReturn(false, true, false);
       int expectedSize = 1;
+      configureOneValidListEstate();
 
       // When
-      List<Estate> estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
+      Estates estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
 
       // Then
-      assertEquals(expectedSize, estatesSoldLastYear.size());
+      assertEquals(expectedSize, estatesSoldLastYear.retreiveListOfEstate().size());
    }
 
    @Test
    public void askingForEstatesSoldLastYearWhenAllEstatesHasBeenSoldLastYearShouldReturnListWithAllEstatesInside() {
       // Given
-      int wantedNumberOfEstates = 3;
-      configureEstateInEstates(wantedNumberOfEstates);
-      when(estate.hasBeenBoughtInLastYear()).thenReturn(true);
+      int wantedNumberOfEstates = 1;
+      configureOneValidListEstate();
 
       // When
-      List<Estate> estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
+      Estates estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
 
       // Then
-      assertEquals(wantedNumberOfEstates, estatesSoldLastYear.size());
+      assertEquals(wantedNumberOfEstates, estatesSoldLastYear.retreiveListOfEstate().size());
+   }
+
+   @Test
+   public void askingForEstatesBySellerNameShouldReturnEstateWithValidSellerName() {
+      // Given
+      configureOneValidListEstate();
+
+      // When
+      Estates sellerEstates = estatesProcessor.retrieveEstatesBySellerName(estates, SELLER_NAME);
+
+      // Then
+      assertEquals(1, sellerEstates.retreiveListOfEstate().size());
+   }
+
+   @Test
+   public void askingForEstatesBySellerNameWhenNoEstateToThisNameShouldReturnNoEstate() {
+      // Given
+      configureOneInValidListEstate();
+
+      // When
+      Estates sellerEstates = estatesProcessor.retrieveEstatesBySellerName(estates, SELLER_NAME);
+
+      // Then
+      assertEquals(0, sellerEstates.retreiveListOfEstate().size());
    }
 }

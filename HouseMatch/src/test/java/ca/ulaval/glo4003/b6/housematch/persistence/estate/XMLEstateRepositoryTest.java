@@ -3,11 +3,9 @@ package ca.ulaval.glo4003.b6.housematch.persistence.estate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -32,8 +30,8 @@ import org.mockito.MockitoAnnotations;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.AddressAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
@@ -254,10 +252,10 @@ public class XMLEstateRepositoryTest {
       configureGetAllEstate();
 
       // When
-      List<?> returnedEstateDtoList = xmlEstateRepository.getAllEstates();
+      Estates returnedEstateDtoList = xmlEstateRepository.getAllEstates();
 
       // Then
-      assertTrue(returnedEstateDtoList.get(0) instanceof Estate);
+      assertTrue(returnedEstateDtoList instanceof Estates);
    }
 
    @Test
@@ -313,79 +311,6 @@ public class XMLEstateRepositoryTest {
       xmlEstateRepository.addEstate(estate);
 
       // Then a couldNotAccessDataException is thrown
-   }
-
-   /*
-    * @Test public void editingDescriptonShouldAskXmlForDocument() throws
-    * DocumentException, CouldNotAccessDataException { // given
-    * configureFetchingEstateByAddress(); // when
-    * xmlEstateRepository.editDescription(VALID_ADDRESS.toString(),
-    * description); // then verify(xmlFileEditor,
-    * times(1)).readXMLFile(XML_FILE_PATH); }
-    * @Test public void
-    * editingDescriptionShouldCallReplaceEstateFromXmlFileEditor() throws
-    * DocumentException, CouldNotAccessDataException { // given
-    * configureFetchingEstateByAddress(); // when
-    * xmlEstateRepository.editDescription(VALID_ADDRESS.toString(),
-    * description); // then verify(xmlFileEditor,
-    * times(1)).replaceElement(usedDocument, ELEMENT_NAME,
-    * VALID_ADDRESS.toString(), "address", estatePersistenceDto); }
-    * @Test public void
-    * editDescriptionWithNonNullDescriptionEstateShouldAddNestedElement() throws
-    * CouldNotAccessDataException, EstateNotFoundException, DocumentException {
-    * // given configureEstateWithCompleteDescription();
-    * when(estateElementAssembler.convertToAttributes(estate)).thenReturn(
-    * attributes);
-    * when(estateElementAssembler.convertDescriptionToAttributes(description)).
-    * thenReturn(descriptionAttributes);
-    * when(estatePersistenceDtoFactory.newInstanceDescription(
-    * descriptionAttributes)) .thenReturn(descriptionPersistanceDto);
-    * configureFetchingEstateByAddress(); // when
-    * xmlEstateRepository.editDescription(VALID_ADDRESS.toString(),
-    * description); // then verify(xmlFileEditor,
-    * times(1)).addNewNestedElementToDocumentFromParentPath(usedDocument,
-    * descriptionPersistanceDto, VALID_ADDRESS.toString(), "address",
-    * ELEMENT_NAME); }
-    */
-   @Test
-   public void gettingEstatesBySellerNameWhenSellerDoNotExistShouldNotThrowException()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      configureGetEstatesFromSeller();
-      when(estate.isFromSeller(SELLER_NAME)).thenReturn(false);
-
-      // When
-      xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
-
-      // Then no exception is thrown
-   }
-
-   @Test
-   public void gettingEstatesBySellerNameWhenSellerExistShouldReturnListOfSellersEstates()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      configureGetEstatesFromSeller();
-      int expectedReturnedEstatesNumber = estateElementList.size();
-
-      // When
-      List<Estate> estateFromSeller = xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
-
-      // Then
-      assertEquals(expectedReturnedEstatesNumber, estateFromSeller.size());
-
-   }
-
-   @Test
-   public void gettingEstateFromSellerWhenEstateIsFromSellerShouldAddEstateToList()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      configureGetEstatesFromSeller();
-
-      // When
-      xmlEstateRepository.getEstateFromSeller(SELLER_NAME);
-
-      // Then
-      verify(estate, times(1)).isFromSeller(SELLER_NAME);
    }
 
    @Test

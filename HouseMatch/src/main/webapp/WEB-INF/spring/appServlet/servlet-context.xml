@@ -89,9 +89,6 @@
             name="FileEditor"
             ref="fileEditorId" />
     </beans:bean>
-    <beans:bean
-        id="estateSorter"
-        class="ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter" />
 
     <beans:bean
         id="estateService"
@@ -131,8 +128,8 @@
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
         <beans:constructor-arg
-            name="estateSorter"
-            ref="estateSorter" />
+            name="estatesProcessor"
+            ref="estatesProcessor" />
     </beans:bean>
 
     <beans:bean

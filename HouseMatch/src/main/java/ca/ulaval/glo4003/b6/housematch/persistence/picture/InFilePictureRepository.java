@@ -48,20 +48,6 @@ public class InFilePictureRepository implements PictureRepository {
       }
    }
 
-   private void createFileOnDisk(String pictureName, byte[] bytes, File directory)
-         throws FileNotFoundException, IOException {
-      File serverFile = new File(directory.getAbsolutePath() + File.separator + pictureName + ".jpg");
-      BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-      stream.write(bytes);
-      stream.close();
-   }
-
-   protected void validateDirectoryExists(File dir) {
-      if (!dir.exists()) {
-         dir.mkdirs();
-      }
-   }
-
    @Override
    public List<String> getEveryPicturesNames(String estateAddress) {
       List<String> nameOfPictures = new ArrayList<String>();
@@ -114,6 +100,20 @@ public class InFilePictureRepository implements PictureRepository {
 
       } catch (IOException ioException) {
          throw new CouldNotAccessDataException("Could not access the stored pictures data", ioException);
+      }
+   }
+
+   private void createFileOnDisk(String pictureName, byte[] bytes, File directory)
+         throws FileNotFoundException, IOException {
+      File serverFile = new File(directory.getAbsolutePath() + File.separator + pictureName + ".jpg");
+      BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+      stream.write(bytes);
+      stream.close();
+   }
+
+   protected void validateDirectoryExists(File dir) {
+      if (!dir.exists()) {
+         dir.mkdirs();
       }
    }
 
