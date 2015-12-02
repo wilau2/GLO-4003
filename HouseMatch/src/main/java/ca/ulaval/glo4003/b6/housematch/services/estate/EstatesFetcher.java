@@ -30,6 +30,10 @@ public class EstatesFetcher {
       this.estatesProcessor = estatesProcessor;
    }
 
+   public Estates getInSessionMemoryEstates() {
+      return inSessionMemoryEstates;
+   }
+
    public List<EstateDto> getEstatesBySeller(String sellerName)
          throws SellerNotFoundException, CouldNotAccessDataException {
 
@@ -69,7 +73,7 @@ public class EstatesFetcher {
 
    public List<EstateDto> getPriceOrderedAscendantEstates() {
 
-      inSessionMemoryEstates.sortByPriceAscendantSort();
+      inSessionMemoryEstates.sortByLowestToHighestPrice();
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
       List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
@@ -80,7 +84,7 @@ public class EstatesFetcher {
 
    public List<EstateDto> getPriceOrderedDescendantEstates() {
 
-      inSessionMemoryEstates.sortByPriceDescendantSort();
+      inSessionMemoryEstates.sortByHighestToLowestPrice();
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
       List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
@@ -91,7 +95,7 @@ public class EstatesFetcher {
 
    public List<EstateDto> getDateOrderedAscendantEstates() {
 
-      inSessionMemoryEstates.sortByDateAscendantSort();
+      inSessionMemoryEstates.sortByOldestToNewestDate();
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
       List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
@@ -102,7 +106,7 @@ public class EstatesFetcher {
 
    public List<EstateDto> getDateOrderedDescendantEstates() {
 
-      inSessionMemoryEstates.sortByDateDescendantSort();
+      inSessionMemoryEstates.sortByNewestToOldestDate();
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
       List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);

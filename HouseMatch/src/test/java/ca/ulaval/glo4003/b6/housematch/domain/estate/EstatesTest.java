@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -70,12 +69,12 @@ public class EstatesTest {
       // Given
 
       // When
-      estates.sortByPriceAscendantSort();
+      estates.sortByLowestToHighestPrice();
 
       // Then
-      assertTrue(estates.retreiveListOfEstate().get(0).getPrice() == MIN_PRICE);
-      assertTrue(estates.retreiveListOfEstate().get(1).getPrice() == MID_PRICE);
-      assertTrue(estates.retreiveListOfEstate().get(2).getPrice() == MAX_PRICE);
+      assertEquals(MIN_PRICE, estates.retreiveListOfEstate().get(0).getPrice().intValue());
+      assertEquals(MID_PRICE, estates.retreiveListOfEstate().get(1).getPrice().intValue());
+      assertEquals(MAX_PRICE, estates.retreiveListOfEstate().get(2).getPrice().intValue());
    }
 
    @Test
@@ -83,12 +82,12 @@ public class EstatesTest {
       // Given
 
       // When
-      estates.sortByPriceDescendantSort();
+      estates.sortByHighestToLowestPrice();
 
       // Then
-      assertTrue(estates.retreiveListOfEstate().get(0).getPrice() == MAX_PRICE);
-      assertTrue(estates.retreiveListOfEstate().get(1).getPrice() == MID_PRICE);
-      assertTrue(estates.retreiveListOfEstate().get(2).getPrice() == MIN_PRICE);
+      assertEquals(MAX_PRICE, estates.retreiveListOfEstate().get(0).getPrice().intValue());
+      assertEquals(MID_PRICE, estates.retreiveListOfEstate().get(1).getPrice().intValue());
+      assertEquals(MIN_PRICE, estates.retreiveListOfEstate().get(2).getPrice().intValue());
    }
 
    @Test
@@ -96,12 +95,12 @@ public class EstatesTest {
       // Given
 
       // When
-      estates.sortByDateAscendantSort();
+      estates.sortByOldestToNewestDate();
 
       // Then
-      assertEquals(estates.retreiveListOfEstate().get(0).getDateRegistered(), MIN_DATE);
-      assertEquals(estates.retreiveListOfEstate().get(1).getDateRegistered(), MID_DATE);
-      assertEquals(estates.retreiveListOfEstate().get(2).getDateRegistered(), MAX_DATE);
+      assertEquals(MIN_DATE, estates.retreiveListOfEstate().get(0).getDateRegistered());
+      assertEquals(MID_DATE, estates.retreiveListOfEstate().get(1).getDateRegistered());
+      assertEquals(MAX_DATE, estates.retreiveListOfEstate().get(2).getDateRegistered());
    }
 
    @Test
@@ -109,12 +108,12 @@ public class EstatesTest {
       // Given
 
       // When
-      estates.sortByDateDescendantSort();
+      estates.sortByNewestToOldestDate();
 
       // Then
-      assertTrue(estates.retreiveListOfEstate().get(0).getDateRegistered() == MAX_DATE);
-      assertTrue(estates.retreiveListOfEstate().get(1).getDateRegistered() == MID_DATE);
-      assertTrue(estates.retreiveListOfEstate().get(2).getDateRegistered() == MIN_DATE);
+      assertEquals(MAX_DATE, estates.retreiveListOfEstate().get(0).getDateRegistered());
+      assertEquals(MID_DATE, estates.retreiveListOfEstate().get(1).getDateRegistered());
+      assertEquals(MIN_DATE, estates.retreiveListOfEstate().get(2).getDateRegistered());
    }
 
    @Test

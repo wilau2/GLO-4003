@@ -11,19 +11,19 @@ public class Estates {
       this.estates = estates;
    }
 
-   public void sortByPriceDescendantSort() {
+   public void sortByHighestToLowestPrice() {
       Collections.sort(estates, Estate.EstatePriceDescendantComparator);
    }
 
-   public void sortByPriceAscendantSort() {
+   public void sortByLowestToHighestPrice() {
       Collections.sort(estates, Estate.EstatePriceAscendantComparator);
    }
 
-   public void sortByDateDescendantSort() {
+   public void sortByNewestToOldestDate() {
       Collections.sort(estates, Estate.EstateDateDescendantComparator);
    }
 
-   public void sortByDateAscendantSort() {
+   public void sortByOldestToNewestDate() {
       Collections.sort(estates, Estate.EstateDateAscendantComparator);
    }
 

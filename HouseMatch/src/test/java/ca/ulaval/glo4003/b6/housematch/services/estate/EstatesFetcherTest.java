@@ -1,11 +1,10 @@
 package ca.ulaval.glo4003.b6.housematch.services.estate;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -66,11 +65,11 @@ public class EstatesFetcherTest {
    @Before
    public void setup() throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException {
       MockitoAnnotations.initMocks(this);
-
       configureEstateRepository();
+      configureEstateProcessor();
       configureEstateAssembler();
       configureFetchingEstateByAddress();
-      configureEstateProcessor();
+
    }
 
    private void configureEstateProcessor() {
@@ -88,7 +87,6 @@ public class EstatesFetcherTest {
       when(estateAssembler.assembleEstateDto(estate)).thenReturn(estateDto);
       when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
       when(estateAssembler.assembleEstatesDto(estates)).thenReturn(estatesDto);
-
    }
 
    private void configureEstateRepository() throws SellerNotFoundException, CouldNotAccessDataException {
@@ -96,19 +94,7 @@ public class EstatesFetcherTest {
    }
 
    @Test
-   public void whenFetchingEstateBySellerNameShouldReturnListOfEstateDto()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given no changes
-
-      // When
-      List<EstateDto> estates = estateFetcher.getEstatesBySeller(SELLER_NAME);
-
-      // Then
-      assertTrue(estates instanceof List<?>);
-   }
-
-   @Test
-   public void whenFetchingEstatesBySellerNameShouldCallMethodFromRepository()
+   public void givenValidRepositoryWhenFetchEstateBySellerShouldDelegateGettingEstateToRepository()
          throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
 
@@ -116,144 +102,340 @@ public class EstatesFetcherTest {
       estateFetcher.getEstatesBySeller(SELLER_NAME);
 
       // Then
-      verify(estateRepository, times(1)).getAllEstates();
+      verify(estateRepository).getAllEstates();
    }
 
    @Test
-   public void whenFetchingEstateBySellerNameShouldCallEstateAssemblerForDto()
+   public void givenValidProcessorWhenFetchEstateBySellerShouldDelegateFilteringToEstateProcessor()
          throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
-      int numberOfReturnedEstateFromRepo = estates.size();
-
       // When
       estateFetcher.getEstatesBySeller(SELLER_NAME);
 
       // Then
-      verify(estateAssemblerFactory, times(1)).createEstateAssembler();
-      verify(estateAssembler, times(numberOfReturnedEstateFromRepo)).assembleEstateDto(estate);
-
+      verify(estatesProcessor).retrieveEstatesBySellerName(estates, SELLER_NAME);
    }
 
    @Test
-   public void whenFetchingEstateByAddressShouldReturnEstateDto()
-         throws EstateNotFoundException, CouldNotAccessDataException {
-      // Given no changes
-
+   public void givenValidAssemblerFactoryWhenFetchEstateBySellerShouldDelegateCreatingAssembler()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
       // When
-      Object returnedObject = estateFetcher.getEstateByAddress(ADDRESS);
+      estateFetcher.getEstatesBySeller(SELLER_NAME);
 
       // Then
-      assertTrue(returnedObject instanceof EstateDto);
+      verify(estateAssemblerFactory).createEstateAssembler();
    }
 
    @Test
-   public void fetchingAnEstateByAddressWhenOneEstateHasItsAddressShouldCallRepository()
-         throws EstateNotFoundException, CouldNotAccessDataException {
-      // Given no changes
-
+   public void givenValidAssemblerWhenFetchEstateBySellerShouldDelegateAssembling()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
       // When
-      estateFetcher.getEstateByAddress(ADDRESS);
+      estateFetcher.getEstatesBySeller(SELLER_NAME);
 
       // Then
-      verify(estateRepository, times(1)).getEstateByAddress(ADDRESS);
-   }
-
-   @Test
-   public void fetchingAnEstateByItsAddressWhenAddressCorrespondToAnEstateShouldConvertEstateToEstateDto()
-         throws EstateNotFoundException, CouldNotAccessDataException {
-      // Given no changes
-
-      // When
-      estateFetcher.getEstateByAddress(ADDRESS);
-
-      // Then
-      verify(estateAssemblerFactory, times(1)).createEstateAssembler();
-      verify(estateAssembler, times(1)).assembleEstateDto(estate);
-   }
-
-   @Test
-   public void whenFetchingAllEstatesShouldReturnListEstateDto()
-         throws EstateNotFoundException, CouldNotAccessDataException {
-      // Given no changes
-
-      // When
-      List<EstateDto> estates = estateFetcher.getAllEstates();
-
-      // Then
-      assertTrue(estates instanceof List<?>);
-   }
-
-   @Test
-   public void whenAskedAllEstatesShouldCallAssembleEstate() throws CouldNotAccessDataException {
-      // given
-      List<Estate> dumbEstateDtoList = new ArrayList<Estate>();
-      dumbEstateDtoList.add(estate);
-      Estates estates = new Estates(dumbEstateDtoList);
-      when(estateRepository.getAllEstates()).thenReturn(estates);
-
-      // when
-      estateFetcher.getAllEstates();
-
-      // then
-      verify(estateRepository, times(1)).getAllEstates();
-   }
-
-   @Test
-   public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() throws CouldNotAccessDataException {
-      // given
-
-      // when
-      estateFetcher.getAllEstates();
-
-      // then
       verify(estateAssembler).assembleEstatesDto(estates);
    }
 
    @Test
-   public void whenGetPriceOrderedAscendentShouldReturnListEstate() throws CouldNotAccessDataException {
+   public void whenFetchEstateBySellerShouldReturnListOfEstateDto()
+         throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
-
       // When
-      estateFetcher.getAllEstates();
-      List<EstateDto> listDto = estateFetcher.getPriceOrderedAscendantEstates();
+      List<EstateDto> rep = estateFetcher.getEstatesBySeller(SELLER_NAME);
 
       // Then
-      assertTrue(listDto instanceof List<?>);
+      assertEquals(estatesDto, rep);
    }
 
    @Test
-   public void whenGetPriceOrderedDescendantShouldReturnListEstate() throws CouldNotAccessDataException {
+   public void givenValidRepositoryWhenGetEstateByAddressShouldDelegateGettingEstateToRepository()
+         throws EstateNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
-      estateFetcher.getAllEstates();
-      List<EstateDto> listDto = estateFetcher.getPriceOrderedDescendantEstates();
+      estateFetcher.getEstateByAddress(ADDRESS);
 
       // Then
-      assertTrue(listDto instanceof List<?>);
+      verify(estateRepository).getEstateByAddress(ADDRESS);
    }
 
    @Test
-   public void whenGetDateOrderedAscendantShouldReturnListEstate() throws CouldNotAccessDataException {
+   public void givenValidAssemblerFactoryWhenGetEstateByAddressShouldDelegateCreatingAssembler()
+         throws EstateNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
-      estateFetcher.getAllEstates();
-      List<EstateDto> listDto = estateFetcher.getDateOrderedAscendantEstates();
+      estateFetcher.getEstateByAddress(ADDRESS);
 
       // Then
-      assertTrue(listDto instanceof List<?>);
+      verify(estateAssemblerFactory).createEstateAssembler();
    }
 
    @Test
-   public void whenGetDateOrderedDescendantShouldReturnListEstate() throws CouldNotAccessDataException {
+   public void givenValidAssemblerWhenGetEstateByAddressShouldDelegateAssemblingEstate()
+         throws EstateNotFoundException, CouldNotAccessDataException {
+      // Given
+
+      // When
+      estateFetcher.getEstateByAddress(ADDRESS);
+
+      // Then
+      verify(estateAssembler).assembleEstateDto(estate);
+   }
+
+   @Test
+   public void whenGetEstateByAddressShouldReturnEstateDto()
+         throws EstateNotFoundException, CouldNotAccessDataException {
+      // Given
+
+      // When
+      EstateDto rep = estateFetcher.getEstateByAddress(ADDRESS);
+
+      // Then
+      assertEquals(estateDto, rep);
+   }
+
+   @Test
+   public void givenValidRepositoryWhenGetAllEstatesShouldDelegateGettingEstateToRepository()
+         throws SellerNotFoundException, CouldNotAccessDataException {
       // Given
 
       // When
       estateFetcher.getAllEstates();
-      List<EstateDto> listDto = estateFetcher.getDateOrderedDescendantEstates();
 
       // Then
-      assertTrue(listDto instanceof List<?>);
+      verify(estateRepository).getAllEstates();
    }
+
+   @Test
+   public void givenValidAssemblerFactoryWhenGetAllEstatesShouldDelegateCreatingAssembler()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+
+      // Then
+      verify(estateAssemblerFactory).createEstateAssembler();
+   }
+
+   @Test
+   public void givenValidAssemblerWhenGetAllEstatesShouldDelegateAssembling()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+
+      // Then
+      verify(estateAssembler).assembleEstatesDto(estates);
+   }
+
+   @Test
+   public void whenGetAllEstatesShouldReturnListOfEstateDto()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      List<EstateDto> rep = estateFetcher.getAllEstates();
+
+      // Then
+      assertEquals(estatesDto, rep);
+   }
+
+   @Test
+   public void givenValidEstatesWhenGetPriceOrderedAscendantEstatesShouldDelegateSortingToEstate()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getPriceOrderedAscendantEstates();
+
+      // Then
+      verify(estates).sortByLowestToHighestPrice();
+   }
+
+   @Test
+   public void givenValidAssemblerFactoryWhenGetPriceOrderedAscendantEstatesShouldDelegateCreatingAssembler()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getPriceOrderedAscendantEstates();
+
+      // Then
+      verify(estateAssemblerFactory, times(2)).createEstateAssembler();
+   }
+
+   @Test
+   public void givenValidAssemblerWhenGetPriceOrderedAscendantEstatesShouldDelegateAssembling()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getPriceOrderedAscendantEstates();
+
+      // Then
+      verify(estateAssembler, times(2)).assembleEstatesDto(estates);
+   }
+
+   @Test
+   public void whenGetPriceOrderedAscendantEstatesShouldReturnListOfEstateDto()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      List<EstateDto> rep = estateFetcher.getPriceOrderedAscendantEstates();
+
+      // Then
+      assertEquals(estatesDto, rep);
+   }
+
+   @Test
+   public void givenValidEstatesWhenGetPriceOrderedDescendantEstatesShouldDelegateSortingToEstate()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getPriceOrderedDescendantEstates();
+
+      // Then
+      verify(estates).sortByHighestToLowestPrice();
+   }
+
+   @Test
+   public void givenValidAssemblerFactoryWhenGetPriceOrderedDescendantEstatesShouldDelegateCreatingAssembler()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getPriceOrderedDescendantEstates();
+
+      // Then
+      verify(estateAssemblerFactory, times(2)).createEstateAssembler();
+   }
+
+   @Test
+   public void givenValidAssemblerWhenGetPriceOrderedDescendantEstatesShouldDelegateAssembling()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getPriceOrderedDescendantEstates();
+
+      // Then
+      verify(estateAssembler, times(2)).assembleEstatesDto(estates);
+   }
+
+   @Test
+   public void whenGetPriceOrderedDescendantEstatesShouldReturnListOfEstateDto()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      List<EstateDto> rep = estateFetcher.getPriceOrderedDescendantEstates();
+
+      // Then
+      assertEquals(estatesDto, rep);
+   }
+
+   @Test
+   public void givenValidEstatesWhenGetDateOrderedAscendantEstatesShouldDelegateSortingToEstate()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getDateOrderedAscendantEstates();
+
+      // Then
+      verify(estates).sortByOldestToNewestDate();
+   }
+
+   @Test
+   public void givenValidAssemblerFactoryWhenGetDateOrderedAscendantEstatesShouldDelegateCreatingAssembler()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getDateOrderedAscendantEstates();
+
+      // Then
+      verify(estateAssemblerFactory, times(2)).createEstateAssembler();
+   }
+
+   @Test
+   public void givenValidAssemblerWhenGetDateOrderedAscendantEstatesShouldDelegateAssembling()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getDateOrderedAscendantEstates();
+
+      // Then
+      verify(estateAssembler, times(2)).assembleEstatesDto(estates);
+   }
+
+   @Test
+   public void whenGetDateOrderedAscendantEstatesShouldReturnListOfEstateDto()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      List<EstateDto> rep = estateFetcher.getDateOrderedAscendantEstates();
+
+      // Then
+      assertEquals(estatesDto, rep);
+   }
+
+   @Test
+   public void givenValidEstatesWhenGetDateOrderedDescendantEstatesShouldDelegateSortingToEstate()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getDateOrderedDescendantEstates();
+
+      // Then
+      verify(estates).sortByNewestToOldestDate();
+   }
+
+   @Test
+   public void givenValidAssemblerFactoryWhenGetDateOrderedDescendantEstatesShouldDelegateCreatingAssembler()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getDateOrderedDescendantEstates();
+
+      // Then
+      verify(estateAssemblerFactory, times(2)).createEstateAssembler();
+   }
+
+   @Test
+   public void givenValidAssemblerWhenGetDateOrderedDescendantEstatesShouldDelegateAssembling()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      estateFetcher.getDateOrderedDescendantEstates();
+
+      // Then
+      verify(estateAssembler, times(2)).assembleEstatesDto(estates);
+   }
+
+   @Test
+   public void whenGetDateOrderedDescendantEstatesShouldReturnListOfEstateDto()
+         throws SellerNotFoundException, CouldNotAccessDataException {
+      // Given
+      // When
+      estateFetcher.getAllEstates();
+      List<EstateDto> rep = estateFetcher.getDateOrderedDescendantEstates();
+
+      // Then
+      assertEquals(estatesDto, rep);
+   }
+
 }
