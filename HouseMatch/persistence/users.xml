@@ -24,36 +24,36 @@
     <username>buyer2</username> 
   </user>  
   <user> 
+    <firstName>Kid</firstName>  
+    <lastName>Kiddy</lastName>  
+    <password>123</password>  
+    <role>buyer</role>  
+    <phoneNumber>123-456-7899</phoneNumber>  
+    <dateLastActivity>2015-11-26T13:37:28.459</dateLastActivity>  
+    <isActive>true</isActive>  
+    <email>kid@kiddy.com</email>  
+    <username>buyer</username> 
+  </user>  
+  <user> 
     <firstName>Ding</firstName>  
     <lastName>Dong</lastName>  
     <password>123</password>  
     <role>admin</role>  
     <phoneNumber>123-456-7899</phoneNumber>  
-    <dateLastActivity>2015-11-20T09:07:34.747</dateLastActivity>  
+    <dateLastActivity>2015-12-02T15:54:02.750</dateLastActivity>  
     <isActive>true</isActive>  
     <email>ding@dong.com</email>  
     <username>admin</username> 
   </user>  
-  <user> 
-    <firstName>Brucee</firstName>  
-    <lastName>Leee</lastName>  
-    <password>123</password>  
-    <role>seller</role>  
-    <phoneNumber>123-123-1234</phoneNumber>  
-    <dateLastActivity>2015-11-26T13:36:14.713</dateLastActivity>  
-    <isActive>true</isActive>  
-    <email>bruce@lee.com</email>  
-    <username>seller</username> 
-  </user>  
   <user>
-    <firstName>Kid</firstName>
-    <lastName>Kiddy</lastName>
+    <firstName>Brucee</firstName>
+    <lastName>Leee</lastName>
     <password>123</password>
-    <role>buyer</role>
-    <phoneNumber>123-456-7899</phoneNumber>
-    <dateLastActivity>2015-11-26T13:37:28.459</dateLastActivity>
+    <role>seller</role>
+    <phoneNumber>123-123-1234</phoneNumber>
+    <dateLastActivity>2015-12-02T15:54:16.695</dateLastActivity>
     <isActive>true</isActive>
-    <email>kid@kiddy.com</email>
-    <username>buyer</username>
+    <email>bruce@lee.com</email>
+    <username>seller</username>
   </user>
 </users>

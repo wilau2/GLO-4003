@@ -142,8 +142,8 @@
     </beans:bean>
 
     <beans:bean
-        id="pictureUtilitiesFactory"
-        class="ca.ulaval.glo4003.b6.housematch.domain.picture.PictureUtilitiesFactory">
+        id="albumFactory"
+        class="ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumFactory">
     </beans:bean>
 
     <beans:bean
@@ -187,7 +187,7 @@
     </beans:bean>
     <beans:bean
         id="estatePicturesService"
-        class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService"
+        class="ca.ulaval.glo4003.b6.housematch.services.picture.EstatePicturesService"
         scope="session"
     >
         <beans:constructor-arg
@@ -195,7 +195,7 @@
             ref="inFilePictureRepository" />
         <beans:constructor-arg
             name="albumPictureRepository"
-            ref="pictureUtilitiesFactory" />
+            ref="albumFactory" />
         <beans:constructor-arg
             name="inactivePictureRepository"
             ref="inFileApprovalPictureRepository" />
@@ -281,7 +281,7 @@
 
     <beans:bean
         id="pictureApprobationService"
-        class="ca.ulaval.glo4003.b6.housematch.services.admin.PictureApprobationService"
+        class="ca.ulaval.glo4003.b6.housematch.services.picture.PictureApprobationService"
     >
         <beans:constructor-arg
             name="InactivePictureRepository"
