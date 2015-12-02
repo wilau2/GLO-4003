@@ -3,11 +3,9 @@ package ca.ulaval.glo4003.b6.housematch.persistence.estate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -510,17 +508,4 @@ public class XMLEstateRepositoryTest {
 
       return attributes;
    }
-
-   private void configureEstateWithCompleteDescription() {
-      when(estate.getDescription()).thenReturn(description);
-      when(description.getMunicipalAssessment()).thenReturn(200);
-      when(description.getBuildingDimensions()).thenReturn("100x20");
-      when(description.getLivingSpaceAreaSquareMeter()).thenReturn(200);
-      when(description.getNumberOfBathrooms()).thenReturn(200);
-      when(description.getNumberOfBedRooms()).thenReturn(200);
-      when(description.getNumberOfLevel()).thenReturn(200);
-      when(description.getNumberOfRooms()).thenReturn(200);
-      when(description.getYearOfConstruction()).thenReturn(200);
-   }
-
 }

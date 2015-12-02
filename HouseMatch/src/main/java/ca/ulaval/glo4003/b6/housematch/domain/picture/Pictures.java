@@ -11,10 +11,6 @@ public class Pictures {
       this.pictures = pictures;
    }
 
-   public List<Picture> getPictures() {
-      return pictures;
-   }
-
    public List<Picture> getActivePictures() {
       List<Picture> activePictures = new ArrayList<Picture>();
       for (Picture picture : pictures) {

@@ -1,9 +1,10 @@
-package ca.ulaval.glo4003.b6.housematch.services.estate;
+package ca.ulaval.glo4003.b6.housematch.services.picture;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -14,10 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Album;
+import ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.ApprovalPictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
-import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureSelector;
-import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureUtilitiesFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Pictures;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
@@ -34,10 +34,7 @@ public class EstatePicturesServiceTest {
    private PictureRepository pictureRepository;
 
    @Mock
-   private PictureUtilitiesFactory albumPictureFactory;
-
-   @Mock
-   private PictureSelector pictureSelector;
+   private AlbumFactory albumPictureFactory;
 
    @Mock
    private Album album;
@@ -82,7 +79,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPicturesShouldCallGetRelevantPicturesFromSelector()
+   public void gettingAPicturesShouldCallGetRelevantPicturesFromAlbum()
          throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
@@ -90,7 +87,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.getPicturesOfEstate(ADDRESS);
 
       // Then
-      verify(pictureSelector, times(1)).getRelevantPictures();;
+      verify(album, times(1)).getRelevantPictures();;
    }
 
    @Test
@@ -106,7 +103,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void addingAPictureShouldCallAddPictureFromSelector()
+   public void addingAPictureShouldCallAddPictureFromRepository()
          throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
       // Given no changes
 
@@ -114,23 +111,23 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.addPicture(ADDRESS, PICTURENAME, pictureFile);
 
       // Then
-      verify(pictureSelector, times(1)).addPicture(PICTURENAME, pictureFile);;
+      verify(pictureRepository, times(1)).addPicture(PICTURENAME, ADDRESS, pictureFile);;
    }
 
-   @Test
-   public void deletingAPictureShouldCallAlbumPictureRepository()
-         throws InvalidEstateException, CouldNotAccessDataException {
-      // Given no changes
+   @Test(expected = PictureAlreadyExistsException.class)
+   public void addingAPictureShouldThrowExceptionIfPicturesAlreadyExists()
+         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
+      // Given an album with existingPicture
+      configureAlbumWithExistingPicture();
 
       // When
-      estatesPicturesService.deletePicture(ADDRESS, PICTURENAME);
+      estatesPicturesService.addPicture(ADDRESS, PICTURENAME, pictureFile);
 
-      // Then
-      verify(albumPictureFactory, times(1)).createAlbum(ADDRESS);;
+      // Then Exception raised
    }
 
    @Test
-   public void deletingAPictureShouldCallDeletePictureFromSelector()
+   public void deletingAPictureShouldCallDeletePictureRepository()
          throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
@@ -138,7 +135,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.deletePicture(ADDRESS, PICTURENAME);;
 
       // Then
-      verify(pictureSelector, times(1)).deletePicture(PICTURENAME);;
+      verify(pictureRepository, times(1)).deletePicture(PICTURENAME, ADDRESS);;
    }
 
    @Test
@@ -154,7 +151,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPictureShouldCallDeletePictureFromSelector()
+   public void gettingAPictureShouldCallDeletePictureFromAlbum()
          throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
@@ -162,16 +159,21 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.getPicture(ADDRESS, PICTURENAME);;
 
       // Then
-      verify(pictureSelector, times(1)).getPicture(PICTURENAME);;
+      verify(album, times(1)).getSpecificPicture(PICTURENAME, pictureRepository);
    }
 
    private void configurePictureRepository() {
       when(albumPictureFactory.createAlbum(ADDRESS)).thenReturn(album);
    }
 
+   private void configureAlbumWithExistingPicture() {
+      List<String> listWithExistingName = new ArrayList<String>();
+      listWithExistingName.add(PICTURENAME);
+      when(album.getRelevantPictures()).thenReturn(listWithExistingName);
+   }
+
    private void configureAlbumFactory() {
       when(albumPictureFactory.createAlbum(names, ADDRESS)).thenReturn(album);
-      when(albumPictureFactory.createPictureSelector(album, pictureRepository)).thenReturn(pictureSelector);
    }
 
    private void configurePictures() {

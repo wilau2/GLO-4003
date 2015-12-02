@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Test;
 import org.mockito.Mock;
 
-public class PictureUtilitiesFactoryTest {
+public class AlbumFactoryTest {
 
    private final String ESTATE_ADDRESS = "address";
 
@@ -23,7 +23,7 @@ public class PictureUtilitiesFactoryTest {
    @Test
    public void givenValidAlbumFactoryWhenCreateAblumShouldReturnAlbumInstance() {
       // Given
-      PictureUtilitiesFactory factory = new PictureUtilitiesFactory();
+      AlbumFactory factory = new AlbumFactory();
 
       // When
       Album object = factory.createAlbum(ESTATE_ADDRESS);
@@ -33,27 +33,15 @@ public class PictureUtilitiesFactoryTest {
    }
 
    @Test
-   public void givenValidAlbumFactoryWhenCreateAblumWithActivePicturesNamesShouldReturnAlbumInstance() {
+   public void givenValidAlbumFactoryWhenCreateAlbumWithActivePicturesNamesShouldReturnAlbumInstance() {
       // Given
-      PictureUtilitiesFactory factory = new PictureUtilitiesFactory();
+      AlbumFactory factory = new AlbumFactory();
 
       // When
       Album object = factory.createAlbum(activePictureNames, ESTATE_ADDRESS);
 
       // Then
       assertTrue(object instanceof Album);
-   }
-
-   @Test
-   public void givenValidAlbumFactoryWhenCreatePictureSelecterorShouldReturnCorrespondingInstance() {
-      // Given
-      PictureUtilitiesFactory factory = new PictureUtilitiesFactory();
-
-      // When
-      PictureSelector object = factory.createPictureSelector(album, pictureRepository);
-
-      // Then
-      assertTrue(object instanceof PictureSelector);
    }
 
 }
