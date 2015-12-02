@@ -2,10 +2,12 @@ package ca.ulaval.glo4003.b6.housematch.dto.assembler;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Address;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
@@ -61,5 +63,16 @@ public class EstateAssembler {
    public Description assembleDescription(DescriptionDto descriptionDto) {
       Description description = descriptionAssembler.assembleDescription(descriptionDto);
       return description;
+   }
+
+   public List<EstateDto> assembleEstatesDto(Estates estates) {
+
+      List<EstateDto> estatesDto = new ArrayList<EstateDto>();
+      for (Estate estate : estates) {
+         EstateDto assembledEstateDto = assembleEstateDto(estate);
+         estatesDto.add(assembledEstateDto);
+      }
+
+      return estatesDto;
    }
 }
