@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.b6.housematch.services.picture;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,18 +52,18 @@ public class PictureApprobationService {
 
    private void deletePicturesFromPictureRepository(List<String> inactivePictureUids)
          throws CouldNotAccessDataException {
-      List<Picture> pictureList = approvalPictureRepository.getPicturesByUids(inactivePictureUids);
+      List<Picture> pictures = approvalPictureRepository.getPicturesByUids(inactivePictureUids);
 
-      for (Iterator<Picture> pictureListIterator = pictureList.iterator(); pictureListIterator.hasNext();) {
-         Picture inactivePicture = pictureListIterator.next();
+      for (Picture inactivePicture : pictures) {
          pictureRepository.deletePicture(inactivePicture.getName(), inactivePicture.getAddress());
       }
    }
 
    private void deletePicturesFromApprovalRepository(List<String> inactivePictureUids)
          throws CouldNotAccessDataException {
-      for (Iterator<String> pictureUidsIterator = inactivePictureUids.iterator(); pictureUidsIterator.hasNext();) {
-         approvalPictureRepository.deletePicture(pictureUidsIterator.next());
+
+      for (String pictureName : inactivePictureUids) {
+         approvalPictureRepository.deletePicture(pictureName);
       }
    }
 
