@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.services.statistic;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,6 +53,14 @@ public class StatisticService {
       List<Estate> estatesSoldLastYear = estateProcessor.retrieveEstatesSoldLastYear(estates);
 
       return estatesSoldLastYear.size();
+   }
+   
+   public HashMap<String, Integer> getNumberOfDifferentCategoryOfProperties() throws CouldNotAccessDataException {
+      List<Estate> estates = estateRepository.getAllEstates();
+
+      HashMap<String, Integer> numberEstatesInEachType = estateProcessor.retrieveNumberEstatesInEachType(estates);
+
+      return numberEstatesInEachType;
    }
 
 }

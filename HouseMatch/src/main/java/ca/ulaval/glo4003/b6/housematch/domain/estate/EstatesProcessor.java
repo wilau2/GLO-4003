@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EstatesProcessor {
@@ -25,6 +26,19 @@ public class EstatesProcessor {
          }
       }
       return estatesSoldLastYear;
+   }
+   
+   public HashMap<String, Integer> retrieveNumberEstatesInEachType(List<Estate> estates) {
+      HashMap<String, Integer> numberEstatesInEachType = new HashMap<String, Integer>();
+      for (Estate estate : estates) {
+         Integer nbEstate = numberEstatesInEachType.get(estate.getType());
+         if (nbEstate != null) {
+            numberEstatesInEachType.put(estate.getType(), nbEstate + 1);
+         } else {
+            numberEstatesInEachType.put(estate.getType(), 1);
+         }
+      }
+      return numberEstatesInEachType;
    }
 
 }
