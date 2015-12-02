@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Iterator;
@@ -50,6 +49,7 @@ public class EstatesProcessorTest {
       when(listEstates.iterator()).thenReturn(iterator);
       when(iterator.hasNext()).thenReturn(true, false);
       when(iterator.next()).thenReturn(estate);
+      when(listEstates.size()).thenReturn(1);
       configureEstates();
    }
 
@@ -58,6 +58,7 @@ public class EstatesProcessorTest {
       when(listEstates.iterator()).thenReturn(iterator);
       when(iterator.hasNext()).thenReturn(true, false);
       when(iterator.next()).thenReturn(estate);
+      when(listEstates.size()).thenReturn(0);
       configureEstates();
    }
 
@@ -92,7 +93,7 @@ public class EstatesProcessorTest {
 
    private void configureEstates() {
       when(estates.retreiveListOfEstate()).thenReturn(listEstates);
-      when(estates.size()).thenReturn(1);
+
    }
 
    @Test
@@ -145,7 +146,7 @@ public class EstatesProcessorTest {
       Estates estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
 
       // Then
-      assertTrue(estatesSoldLastYear.retreiveListOfEstate().isEmpty());
+      assertEquals(0, estatesSoldLastYear.retreiveListOfEstate().size());
    }
 
    @Test
@@ -157,7 +158,7 @@ public class EstatesProcessorTest {
       Estates estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
 
       // Then
-      assertTrue(estatesSoldLastYear.retreiveListOfEstate().isEmpty());
+      assertEquals(0, estatesSoldLastYear.retreiveListOfEstate().size());
    }
 
    @Test
@@ -170,7 +171,7 @@ public class EstatesProcessorTest {
       Estates estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
 
       // Then
-      assertEquals(expectedSize, estatesSoldLastYear.size());
+      assertEquals(expectedSize, estatesSoldLastYear.retreiveListOfEstate().size());
    }
 
    @Test
@@ -183,7 +184,7 @@ public class EstatesProcessorTest {
       Estates estatesSoldLastYear = estatesProcessor.retrieveEstatesSoldLastYear(estates);
 
       // Then
-      assertEquals(wantedNumberOfEstates, estatesSoldLastYear.size());
+      assertEquals(wantedNumberOfEstates, estatesSoldLastYear.retreiveListOfEstate().size());
    }
 
    @Test
@@ -195,7 +196,7 @@ public class EstatesProcessorTest {
       Estates sellerEstates = estatesProcessor.retrieveEstatesBySellerName(estates, SELLER_NAME);
 
       // Then
-      assertEquals(1, sellerEstates.size());
+      assertEquals(1, sellerEstates.retreiveListOfEstate().size());
    }
 
    @Test
@@ -207,6 +208,6 @@ public class EstatesProcessorTest {
       Estates sellerEstates = estatesProcessor.retrieveEstatesBySellerName(estates, SELLER_NAME);
 
       // Then
-      assertEquals(0, sellerEstates.size());
+      assertEquals(0, sellerEstates.retreiveListOfEstate().size());
    }
 }

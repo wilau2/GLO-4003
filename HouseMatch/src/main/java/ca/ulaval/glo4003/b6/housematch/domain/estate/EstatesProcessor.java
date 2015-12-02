@@ -23,8 +23,8 @@ public class EstatesProcessor {
             listEstateSoldLastYear.add(estate);
          }
       }
-      Estates estatesSoldLastYear = new Estates(listEstateSoldLastYear);
-      return estatesSoldLastYear;
+      estates.updateEstatesList(listEstateSoldLastYear);
+      return estates;
    }
 
    public Estates retrieveEstatesBySellerName(Estates estates, String sellerName) {
@@ -34,8 +34,8 @@ public class EstatesProcessor {
             listEstateFromSeller.add(estate);
          }
       }
-      Estates estatesFromSeller = new Estates(listEstateFromSeller);
-      return estatesFromSeller;
+      estates.updateEstatesList(listEstateFromSeller);
+      return estates;
    }
 
 }

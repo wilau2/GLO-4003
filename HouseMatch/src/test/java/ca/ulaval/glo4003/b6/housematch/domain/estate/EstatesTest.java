@@ -41,11 +41,13 @@ public class EstatesTest {
 
    private Estates estates;
 
+   private List<Estate> listEstates;
+
    @Before
    public void setup() {
       MockitoAnnotations.initMocks(this);
       configureEstates();
-      List<Estate> listEstates = new ArrayList<Estate>();
+      listEstates = new ArrayList<Estate>();
       listEstates.add(estateMin);
       listEstates.add(estateMid);
       listEstates.add(estateMax);
@@ -113,6 +115,29 @@ public class EstatesTest {
       assertTrue(estates.retreiveListOfEstate().get(0).getDateRegistered() == MAX_DATE);
       assertTrue(estates.retreiveListOfEstate().get(1).getDateRegistered() == MID_DATE);
       assertTrue(estates.retreiveListOfEstate().get(2).getDateRegistered() == MIN_DATE);
+   }
+
+   @Test
+   public void whenEstatesIsNotEmptyShouldReturnRightSizeOfEstates() {
+      // Given
+
+      // When
+      int size = estates.size();
+
+      // Then
+      assertEquals(3, size);
+   }
+
+   @Test
+   public void whenEstatesAreUpdatedShouldUpdateEsateList() {
+      // Given
+      listEstates.remove(2);
+
+      // When
+      estates.updateEstatesList(listEstates);
+
+      // Then
+      assertEquals(2, estates.size());
    }
 
 }

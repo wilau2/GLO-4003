@@ -31,6 +31,10 @@ public class Estates {
       return this.estates;
    }
 
+   public void updateEstatesList(List<Estate> listEstates) {
+      estates = listEstates;
+   }
+
    public int size() {
       return this.estates.size();
    }

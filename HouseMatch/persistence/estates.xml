@@ -99,25 +99,45 @@
       <numberOfBathrooms>0</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-40-Rue des mirtilles-Qc-Ca-G1b3fwaf</address>  
+    <price>20000000</price>  
+    <bought>true</bought>  
+    <type>CONDO</type>  
+    <purchase_date>2015-11-26T13:37:52.371</purchase_date>  
+    <date_registered>2009-12-03T10:15:30</date_registered>  
+    <price_history>3500-1000000-1000000-10000000-</price_history>  
+    <description> 
+      <numberOfBedRooms>10</numberOfBedRooms>  
+      <municipalValuation>123</municipalValuation>  
+      <dimensionsBuilding>123123</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>1</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>1</numberOfRooms>  
+      <yearsOfConstruction>2000</yearsOfConstruction>  
+      <backyardFaces>123</backyardFaces>  
+      <numberOfLevel>1</numberOfLevel>  
+      <numberOfBathrooms>1</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
-    <seller>seller</seller>
-    <address>0-40-Rue des mirtilles-Qc-Ca-G1b3fwaf</address>
-    <price>20000000</price>
-    <bought>true</bought>
+    <seller>myseller</seller>
+    <address>0-1-asd-asd-asd-asd</address>
+    <price>1000</price>
+    <bought>false</bought>
     <type>CONDO</type>
-    <purchase_date>2015-11-26T13:37:52.371</purchase_date>
-    <date_registered>2009-12-03T10:15:30</date_registered>
-    <price_history>3500-1000000-1000000-10000000-</price_history>
+    <date_registered>2015-12-02T16:04:18.586</date_registered>
+    <price_history></price_history>
     <description>
-      <numberOfBedRooms>10</numberOfBedRooms>
-      <municipalValuation>123</municipalValuation>
-      <dimensionsBuilding>123123</dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>1</livingSpaceAreaSquareMeter>
-      <numberOfRooms>1</numberOfRooms>
-      <yearsOfConstruction>2000</yearsOfConstruction>
-      <backyardFaces>123</backyardFaces>
-      <numberOfLevel>1</numberOfLevel>
-      <numberOfBathrooms>1</numberOfBathrooms>
+      <numberOfBedRooms>0</numberOfBedRooms>
+      <municipalValuation>0</municipalValuation>
+      <dimensionsBuilding></dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
+      <numberOfRooms>0</numberOfRooms>
+      <yearsOfConstruction>0</yearsOfConstruction>
+      <backyardFaces></backyardFaces>
+      <numberOfLevel>0</numberOfLevel>
+      <numberOfBathrooms>0</numberOfBathrooms>
     </description>
   </estate>
 </estates>

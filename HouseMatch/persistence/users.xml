@@ -45,13 +45,24 @@
     <email>bruce@lee.com</email>  
     <username>seller</username> 
   </user>  
+  <user> 
+    <firstName>asd</firstName>  
+    <lastName>asd</lastName>  
+    <password>123</password>  
+    <role>seller</role>  
+    <phoneNumber>asd</phoneNumber>  
+    <dateLastActivity>2015-12-02T16:03:36.209</dateLastActivity>  
+    <isActive>true</isActive>  
+    <email>william.lauze@gmail.com</email>  
+    <username>myseller</username> 
+  </user>  
   <user>
     <firstName>Kid</firstName>
     <lastName>Kiddy</lastName>
     <password>123</password>
     <role>buyer</role>
     <phoneNumber>123-456-7899</phoneNumber>
-    <dateLastActivity>2015-11-26T13:37:28.459</dateLastActivity>
+    <dateLastActivity>2015-12-02T16:04:35.282</dateLastActivity>
     <isActive>true</isActive>
     <email>kid@kiddy.com</email>
     <username>buyer</username>
