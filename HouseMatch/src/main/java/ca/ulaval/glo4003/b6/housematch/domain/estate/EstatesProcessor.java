@@ -5,11 +5,10 @@ import java.util.List;
 
 public class EstatesProcessor {
 
-   public List<String> retrieveUniqueSellersName(List<Estate> estates) {
+   public List<String> retrieveUniqueSellersName(Estates estates) {
       List<String> uniqueSellersName = new ArrayList<String>();
-      for (Estate estate : estates) {
+      for (Estate estate : estates.retreiveListOfEstate()) {
          String sellerName = estate.getSeller();
-
          if (!uniqueSellersName.contains(sellerName)) {
             uniqueSellersName.add(sellerName);
          }
@@ -17,14 +16,26 @@ public class EstatesProcessor {
       return uniqueSellersName;
    }
 
-   public List<Estate> retrieveEstatesSoldLastYear(List<Estate> estates) {
-      List<Estate> estatesSoldLastYear = new ArrayList<Estate>();
-      for (Estate estate : estates) {
+   public Estates retrieveEstatesSoldLastYear(Estates estates) {
+      List<Estate> listEstateSoldLastYear = new ArrayList<Estate>();
+      for (Estate estate : estates.retreiveListOfEstate()) {
          if (estate.hasBeenBoughtInLastYear()) {
-            estatesSoldLastYear.add(estate);
+            listEstateSoldLastYear.add(estate);
          }
       }
+      Estates estatesSoldLastYear = new Estates(listEstateSoldLastYear);
       return estatesSoldLastYear;
+   }
+
+   public Estates retrieveEstatesBySellerName(Estates estates, String sellerName) {
+      List<Estate> listEstateFromSeller = new ArrayList<Estate>();
+      for (Estate estate : estates.retreiveListOfEstate()) {
+         if (estate.isFromSeller(sellerName)) {
+            listEstateFromSeller.add(estate);
+         }
+      }
+      Estates estatesFromSeller = new Estates(listEstateFromSeller);
+      return estatesFromSeller;
    }
 
 }

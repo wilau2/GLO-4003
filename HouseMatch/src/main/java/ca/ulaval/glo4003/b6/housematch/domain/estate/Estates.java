@@ -11,14 +11,6 @@ public class Estates {
       this.estates = estates;
    }
 
-   public void filterEstatesBySellerName(String sellerName) {
-      for (Estate estate : estates) {
-         if (isNotFromSeller(sellerName, estate)) {
-            estates.remove(estate);
-         }
-      }
-   }
-
    public void sortByPriceDescendantSort() {
       Collections.sort(estates, Estate.EstatePriceDescendantComparator);
    }
@@ -39,8 +31,8 @@ public class Estates {
       return this.estates;
    }
 
-   private boolean isNotFromSeller(String sellerName, Estate estate) {
-      return !estate.isFromSeller(sellerName);
+   public int size() {
+      return this.estates.size();
    }
 
 }

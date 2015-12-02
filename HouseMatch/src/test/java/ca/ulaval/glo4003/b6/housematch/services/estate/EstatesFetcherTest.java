@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.services.estate;
 
 import static org.junit.Assert.assertTrue;
-
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,12 +10,14 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateSorter;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
@@ -33,18 +34,19 @@ public class EstatesFetcherTest {
    private static final String ADDRESS = "ADDRESS";
 
    @Mock
+   private List<String> listNames;
+
+   @Mock
    private EstateAssemblerFactory estateAssemblerFactory;
 
    @Mock
    private EstateRepository estateRepository;
 
-   private List<Estate> estates;
-
    @Mock
    private Estate estate;
 
    @Mock
-   private EstateSorter estateSorter;
+   private Estates estates;
 
    @Mock
    private EstateAssembler estateAssembler;
@@ -52,7 +54,14 @@ public class EstatesFetcherTest {
    @Mock
    private EstateDto estateDto;
 
+   @Mock
+   EstatesProcessor estatesProcessor;
+
+   @InjectMocks
    private EstatesFetcher estateFetcher;
+
+   @Mock
+   private List<EstateDto> estatesDto;
 
    @Before
    public void setup() throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException {
@@ -61,16 +70,13 @@ public class EstatesFetcherTest {
       configureEstateRepository();
       configureEstateAssembler();
       configureFetchingEstateByAddress();
-      configureEstateSorter();
-
-      estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepository, estateSorter);
+      configureEstateProcessor();
    }
 
-   private void configureEstateSorter() {
-      when(estateSorter.getDateAscendantSort()).thenReturn(estates);
-      when(estateSorter.getDateDescendantSort()).thenReturn(estates);
-      when(estateSorter.getPriceAscendantSort()).thenReturn(estates);
-      when(estateSorter.getPriceDescendantSort()).thenReturn(estates);
+   private void configureEstateProcessor() {
+      when(estatesProcessor.retrieveEstatesBySellerName(estates, SELLER_NAME)).thenReturn(estates);
+      when(estatesProcessor.retrieveEstatesSoldLastYear(estates)).thenReturn(estates);
+      when(estatesProcessor.retrieveUniqueSellersName(estates)).thenReturn(listNames);
    }
 
    private void configureFetchingEstateByAddress() throws EstateNotFoundException, CouldNotAccessDataException {
@@ -80,13 +86,12 @@ public class EstatesFetcherTest {
    private void configureEstateAssembler() {
       when(estateAssemblerFactory.createEstateAssembler()).thenReturn(estateAssembler);
       when(estateAssembler.assembleEstateDto(estate)).thenReturn(estateDto);
+      when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
+      when(estateAssembler.assembleEstatesDto(estates)).thenReturn(estatesDto);
+
    }
 
    private void configureEstateRepository() throws SellerNotFoundException, CouldNotAccessDataException {
-      estates = new ArrayList<Estate>();
-      estates.add(estate);
-
-      when(estateRepository.getEstateFromSeller(SELLER_NAME)).thenReturn(estates);
       when(estateRepository.getAllEstates()).thenReturn(estates);
    }
 
@@ -99,7 +104,7 @@ public class EstatesFetcherTest {
       List<EstateDto> estates = estateFetcher.getEstatesBySeller(SELLER_NAME);
 
       // Then
-      assertTrue(estates.get(0) instanceof EstateDto);
+      assertTrue(estates instanceof List<?>);
    }
 
    @Test
@@ -111,7 +116,7 @@ public class EstatesFetcherTest {
       estateFetcher.getEstatesBySeller(SELLER_NAME);
 
       // Then
-      verify(estateRepository, times(1)).getEstateFromSeller(SELLER_NAME);
+      verify(estateRepository, times(1)).getAllEstates();
    }
 
    @Test
@@ -172,18 +177,19 @@ public class EstatesFetcherTest {
       // Given no changes
 
       // When
-      List<?> estates = estateFetcher.getAllEstates();
+      List<EstateDto> estates = estateFetcher.getAllEstates();
 
       // Then
-      assertTrue(estates.get(0) instanceof EstateDto);
+      assertTrue(estates instanceof List<?>);
    }
 
    @Test
    public void whenAskedAllEstatesShouldCallAssembleEstate() throws CouldNotAccessDataException {
       // given
-      List<Estate> dumbEstates = new ArrayList<Estate>();
-      dumbEstates.add(estate);
-      when(estateRepository.getAllEstates()).thenReturn(dumbEstates);
+      List<Estate> dumbEstateDtoList = new ArrayList<Estate>();
+      dumbEstateDtoList.add(estate);
+      Estates estates = new Estates(dumbEstateDtoList);
+      when(estateRepository.getAllEstates()).thenReturn(estates);
 
       // when
       estateFetcher.getAllEstates();
@@ -195,74 +201,59 @@ public class EstatesFetcherTest {
    @Test
    public void whenAskedAllEstatesShouldCallEstateAssembleDtoWithEstate() throws CouldNotAccessDataException {
       // given
-      List<Estate> dumbEstateDtoList = new ArrayList<Estate>();
-      dumbEstateDtoList.add(estate);
-      when(estateRepository.getAllEstates()).thenReturn(dumbEstateDtoList);
-      when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
 
       // when
       estateFetcher.getAllEstates();
 
       // then
-      verify(estateAssembler, times(1)).assembleEstateDto(estate);
+      verify(estateAssembler).assembleEstatesDto(estates);
    }
 
    @Test
-   public void whenAllEstatesShouldSetEstatesInEstateSorter() throws CouldNotAccessDataException {
+   public void whenGetPriceOrderedAscendentShouldReturnListEstate() throws CouldNotAccessDataException {
       // Given
-      List<Estate> dumbEstateDtoList = new ArrayList<Estate>();
-      dumbEstateDtoList.add(estate);
-      when(estateRepository.getAllEstates()).thenReturn(dumbEstateDtoList);
-      when(estateAssembler.assembleEstate(estateDto)).thenReturn(estate);
 
       // When
       estateFetcher.getAllEstates();
-
-      // Then
-      verify(estateSorter, times(1)).setEstates(estates);
-   }
-
-   @Test
-   public void whenGetPriceOrderedAscendentShouldReturnListEstate() {
-      // Given
-
-      // When
       List<EstateDto> listDto = estateFetcher.getPriceOrderedAscendantEstates();
 
       // Then
-      assertTrue(listDto.get(FIRST) == estateDto);
+      assertTrue(listDto instanceof List<?>);
    }
 
    @Test
-   public void whenGetPriceOrderedDescendantShouldReturnListEstate() {
+   public void whenGetPriceOrderedDescendantShouldReturnListEstate() throws CouldNotAccessDataException {
       // Given
 
       // When
+      estateFetcher.getAllEstates();
       List<EstateDto> listDto = estateFetcher.getPriceOrderedDescendantEstates();
 
       // Then
-      assertTrue(listDto.get(FIRST) == estateDto);
+      assertTrue(listDto instanceof List<?>);
    }
 
    @Test
-   public void whenGetDateOrderedAscendantShouldReturnListEstate() {
+   public void whenGetDateOrderedAscendantShouldReturnListEstate() throws CouldNotAccessDataException {
       // Given
 
       // When
+      estateFetcher.getAllEstates();
       List<EstateDto> listDto = estateFetcher.getDateOrderedAscendantEstates();
 
       // Then
-      assertTrue(listDto.get(FIRST) == estateDto);
+      assertTrue(listDto instanceof List<?>);
    }
 
    @Test
-   public void whenGetDateOrderedDescendantShouldReturnListEstate() {
+   public void whenGetDateOrderedDescendantShouldReturnListEstate() throws CouldNotAccessDataException {
       // Given
 
       // When
+      estateFetcher.getAllEstates();
       List<EstateDto> listDto = estateFetcher.getDateOrderedDescendantEstates();
 
       // Then
-      assertTrue(listDto.get(FIRST) == estateDto);
+      assertTrue(listDto instanceof List<?>);
    }
 }

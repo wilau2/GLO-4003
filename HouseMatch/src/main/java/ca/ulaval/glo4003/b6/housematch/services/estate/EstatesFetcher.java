@@ -5,6 +5,7 @@ import java.util.List;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
@@ -18,21 +19,25 @@ public class EstatesFetcher {
 
    private Estates inSessionMemoryEstates;
 
+   private EstatesProcessor estatesProcessor;
+
    private EstateAssemblerFactory estateAssemblerFactory;
 
-   public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepository estateRepository) {
+   public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepository estateRepository,
+         EstatesProcessor estatesProcessor) {
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepository = estateRepository;
+      this.estatesProcessor = estatesProcessor;
    }
 
    public List<EstateDto> getEstatesBySeller(String sellerName)
          throws SellerNotFoundException, CouldNotAccessDataException {
 
       Estates estates = estateRepository.getAllEstates();
-      estates.filterEstatesBySellerName(sellerName);
+      Estates sellerEstates = estatesProcessor.retrieveEstatesBySellerName(estates, sellerName);
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
-      List<EstateDto> sellerEstatesDto = createEstateAssembler.assembleEstatesDto(estates);
+      List<EstateDto> sellerEstatesDto = createEstateAssembler.assembleEstatesDto(sellerEstates);
 
       return sellerEstatesDto;
    }

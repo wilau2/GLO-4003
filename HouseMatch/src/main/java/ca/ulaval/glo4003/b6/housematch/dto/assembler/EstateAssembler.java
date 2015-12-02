@@ -68,7 +68,7 @@ public class EstateAssembler {
    public List<EstateDto> assembleEstatesDto(Estates estates) {
 
       List<EstateDto> estatesDto = new ArrayList<EstateDto>();
-      for (Estate estate : estates) {
+      for (Estate estate : estates.retreiveListOfEstate()) {
          EstateDto assembledEstateDto = assembleEstateDto(estate);
          estatesDto.add(assembledEstateDto);
       }
