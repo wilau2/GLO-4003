@@ -38,14 +38,15 @@ public class PictureApprobationService {
 
    }
 
-   public void approuvePictures(List<String> approvalPictureUids)
+   public void approvePictures(List<String> approvalPictureUids)
          throws CouldNotAccessDataException, UUIDAlreadyExistsException {
       Pictures pictures = approvalPictureRepository.getAllPictures();
       List<Picture> activatedPictures = pictures.activatePicturesFromUids(approvalPictureUids);
+
       approvalPictureRepository.updatePictures(activatedPictures);
    }
 
-   public void unapprouvePictures(List<String> approvalPictureUids) throws CouldNotAccessDataException {
+   public void unapprovePictures(List<String> approvalPictureUids) throws CouldNotAccessDataException {
       deletePicturesFromPictureRepository(approvalPictureUids);
       deletePicturesFromApprovalRepository(approvalPictureUids);
    }
@@ -53,8 +54,8 @@ public class PictureApprobationService {
    private void deletePicturesFromPictureRepository(List<String> inactivePictureUids)
          throws CouldNotAccessDataException {
       List<Picture> pictureList = approvalPictureRepository.getPicturesByUids(inactivePictureUids);
-      for (Iterator<Picture> pictureListIterator = pictureList.iterator(); pictureListIterator
-            .hasNext();) {
+
+      for (Iterator<Picture> pictureListIterator = pictureList.iterator(); pictureListIterator.hasNext();) {
          Picture inactivePicture = pictureListIterator.next();
          pictureRepository.deletePicture(inactivePicture.getName(), inactivePicture.getAddress());
       }
@@ -62,8 +63,7 @@ public class PictureApprobationService {
 
    private void deletePicturesFromApprovalRepository(List<String> inactivePictureUids)
          throws CouldNotAccessDataException {
-      for (Iterator<String> pictureUidsIterator = inactivePictureUids.iterator(); pictureUidsIterator
-            .hasNext();) {
+      for (Iterator<String> pictureUidsIterator = inactivePictureUids.iterator(); pictureUidsIterator.hasNext();) {
          approvalPictureRepository.deletePicture(pictureUidsIterator.next());
       }
    }

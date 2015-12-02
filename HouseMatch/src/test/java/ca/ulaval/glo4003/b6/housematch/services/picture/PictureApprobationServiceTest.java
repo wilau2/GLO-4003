@@ -142,7 +142,7 @@ public class PictureApprobationServiceTest {
       // Given
 
       // When
-      pictureApprobationService.approuvePictures(pictureUids);
+      pictureApprobationService.approvePictures(pictureUids);
 
       // Then
       verify(approvalPictureRepository).getAllPictures();
@@ -170,7 +170,7 @@ public class PictureApprobationServiceTest {
       congigurePictueListWithOneElement();
 
       // When
-      pictureApprobationService.unapprouvePictures(pictureUids);
+      pictureApprobationService.unapprovePictures(pictureUids);
 
       // Then
       verify(approvalPictureRepository).deletePicture(UID);

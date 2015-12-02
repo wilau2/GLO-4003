@@ -180,7 +180,7 @@ public class AdminPicturesApprovalControllerTest {
       adminPicturesApprovalController.approveInactivesPictures(request, inactivePictureDto);
 
       // Then
-      verify(inactivePictureApprover, times(1)).approuvePictures(approvalPictureUids);
+      verify(inactivePictureApprover, times(1)).approvePictures(approvalPictureUids);
    }
 
    @Test
@@ -193,7 +193,7 @@ public class AdminPicturesApprovalControllerTest {
       adminPicturesApprovalController.deleteInactivesPictures(request, inactivePictureDto);
 
       // Then
-      verify(inactivePictureApprover, times(1)).unapprouvePictures(approvalPictureUids);
+      verify(inactivePictureApprover, times(1)).unapprovePictures(approvalPictureUids);
    }
 
    @Test

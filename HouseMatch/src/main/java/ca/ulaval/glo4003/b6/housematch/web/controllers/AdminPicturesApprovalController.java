@@ -62,7 +62,7 @@ public class AdminPicturesApprovalController {
          throws CouldNotAccessDataException, InvalidAccessException, UUIDAlreadyExistsException {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      inactivePictureApprover.approuvePictures(inactivePictureDto.getUidsToList());
+      inactivePictureApprover.approvePictures(inactivePictureDto.getUidsToList());
 
       return "redirect:/admin/pictures/";
    }
@@ -72,7 +72,7 @@ public class AdminPicturesApprovalController {
          throws CouldNotAccessDataException, InvalidAccessException {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      inactivePictureApprover.unapprouvePictures(inactivePictureDto.getUidsToList());
+      inactivePictureApprover.unapprovePictures(inactivePictureDto.getUidsToList());
 
       return "redirect:/admin/pictures/";
    }
