@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.dto.assembler;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -74,7 +75,7 @@ public class EstateAssemblerTest {
       when(estate.getType()).thenReturn(TYPE);
       when(estate.getAddress()).thenReturn(address);
       when(estate.getDescription()).thenReturn(description);
-
+      when(estate.hasBeenBought()).thenReturn(true);
       when(estate.getDateRegistered()).thenReturn(dateRegistered);
 
    }
@@ -92,6 +93,8 @@ public class EstateAssemblerTest {
       verify(estateDto, times(1)).getType();
       verify(estateDto, times(1)).getSeller();
       verify(estateDto, times(1)).getDateRegistered();
+      verify(estateDto, times(1)).isBought();
+      verify(estateDto, times(1)).getDateOfPurchase();
    }
 
    @Test
@@ -117,4 +120,22 @@ public class EstateAssemblerTest {
       // Then
       verify(addressAssembler, times(1)).assembleAddressDto(address);
    }
+
+   @Test
+   public void whenAssemblingAnEstateDtoFromAnEstateShouldCreateValidEstateDto() {
+      // Given
+
+      // When
+      estateAssembler.assembleEstateDto(estate);
+
+      // Then
+      verify(estate, times(1)).getAddress();
+      verify(estate, times(1)).getPrice();
+      verify(estate, times(1)).getType();
+      verify(estate, times(1)).getSeller();
+      verify(estate, times(1)).getDateRegistered();
+      verify(estate, times(1)).hasBeenBought();
+      verify(estate, times(1)).getDateOfPurchase();
+   }
+
 }

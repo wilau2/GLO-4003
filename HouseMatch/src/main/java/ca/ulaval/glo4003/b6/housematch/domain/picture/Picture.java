@@ -16,16 +16,7 @@ public class Picture {
       generateUid(uid);
       this.address = address;
       this.name = name;
-      if (active == null || active.isEmpty()) {
-         this.active = false;
-      } else {
-         if (active.equals("true")) {
-            this.active = true;
-         } else {
-            this.active = false;
-         }
-      }
-
+      this.active = turnActiveStringIntoBoolean(active);
    }
 
    private void generateUid(String uid) {
@@ -72,8 +63,17 @@ public class Picture {
       }
    }
 
-   public Boolean getActive() {
-      return this.active;
+   private Boolean turnActiveStringIntoBoolean(String activeString) {
+      Boolean active;
+      if (activeString == null || activeString.isEmpty()) {
+         active = false;
+      } else {
+         if (activeString.equals("true")) {
+            active = true;
+         } else {
+            active = false;
+         }
+      }
+      return active;
    }
-
 }

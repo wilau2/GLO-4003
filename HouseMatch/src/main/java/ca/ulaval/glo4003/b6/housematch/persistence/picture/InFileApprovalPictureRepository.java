@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.b6.housematch.persistence.picture;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,7 +20,7 @@ import ca.ulaval.glo4003.b6.housematch.persistence.PersistenceDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.PersistenceDtoFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.persistence.picture.converter.InactivePictureElementConverter;
+import ca.ulaval.glo4003.b6.housematch.persistence.picture.converter.PictureElementConverter;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.converter.RepositoryInactivePictureConverter;
 
 public class InFileApprovalPictureRepository implements ApprovalPictureRepository {
@@ -34,7 +33,7 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
 
    private InactivePictureAssembler pictureAssembler;
 
-   private InactivePictureElementConverter pictureElementConverter;
+   private PictureElementConverter pictureElementConverter;
 
    private final static String PATH_TO_XML = "persistence/inactivePictures.xml";
 
@@ -44,8 +43,7 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
 
    @Inject
    public InFileApprovalPictureRepository(PersistenceDtoFactory persistenceDtoFactory, FileEditor fileEditor,
-         InactivePictureAssembler inactivePictureAssembler,
-         InactivePictureElementConverter inactivePictureElementConverter,
+         InactivePictureAssembler inactivePictureAssembler, PictureElementConverter inactivePictureElementConverter,
          RepositoryInactivePictureConverter repositoryInactivePictureConverter) {
       this.dtoFactory = persistenceDtoFactory;
       this.fileEditor = fileEditor;
@@ -58,12 +56,16 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
    public void addPicture(Picture inactivePicture) throws UUIDAlreadyExistsException, CouldNotAccessDataException {
       try {
          Document inactivePictures = readInactivePicturesXML();
+
          if (idAlreadyExists(inactivePictures, inactivePicture.getUid())) {
             throw new UUIDAlreadyExistsException("This UUID is already used");
+
          } else {
             addInactivePictureToDocument(inactivePictures, inactivePicture);
+
             saveFile(inactivePictures);
          }
+
       } catch (DocumentException exception) {
          throw new CouldNotAccessDataException("Something wrong happenned trying to access the data", exception);
       }
@@ -74,8 +76,11 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
    public void deletePicture(String uid) throws CouldNotAccessDataException {
       try {
          Document inactivePicturesXML = readInactivePicturesXML();
+
          fileEditor.deleteExistingElementWithCorrespondingValue(inactivePicturesXML, PATH_TO_UID, uid);
+
          saveFile(inactivePicturesXML);
+
       } catch (DocumentException exception) {
          throw new CouldNotAccessDataException("Something wrong happenned trying to access the data", exception);
       }
@@ -100,8 +105,8 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
    @Override
    public List<Picture> getPicturesByUids(List<String> uids) throws CouldNotAccessDataException {
       List<Picture> inactivePictures = new ArrayList<Picture>();
-      for (Iterator<String> uidsIterator = uids.iterator(); uidsIterator.hasNext();) {
-         inactivePictures.add(getPictureByUid(uidsIterator.next()));
+      for (String uid : uids) {
+         inactivePictures.add(getPictureByUid(uid));
       }
       return inactivePictures;
 
@@ -110,6 +115,7 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
    @Override
    public Picture getPictureByUid(String uid) throws CouldNotAccessDataException {
       Document inactivePicturesXML;
+
       try {
          inactivePicturesXML = readInactivePicturesXML();
       } catch (DocumentException exception) {
@@ -121,24 +127,24 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
 
    @Override
    public void updatePictures(List<Picture> pictures) throws CouldNotAccessDataException, UUIDAlreadyExistsException {
-
-      for (Iterator<Picture> picturesIterator = pictures.iterator(); picturesIterator.hasNext();) {
-         Picture picture = picturesIterator.next();
+      for (Picture picture : pictures) {
          deletePicture(picture.getUid());
          addPicture(picture);
       }
-
    }
 
    private List<Picture> getDtoListFromElements(List<Element> elementList,
-         InactivePictureAssembler inactivePictureAssembler,
-         InactivePictureElementConverter inactivePictureElementConverter) {
+         InactivePictureAssembler inactivePictureAssembler, PictureElementConverter inactivePictureElementConverter) {
+
       List<Picture> inactivePictures = new ArrayList<Picture>();
+
       for (Element element : elementList) {
          InformationPictureDto convertedInactivePictureDto = inactivePictureElementConverter.convertToDto(element);
          Picture inactivePicture = inactivePictureAssembler.assembleInactivePicture(convertedInactivePictureDto);
+
          inactivePictures.add(inactivePicture);
       }
+
       return inactivePictures;
    }
 
@@ -147,7 +153,6 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
             PATH_TO_UID, uid);
 
       Picture inactivePicture = repositoryInactivePictureConverter.assembleInactivePictureFromAttributes(attributes);
-
       return inactivePicture;
    }
 
@@ -160,7 +165,6 @@ public class InFileApprovalPictureRepository implements ApprovalPictureRepositor
    }
 
    private void addInactivePictureToDocument(Document existingDocument, Picture inactivePicture) {
-
       PersistenceDto inactivePictureDto = dtoFactory.getRepositoryDto(inactivePicture);
 
       fileEditor.addNewElementToDocument(existingDocument, inactivePictureDto);

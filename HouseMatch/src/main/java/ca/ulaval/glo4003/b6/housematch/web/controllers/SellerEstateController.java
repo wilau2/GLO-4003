@@ -32,13 +32,12 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateEditDto;
 import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.picture.EstatePicturesService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 @Controller
@@ -52,7 +51,7 @@ public class SellerEstateController {
 
    private PictureCorruptionVerificator pictureCorruptionVerificator;
 
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userSessionAuthorizationService;
 
    private EstatesFetcher estatesFetcher;
 
@@ -60,13 +59,12 @@ public class SellerEstateController {
 
    @Autowired
    public SellerEstateController(EstateCorruptionVerificator estateCorruptionVerificator,
-         UserAuthorizationService userAuthorizationService, EstatesFetcher estatesFetcher,
+         UserSessionAuthorizationService userSessionAuthorizationService, EstatesFetcher estatesFetcher,
          DescriptionCorruptionVerificator descriptionCorruptionVerificator,
-         PictureCorruptionVerificator pictureCorruptionVerificator, 
-         EstatePicturesService estatePicturesService) {
+         PictureCorruptionVerificator pictureCorruptionVerificator, EstatePicturesService estatePicturesService) {
 
       this.estateCorruptionVerificator = estateCorruptionVerificator;
-      this.userAuthorizationService = userAuthorizationService;
+      this.userSessionAuthorizationService = userSessionAuthorizationService;
       this.estatesFetcher = estatesFetcher;
       this.descriptionCorruptionVerificator = descriptionCorruptionVerificator;
       this.pictureCorruptionVerificator = pictureCorruptionVerificator;
@@ -77,7 +75,7 @@ public class SellerEstateController {
    public String addEstate(HttpServletRequest request, EstateDto estateDto, @PathVariable("userId") String userId)
          throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
       estateDto.setSellerId(userId);
       LocalDateTime now = LocalDateTime.now();
       estateDto.setDateRegistered(now);
@@ -90,7 +88,7 @@ public class SellerEstateController {
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.GET)
    public String getSellEstatePage(HttpServletRequest request, Model model) throws InvalidAccessException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
       model.addAttribute("estate", new EstateDto());
       return "sell_estate";
    }
@@ -99,7 +97,7 @@ public class SellerEstateController {
    public ModelAndView getSellerEstates(@PathVariable("userId") String userId, HttpServletRequest request)
          throws SellerNotFoundException, CouldNotAccessDataException, InvalidAccessException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       List<EstateDto> estatesFromSeller = estatesFetcher.getEstatesBySeller(userId);
 
@@ -113,13 +111,14 @@ public class SellerEstateController {
    public ModelAndView getEstateByAddress(@PathVariable("address") String address, HttpServletRequest request)
          throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException, IOException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
 
-      List<PictureDto> pictures = estatePicturesService.getPicturesOfEstate(address);
+      List<PictureDto> pictures = estatePicturesService.getPublicPicturesOfEstate(address);
+      pictures.addAll(estatePicturesService.getPrivatePicturesOfEstate(address));
 
       ModelAndView sellerEstateViewModel = new ModelAndView("estate");
       sellerEstateViewModel.addObject("estate", estateByAddress);
@@ -130,22 +129,24 @@ public class SellerEstateController {
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}/edit/estate", method = RequestMethod.POST)
-   public String editEstate(@PathVariable("address") String address, HttpServletRequest request, @ModelAttribute("estate") EstateEditDto estateEditDto) 
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, EstateNotFoundException, InvalidEstateException {
+   public String editEstate(@PathVariable("address") String address, HttpServletRequest request,
+         @ModelAttribute("estate") EstateEditDto estateEditDto) throws InvalidEstateFieldException,
+               CouldNotAccessDataException, InvalidAccessException, EstateNotFoundException, InvalidEstateException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       estateCorruptionVerificator.editEstate(address, estateEditDto);
 
       return "redirect:/seller/{userId}/estates/{address}";
    }
-   
-   @RequestMapping(value = "/seller/{userId}/estates/{address}/edit/description", method = RequestMethod.POST)
-   public String editDescription(@PathVariable("address") String address, HttpServletRequest request, @ModelAttribute("description") DescriptionDto descriptionDto) 
-         throws CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException, 
-         InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+   @RequestMapping(value = "/seller/{userId}/estates/{address}/edit/description", method = RequestMethod.POST)
+   public String editDescription(@PathVariable("address") String address, HttpServletRequest request,
+         @ModelAttribute("description") DescriptionDto descriptionDto)
+               throws CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException,
+               InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {
+
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       descriptionCorruptionVerificator.editDescription(address, descriptionDto);
 
@@ -158,11 +159,11 @@ public class SellerEstateController {
                throws CouldNotAccessDataException, InvalidAccessException, InvalidEstateFieldException,
                PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       pictureCorruptionVerificator.validatePictureValidity(name, file.getOriginalFilename());
       estatePicturesService.addPicture(address, name, file);
-      
+
       return "redirect:/seller/{userId}/estates/{address}";
    }
 
@@ -170,7 +171,7 @@ public class SellerEstateController {
    public String deletePicture(@PathVariable("address") String address, @RequestParam("name") final String name,
          HttpServletRequest request) throws CouldNotAccessDataException, InvalidAccessException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       estatePicturesService.deletePicture(address, name);
 

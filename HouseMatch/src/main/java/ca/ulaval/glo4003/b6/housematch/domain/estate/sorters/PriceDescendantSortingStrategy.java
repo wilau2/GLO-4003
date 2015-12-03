@@ -6,7 +6,7 @@ import java.util.List;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 
 
-public class PriceDescendantSortingStrategy implements SortingStrategy {
+public class PriceDescendantSortingStrategy implements EstatesSortingStrategy {
 
    @Override
    public List<Estate> sort(List<Estate> estates) {

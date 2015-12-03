@@ -11,6 +11,7 @@ import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidE
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserSignupFieldException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateAlreadyBoughtException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
@@ -113,4 +114,10 @@ public class ExceptionHandlingController {
       return "redirect:/confirmation";
    }
 
+   @ExceptionHandler(EstateAlreadyBoughtException.class)
+   public ModelAndView handleEstateAlreadyBoughtException(HttpServletRequest request, Exception exceptionThrown) {
+      ModelAndView modelAndView = new ModelAndView("exception");
+      modelAndView.addObject("errorMessage", exceptionThrown.getMessage());
+      return modelAndView;
+   }
 }

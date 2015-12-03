@@ -10,7 +10,7 @@ public class SortingStrategyFactory {
    private static final String PRICE_ASCENDANT = "priceAscendant";
    private static final String PRICE_DESCENDANT = "priceDescendant";
 
-   public SortingStrategy getStrategy(String strategyName) {
+   public EstatesSortingStrategy getStrategy(String strategyName) {
 
       if(strategyName == null || strategyName.equals(DATE_ASCENDANT)){
          return new DateAscendantSortingStrategy();

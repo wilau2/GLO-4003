@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 
 public class LogoutControllerTest {
 
@@ -28,7 +28,7 @@ public class LogoutControllerTest {
    private HttpServletRequest request;
 
    @Mock
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userAuthorizationService;
 
    @Before
    public void setup() {

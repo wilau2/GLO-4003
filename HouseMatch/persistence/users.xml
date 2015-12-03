@@ -29,10 +29,21 @@
     <password>123</password>  
     <role>admin</role>  
     <phoneNumber>123-456-7899</phoneNumber>  
-    <dateLastActivity>2015-11-19T19:35:56.839</dateLastActivity>  
+    <dateLastActivity>2015-12-02T20:16:49.146</dateLastActivity>  
     <isActive>true</isActive>  
     <email>ding@dong.com</email>  
     <username>admin</username> 
+  </user>  
+  <user> 
+    <firstName>asd</firstName>  
+    <lastName>asd</lastName>  
+    <password>123</password>  
+    <role>seller</role>  
+    <phoneNumber>asd</phoneNumber>  
+    <dateLastActivity>2015-12-02T16:03:36.209</dateLastActivity>  
+    <isActive>true</isActive>  
+    <email>william.lauze@gmail.com</email>  
+    <username>myseller</username> 
   </user>  
   <user> 
     <firstName>Brucee</firstName>  
@@ -40,7 +51,7 @@
     <password>123</password>  
     <role>seller</role>  
     <phoneNumber>123-123-1234</phoneNumber>  
-    <dateLastActivity>2015-11-24T12:42:00.607</dateLastActivity>  
+    <dateLastActivity>2015-12-03T16:18:27.337</dateLastActivity>  
     <isActive>true</isActive>  
     <email>bruce@lee.com</email>  
     <username>seller</username> 
@@ -51,7 +62,7 @@
     <password>123</password>
     <role>buyer</role>
     <phoneNumber>123-456-7899</phoneNumber>
-    <dateLastActivity>2015-11-24T19:16:39.171</dateLastActivity>
+    <dateLastActivity>2015-12-03T16:18:37.420</dateLastActivity>
     <isActive>true</isActive>
     <email>kid@kiddy.com</email>
     <username>buyer</username>

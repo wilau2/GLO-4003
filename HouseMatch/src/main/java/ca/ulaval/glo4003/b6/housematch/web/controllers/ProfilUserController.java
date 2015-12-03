@@ -17,7 +17,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
@@ -27,16 +27,16 @@ public class ProfilUserController {
 
    private static final List<String> LIST_OF_EXPECTED_ROLES = new ArrayList<String>();
 
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userSessionAuthorizationService;
 
    private UserProfilCorruptionVerificator userProfilCorruptionVerificator;
 
    private UserFetcher userFetcher;
 
    @Autowired
-   public ProfilUserController(UserAuthorizationService userAuthorizationService, UserFetcher userFetcher,
+   public ProfilUserController(UserSessionAuthorizationService userSessionAuthorizationService, UserFetcher userFetcher,
          UserProfilCorruptionVerificator userProfilCorruptionVerificator) {
-      this.userAuthorizationService = userAuthorizationService;
+      this.userSessionAuthorizationService = userSessionAuthorizationService;
       this.userFetcher = userFetcher;
       this.userProfilCorruptionVerificator = userProfilCorruptionVerificator;
       configureAcceptedRoles();
@@ -51,10 +51,10 @@ public class ProfilUserController {
    public ModelAndView getProfil(HttpServletRequest request)
          throws InvalidAccessException, UserNotFoundException, CouldNotAccessDataException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, LIST_OF_EXPECTED_ROLES);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, LIST_OF_EXPECTED_ROLES);
 
       UserDto userDto = userFetcher.getUserByUsername(
-            request.getSession().getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME).toString());
+            request.getSession().getAttribute(UserSessionAuthorizationService.LOGGED_IN_USERNAME).toString());
 
       ModelAndView profilViewModel = new ModelAndView("profil");
       profilViewModel.addObject("user", userDto);
@@ -67,7 +67,7 @@ public class ProfilUserController {
          throws InvalidAccessException, CouldNotAccessDataException, UserNotFoundException,
          InvalidContactInformationFieldException, UserNotifyingException {
 
-      userAuthorizationService.verifySessionIsAllowed(request, LIST_OF_EXPECTED_ROLES);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, LIST_OF_EXPECTED_ROLES);
 
       userProfilCorruptionVerificator.update(userDetailedDto);
 

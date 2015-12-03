@@ -4,6 +4,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,6 @@ import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.ContactInformationAssembler;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
-import ca.ulaval.glo4003.b6.housematch.services.user.validator.UserValidator;
 
 public class UserProfilServiceTest {
 
@@ -39,9 +39,6 @@ public class UserProfilServiceTest {
 
    @Mock
    private ContactInformationAssembler contactInformationAssembler;
-
-   @Mock
-   private UserValidator userValidator;
 
    @Mock
    private ContactInformationDto contactInformationDto;
@@ -111,7 +108,7 @@ public class UserProfilServiceTest {
       userProfilService.update(userDto);
 
       // Then
-      verify(userRepository, times(1)).updateUser(user);
+      verify(userRepository, times(1)).update(user);
    }
 
    @Test
@@ -127,23 +124,11 @@ public class UserProfilServiceTest {
    }
 
    @Test
-   public void givenValidUserDtoWithNewEmailShouldCallSetUserInactive()
-         throws UserNotifyingException, CouldNotAccessDataException, UserNotFoundException {
-      // Given
-      configureUpdateWithNewEmail();
-
-      // When
-      userProfilService.update(userDto);
-
-      // Then
-      verify(user).setActive(false);
-   }
-
-   @Test
    public void givenValidUserDtoWithNewEmailShouldCallUpdateOnObserver()
          throws UserNotifyingException, CouldNotAccessDataException, UserNotFoundException {
       // Given
       configureUpdateWithNewEmail();
+      when(user.isEmailChanged(contactInformationNewEmail)).thenReturn(true);
 
       // When
       userProfilService.update(userDto);
@@ -186,7 +171,7 @@ public class UserProfilServiceTest {
    public void givenInvalidDataAccessWhenUpdatingUserShouldReturnException()
          throws CouldNotAccessDataException, UserNotFoundException, UserNotifyingException {
       // Given
-      doThrow(new CouldNotAccessDataException("", null)).when(userRepository).updateUser(user);
+      doThrow(new CouldNotAccessDataException("", null)).when(userRepository).update(user);
 
       // When
       userProfilService.update(userDto);

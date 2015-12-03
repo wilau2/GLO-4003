@@ -37,8 +37,19 @@ public class User {
       return role.hasAdmin();
    }
 
-   public void updateContactInformation(ContactInformation contactInformation) {
-      this.contactInformation.update(contactInformation);
+   public void updateContactInformation(ContactInformation newContactInformation) {
+
+      if (isEmailChanged(newContactInformation)) {
+         setActive(false);
+      }
+      contactInformation.update(newContactInformation);
+
+   }
+
+   public boolean isEmailChanged(ContactInformation newContactInformation) {
+
+      return contactInformation.isEmailChanged(newContactInformation);
+
    }
 
    public String getUsername() {
@@ -90,6 +101,13 @@ public class User {
 
    public void updateLastActivity() {
       dateOfLastActivity = LocalDateTime.now();
+   }
+
+   public boolean validateLoginCredential(String passwordToVerify) {
+      if (password.equals(passwordToVerify)) {
+         return true;
+      }
+      return false;
    }
 
 }

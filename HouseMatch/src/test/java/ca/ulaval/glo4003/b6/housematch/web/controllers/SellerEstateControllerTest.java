@@ -2,11 +2,12 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doNothing;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,13 +38,12 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateEditDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.picture.EstatePicturesService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 public class SellerEstateControllerTest {
@@ -51,7 +51,7 @@ public class SellerEstateControllerTest {
    private static final String USER_ID = "userId";
 
    private static final String ADDRESS = "address";
-   
+
    private static final String EXPECTED_ROLE = "GOD";
 
    private static final String PHOTONAME = "PHOTONAME";
@@ -66,7 +66,7 @@ public class SellerEstateControllerTest {
 
    @Mock
    private EstateDto estateDto;
-   
+
    @Mock
    private EstateEditDto estateEditDto;
 
@@ -81,7 +81,7 @@ public class SellerEstateControllerTest {
 
    @Mock
    private EstateCorruptionVerificator estateCorruptionVerificator;
-   
+
    @Mock
    private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
 
@@ -95,12 +95,9 @@ public class SellerEstateControllerTest {
    private MultipartFile pictureFile;
 
    @Mock
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userAuthorizationService;
 
    private List<EstateDto> estatesDto;
-
-   @Mock
-   private EstateRepositoryFactory estateRepositoryFactory;
 
    @Mock
    private EstateAssemblerFactory estateAssemblerFactory;
@@ -113,7 +110,7 @@ public class SellerEstateControllerTest {
       configureFetchingListOfEstateDto();
 
       configureFetchingEstateByAddress();
-      
+
       configureUserAuthorization();
 
    }
@@ -128,8 +125,9 @@ public class SellerEstateControllerTest {
       estatesDto.add(estateDto);
       when(estateFetcherService.getEstatesBySeller(USER_ID)).thenReturn(estatesDto);
    }
-   
-   private void configureUserAuthorization() throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
+
+   private void configureUserAuthorization()
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
       doNothing().when(userAuthorizationService).verifySessionIsAllowed(request, EXPECTED_ROLE);
    }
 
@@ -239,7 +237,7 @@ public class SellerEstateControllerTest {
       estateController.getEstateByAddress(ADDRESS, request);
 
       // Then
-      verify(estatePictureService, times(1)).getPicturesOfEstate(ADDRESS);
+      verify(estatePictureService, times(1)).getPublicPicturesOfEstate(ADDRESS);
    }
 
    @Test
@@ -330,11 +328,10 @@ public class SellerEstateControllerTest {
       Map<String, Object> returnedModel = returnedModelAndView.getModel();
       assertTrue(returnedModel.get("estate") instanceof EstateDto);
    }
-   
+
    @Test
-   public void editingEstateFromControllerWhenEstateIsValidShouldCallEstateService()
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, EstateNotFoundException, 
-         InvalidEstateException {
+   public void editingEstateFromControllerWhenEstateIsValidShouldCallEstateService() throws InvalidEstateFieldException,
+         CouldNotAccessDataException, InvalidAccessException, EstateNotFoundException, InvalidEstateException {
       // Given no changes
 
       // When
@@ -346,7 +343,7 @@ public class SellerEstateControllerTest {
 
    @Test
    public void editingEstateFromControllerWhenEstateIsValidShouldReturnRedirectToString()
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, 
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException,
          EstateNotFoundException, InvalidEstateException {
       // Given no changes
       String expectedRedirectTo = "redirect:/seller/{" + USER_ID + "}/estates/{" + ADDRESS + "}";
@@ -357,11 +354,11 @@ public class SellerEstateControllerTest {
       // Then
       assertEquals(expectedRedirectTo, returnedView);
    }
-   
+
    @Test
    public void editingDescriptionFromControllerWhenDescriptionIsValidShouldCallEstateService()
-         throws CouldNotAccessDataException, InvalidAccessException, EstateNotFoundException, InvalidDescriptionFieldException, 
-         InvalidDescriptionException, InvalidEstateException {
+         throws CouldNotAccessDataException, InvalidAccessException, EstateNotFoundException,
+         InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given no changes
 
       // When
@@ -370,11 +367,11 @@ public class SellerEstateControllerTest {
       // Then
       verify(descriptionCorruptionVerificator, times(1)).editDescription(ADDRESS, descriptionDto);
    }
-   
+
    @Test
    public void editingDescriptionFromControllerWhenEstateIsValidShouldReturnRedirectToString()
-         throws CouldNotAccessDataException, InvalidAccessException, EstateNotFoundException, InvalidDescriptionFieldException, 
-         InvalidDescriptionException, InvalidEstateException {
+         throws CouldNotAccessDataException, InvalidAccessException, EstateNotFoundException,
+         InvalidDescriptionFieldException, InvalidDescriptionException, InvalidEstateException {
       // Given no changes
       String expectedRedirectTo = "redirect:/seller/{" + USER_ID + "}/estates/{" + ADDRESS + "}";
 

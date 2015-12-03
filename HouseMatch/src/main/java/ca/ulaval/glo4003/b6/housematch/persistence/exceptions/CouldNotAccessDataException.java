@@ -8,4 +8,7 @@ public class CouldNotAccessDataException extends Exception {
       super(errorMessage, exception);
    }
 
+   public CouldNotAccessDataException(String errorMessage) {
+   }
+
 }

@@ -11,10 +11,6 @@ public class Pictures {
       this.pictures = pictures;
    }
 
-   public List<Picture> getPictures() {
-      return pictures;
-   }
-
    public List<Picture> getActivePictures() {
       List<Picture> activePictures = new ArrayList<Picture>();
       for (Picture picture : pictures) {
@@ -58,6 +54,18 @@ public class Pictures {
       return activeEstatePicturesNames;
    }
 
+   public List<String> getInactiveEstatePicturesNames(String address) {
+      pictures = getInactivePictures();
+      List<String> activeEstatePicturesNames = new ArrayList<String>();
+
+      for (Picture picture : pictures) {
+         if (picture.isFromEstate(address)) {
+            activeEstatePicturesNames.add(picture.getName());
+         }
+      }
+      return activeEstatePicturesNames;
+   }
+
    public List<Picture> getPicturesFromUids(List<String> uids) {
       List<Picture> picturesFromUids = new ArrayList<Picture>();
 
@@ -78,8 +86,6 @@ public class Pictures {
             pictureList.add(picture);
          }
       }
-
       return pictureList;
-
    }
 }

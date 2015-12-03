@@ -23,8 +23,8 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.services.admin.PictureApprobationService;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.picture.PictureApprobationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 public class AdminPicturesApprovalControllerTest {
@@ -36,7 +36,7 @@ public class AdminPicturesApprovalControllerTest {
    private AdminPicturesApprovalController adminPicturesApprovalController;
 
    @Mock
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userAuthorizationService;
 
    @Mock
    private PictureApprobationService inactivePictureApprover;
@@ -180,7 +180,7 @@ public class AdminPicturesApprovalControllerTest {
       adminPicturesApprovalController.approveInactivesPictures(request, inactivePictureDto);
 
       // Then
-      verify(inactivePictureApprover, times(1)).approuvePictures(approvalPictureUids);
+      verify(inactivePictureApprover, times(1)).approvePictures(approvalPictureUids);
    }
 
    @Test
@@ -193,7 +193,7 @@ public class AdminPicturesApprovalControllerTest {
       adminPicturesApprovalController.deleteInactivesPictures(request, inactivePictureDto);
 
       // Then
-      verify(inactivePictureApprover, times(1)).unapprouvePictures(approvalPictureUids);
+      verify(inactivePictureApprover, times(1)).unapprovePictures(approvalPictureUids);
    }
 
    @Test

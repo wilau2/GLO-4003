@@ -5,12 +5,12 @@ public class EstateFilterFactory {
    
    private String PRICE_FILTER = "PRICE";
 
-   public EstateFilter getFilter(String price) throws WrongFilterTypeException {
+   public EstateFilter getFilter(String filter) throws WrongFilterTypeException {
       
-      if(price.equals(PRICE_FILTER)){
+      if(filter.equals(PRICE_FILTER)){
          return new EstatePriceFilter();
       }else{
-        throw new WrongFilterTypeException("Wrong parameter type pass to the factory : " + price);
+        throw new WrongFilterTypeException("Wrong parameter type pass to the factory : " + filter);
       }
    }
 

@@ -1,18 +1,18 @@
 package ca.ulaval.glo4003.b6.housematch.services.estate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilter;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilterFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.InconsistentFilterParamaterException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.WrongFilterTypeException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstateSorter;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.SortingStrategy;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstatesSortingStrategy;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.SortingStrategyFactory;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
@@ -21,82 +21,88 @@ import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessData
 
 public class EstatesFetcher {
 
-   private EstateRepositoryFactory estateRepositoryFactory;
+   private EstateRepository estateRepository;
 
-   private EstateSorter estateSorter;
+   private Estates inSessionMemoryEstates;
+
+   private EstatesProcessor estatesProcessor;
 
    private EstateAssemblerFactory estateAssemblerFactory;
-   
+
    private EstateFilterFactory estateFilterFactory;
 
-   public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepositoryFactory estateRepositoryFactory,
-         EstateSorter estateSorter, EstateFilterFactory estateFilterFactory) {
+   private SortingStrategyFactory sortingStrategyFactory;
+
+   public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepository estateRepository,
+         EstatesProcessor estatesProcessor, SortingStrategyFactory sortingStrategyFactory,
+         EstateFilterFactory estateFilterFactory) {
       this.estateAssemblerFactory = estateAssemblerFactory;
-      this.estateRepositoryFactory = estateRepositoryFactory;
-      this.estateSorter = estateSorter;
+      this.estateRepository = estateRepository;
+      this.estatesProcessor = estatesProcessor;
+      this.sortingStrategyFactory = sortingStrategyFactory;
       this.estateFilterFactory = estateFilterFactory;
+   }
+
+   public Estates getInSessionMemoryEstates() {
+      return inSessionMemoryEstates;
+
    }
 
    public List<EstateDto> getEstatesBySeller(String sellerName)
          throws SellerNotFoundException, CouldNotAccessDataException {
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
 
-      List<Estate> sellerEstates = estateRepository.getEstateFromSeller(sellerName);
+      Estates estates = estateRepository.getAllEstates();
+      Estates sellerEstates = estatesProcessor.retrieveEstatesBySellerName(estates, sellerName);
 
-      List<EstateDto> sellerEstatesDto = assembleEstatesDto(sellerEstates);
+      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+      List<EstateDto> sellerEstatesDto = createEstateAssembler.assembleEstatesDto(sellerEstates);
 
       return sellerEstatesDto;
+
    }
 
    public EstateDto getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException {
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
       Estate estate = estateRepository.getEstateByAddress(address);
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
       EstateDto estateDto = createEstateAssembler.assembleEstateDto(estate);
 
       return estateDto;
+
    }
 
    public List<EstateDto> getAllEstates() throws CouldNotAccessDataException {
 
-      EstateRepository estateRepository = estateRepositoryFactory.newInstance(estateAssemblerFactory);
-      List<Estate> estates = estateRepository.getAllEstates();
+      Estates estates = estateRepository.getAllEstates();
 
-      estateSorter.setEstates(estates);
+      inSessionMemoryEstates = estates;
 
-      List<EstateDto> estatesDto = assembleEstatesDto(estates);
-
-      return estatesDto;
-
-   }
-
-   private List<EstateDto> assembleEstatesDto(List<Estate> estates) {
-      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-
-      List<EstateDto> estatesDto = new ArrayList<EstateDto>();
-      for (Estate estate : estates) {
-         EstateDto assembledEstateDto = estateAssembler.assembleEstateDto(estate);
-         estatesDto.add(assembledEstateDto);
-      }
+      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+      List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(estates);
 
       return estatesDto;
+
    }
 
-   public List<EstateDto> getOrderedEstates(String string) {
-      SortingStrategyFactory sortingStrategyFactory = new SortingStrategyFactory();
-      SortingStrategy sortingStrategy = sortingStrategyFactory.getStrategy(string);
-      estateSorter.setContext(sortingStrategy);
-      List<Estate> estates = estateSorter.sortUsingContext();
-      return assembleEstatesDto(estates);
+   public List<EstateDto> getSortedEstates(String strategy) {
+      EstatesSortingStrategy sortingStrategy = sortingStrategyFactory.getStrategy(strategy);
+
+      inSessionMemoryEstates.sortByStrategy(sortingStrategy);
+      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+
+      return createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
    }
 
-   public List<EstateDto> filter(String price, int minPrice, int maxPrice) throws WrongFilterTypeException, InconsistentFilterParamaterException {
+   public List<EstateDto> filter(String price, int minPrice, int maxPrice)
+         throws WrongFilterTypeException, InconsistentFilterParamaterException {
       EstateFilter estateFilter = estateFilterFactory.getFilter(price);
-      List<Estate> estates = estateFilter.filter(estateSorter.getEstates(), minPrice, maxPrice);
-      estateSorter.setEstates(estates);
-      return assembleEstatesDto(estates);
+
+      inSessionMemoryEstates.filterEstates(estateFilter, minPrice, maxPrice);
+
+      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+      return createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
+
    }
 
 }

@@ -19,7 +19,7 @@ public class ActivationService {
    public void activateAccount(String username) throws UserNotFoundException, CouldNotAccessDataException {
       User user = userRepository.getUser(username);
       user.setActive(true);
-      userRepository.updateUser(user);
+      userRepository.update(user);
    }
 
 }

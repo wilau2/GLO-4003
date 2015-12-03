@@ -15,6 +15,10 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
 public class EstateElementConverter {
 
+   private static final String PURCHASE_DATE = "purchase_date";
+
+   private static final String BOUGHT = "bought";
+
    private static final String SELLER = "seller";
 
    private static final String PRICE = "price";
@@ -26,7 +30,7 @@ public class EstateElementConverter {
    private static final String PRICE_HISTORY = "price_history";
 
    private static final String DATE_REGISTERED = "date_registered";
-   
+
    private static final String DATE_MODIFIED = "date_modified";
 
    private DescriptionElementConverter descriptionElementAssembler;
@@ -57,11 +61,32 @@ public class EstateElementConverter {
 
       LocalDateTime dateRegistered = LocalDateTime.parse(element.elementText(DATE_REGISTERED));
       estateDto.setDateRegistered(dateRegistered);
-      
-      LocalDateTime dateModified = LocalDateTime.parse(element.elementText(DATE_MODIFIED));
-      estateDto.setDateModified(dateModified);
+
+      String dateOfLastModification = element.elementText(DATE_MODIFIED);
+      setDateOfLastModification(estateDto, dateOfLastModification);
+
+      Boolean bought = Boolean.parseBoolean(element.elementText(BOUGHT));
+      estateDto.setBought(bought);
+
+      String purchaseDateFromElement = element.elementText(PURCHASE_DATE);
+      setDateOfPurchaseToEstateDto(estateDto, purchaseDateFromElement);
 
       return estateDto;
+   }
+
+   private void setDateOfLastModification(EstateDto estateDto, String dateModified) {
+      // TODO Auto-generated method stub
+      if (dateModified != null) {
+         LocalDateTime dateOfPurchase = LocalDateTime.parse(dateModified);
+         estateDto.setDateModified(dateOfPurchase);
+      }
+   }
+
+   private void setDateOfPurchaseToEstateDto(EstateDto estateDto, String purchaseDateFromElement) {
+      if (estateDto.isBought()) {
+         LocalDateTime dateOfPurchase = LocalDateTime.parse(purchaseDateFromElement);
+         estateDto.setDateOfPurchase(dateOfPurchase);
+      }
    }
 
    private ArrayList<Integer> constructPriceHistoryFromString(String priceHistoryFromElement) {
@@ -122,8 +147,17 @@ public class EstateElementConverter {
       attributes.put(DATE_MODIFIED, estate.getDateModified().toString());
       attributes.put(ADDRESS, estate.getAddress().toString());
       attributes.put(PRICE_HISTORY, constructStringFromPriceHistory(estate));
+      attributes.put(BOUGHT, estate.hasBeenBought().toString());
+
+      addDateOfPurchaseIfEstateBought(estate, attributes);
 
       return attributes;
+   }
+
+   private void addDateOfPurchaseIfEstateBought(Estate estate, HashMap<String, String> attributes) {
+      if (estate.hasBeenBought()) {
+         attributes.put(PURCHASE_DATE, estate.getDateOfPurchase().toString());
+      }
    }
 
    public EstateDto convertAttributesToDto(HashMap<String, String> attributes) throws ParseException {
@@ -143,9 +177,15 @@ public class EstateElementConverter {
 
       LocalDateTime dateRegistered = LocalDateTime.parse(attributes.get(DATE_REGISTERED));
       estateDto.setDateRegistered(dateRegistered);
-      
-      LocalDateTime dateModified = LocalDateTime.parse(attributes.get(DATE_MODIFIED));
-      estateDto.setDateModified(dateModified);
+
+      String dateModifiedFromAttributes = attributes.get(DATE_MODIFIED);
+      setDateOfLastModification(estateDto, dateModifiedFromAttributes);
+
+      Boolean bought = Boolean.parseBoolean(attributes.get(BOUGHT));
+      estateDto.setBought(bought);
+
+      String purchaseDateAttributes = attributes.get(PURCHASE_DATE);
+      setDateOfPurchaseToEstateDto(estateDto, purchaseDateAttributes);
 
       return estateDto;
    }

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,14 +19,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateAlreadyBoughtException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstateRepositoryFactory;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
+import ca.ulaval.glo4003.b6.housematch.services.picture.EstatePicturesService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 public class BuyerSearchEstatesControllerTest {
@@ -34,15 +36,14 @@ public class BuyerSearchEstatesControllerTest {
 
    private static final String EXPECTED_ROLE = "buyer";
 
+   private static final String STRATEGY = "SORT_STRATEGY";
+
    private BuyerSearchEstatesController buyerSearchEstatesController;
 
    private List<EstateDto> expectedEstates;
 
    @Mock
    private EstatesFetcher estatesFetcherService;
-
-   @Mock
-   private EstateRepositoryFactory estateRepositoryFactory;
 
    @Mock
    private EstateAssemblerFactory estateAssemblerFactory;
@@ -57,7 +58,13 @@ public class BuyerSearchEstatesControllerTest {
    private HttpServletRequest request;
 
    @Mock
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userAuthorizationService;
+
+   @Mock
+   private EstatesService estateService;
+
+   @Mock
+   private List<EstateDto> listOfEstatesOrdered;
 
    @Before
    public void setup() throws CouldNotAccessDataException, EstateNotFoundException {
@@ -66,16 +73,17 @@ public class BuyerSearchEstatesControllerTest {
       configureEstatesFetcher();
 
       buyerSearchEstatesController = new BuyerSearchEstatesController(estatesFetcherService, userAuthorizationService,
-            estatePicturesService);
+            estatePicturesService, estateService);
    }
 
    private void configureEstatesFetcher() throws CouldNotAccessDataException, EstateNotFoundException {
 
-      expectedEstates = new ArrayList<>();
+      expectedEstates = new ArrayList<EstateDto>();
       when(estatesFetcherService.getAllEstates()).thenReturn(expectedEstates);
 
       when(estatesFetcherService.getEstateByAddress(ADDRESS)).thenReturn(expectedReturnedEstate);
 
+      when(estatesFetcherService.getSortedEstates(STRATEGY)).thenReturn(listOfEstatesOrdered);
    }
 
    @Test
@@ -190,6 +198,71 @@ public class BuyerSearchEstatesControllerTest {
       // When
       buyerSearchEstatesController.searchAllEstates(request);
 
-      // Then
+      // Then an invalid access exception is thrown
    }
+
+   @Test
+   public void whenBuyingAnEstateShouldVerifyIfUserIsAuthorized() throws InvalidAccessException,
+         EstateNotFoundException, CouldNotAccessDataException, EstateAlreadyBoughtException {
+      // Given
+
+      // When
+      buyerSearchEstatesController.buyAnEstate(ADDRESS, request);
+
+      // Then
+      verify(userAuthorizationService, times(1)).verifySessionIsAllowed(request, EXPECTED_ROLE);
+   }
+
+   @Test(expected = InvalidAccessException.class)
+   public void buyingAnEstateWhenUserIsUnauthorizedShouldThrowInvalidAccessException() throws InvalidAccessException,
+         EstateNotFoundException, CouldNotAccessDataException, EstateAlreadyBoughtException {
+      // Given
+      doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
+            EXPECTED_ROLE);
+
+      // When
+      buyerSearchEstatesController.buyAnEstate(ADDRESS, request);
+
+      // Then an invalid access exception is thrown
+   }
+
+   @Test
+   public void whenBuyingAnEstateShouldRedirectToTheEstatePageForARefresh() throws InvalidAccessException,
+         EstateNotFoundException, CouldNotAccessDataException, EstateAlreadyBoughtException {
+      // Given
+      String expectedRedirection = "redirect:/buyer/{userId}/estates/" + ADDRESS;
+
+      // When
+      String redirect = buyerSearchEstatesController.buyAnEstate(ADDRESS, request);
+
+      // Then
+      assertEquals(expectedRedirection, redirect);
+   }
+
+   @Test
+   public void whenBuyingAnEstateShouldCallBuyMethodOnEstateService() throws InvalidAccessException,
+         EstateNotFoundException, CouldNotAccessDataException, EstateAlreadyBoughtException {
+      // Given no changes
+
+      // When
+      buyerSearchEstatesController.buyAnEstate(ADDRESS, request);
+
+      // Then
+      verify(estateService, times(1)).buyEstate(ADDRESS);
+   }
+
+   @Test
+   public void whenGettingEstatesWithPriceAscendantShouldReturnCorrectModelAndView()
+         throws CouldNotAccessDataException, InvalidAccessException {
+      // Given
+      String expectedViewName = "buyer_search";
+
+      // When
+      ModelAndView modelAndView = buyerSearchEstatesController.searchAllEstatesSort(request, STRATEGY);
+
+      // Then
+      assertEquals(expectedViewName, modelAndView.getViewName());
+      assertEquals(listOfEstatesOrdered, modelAndView.getModel().get("estates"));
+   }
+
 }

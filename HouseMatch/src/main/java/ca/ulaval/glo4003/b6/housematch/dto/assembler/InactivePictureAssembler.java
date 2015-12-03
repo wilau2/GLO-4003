@@ -5,10 +5,6 @@ import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
 
 public class InactivePictureAssembler {
 
-   public InactivePictureAssembler() {
-
-   }
-
    public Picture assembleInactivePicture(InformationPictureDto inactivePictureDto) {
 
       Picture inactivePicture = new Picture(inactivePictureDto.getUid(), inactivePictureDto.getAddress(),
@@ -19,7 +15,7 @@ public class InactivePictureAssembler {
    public InformationPictureDto assembleInactivePictureDto(Picture inactivePicture) {
 
       InformationPictureDto inactivePictureDto = new InformationPictureDto(inactivePicture.getUid(),
-            inactivePicture.getAddress(), inactivePicture.getName(), inactivePicture.getActive().toString());
+            inactivePicture.getAddress(), inactivePicture.getName(), inactivePicture.isActive().toString());
       return inactivePictureDto;
    }
 

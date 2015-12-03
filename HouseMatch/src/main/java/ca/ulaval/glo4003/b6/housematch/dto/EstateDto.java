@@ -21,11 +21,16 @@ public class EstateDto {
 
    private LocalDateTime dateModified;
 
+   private boolean bought;
+
+   private LocalDateTime dateOfPurchase;
+
    public EstateDto() {
       this.address = new AddressDto();
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered, LocalDateTime dateModified) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered,
+         LocalDateTime dateModified) {
       this.type = type;
       this.address = address;
       this.price = price;
@@ -34,8 +39,9 @@ public class EstateDto {
       this.dateModified = dateModified;
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered, LocalDateTime dateModified,
-         DescriptionDto descriptionDto, ArrayList<Integer> priceHistory) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered,
+         DescriptionDto descriptionDto, ArrayList<Integer> priceHistory, boolean bought, LocalDateTime dateOfPurchase,
+         LocalDateTime dateModified) {
 
       this.type = type;
       this.address = address;
@@ -45,6 +51,8 @@ public class EstateDto {
       this.dateModified = dateModified;
       this.descriptionDto = descriptionDto;
       this.priceHistory = priceHistory;
+      this.bought = bought;
+      this.dateOfPurchase = dateOfPurchase;
    }
 
    public void setDescriptionDto(DescriptionDto descriptionDto) {
@@ -114,7 +122,22 @@ public class EstateDto {
 
    public void setDateModified(LocalDateTime dateModified) {
       this.dateModified = dateModified;
-      
+   }
+
+   public boolean isBought() {
+      return bought;
+   }
+
+   public void setBought(Boolean bought) {
+      this.bought = bought;
+   }
+
+   public LocalDateTime getDateOfPurchase() {
+      return dateOfPurchase;
+   }
+
+   public void setDateOfPurchase(LocalDateTime dateOfPurchase) {
+      this.dateOfPurchase = dateOfPurchase;
    }
 
 }

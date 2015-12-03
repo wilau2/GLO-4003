@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,14 +14,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.InconsistentFilterParamaterException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.WrongFilterTypeException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateAlreadyBoughtException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstatePicturesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
+import ca.ulaval.glo4003.b6.housematch.services.picture.EstatePicturesService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 @Controller
@@ -32,24 +33,28 @@ public class BuyerSearchEstatesController {
 
    private EstatesFetcher estatesFetcher;
 
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userSessionAuthorizationService;
 
    private EstatePicturesService estatePicturesService;
 
    private List<EstateDto> allEstates;
 
+   private EstatesService estateService;
+
    @Autowired
-   public BuyerSearchEstatesController(EstatesFetcher estatesFetcher, UserAuthorizationService userAuthorizationService,
-         EstatePicturesService estatePicturesService) {
+   public BuyerSearchEstatesController(EstatesFetcher estatesFetcher,
+         UserSessionAuthorizationService userSessionAuthorizationService, EstatePicturesService estatePicturesService,
+         EstatesService estateService) {
       this.estatesFetcher = estatesFetcher;
-      this.userAuthorizationService = userAuthorizationService;
+      this.userSessionAuthorizationService = userSessionAuthorizationService;
       this.estatePicturesService = estatePicturesService;
+      this.estateService = estateService;
    }
 
    @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates")
    public ModelAndView searchAllEstates(HttpServletRequest request)
          throws CouldNotAccessDataException, InvalidAccessException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
 
@@ -59,25 +64,27 @@ public class BuyerSearchEstatesController {
       return modelAndView;
    }
 
-   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params="sort")
+   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params = "sort")
    public ModelAndView searchAllEstatesSort(HttpServletRequest request, @RequestParam("sort") String sortType)
          throws CouldNotAccessDataException, InvalidAccessException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
-      allEstates = estatesFetcher.getOrderedEstates(sortType);
+
+      allEstates = estatesFetcher.getSortedEstates(sortType);
+
       modelAndView.addObject("estates", allEstates);
 
       return modelAndView;
    }
-   
-   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params="filtered")
-   public ModelAndView searchAllEstatesFilter(HttpServletRequest request, 
-         @RequestParam("type") String filterType,
-         @RequestParam("minPrice") int minPrice, 
-         @RequestParam("maxPrice") int maxPrice)
-         throws CouldNotAccessDataException, InvalidAccessException, WrongFilterTypeException, InconsistentFilterParamaterException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+   @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates", params = "filtered")
+
+   public ModelAndView searchAllEstatesFilter(HttpServletRequest request, @RequestParam("type") String filterType,
+         @RequestParam("minPrice") int minPrice, @RequestParam("maxPrice") int maxPrice)
+               throws CouldNotAccessDataException, InvalidAccessException, WrongFilterTypeException,
+               InconsistentFilterParamaterException {
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       ModelAndView modelAndView = new ModelAndView("buyer_search");
       allEstates = estatesFetcher.filter(filterType, minPrice, maxPrice);
@@ -89,18 +96,30 @@ public class BuyerSearchEstatesController {
    @RequestMapping(method = RequestMethod.GET, path = "/buyer/{userId}/estates/{address}")
    public ModelAndView getEstateByAddress(@PathVariable("address") String address, HttpServletRequest request)
          throws EstateNotFoundException, CouldNotAccessDataException, InvalidAccessException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       ModelAndView modelAndView = new ModelAndView("estate");
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
-      List<PictureDto> pictures = estatePicturesService.getPicturesOfEstate(address);
+      List<PictureDto> pictures = estatePicturesService.getPublicPicturesOfEstate(address);
       modelAndView.addObject("estate", estateByAddress);
       modelAndView.addObject("description", estateByAddress.getDescriptionDto());
       modelAndView.addObject("pictures", pictures);
 
       return modelAndView;
+   }
+
+   @RequestMapping(method = RequestMethod.POST, path = "/buyer/{userId}/estates/{address}")
+   public String buyAnEstate(@PathVariable("address") String address, HttpServletRequest request)
+         throws InvalidAccessException, EstateNotFoundException, CouldNotAccessDataException,
+         EstateAlreadyBoughtException {
+
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+
+      estateService.buyEstate(address);
+
+      return "redirect:/buyer/{userId}/estates/" + address;
    }
 
 }

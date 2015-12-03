@@ -32,37 +32,26 @@ public class UserProfilService {
    public void update(UserDto userDetailedDto)
          throws CouldNotAccessDataException, UserNotFoundException, UserNotifyingException {
 
-      User existingUser = userRepository.getUser(userDetailedDto.getUsername());
+      ContactInformation newContactInformation = contactInformationAssembler
+            .assembleContactInformation(userDetailedDto.getContactInformationDto());
 
-      ContactInformation newInfos = getNewContactInformations(userDetailedDto);
-      ContactInformation oldInfos = existingUser.getContactInformation();
+      User user = userRepository.getUser(userDetailedDto.getUsername());
 
-      boolean emailIsChanged = emailHasChanged(oldInfos.getEmail(), newInfos.getEmail());
+      notifyAllObserversIfEmailChanged(user, newContactInformation);
 
-      if (emailIsChanged) {
-         existingUser.setActive(false);
-      }
+      user.updateContactInformation(newContactInformation);
 
-      existingUser.updateContactInformation(newInfos);
+      userRepository.update(user);
 
-      userRepository.updateUser(existingUser);
-
-      if (emailIsChanged) {
-         notifyAllObservers(existingUser);
-      }
    }
 
-   private ContactInformation getNewContactInformations(UserDto userDetailedDto) {
-      return contactInformationAssembler.assembleContactInformation(userDetailedDto.getContactInformationDto());
-   }
-
-   private boolean emailHasChanged(String oldEmail, String newEmail) {
-      return !oldEmail.equals(newEmail);
-   }
-
-   private void notifyAllObservers(User user) throws UserNotifyingException {
-      for (UserObserver observer : observers) {
-         observer.notifyUserChanged(user);
+   private void notifyAllObserversIfEmailChanged(User user, ContactInformation newContactInformation)
+         throws UserNotifyingException {
+      if (user.isEmailChanged(newContactInformation)) {
+         for (UserObserver observer : observers) {
+            observer.notifyUserChanged(user);
+         }
       }
    }
+
 }

@@ -13,15 +13,14 @@ import org.dom4j.Element;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.FilePersistence.FileEditor;
 import ca.ulaval.glo4003.b6.housematch.persistence.estate.converter.EstateElementConverter;
-import ca.ulaval.glo4003.b6.housematch.persistence.estate.converter.EstateElementConverterFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 
 public class XMLEstateRepository implements EstateRepository {
@@ -40,39 +39,39 @@ public class XMLEstateRepository implements EstateRepository {
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
-   private EstateElementConverterFactory estateElementAssemblerFactory;
+   private EstateElementConverter estateElementAssembler;
 
    private EstatePersistenceDtoFactory estatePersistenceDtoFactory;
 
    public XMLEstateRepository(EstateAssemblerFactory estateAssemblerFactory,
-         EstatePersistenceDtoFactory estatePersistenceDtoFactory,
-         EstateElementConverterFactory estateElementAssemblerFactory, FileEditor FileEditor) {
+         EstatePersistenceDtoFactory estatePersistenceDtoFactory, EstateElementConverter estateElementAssembler,
+         FileEditor FileEditor) {
 
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estatePersistenceDtoFactory = estatePersistenceDtoFactory;
-      this.estateElementAssemblerFactory = estateElementAssemblerFactory;
+      this.estateElementAssembler = estateElementAssembler;
       this.FileEditor = FileEditor;
 
    }
 
    @Override
-   public List<Estate> getAllEstates() throws CouldNotAccessDataException {
-      List<Estate> estates = new ArrayList<Estate>();
+   public Estates getAllEstates() throws CouldNotAccessDataException {
+      List<Estate> listEstates = new ArrayList<Estate>();
       try {
          Document estateDocument = FileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
          List<Element> elementList = FileEditor.getAllElementsFromDocument(estateDocument, PATH_TO_ESTATE);
 
          EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-         EstateElementConverter estateElementAssembler = estateElementAssemblerFactory.createAssembler();
-         estates = getDtoListFromElements(elementList, estateAssembler, estateElementAssembler);
+
+         listEstates = getDtoListFromElements(elementList, estateAssembler, estateElementAssembler);
 
       } catch (DocumentException e) {
          throw new CouldNotAccessDataException("Problem when fetching all estate", e);
       } catch (ParseException e2) {
          throw new CouldNotAccessDataException("Problem when fetching all estate dates", e2);
       }
-
+      Estates estates = new Estates(listEstates);
       return estates;
    }
 
@@ -93,7 +92,6 @@ public class XMLEstateRepository implements EstateRepository {
 
          Document estateDocument = FileEditor.readXMLFile(XML_DIRECTORY_PATH);
 
-         EstateElementConverter estateElementAssembler = estateElementAssemblerFactory.createAssembler();
          HashMap<String, String> attributes = estateElementAssembler.convertToAttributes(estate);
          if (isEstatePersisted(estateDocument, attributes.get(ADDRESS_KEY))) {
             return;
@@ -139,21 +137,6 @@ public class XMLEstateRepository implements EstateRepository {
    }
 
    @Override
-   public List<Estate> getEstateFromSeller(String sellerName)
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      List<Estate> allEstates = getAllEstates();
-
-      List<Estate> estatesFromSeller = new ArrayList<Estate>();
-      for (Estate estate : allEstates) {
-         if (estate.isFromSeller(sellerName)) {
-            estatesFromSeller.add(estate);
-         }
-      }
-      return estatesFromSeller;
-
-   }
-
-   @Override
    public Estate getEstateByAddress(String address) throws EstateNotFoundException, CouldNotAccessDataException {
       Estate estate = null;
       try {
@@ -175,29 +158,6 @@ public class XMLEstateRepository implements EstateRepository {
       return estate;
    }
 
-   private EstateDto assembleDtoFromDocumentAttributes(String address, Document document) throws ParseException {
-      HashMap<String, String> estateAttributes = FileEditor.returnAttributesOfElementWithCorrespondingValue(document,
-            PATH_TO_ADDRESS, address);
-
-      HashMap<String, String> descriptionAttributes = FileEditor.returnChildAttributesOfElementWithCorrespondingValue(
-            document, PATH_TO_ADDRESS, address, CHILD_DESCRIPTION_KEY);
-
-      EstateElementConverter estateElementAssembler = estateElementAssemblerFactory.createAssembler();
-      EstateDto estateDto = estateElementAssembler.convertAttributesToDto(estateAttributes);
-      DescriptionDto descriptionDto = estateElementAssembler.convertDescriptionAttributesToDto(descriptionAttributes);
-
-      estateDto.setDescriptionDto(descriptionDto);
-
-      return estateDto;
-   }
-
-   private Estate assembleEstate(EstateDto estateDto) {
-      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
-
-      return estateAssembler.assembleEstate(estateDto);
-
-   }
-
    @Override
    public void updateEstate(Estate estate) throws CouldNotAccessDataException {
       try {
@@ -214,6 +174,28 @@ public class XMLEstateRepository implements EstateRepository {
       } catch (DocumentException exception) {
          throw new CouldNotAccessDataException("Something wrong happenned trying to access the data", exception);
       }
+
+   }
+
+   private EstateDto assembleDtoFromDocumentAttributes(String address, Document document) throws ParseException {
+      HashMap<String, String> estateAttributes = FileEditor.returnAttributesOfElementWithCorrespondingValue(document,
+            PATH_TO_ADDRESS, address);
+
+      HashMap<String, String> descriptionAttributes = FileEditor.returnChildAttributesOfElementWithCorrespondingValue(
+            document, PATH_TO_ADDRESS, address, CHILD_DESCRIPTION_KEY);
+
+      EstateDto estateDto = estateElementAssembler.convertAttributesToDto(estateAttributes);
+      DescriptionDto descriptionDto = estateElementAssembler.convertDescriptionAttributesToDto(descriptionAttributes);
+
+      estateDto.setDescriptionDto(descriptionDto);
+
+      return estateDto;
+   }
+
+   private Estate assembleEstate(EstateDto estateDto) {
+      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
+
+      return estateAssembler.assembleEstate(estateDto);
 
    }
 

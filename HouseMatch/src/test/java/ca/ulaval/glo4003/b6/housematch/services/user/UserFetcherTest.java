@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,10 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.dto.ContactInformationDto;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
+import ca.ulaval.glo4003.b6.housematch.dto.assembler.UserAssembler;
+import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.UserAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 
 public class UserFetcherTest {
@@ -38,10 +42,22 @@ public class UserFetcherTest {
    private UserRepository userRepository;
 
    @Mock
+   private UserAssemblerFactory userAssemblerFactory;
+
+   @Mock
+   private UserAssembler userAssembler;
+
+   @Mock
    private User user;
 
    @Mock
+   private UserDto userDto;
+
+   @Mock
    private ContactInformation contactInformation;
+
+   @Mock
+   private ContactInformationDto contactInformationDto;
 
    @Before
    public void setup() throws UserNotFoundException, CouldNotAccessDataException {
@@ -49,7 +65,23 @@ public class UserFetcherTest {
       configureUserRepository();
       configureUser();
       configureContactInformation();
+      configureUserAssembler();
+      configureUserDto();
 
+   }
+
+   private void configureUserDto() {
+      when(contactInformationDto.getEmail()).thenReturn(EMAIL);
+      when(contactInformationDto.getFirstName()).thenReturn(FIRST_NAME);
+      when(contactInformationDto.getLastName()).thenReturn(LAST_NAME);
+      when(contactInformationDto.getPhoneNumber()).thenReturn(PHONE_NUMBER);
+      when(userDto.getContactInformationDto()).thenReturn(contactInformationDto);
+
+   }
+
+   private void configureUserAssembler() {
+      when(userAssemblerFactory.createUserAssembler()).thenReturn(userAssembler);
+      when(userAssembler.assembleUserDto(user)).thenReturn(userDto);
    }
 
    private void configureContactInformation() {

@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.b6.housematch.persistence.estate.converter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import static org.mockito.Mockito.when;
@@ -23,6 +25,10 @@ import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
 public class EstateElementConverterTest {
+
+   private static final String DATE_MODIFIED_KEY = "date_modified";
+
+   private static final String BOUGHT_KEY = "bought";
 
    private static final String ADDRESS_KEY = "address";
 
@@ -60,10 +66,12 @@ public class EstateElementConverterTest {
 
    private static final String DATE_REGISTERED_KEY = "date_registered";
 
-   private static final String DATE_MODIFIED_KEY = "date_modified";
+   private static final LocalDateTime PURCHASE_DATE_TIME = LocalDateTime.now();
+
+   private static final String PURCHASE_DATE_TIME_KEY = "purchase_date";
 
    private LocalDateTime dateRegistered;
-   
+
    private LocalDateTime dateModified;
 
    @Mock
@@ -100,7 +108,8 @@ public class EstateElementConverterTest {
       when(attributes.get(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString());
       when(attributes.get(DATE_MODIFIED_KEY)).thenReturn(dateModified.toString());
       when(attributes.get(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
-
+      when(attributes.get(BOUGHT_KEY)).thenReturn("true");
+      when(attributes.get(PURCHASE_DATE_TIME_KEY)).thenReturn(PURCHASE_DATE_TIME.toString());
    }
 
    private void configureEstate() {
@@ -111,6 +120,10 @@ public class EstateElementConverterTest {
       when(estate.getDateRegistered()).thenReturn(dateRegistered);
       when(estate.getDateModified()).thenReturn(dateModified);
       when(estate.getPriceHistory()).thenReturn(PRICE_HISTORY);
+
+      when(estate.hasBeenBought()).thenReturn(true);
+      when(estate.getDateOfPurchase()).thenReturn(PURCHASE_DATE_TIME);
+
    }
 
    private void configureElement() {
@@ -121,6 +134,10 @@ public class EstateElementConverterTest {
       when(element.elementText(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString());
       when(element.elementText(DATE_MODIFIED_KEY)).thenReturn(dateModified.toString());
       when(element.elementText(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
+
+      when(element.elementText(BOUGHT_KEY)).thenReturn(Boolean.TRUE.toString());
+      when(element.elementText(PURCHASE_DATE_TIME_KEY)).thenReturn(PURCHASE_DATE_TIME.toString());
+
    }
 
    @Test
@@ -132,9 +149,10 @@ public class EstateElementConverterTest {
 
       // Then
       assertEquals(TYPE, estateDto.getType());
-
+      assertTrue(estateDto.isBought());
       assertEquals(PRICE, estateDto.getPrice());
       assertEquals(USER_ID, estateDto.getSeller());
+      assertEquals(PURCHASE_DATE_TIME, estateDto.getDateOfPurchase());
    }
 
    @Test
@@ -166,6 +184,8 @@ public class EstateElementConverterTest {
       assertEquals(USER_ID, returnedAttributes.get(SELLER_KEY));
       assertEquals(PRICE.toString(), returnedAttributes.get(PRICE_KEY));
       assertEquals(TYPE, returnedAttributes.get(TYPE_KEY));
+      assertTrue(Boolean.parseBoolean(returnedAttributes.get(BOUGHT_KEY)));
+      assertEquals(PURCHASE_DATE_TIME.toString(), returnedAttributes.get("purchase_date"));
    }
 
    @Test
@@ -191,6 +211,8 @@ public class EstateElementConverterTest {
       assertEquals(USER_ID, assembledEstateDto.getSeller());
       assertEquals(PRICE, assembledEstateDto.getPrice());
       assertEquals(TYPE, assembledEstateDto.getType());
+      assertTrue(assembledEstateDto.isBought());
+      assertEquals(PURCHASE_DATE_TIME, assembledEstateDto.getDateOfPurchase());
    }
 
    @Test
@@ -221,5 +243,71 @@ public class EstateElementConverterTest {
 
       // Then
       assertTrue(estateDto.getPriceHistory().isEmpty());
+   }
+
+   @Test
+   public void assemblingEstateDtoWhenFieldDateOfPurchaseDoesnotExistShouldSetFieldToNull() throws ParseException {
+      // Given
+      when(attributes.get(BOUGHT_KEY)).thenReturn("false");
+      when(attributes.get(PURCHASE_DATE_TIME_KEY)).thenReturn(null);
+
+      // When
+      EstateDto estateDto = estateElementAssembler.convertAttributesToDto(attributes);
+
+      // Then
+      assertNull(estateDto.getDateOfPurchase());
+   }
+
+   @Test
+   public void assemblingEstateDtoFromElementWhenFieldDateOfPurchaseDoesNotExistShouldSetFieldToNull()
+         throws ParseException {
+      // Given
+      when(element.elementText(PURCHASE_DATE_TIME_KEY)).thenReturn(null);
+      when(element.elementText(BOUGHT_KEY)).thenReturn("false");
+
+      // When
+      EstateDto estateDto = estateElementAssembler.convertToDto(element);
+
+      // Then
+      assertNull(estateDto.getDateOfPurchase());
+   }
+
+   @Test
+   public void assemblingAttributesFromEstateWhenEstateHasNotBeenBoughtShouldNotAddPurchaseDateAttributes() {
+      // Given
+      when(estate.hasBeenBought()).thenReturn(false);
+      when(estate.getDateOfPurchase()).thenReturn(null);
+
+      // When
+      HashMap<String, String> estateAttributes = estateElementAssembler.convertToAttributes(estate);
+
+      // Then
+      assertFalse(estateAttributes.containsKey(PURCHASE_DATE_TIME_KEY));
+   }
+
+   @Test
+   public void assemblingEstateDtoFromElementWhenFieldDateOfLastModificationDoesNotExistShouldSetFieldToNull()
+         throws ParseException {
+      // Given
+      when(element.elementText(DATE_MODIFIED_KEY)).thenReturn(null);
+
+      // When
+      EstateDto estateDto = estateElementAssembler.convertToDto(element);
+
+      // Then
+      assertNull(estateDto.getDateModified());
+   }
+
+   @Test
+   public void assemblingEstateDtoFromAttributesWhenFieldDateModifiedDoesNotExistsShouldSetFieldToNull()
+         throws ParseException {
+      // Given
+      when(attributes.get(DATE_MODIFIED_KEY)).thenReturn(null);
+
+      // When
+      EstateDto estateDto = estateElementAssembler.convertAttributesToDto(attributes);
+
+      // Then
+      assertNull(estateDto.getDateModified());
    }
 }

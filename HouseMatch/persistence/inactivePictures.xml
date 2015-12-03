@@ -13,10 +13,16 @@
     <name>Une belle patate</name>  
     <active>true</active> 
   </inactivePicture>  
+  <inactivePicture> 
+    <uid>a6036056-5f4f-47ba-8ea5-c93f298c22eb</uid>  
+    <address>0-40-Rue des mirtilles-Qc-Ca-G1b3fwaf</address>  
+    <name>Une belle patate</name>  
+    <active>true</active> 
+  </inactivePicture>  
   <inactivePicture>
-    <uid>a6036056-5f4f-47ba-8ea5-c93f298c22eb</uid>
-    <address>0-40-Rue des mirtilles-Qc-Ca-G1b3fwaf</address>
-    <name>Une belle patate</name>
-    <active>true</active>
+    <uid>d350dc44-4cfc-41a4-82c2-5f9f36c5e0c0</uid>
+    <address>0-1234-Rue des Bisous-PatateLand-Canada-Patate</address>
+    <name>picture1</name>
+    <active>false</active>
   </inactivePicture>
 </inactivePictures>

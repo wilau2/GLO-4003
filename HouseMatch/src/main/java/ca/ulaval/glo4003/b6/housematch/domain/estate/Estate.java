@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateAlreadyBoughtException;
+
 public class Estate {
 
    private Integer price;
@@ -17,13 +19,18 @@ public class Estate {
    private Description description;
 
    private LocalDateTime dateRegistered;
-   
+
    private LocalDateTime dateModified;
 
    private ArrayList<Integer> priceHistory;
 
+   private boolean bought;
+
+   private LocalDateTime dateOfPurchase;
+
    public Estate(String type, Address address, Integer price, String seller, Description description,
-         LocalDateTime dateRegistered, LocalDateTime dateModified, ArrayList<Integer> priceHistory) {
+         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory, boolean bought, LocalDateTime dateOfPurchase,
+         LocalDateTime dateModified) {
 
       this.type = type;
       this.address = address;
@@ -33,6 +40,8 @@ public class Estate {
       this.dateRegistered = dateRegistered;
       this.dateModified = dateModified;
       this.priceHistory = priceHistory;
+      this.bought = bought;
+      this.dateOfPurchase = dateOfPurchase;
    }
 
    public String getType() {
@@ -67,7 +76,7 @@ public class Estate {
    }
 
    public void editDescription(Description description) {
-      if(this.description.isChangeSignificant(description)){
+      if (this.description.isChangeSignificant(description)) {
          this.udateModifiedDate();
       }
       this.description = description;
@@ -76,11 +85,10 @@ public class Estate {
    public LocalDateTime getDateRegistered() {
       return dateRegistered;
    }
-   
+
    public LocalDateTime getDateModified() {
       return this.dateModified;
    }
-
 
    public static Comparator<Estate> EstatePriceAscendantComparator = new Comparator<Estate>() {
 
@@ -109,7 +117,7 @@ public class Estate {
          return estate2.getDateRegistered().compareTo(estate1.getDateRegistered());
       }
    };
-   
+
    public static Comparator<Estate> EstateDateModifiedAscendantComparator = new Comparator<Estate>() {
 
       public int compare(Estate estate1, Estate estate2) {
@@ -129,16 +137,40 @@ public class Estate {
       udateModifiedDate();
    }
 
-   
    public void editPrice(Integer newPrice) {
-      if (this.price != newPrice) {
+      if (this.price.intValue() != newPrice.intValue()) {
          this.priceHistory.add(this.price);
          this.price = newPrice;
          udateModifiedDate();
       }
    }
-   
-   public void udateModifiedDate(){
+
+   public void udateModifiedDate() {
       dateModified = LocalDateTime.now();
+   }
+
+   public void buy() throws EstateAlreadyBoughtException {
+      if (hasBeenBought()) {
+         throw new EstateAlreadyBoughtException("This estates already has a new familly, sorry :(");
+      }
+      bought = true;
+      dateOfPurchase = LocalDateTime.now();
+   }
+
+   public Boolean hasBeenBought() {
+      return bought;
+   }
+
+   public LocalDateTime getDateOfPurchase() {
+      return dateOfPurchase;
+   }
+
+   public boolean hasBeenBoughtInLastYear() {
+      if (hasBeenBought()) {
+         LocalDateTime lastYearDate = LocalDateTime.now().minusYears(1);
+
+         return dateOfPurchase.isAfter(lastYearDate);
+      }
+      return false;
    }
 }
