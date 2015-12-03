@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class ContactInformationTest {
 
-   private static final String FIRST_NAME = "firsname";
+   private static final String FIRST_NAME = "firstname";
 
    private static final String LAST_NAME = "lastname";
 
