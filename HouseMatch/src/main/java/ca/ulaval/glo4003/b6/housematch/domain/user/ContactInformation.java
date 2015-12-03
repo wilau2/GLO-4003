@@ -33,6 +33,10 @@ public class ContactInformation {
       return email;
    }
 
+   public boolean isEmailChanged(ContactInformation newContactInformation) {
+      return !email.equals(newContactInformation.getEmail());
+   }
+
    public void update(ContactInformation newContactInformation) {
       this.firstName = newContactInformation.firstName;
       this.lastName = newContactInformation.lastName;

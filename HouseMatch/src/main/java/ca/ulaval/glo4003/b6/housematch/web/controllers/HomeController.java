@@ -5,20 +5,20 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 
 @Controller
 public class HomeController {
 
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userSessionAuthorizationService;
 
-   public HomeController(UserAuthorizationService userAuthorizationService) {
-      this.userAuthorizationService = userAuthorizationService;
+   public HomeController(UserSessionAuthorizationService userSessionAuthorizationService) {
+      this.userSessionAuthorizationService = userSessionAuthorizationService;
    }
 
    @RequestMapping("/")
    public String index(HttpServletRequest request) {
-      if (!userAuthorizationService.isUserLogged(request)) {
+      if (!userSessionAuthorizationService.isUserLogged(request)) {
          return "redirect:/home";
       }
       return "index";

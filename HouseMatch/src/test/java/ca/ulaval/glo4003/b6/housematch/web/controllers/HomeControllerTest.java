@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 
 public class HomeControllerTest {
 
@@ -23,7 +23,7 @@ public class HomeControllerTest {
    private HttpServletRequest request;
 
    @Mock
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userAuthorizationService;
 
    @Before
    public void setup() {

@@ -62,7 +62,7 @@ public class StatisticServiceTest {
       when(estateRepository.getAllEstates()).thenReturn(estates);
       when(estateProcessor.retrieveUniqueSellersName(estates)).thenReturn(uniqueSellersName);
       when(estateProcessor.retrieveEstatesSoldLastYear(estates)).thenReturn(estates);
-      when(estates.size()).thenReturn(SIZE);
+      when(estates.retreiveNumberOfEstates()).thenReturn(SIZE);
    }
 
    @Test
@@ -160,7 +160,7 @@ public class StatisticServiceTest {
       // Given
       int expectedNumberOfEstaesSoldLastYear = 3;
       when(estateProcessor.retrieveEstatesSoldLastYear(estates)).thenReturn(soldEstatesInLastYear);
-      when(soldEstatesInLastYear.size()).thenReturn(expectedNumberOfEstaesSoldLastYear);
+      when(soldEstatesInLastYear.retreiveNumberOfEstates()).thenReturn(expectedNumberOfEstaesSoldLastYear);
 
       // When
       int numberOfEstatesSoldLastYear = adminStatisticService.getNumberOfEstatesSoldLastYear();

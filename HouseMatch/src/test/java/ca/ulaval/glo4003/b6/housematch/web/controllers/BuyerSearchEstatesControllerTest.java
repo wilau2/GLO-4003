@@ -27,7 +27,7 @@ import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessData
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
 import ca.ulaval.glo4003.b6.housematch.services.picture.EstatePicturesService;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 public class BuyerSearchEstatesControllerTest {
@@ -56,7 +56,7 @@ public class BuyerSearchEstatesControllerTest {
    private HttpServletRequest request;
 
    @Mock
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userAuthorizationService;
 
    @Mock
    private EstatesService estateService;

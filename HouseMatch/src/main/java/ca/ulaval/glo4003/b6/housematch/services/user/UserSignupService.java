@@ -12,12 +12,8 @@ import ca.ulaval.glo4003.b6.housematch.dto.assembler.UserAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.UserAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
-import ca.ulaval.glo4003.b6.housematch.services.user.validator.UserValidator;
-import ca.ulaval.glo4003.b6.housematch.services.user.validator.UserValidatorFactory;
 
 public class UserSignupService {
-
-   private UserValidatorFactory userValidatorFactory;
 
    private UserAssemblerFactory userAssemblerFactory;
 
@@ -26,10 +22,8 @@ public class UserSignupService {
    private List<UserObserver> observers;
 
    @Inject
-   public UserSignupService(UserValidatorFactory userValidatorFactory, UserAssemblerFactory userAssemblerFactory,
-         UserRepository userRepository, List<UserObserver> observers) {
-
-      this.userValidatorFactory = userValidatorFactory;
+   public UserSignupService(UserAssemblerFactory userAssemblerFactory, UserRepository userRepository,
+         List<UserObserver> observers) {
       this.userAssemblerFactory = userAssemblerFactory;
       this.userRepository = userRepository;
       this.observers = observers;
@@ -37,9 +31,6 @@ public class UserSignupService {
 
    public void signup(UserDto userSignupDto)
          throws UsernameAlreadyExistsException, CouldNotAccessDataException, UserNotifyingException {
-
-      UserValidator userValidator = userValidatorFactory.getValidator();
-      userValidator.validate(userSignupDto);
 
       UserAssembler userAssembler = userAssemblerFactory.createUserAssembler();
       User newUser = userAssembler.assembleUser(userSignupDto);

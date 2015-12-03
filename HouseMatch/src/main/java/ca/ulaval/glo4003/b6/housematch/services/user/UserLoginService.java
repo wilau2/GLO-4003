@@ -16,13 +16,13 @@ public class UserLoginService {
 
    private UserRepository userRepository;
 
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userSessionAuthorizationService;
 
    @Autowired
-   public UserLoginService(UserRepository userRepository, UserAuthorizationService userAuthorizationService) {
+   public UserLoginService(UserRepository userRepository, UserSessionAuthorizationService userSessionAuthorizationService) {
 
       this.userRepository = userRepository;
-      this.userAuthorizationService = userAuthorizationService;
+      this.userSessionAuthorizationService = userSessionAuthorizationService;
 
    }
 
@@ -36,7 +36,7 @@ public class UserLoginService {
       user.updateLastActivity();
       userRepository.update(user);
 
-      request = userAuthorizationService.setSessionUserAuthorisation(request, user);
+      request = userSessionAuthorizationService.setSessionUserAuthorisation(request, user);
 
    }
 
