@@ -30,7 +30,14 @@
         	</c:choose>
 		         <img class="photo-image" src = "${entryUrl}/${loggedInUsername}/estates/${estate.address.addressToUrl()}/${picture.name}" alt = "First slide style="display:inline">
 		          <div class="carousel-caption">
-			          <h3 class="photo-caption">${picture.name}</h3>
+		          	<c:choose>
+			          <c:when test="${picture.active == 'false'}">
+			            <h3 class="photo-caption">This photo is private(ask an administrator to make it public) : ${picture.name}</h3>
+			          </c:when>
+			          <c:otherwise>
+			            <h3 class="photo-caption">${picture.name}</h3>
+			          </c:otherwise>
+		        	</c:choose>
 			      </div>
 		      </div>
 			</c:forEach>

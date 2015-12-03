@@ -72,7 +72,7 @@ public class EstatePicturesServiceTest {
       // Given no changes
 
       // When
-      estatesPicturesService.getPicturesOfEstate(ADDRESS);
+      estatesPicturesService.getPublicPicturesOfEstate(ADDRESS);
 
       // Then
       verify(albumPictureFactory, times(1)).createAlbum(names, ADDRESS);;
@@ -84,7 +84,7 @@ public class EstatePicturesServiceTest {
       // Given no changes
 
       // When
-      estatesPicturesService.getPicturesOfEstate(ADDRESS);
+      estatesPicturesService.getPublicPicturesOfEstate(ADDRESS);
 
       // Then
       verify(album, times(1)).getRelevantPictures();;

@@ -237,7 +237,7 @@ public class SellerEstateControllerTest {
       estateController.getEstateByAddress(ADDRESS, request);
 
       // Then
-      verify(estatePictureService, times(1)).getPicturesOfEstate(ADDRESS);
+      verify(estatePictureService, times(1)).getPublicPicturesOfEstate(ADDRESS);
    }
 
    @Test

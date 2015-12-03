@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.persistence.picture.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
@@ -52,7 +51,7 @@ public class RepositoryInactivePictureConverterTest {
       Picture assembledPicture = repositoryPictureConverter.assembleInactivePictureFromAttributes(attributes);
 
       // Then
-      assertTrue(assembledPicture.getActive());
+      assertTrue(assembledPicture.isActive());
       assertEquals(ADDRESS, assembledPicture.getAddress());
       assertEquals(NAME, assembledPicture.getName());
       assertEquals(UID, assembledPicture.getUid());

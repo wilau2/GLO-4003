@@ -121,7 +121,7 @@ public class BuyerSearchEstatesController {
 
       EstateDto estateByAddress = estatesFetcher.getEstateByAddress(address);
 
-      List<PictureDto> pictures = estatePicturesService.getPicturesOfEstate(address);
+      List<PictureDto> pictures = estatePicturesService.getPublicPicturesOfEstate(address);
       modelAndView.addObject("estate", estateByAddress);
       modelAndView.addObject("description", estateByAddress.getDescriptionDto());
       modelAndView.addObject("pictures", pictures);

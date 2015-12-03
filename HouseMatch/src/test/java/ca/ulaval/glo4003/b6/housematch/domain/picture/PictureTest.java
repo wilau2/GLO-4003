@@ -130,7 +130,7 @@ public class PictureTest {
       picture.activate();
 
       // Then
-      assertTrue(picture.getActive());
+      assertTrue(picture.isActive());
    }
 
    @Test
