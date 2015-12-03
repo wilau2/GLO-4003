@@ -48,11 +48,9 @@ public class EstatePicturesService {
    public List<PictureDto> getPrivatePicturesOfEstate(String address) throws CouldNotAccessDataException {
 
       Pictures pictures = approvalPictureRepository.getAllPictures();
-
       List<String> estatePicturesNames = pictures.getInactiveEstatePicturesNames(address);
-      Album album = albumPictureFactory.createAlbum(estatePicturesNames, address);
 
-      return createInactivePictureModel(album.getRelevantPictures());
+      return createInactivePictureModel(estatePicturesNames);
    }
 
    public void addPicture(String address, String name, MultipartFile file)

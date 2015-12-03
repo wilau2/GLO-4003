@@ -20,9 +20,9 @@
     <active>true</active> 
   </inactivePicture>  
   <inactivePicture>
-    <uid>94ddfe7a-179d-4bb5-be7a-7ac5d4ecb934</uid>
+    <uid>d350dc44-4cfc-41a4-82c2-5f9f36c5e0c0</uid>
     <address>0-1234-Rue des Bisous-PatateLand-Canada-Patate</address>
-    <name>une nouvelle image</name>
-    <active>true</active>
+    <name>picture1</name>
+    <active>false</active>
   </inactivePicture>
 </inactivePictures>
