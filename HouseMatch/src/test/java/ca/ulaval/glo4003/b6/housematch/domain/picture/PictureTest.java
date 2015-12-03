@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.b6.housematch.domain.picture;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class PictureTest {
@@ -25,11 +24,6 @@ public class PictureTest {
    private final String EMPTY = "";
 
    private final String NULL = null;
-
-   @Before
-   public void setup() {
-
-   }
 
    @Test
    public void givenActivePictureWhenIsActiveShouldReturnTrue() {

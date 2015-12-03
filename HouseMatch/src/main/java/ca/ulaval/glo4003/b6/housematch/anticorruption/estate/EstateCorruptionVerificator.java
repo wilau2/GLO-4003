@@ -3,16 +3,13 @@ package ca.ulaval.glo4003.b6.housematch.anticorruption.estate;
 import javax.inject.Inject;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.AddressFieldInvalidException;
-import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
-import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateEditDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
-import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 
 public class EstateCorruptionVerificator {
@@ -37,17 +34,17 @@ public class EstateCorruptionVerificator {
          throw new InvalidEstateFieldException(e.getMessage(), e);
       }
    }
-   
-   public void editEstate(String address, EstateEditDto estateEditDto) throws InvalidEstateFieldException, 
-   CouldNotAccessDataException, EstateNotFoundException {
+
+   public void editEstate(String address, EstateEditDto estateEditDto)
+         throws InvalidEstateFieldException, CouldNotAccessDataException, EstateNotFoundException {
       validateEstateEditCorruption(estateEditDto);
-      
+
       try {
          estateService.editEstate(address, estateEditDto);
       } catch (EstateNotFoundException e) {
          throw new EstateNotFoundException(e.getMessage(), e);
       }
-}
+   }
 
    private void validateEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {
       validateAddress(estateDto.getAddress());
@@ -55,7 +52,7 @@ public class EstateCorruptionVerificator {
       validatePrice(estateDto.getPrice());
       validateSeller(estateDto.getSeller());
    }
-   
+
    private void validateEstateEditCorruption(EstateEditDto estateEditDto) throws InvalidEstateFieldException {
       validateType(estateEditDto.getType());
       validatePrice(estateEditDto.getPrice());

@@ -435,17 +435,4 @@ public class XMLEstateRepositoryTest {
 
       return attributes;
    }
-
-   private void configureEstateWithCompleteDescription() {
-      when(estate.getDescription()).thenReturn(description);
-      when(description.getMunicipalAssessment()).thenReturn(200);
-      when(description.getBuildingDimensions()).thenReturn("100x20");
-      when(description.getLivingSpaceAreaSquareMeter()).thenReturn(200);
-      when(description.getNumberOfBathrooms()).thenReturn(200);
-      when(description.getNumberOfBedRooms()).thenReturn(200);
-      when(description.getNumberOfLevel()).thenReturn(200);
-      when(description.getNumberOfRooms()).thenReturn(200);
-      when(description.getYearOfConstruction()).thenReturn(200);
-   }
-
 }

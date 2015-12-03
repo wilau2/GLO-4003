@@ -17,7 +17,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.services.admin.PictureApprobationService;
+import ca.ulaval.glo4003.b6.housematch.services.picture.PictureApprobationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
@@ -62,7 +62,7 @@ public class AdminPicturesApprovalController {
          throws CouldNotAccessDataException, InvalidAccessException, UUIDAlreadyExistsException {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      inactivePictureApprover.approuvePictures(inactivePictureDto.getUidsToList());
+      inactivePictureApprover.approvePictures(inactivePictureDto.getUidsToList());
 
       return "redirect:/admin/pictures/";
    }
@@ -72,7 +72,7 @@ public class AdminPicturesApprovalController {
          throws CouldNotAccessDataException, InvalidAccessException {
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      inactivePictureApprover.unapprouvePictures(inactivePictureDto.getUidsToList());
+      inactivePictureApprover.unapprovePictures(inactivePictureDto.getUidsToList());
 
       return "redirect:/admin/pictures/";
    }

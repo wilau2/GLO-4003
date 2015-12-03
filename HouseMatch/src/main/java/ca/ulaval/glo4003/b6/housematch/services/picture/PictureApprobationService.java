@@ -1,6 +1,5 @@
-package ca.ulaval.glo4003.b6.housematch.services.admin;
+package ca.ulaval.glo4003.b6.housematch.services.picture;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,33 +37,33 @@ public class PictureApprobationService {
 
    }
 
-   public void approuvePictures(List<String> approvalPictureUids)
+   public void approvePictures(List<String> approvalPictureUids)
          throws CouldNotAccessDataException, UUIDAlreadyExistsException {
       Pictures pictures = approvalPictureRepository.getAllPictures();
       List<Picture> activatedPictures = pictures.activatePicturesFromUids(approvalPictureUids);
+
       approvalPictureRepository.updatePictures(activatedPictures);
    }
 
-   public void unapprouvePictures(List<String> approvalPictureUids) throws CouldNotAccessDataException {
+   public void unapprovePictures(List<String> approvalPictureUids) throws CouldNotAccessDataException {
       deletePicturesFromPictureRepository(approvalPictureUids);
       deletePicturesFromApprovalRepository(approvalPictureUids);
    }
 
    private void deletePicturesFromPictureRepository(List<String> inactivePictureUids)
          throws CouldNotAccessDataException {
-      List<Picture> pictureList = approvalPictureRepository.getPicturesByUids(inactivePictureUids);
-      for (Iterator<Picture> pictureListIterator = pictureList.iterator(); pictureListIterator
-            .hasNext();) {
-         Picture inactivePicture = pictureListIterator.next();
+      List<Picture> pictures = approvalPictureRepository.getPicturesByUids(inactivePictureUids);
+
+      for (Picture inactivePicture : pictures) {
          pictureRepository.deletePicture(inactivePicture.getName(), inactivePicture.getAddress());
       }
    }
 
    private void deletePicturesFromApprovalRepository(List<String> inactivePictureUids)
          throws CouldNotAccessDataException {
-      for (Iterator<String> pictureUidsIterator = inactivePictureUids.iterator(); pictureUidsIterator
-            .hasNext();) {
-         approvalPictureRepository.deletePicture(pictureUidsIterator.next());
+
+      for (String pictureName : inactivePictureUids) {
+         approvalPictureRepository.deletePicture(pictureName);
       }
    }
 
