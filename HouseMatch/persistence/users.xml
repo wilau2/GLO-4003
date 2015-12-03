@@ -39,12 +39,11 @@
     <password>123</password>  
     <role>admin</role>  
     <phoneNumber>123-456-7899</phoneNumber>  
-    <dateLastActivity>2015-12-02T15:54:02.750</dateLastActivity>  
+    <dateLastActivity>2015-12-02T20:16:49.146</dateLastActivity>  
     <isActive>true</isActive>  
     <email>ding@dong.com</email>  
     <username>admin</username> 
   </user>  
-
   <user> 
     <firstName>Brucee</firstName>  
     <lastName>Leee</lastName>  

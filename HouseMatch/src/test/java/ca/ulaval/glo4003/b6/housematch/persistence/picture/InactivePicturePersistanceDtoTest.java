@@ -63,7 +63,7 @@ public class InactivePicturePersistanceDtoTest {
    }
 
    private void configurePicture() {
-      given(picture.getActive()).willReturn(true);
+      given(picture.isActive()).willReturn(true);
       given(picture.getAddress()).willReturn(ADDRESS);
       given(picture.getName()).willReturn(NAME);
       given(picture.getUid()).willReturn(UID);

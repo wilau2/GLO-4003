@@ -115,7 +115,8 @@ public class SellerEstateController {
 
       DescriptionDto descriptionDto = estateByAddress.getDescriptionDto();
 
-      List<PictureDto> pictures = estatePicturesService.getPicturesOfEstate(address);
+      List<PictureDto> pictures = estatePicturesService.getPublicPicturesOfEstate(address);
+      pictures.addAll(estatePicturesService.getPrivatePicturesOfEstate(address));
 
       ModelAndView sellerEstateViewModel = new ModelAndView("estate");
       sellerEstateViewModel.addObject("estate", estateByAddress);
@@ -126,8 +127,9 @@ public class SellerEstateController {
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/{address}/edit/estate", method = RequestMethod.POST)
-   public String editEstate(@PathVariable("address") String address, HttpServletRequest request, @ModelAttribute("estate") EstateEditDto estateEditDto) 
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException, EstateNotFoundException, InvalidEstateException {
+   public String editEstate(@PathVariable("address") String address, HttpServletRequest request,
+         @ModelAttribute("estate") EstateEditDto estateEditDto) throws InvalidEstateFieldException,
+               CouldNotAccessDataException, InvalidAccessException, EstateNotFoundException, InvalidEstateException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
@@ -135,11 +137,12 @@ public class SellerEstateController {
 
       return "redirect:/seller/{userId}/estates/{address}";
    }
-   
+
    @RequestMapping(value = "/seller/{userId}/estates/{address}/edit/description", method = RequestMethod.POST)
-   public String editDescription(@PathVariable("address") String address, HttpServletRequest request, @ModelAttribute("description") DescriptionDto descriptionDto) 
-         throws CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException, 
-         InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {
+   public String editDescription(@PathVariable("address") String address, HttpServletRequest request,
+         @ModelAttribute("description") DescriptionDto descriptionDto)
+               throws CouldNotAccessDataException, InvalidAccessException, InvalidDescriptionFieldException,
+               InvalidDescriptionException, EstateNotFoundException, InvalidEstateException {
 
       userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 

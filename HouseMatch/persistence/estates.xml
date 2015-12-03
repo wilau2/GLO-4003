@@ -3,25 +3,6 @@
 <estates> 
   <estate> 
     <seller>seller</seller>  
-    <address>0-1234-Rue des Bisous-PatateLand-Canada-Patate</address>  
-    <price>100000</price>  
-    <type>MULTIPLEX</type>  
-    <date_registered>2015-11-18T18:09:09.588</date_registered>  
-    <price_history/>  
-    <description> 
-      <numberOfBedRooms>0</numberOfBedRooms>  
-      <municipalValuation>0</municipalValuation>  
-      <dimensionsBuilding/>  
-      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>0</numberOfRooms>  
-      <yearsOfConstruction>0</yearsOfConstruction>  
-      <backyardFaces/>  
-      <numberOfLevel>0</numberOfLevel>  
-      <numberOfBathrooms>0</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
     <address>0-2222-222-quebec-canada-g1l1s8</address>  
     <price>25000</price>  
     <bought>false</bought>  
@@ -122,11 +103,11 @@
   </estate>  
   <estate>
     <seller>myseller</seller>
-    <address>0-1-asd-asd-asd-asd</address>
-    <price>1000</price>
+    <address>0-1234-Rue des Bisous-PatateLand-Canada-Patate</address>
+    <price>100000</price>
     <bought>false</bought>
-    <type>CONDO</type>
-    <date_registered>2015-12-02T16:04:18.586</date_registered>
+    <type>MULTIPLEX</type>
+    <date_registered>2015-11-18T18:09:09.588</date_registered>
     <price_history></price_history>
     <description>
       <numberOfBedRooms>0</numberOfBedRooms>

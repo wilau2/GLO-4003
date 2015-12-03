@@ -63,10 +63,6 @@ public class Picture {
       }
    }
 
-   public Boolean getActive() {
-      return this.active;
-   }
-
    private Boolean turnActiveStringIntoBoolean(String activeString) {
       Boolean active;
       if (activeString == null || activeString.isEmpty()) {

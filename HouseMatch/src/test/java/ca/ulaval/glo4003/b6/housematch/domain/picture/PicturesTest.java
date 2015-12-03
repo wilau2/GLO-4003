@@ -69,7 +69,7 @@ public class PicturesTest {
    }
 
    @Test
-   public void givenEmptyPictureInListWhenGetActivePicturesShoudlReturnNoActivePicture() {
+   public void givenEmptyPictureInListWhenGetActivePicturesShouldReturnNoActivePicture() {
       // Given
       configureEmptyPictureList();
 
@@ -81,7 +81,7 @@ public class PicturesTest {
    }
 
    @Test
-   public void givenOneActivePictureInListWhenGetInactivePicturesShoudlReturnNoActivePicture() {
+   public void givenOneActivePictureInListWhenGetInactivePicturesShouldReturnNoActivePicture() {
       // Given
       configureActivePictureList();
 
@@ -93,7 +93,7 @@ public class PicturesTest {
    }
 
    @Test
-   public void givenOneInactivePictureInListWhenGetInactivePicturesShoudlReturnOneActivePicture() {
+   public void givenOneInactivePictureInListWhenGetInactivePicturesShouldReturnOneActivePicture() {
       // Given
       configureInactivePictureList();
 
@@ -105,7 +105,7 @@ public class PicturesTest {
    }
 
    @Test
-   public void givenEmptyPictureInListWhenGetInactivePicturesShoudlReturnNoActivePicture() {
+   public void givenEmptyPictureInListWhenGetInactivePicturesShouldReturnNoActivePicture() {
       // Given
       configureEmptyPictureList();
 
@@ -117,7 +117,7 @@ public class PicturesTest {
    }
 
    @Test
-   public void givenEstatePictureInListWhenGetEstatePictureUidShoudlReturnValidUid() {
+   public void givenEstatePictureInListWhenGetEstatePictureUidShouldReturnValidUid() {
       // Given
       congigureEstatePictureList();
 
@@ -129,7 +129,7 @@ public class PicturesTest {
    }
 
    @Test
-   public void givenNotGoodAdressEstatePictureInListWhenGetEstatePictureUidShoudlReturnEmptyUid() {
+   public void givenNotGoodAdressEstatePictureInListWhenGetEstatePictureUidShouldReturnEmptyUid() {
       // Given
       congigureEstatePictureList();
       when(picture.isFromEstate(ADDRESS)).thenReturn(false);
@@ -142,7 +142,7 @@ public class PicturesTest {
    }
 
    @Test
-   public void givenNotGoodNameEstatePictureInListWhenGetEstatePictureUidShoudlReturnEmptyUid() {
+   public void givenNotGoodNameEstatePictureInListWhenGetEstatePictureUidShouldReturnEmptyUid() {
       // Given
       congigureEstatePictureList();
       when(picture.getName()).thenReturn(INVALID_NAME);
@@ -167,7 +167,7 @@ public class PicturesTest {
    }
 
    @Test
-   public void givenEmptyActiveEstatePictureInListWhenGetActiveEstatePicturesNamesShoudlReturnEmptyList() {
+   public void givenEmptyActiveEstatePictureInListWhenGetActiveEstatePicturesNamesShouldReturnEmptyList() {
       // Given
       configureEmptyPictureList();
 
@@ -179,7 +179,7 @@ public class PicturesTest {
    }
 
    @Test
-   public void givenActiveEstatePictureWithValidAddressInListWhenGetActiveEstatePicturesNamesShoudlReturnValidName() {
+   public void givenActiveEstatePictureWithValidAddressInListWhenGetActiveEstatePicturesNamesShouldReturnValidName() {
       // Given
       configureActivePictureList();
       when(picture.isFromEstate(ADDRESS)).thenReturn(true);
@@ -193,7 +193,35 @@ public class PicturesTest {
    }
 
    @Test
-   public void givenActiveEstatePictureWithInvalidAddressInListWhenGetActiveEstatePicturesNamesShoudlReturnNoName() {
+   public void givenActiveEstatePictureWithValidAddressInListWhenGetInactiveEstatePicturesNamesShouldNoValidName() {
+      // Given
+      configureActivePictureList();
+      when(picture.isFromEstate(ADDRESS)).thenReturn(true);
+      when(picture.getName()).thenReturn(NAME);
+
+      // When
+      List<String> rep = pictures.getInactiveEstatePicturesNames(ADDRESS);
+
+      // Then
+      assertTrue(rep.isEmpty());
+   }
+
+   @Test
+   public void givenInactiveEstatePictureWithValidAddressInListWhenGetInactiveEstatePicturesNamesShouldReturnName() {
+      // Given
+      configureInactivePictureList();
+      when(picture.isFromEstate(ADDRESS)).thenReturn(true);
+      when(picture.getName()).thenReturn(NAME);
+
+      // When
+      List<String> rep = pictures.getInactiveEstatePicturesNames(ADDRESS);
+
+      // Then
+      assertEquals(NAME, rep.get(0));
+   }
+
+   @Test
+   public void givenActiveEstatePictureWithInvalidAddressInListWhenGetActiveEstatePicturesNamesShouldReturnNoName() {
       // Given
       configureActivePictureList();
       when(picture.isFromEstate(ADDRESS)).thenReturn(false);
