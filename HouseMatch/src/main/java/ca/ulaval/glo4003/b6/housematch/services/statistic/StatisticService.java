@@ -51,7 +51,7 @@ public class StatisticService {
       Estates estates = estateRepository.getAllEstates();
       Estates estatesSoldLastYear = estateProcessor.retrieveEstatesSoldLastYear(estates);
 
-      return estatesSoldLastYear.size();
+      return estatesSoldLastYear.retreiveNumberOfEstates();
    }
 
 }

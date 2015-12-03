@@ -121,7 +121,7 @@ public class EstatesTest {
       // Given
 
       // When
-      int size = estates.size();
+      int size = estates.retreiveNumberOfEstates();
 
       // Then
       assertEquals(3, size);
@@ -136,7 +136,7 @@ public class EstatesTest {
       estates.updateEstatesList(listEstates);
 
       // Then
-      assertEquals(2, estates.size());
+      assertEquals(2, estates.retreiveNumberOfEstates());
    }
 
 }

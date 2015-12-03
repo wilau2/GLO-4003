@@ -43,7 +43,7 @@ import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescrip
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.picture.EstatePicturesService;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 public class SellerEstateControllerTest {
@@ -95,7 +95,7 @@ public class SellerEstateControllerTest {
    private MultipartFile pictureFile;
 
    @Mock
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userAuthorizationService;
 
    private List<EstateDto> estatesDto;
 

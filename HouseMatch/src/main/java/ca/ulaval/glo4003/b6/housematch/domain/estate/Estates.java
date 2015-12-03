@@ -35,7 +35,7 @@ public class Estates {
       estates = listEstates;
    }
 
-   public int size() {
+   public int retreiveNumberOfEstates() {
       return this.estates.size();
    }
 

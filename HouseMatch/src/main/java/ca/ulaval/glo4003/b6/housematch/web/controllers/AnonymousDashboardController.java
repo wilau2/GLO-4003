@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.statistic.StatisticService;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 
 @Controller
 public class AnonymousDashboardController {
@@ -21,19 +21,19 @@ public class AnonymousDashboardController {
 
    private static final String NUMBER_OF_ACTIVE_SELLERS_KEY = "numberOfActiveSellers";
 
-   private UserAuthorizationService userAuthorizationSerive;
+   private UserSessionAuthorizationService userSessionAuthorizationService;
 
    private StatisticService statisticService;
 
-   public AnonymousDashboardController(UserAuthorizationService userAuthorizationSerive,
+   public AnonymousDashboardController(UserSessionAuthorizationService userSessionAuthorizationService,
          StatisticService statisticService) {
-      this.userAuthorizationSerive = userAuthorizationSerive;
+      this.userSessionAuthorizationService = userSessionAuthorizationService;
       this.statisticService = statisticService;
    }
 
    @RequestMapping(path = "/home", method = RequestMethod.GET)
    public ModelAndView getHomePage(HttpServletRequest request) throws CouldNotAccessDataException, DocumentException {
-      userAuthorizationSerive.isUserLogged(request);
+      userSessionAuthorizationService.isUserLogged(request);
 
       int numberOfActiveBuyers = statisticService.getNumberOfActiveBuyers();
       int numberOfActiveSellers = statisticService.getNumberOfActiveSellers();

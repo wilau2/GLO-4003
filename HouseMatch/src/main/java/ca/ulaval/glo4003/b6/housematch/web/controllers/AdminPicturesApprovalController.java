@@ -18,7 +18,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.picture.PictureApprobationService;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 @Controller
@@ -28,25 +28,25 @@ public class AdminPicturesApprovalController {
 
    private PictureApprobationService inactivePictureApprover;
 
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userSessionAuthorizationService;
 
    @Autowired
    public AdminPicturesApprovalController(PictureApprobationService inactivePictureApprover,
-         UserAuthorizationService userAuthorizationService) {
+         UserSessionAuthorizationService userSessionAuthorizationService) {
       this.inactivePictureApprover = inactivePictureApprover;
-      this.userAuthorizationService = userAuthorizationService;
+      this.userSessionAuthorizationService = userSessionAuthorizationService;
    }
 
    @RequestMapping("/admin")
    public String admin(HttpServletRequest request) throws InvalidAccessException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
       return "admin_dashboard";
    }
 
    @RequestMapping(value = "/admin/pictures", method = RequestMethod.GET)
    public ModelAndView getInactivePictures(HttpServletRequest request)
          throws CouldNotAccessDataException, InvalidAccessException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       List<Picture> inactivePictures = inactivePictureApprover.getAllInactivePictures();
 
@@ -60,7 +60,7 @@ public class AdminPicturesApprovalController {
    @RequestMapping(value = "/admin/pictures", params = "approve", method = RequestMethod.POST)
    public String approveInactivesPictures(HttpServletRequest request, InformationPictureDto inactivePictureDto)
          throws CouldNotAccessDataException, InvalidAccessException, UUIDAlreadyExistsException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       inactivePictureApprover.approvePictures(inactivePictureDto.getUidsToList());
 
@@ -70,7 +70,7 @@ public class AdminPicturesApprovalController {
    @RequestMapping(value = "/admin/pictures", params = "delete", method = RequestMethod.POST)
    public String deleteInactivesPictures(HttpServletRequest request, InformationPictureDto inactivePictureDto)
          throws CouldNotAccessDataException, InvalidAccessException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       inactivePictureApprover.unapprovePictures(inactivePictureDto.getUidsToList());
 
@@ -80,7 +80,7 @@ public class AdminPicturesApprovalController {
    @RequestMapping(value = "/admin/pictures/{uid}", method = RequestMethod.GET, produces = "image/jpg")
    public @ResponseBody byte[] getInactivePicture(@PathVariable("uid") String uid, HttpServletRequest request)
          throws CouldNotAccessDataException, InvalidAccessException {
-      userAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       return inactivePictureApprover.getInactivePictureContent(uid);
    }

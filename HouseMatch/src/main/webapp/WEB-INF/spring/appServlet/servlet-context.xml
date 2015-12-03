@@ -235,8 +235,8 @@
             name="estateCorruptionVerificator"
             ref="estateCorruptionVerificator" />
         <beans:constructor-arg
-            name="userAuthorizationService"
-            ref="userAuthorizationService" />
+            name="userSessionAuthorizationService"
+            ref="userSessionAuthorizationService" />
         <beans:constructor-arg
             name="estatesFetcher"
             ref="estatesFetcher" />
@@ -256,8 +256,8 @@
         scope="session"
     >
         <beans:constructor-arg
-            name="userAuthorizationService"
-            ref="userAuthorizationService" />
+            name="userSessionAuthorizationService"
+            ref="userSessionAuthorizationService" />
         <beans:constructor-arg
             name="estatePicturesService"
             ref="estatePicturesService" />
@@ -269,8 +269,8 @@
         scope="session"
     >
         <beans:constructor-arg
-            name="userAuthorizationService"
-            ref="userAuthorizationService" />
+            name="userSessionAuthorizationService"
+            ref="userSessionAuthorizationService" />
         <beans:constructor-arg
             name="pictureApprobationService"
             ref="pictureApprobationService" />
@@ -350,16 +350,12 @@
     </beans:bean>
 
     <beans:bean
-        id="userValidatorFactory"
-        class="ca.ulaval.glo4003.b6.housematch.services.user.validator.UserValidatorFactory" />
-
-    <beans:bean
         id="userAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.UserAssemblerFactory" />
 
     <beans:bean
-        id="userAuthorizationService"
-        class="ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService" />
+        id="userSessionAuthorizationService"
+        class="ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService" />
 
     <beans:bean
         id="mailBuilderFactory"
@@ -398,8 +394,8 @@
             name="userRepository"
             ref="userRepository" />
         <beans:constructor-arg
-            name="userAuthorizationService"
-            ref="userAuthorizationService" />
+            name="userSessionAuthorizationService"
+            ref="userSessionAuthorizationService" />
 
     </beans:bean>
 
@@ -424,9 +420,6 @@
             name="userRepository"
             ref="userRepository" />
         <beans:constructor-arg
-            name="userValidatorFactory"
-            ref="userValidatorFactory" />
-        <beans:constructor-arg
             name="userAssemblerFactory"
             ref="userAssemblerFactory" />
         <beans:constructor-arg>
@@ -444,6 +437,9 @@
         <beans:constructor-arg
             name="userRepository"
             ref="userRepository" />
+        <beans:constructor-arg
+            name="userAssemblerFactory"
+            ref="userAssemblerFactory" />
     </beans:bean>
 
     <beans:bean
@@ -497,8 +493,8 @@
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.LogoutController"
     >
         <beans:constructor-arg
-            name="userAuthorizationService"
-            ref="userAuthorizationService" />
+            name="userSessionAuthorizationService"
+            ref="userSessionAuthorizationService" />
 
     </beans:bean>
 
@@ -549,8 +545,8 @@
         scope="session"
     >
         <beans:constructor-arg
-            name="userAuthorizationService"
-            ref="userAuthorizationService" />
+            name="userSessionAuthorizationService"
+            ref="userSessionAuthorizationService" />
         <beans:constructor-arg
             name="userFetcher"
             ref="userFetcher" />
@@ -593,19 +589,21 @@
             name="adminStatisticService"
             ref="statisticService" />
         <beans:constructor-arg
-            name="userAuthorizationService"
-            ref="userAuthorizationService" />
+            name="userSessionAuthorizationService"
+            ref="userSessionAuthorizationService" />
 
     </beans:bean>
+    
     <beans:bean
         id="homeController"
         scope="session"
         class="ca.ulaval.glo4003.b6.housematch.web.controllers.HomeController"
     >
         <beans:constructor-arg
-            name="userAuthorizationService"
-            ref="userAuthorizationService" />
+            name="userSessionAuthorizationService"
+            ref="userSessionAuthorizationService" />
     </beans:bean>
+    
     <beans:bean
         id="anonymousDashboardController"
         scope="session"
@@ -615,7 +613,7 @@
             name="statisticService"
             ref="statisticService" />
         <beans:constructor-arg
-            name="userAuthorizationSerive"
-            ref="userAuthorizationService" />
+            name="userSessionAuthorizationService"
+            ref="userSessionAuthorizationService" />
     </beans:bean>
 </beans:beans>

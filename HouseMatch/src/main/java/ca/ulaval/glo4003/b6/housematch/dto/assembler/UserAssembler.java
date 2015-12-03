@@ -28,4 +28,15 @@ public class UserAssembler {
       return user;
    }
 
+   public UserDto assembleUserDto(User user) {
+      UserDto userDto = new UserDto();
+      userDto.setUsername(user.getUsername());
+      ContactInformationDto contactInformationDto = new ContactInformationDto(
+            user.getContactInformation().getFirstName(), user.getContactInformation().getLastName(),
+            user.getContactInformation().getPhoneNumber(), user.getContactInformation().getEmail());
+      userDto.setContactInformationDto(contactInformationDto);
+
+      return userDto;
+   }
+
 }

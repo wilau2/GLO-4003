@@ -1,15 +1,15 @@
 package ca.ulaval.glo4003.b6.housematch.domain.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.b6.housematch.domain.user.ContactInformation;
-
 public class ContactInformationTest {
 
-   private static final String FIRST_NAME = "firsname";
+   private static final String FIRST_NAME = "firstname";
 
    private static final String LAST_NAME = "lastname";
 
@@ -103,4 +103,30 @@ public class ContactInformationTest {
       // Then
       assertEquals(NEW_EMAIL, contactInformation.getEmail());
    }
+
+   @Test
+   public void givenNewEmailWhenIsEmailChangedShouldReturnTrue() {
+      // Given
+      ContactInformation newContactInformation = new ContactInformation(NEW_FIRST_NAME, NEW_LAST_NAME, NEW_PHONE_NUMBER,
+            NEW_EMAIL);
+      // When
+      boolean isEmailChanged = contactInformation.isEmailChanged(newContactInformation);
+
+      // Then
+      assertTrue(isEmailChanged);
+   }
+
+   @Test
+   public void givenOldEmailWhenIsEmailChangedShouldReturnFalse() {
+      // Given
+      ContactInformation newContactInformation = new ContactInformation(NEW_FIRST_NAME, NEW_LAST_NAME, NEW_PHONE_NUMBER,
+            contactInformation.getEmail());
+
+      // When
+      boolean isEmailChanged = contactInformation.isEmailChanged(newContactInformation);
+
+      // Then
+      assertFalse(isEmailChanged);
+   }
+
 }

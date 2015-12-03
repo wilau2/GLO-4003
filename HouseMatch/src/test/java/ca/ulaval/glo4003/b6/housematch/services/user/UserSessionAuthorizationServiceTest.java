@@ -23,7 +23,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
-public class UserAuthorizationServiceTest {
+public class UserSessionAuthorizationServiceTest {
 
    private static final String EXPECTED_BUYER_ROLE = "buyer";
 
@@ -38,7 +38,7 @@ public class UserAuthorizationServiceTest {
    HttpServletRequest request;
 
    @InjectMocks
-   UserAuthorizationService userAuthorizationService;
+   UserSessionAuthorizationService userAuthorizationService;
 
    @Mock
    private HttpSession session;
@@ -66,7 +66,7 @@ public class UserAuthorizationServiceTest {
       userAuthorizationService.setSessionUserAuthorisation(request, user);
 
       // Then
-      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE, Role.SELLER);
+      verify(session).setAttribute(UserSessionAuthorizationService.LOGGED_IN_USER_ROLE, Role.SELLER);
    }
 
    @Test
@@ -77,7 +77,7 @@ public class UserAuthorizationServiceTest {
       userAuthorizationService.setSessionUserAuthorisation(request, user);
 
       // Then
-      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE, Role.ADMIN);
+      verify(session).setAttribute(UserSessionAuthorizationService.LOGGED_IN_USER_ROLE, Role.ADMIN);
    }
 
    @Test
@@ -88,7 +88,7 @@ public class UserAuthorizationServiceTest {
       userAuthorizationService.setSessionUserAuthorisation(request, user);
 
       // Then
-      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE, Role.BUYER);
+      verify(session).setAttribute(UserSessionAuthorizationService.LOGGED_IN_USER_ROLE, Role.BUYER);
    }
 
    @Test
@@ -99,7 +99,7 @@ public class UserAuthorizationServiceTest {
       userAuthorizationService.setSessionUserAuthorisation(request, user);
 
       // Then
-      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USERNAME, USERNAME);
+      verify(session).setAttribute(UserSessionAuthorizationService.LOGGED_IN_USERNAME, USERNAME);
    }
 
    @Test
@@ -110,7 +110,7 @@ public class UserAuthorizationServiceTest {
       userAuthorizationService.closeSession(request);
 
       // Then
-      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USERNAME, null);
+      verify(session).setAttribute(UserSessionAuthorizationService.LOGGED_IN_USERNAME, null);
    }
 
    @Test
@@ -121,7 +121,7 @@ public class UserAuthorizationServiceTest {
       userAuthorizationService.closeSession(request);
 
       // Then
-      verify(session).setAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE, null);
+      verify(session).setAttribute(UserSessionAuthorizationService.LOGGED_IN_USER_ROLE, null);
    }
 
    @Test
@@ -181,7 +181,7 @@ public class UserAuthorizationServiceTest {
    @Test
    public void verifyingIfUserIsLoggedWhenUserIsNotLoggedShouldReturnFalse() {
       // Given
-      when(session.getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME)).thenReturn(null);
+      when(session.getAttribute(UserSessionAuthorizationService.LOGGED_IN_USERNAME)).thenReturn(null);
 
       // When
       boolean userLogged = userAuthorizationService.isUserLogged(request);
@@ -194,7 +194,7 @@ public class UserAuthorizationServiceTest {
    @Test
    public void verifyingIfUserIsLoggedWhenUserIsLoggedShouldReturnTrue() {
       // Given
-      when(session.getAttribute(UserAuthorizationService.LOGGED_IN_USERNAME)).thenReturn(USERNAME);
+      when(session.getAttribute(UserSessionAuthorizationService.LOGGED_IN_USERNAME)).thenReturn(USERNAME);
 
       // When
       boolean userLogged = userAuthorizationService.isUserLogged(request);
@@ -204,13 +204,13 @@ public class UserAuthorizationServiceTest {
    }
 
    private void configureAdminRole() {
-      given(session.getAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE)).willReturn(roleObject);
+      given(session.getAttribute(UserSessionAuthorizationService.LOGGED_IN_USER_ROLE)).willReturn(roleObject);
       given(roleObject.toString()).willReturn("admin");
 
    }
 
    private void configureBuyerSession() {
-      given(session.getAttribute(UserAuthorizationService.LOGGED_IN_USER_ROLE)).willReturn(roleObject);
+      given(session.getAttribute(UserSessionAuthorizationService.LOGGED_IN_USER_ROLE)).willReturn(roleObject);
       given(roleObject.toString()).willReturn("buyer");
 
    }
