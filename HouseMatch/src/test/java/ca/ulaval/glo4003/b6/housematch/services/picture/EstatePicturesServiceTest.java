@@ -67,7 +67,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPicturesShouldCallAlbumPictureRepository()
+   public void gettingPublicPicturesShouldCallAlbumPictureRepository()
          throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
@@ -79,7 +79,31 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPicturesShouldCallGetRelevantPicturesFromAlbum()
+   public void gettingPublicPicturesShouldCallGetRelevantPicturesFromAlbum()
+         throws InvalidEstateException, CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      estatesPicturesService.getPublicPicturesOfEstate(ADDRESS);
+
+      // Then
+      verify(album, times(1)).getRelevantPictures();;
+   }
+
+   @Test
+   public void gettingPrivatePicturesShouldCallGetInactiveEstatePicturesNames()
+         throws InvalidEstateException, CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      estatesPicturesService.getPrivatePicturesOfEstate(ADDRESS);
+
+      // Then
+      verify(pictures, times(1)).getInactiveEstatePicturesNames(ADDRESS);
+   }
+
+   @Test
+   public void gettingPrivatePicturesShouldCallGetRelevantPicturesFromAlbum()
          throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
@@ -127,7 +151,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void deletingAPictureShouldCallDeletePictureRepository()
+   public void deletingAPictureShouldCallDeletePictureFromRepository()
          throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
@@ -139,7 +163,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPictureShouldCallAlbumPictureRepository()
+   public void gettingAPictureShouldCallAlbumPictureFactory()
          throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
@@ -151,7 +175,7 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void gettingAPictureShouldCallDeletePictureFromAlbum()
+   public void gettingAPictureShouldCallGetSpecificPictureFromAlbum()
          throws InvalidEstateException, CouldNotAccessDataException {
       // Given no changes
 
