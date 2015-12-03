@@ -213,7 +213,6 @@ public class UserTest {
       when(contactInformation.isEmailChanged(contactInformationForUpdate)).thenReturn(true);
 
       // When
-
       user.updateContactInformation(contactInformationForUpdate);
 
       // Then
