@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.EstateFilter;
@@ -39,9 +40,13 @@ public class Estates {
       estateSortingStrategy.sort(shownEstates);
    }
 
-   public void filterEstates(EstateFilter estateFilter, int minPrice, int maxPrice)
+   public void filterEstates(EstateFilter estateFilter, int minValue, int maxValue)
          throws InconsistentFilterParamaterException {
-      shownEstates = estateFilter.filter(shownEstates, minPrice, maxPrice);
+      shownEstates = estateFilter.filter(shownEstates, minValue, maxValue);
+   }
+
+   public void reverseShownEstates() {
+      Collections.reverse(shownEstates);
    }
 
 }

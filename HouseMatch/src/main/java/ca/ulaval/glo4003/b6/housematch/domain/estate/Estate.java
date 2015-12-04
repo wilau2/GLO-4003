@@ -97,13 +97,6 @@ public class Estate {
       }
    };
 
-   public static Comparator<Estate> EstatePriceDescendantComparator = new Comparator<Estate>() {
-
-      public int compare(Estate estate1, Estate estate2) {
-         return estate2.getPrice().compareTo(estate1.getPrice());
-      }
-   };
-
    public static Comparator<Estate> EstateDateAscendantComparator = new Comparator<Estate>() {
 
       public int compare(Estate estate1, Estate estate2) {
@@ -111,24 +104,10 @@ public class Estate {
       }
    };
 
-   public static Comparator<Estate> EstateDateDescendantComparator = new Comparator<Estate>() {
-
-      public int compare(Estate estate1, Estate estate2) {
-         return estate2.getDateRegistered().compareTo(estate1.getDateRegistered());
-      }
-   };
-
    public static Comparator<Estate> EstateDateModifiedAscendantComparator = new Comparator<Estate>() {
 
       public int compare(Estate estate1, Estate estate2) {
          return estate1.getDateModified().compareTo(estate2.getDateModified());
-      }
-   };
-
-   public static Comparator<Estate> EstateDateModifiedDescendantComparator = new Comparator<Estate>() {
-
-      public int compare(Estate estate1, Estate estate2) {
-         return estate2.getDateModified().compareTo(estate1.getDateModified());
       }
    };
 
@@ -170,6 +149,13 @@ public class Estate {
          LocalDateTime lastYearDate = LocalDateTime.now().minusYears(1);
 
          return dateOfPurchase.isAfter(lastYearDate);
+      }
+      return false;
+   }
+
+   public boolean isPriceBetween(int minValue, int maxValue) {
+      if (price.intValue() >= minValue && price.intValue() <= maxValue) {
+         return true;
       }
       return false;
    }

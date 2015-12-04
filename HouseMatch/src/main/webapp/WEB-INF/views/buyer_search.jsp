@@ -46,16 +46,16 @@
 						<th>Type</th>
 						<th>Address</th>
 						<th>Date <a
-							href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateRegistered">Asc</a>/<a
-							href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateDescendant">Des</a>
+							href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateRegistred">Asc</a>/<a
+							href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateRegistred&descendingOrder=true">Des</a>
 						</th>
 						<th>Date Modified <a
 							href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateModified">Asc</a>/<a
-							href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateModifiedDescendant">Des</a>
+							href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=dateModified&descendingOrder=true">Des</a>
 						</th>
 						<th>Price <a
 							href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=price">Asc</a>/<a
-							href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=priceDescendant">Des</a>
+							href="${entryUrl}/buyer/${loggedInUsername}/estates?sort=price&descendingOrder=true">Des</a>
 						</th>
 						<th>Select</th>
 					</tr>

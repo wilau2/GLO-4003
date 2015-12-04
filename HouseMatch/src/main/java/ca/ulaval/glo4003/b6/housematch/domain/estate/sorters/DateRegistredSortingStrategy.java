@@ -10,6 +10,5 @@ public class DateRegistredSortingStrategy implements EstatesSortingStrategy {
    @Override
    public void sort(List<Estate> estates) {
       Collections.sort(estates, Estate.EstateDateAscendantComparator);
-
    }
 }

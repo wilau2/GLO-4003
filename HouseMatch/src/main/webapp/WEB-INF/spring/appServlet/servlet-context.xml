@@ -73,7 +73,7 @@
 
     <beans:bean
         id="estateFilterFactory"
-        class="ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilterFactory"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.EstateFilterFactory"
         scope="session" />
 
 
@@ -124,7 +124,7 @@
     </beans:bean>
     <beans:bean
         id="sortingStrategyFactory"
-        class="ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.SortingStrategyFactory"
+        class="ca.ulaval.glo4003.b6.housematch.domain.estate.SortingStrategyFactory"
         scope="session" />
     <beans:bean
         id="estatesFetcher"

@@ -83,7 +83,7 @@ public class BuyerSearchEstatesControllerTest {
 
       when(estatesFetcherService.getEstateByAddress(ADDRESS)).thenReturn(expectedReturnedEstate);
 
-      when(estatesFetcherService.getSortedEstates(STRATEGY)).thenReturn(listOfEstatesOrdered);
+      when(estatesFetcherService.getSortedEstates(STRATEGY, false)).thenReturn(listOfEstatesOrdered);
    }
 
    @Test
@@ -258,11 +258,23 @@ public class BuyerSearchEstatesControllerTest {
       String expectedViewName = "buyer_search";
 
       // When
-      ModelAndView modelAndView = buyerSearchEstatesController.searchAllEstatesSort(request, STRATEGY);
+      ModelAndView modelAndView = buyerSearchEstatesController.searchAllEstatesSort(request, STRATEGY, false);
 
       // Then
       assertEquals(expectedViewName, modelAndView.getViewName());
       assertEquals(listOfEstatesOrdered, modelAndView.getModel().get("estates"));
+   }
+
+   @Test
+   public void whenGettingSortedEstateShouldCallEstatesFetcherMethod()
+         throws CouldNotAccessDataException, InvalidAccessException {
+      // Given no changes
+
+      // When
+      buyerSearchEstatesController.searchAllEstatesSort(request, STRATEGY, true);
+
+      // Then
+      verify(estatesFetcherService, times(1)).getSortedEstates(STRATEGY, true);
    }
 
 }

@@ -3,12 +3,10 @@ package ca.ulaval.glo4003.b6.housematch.services.estate;
 import java.util.List;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilterFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.SortingStrategyFactory;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.WrongFilterTypeException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.EstateFilter;
@@ -85,13 +83,17 @@ public class EstatesFetcher {
 
    }
 
-   public List<EstateDto> getSortedEstates(String strategy) {
+   public List<EstateDto> getSortedEstates(String strategy, boolean descending) {
       EstatesSortingStrategy sortingStrategy = sortingStrategyFactory.getStrategy(strategy);
 
       inSessionMemoryEstates.sortByStrategy(sortingStrategy);
-      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
+      if (descending) {
+         inSessionMemoryEstates.reverseShownEstates();
+      }
 
-      return createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
+      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
+
+      return estateAssembler.assembleEstatesDto(inSessionMemoryEstates);
    }
 
    public List<EstateDto> filter(String price, int minPrice, int maxPrice)

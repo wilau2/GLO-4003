@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.services.estate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,12 +17,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateFilterFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.SortingStrategyFactory;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.WrongFilterTypeException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.EstateFilter;
@@ -345,7 +344,7 @@ public class EstatesFetcherTest {
       configureEstatesInMemory();
 
       // When
-      estateFetcher.getSortedEstates(STRATEGY);
+      estateFetcher.getSortedEstates(STRATEGY, false);
 
       // Then
       verify(estatesSortingFactory, times(1)).getStrategy(STRATEGY);
@@ -358,10 +357,51 @@ public class EstatesFetcherTest {
       when(estatesSortingFactory.getStrategy(STRATEGY)).thenReturn(estateSortingStrategy);
 
       // When
-      estateFetcher.getSortedEstates(STRATEGY);
+      estateFetcher.getSortedEstates(STRATEGY, false);
 
       // Then
       verify(estates, times(1)).sortByStrategy(estateSortingStrategy);
+   }
+
+   @Test
+   public void whenGettingSortedEstatesShouldCallAssemblerFactory() throws CouldNotAccessDataException {
+      // Given
+      configureEstatesInMemory();
+      when(estatesSortingFactory.getStrategy(STRATEGY)).thenReturn(estateSortingStrategy);
+
+      // When
+      estateFetcher.getSortedEstates(STRATEGY, false);
+
+      // Then
+      verify(estateAssemblerFactory, times(2)).createEstateAssembler();
+   }
+
+   @Test
+   public void gettingSortedEstatesWhenEstatesNeedToBeOrderedDescendingShouldAskEstatesToRevertItsOrder()
+         throws CouldNotAccessDataException {
+      // Given
+      configureEstatesInMemory();
+      when(estatesSortingFactory.getStrategy(STRATEGY)).thenReturn(estateSortingStrategy);
+
+      // When
+      estateFetcher.getSortedEstates(STRATEGY, true);
+
+      // Then
+      verify(estates, times(1)).reverseShownEstates();
+   }
+
+   @Test
+   public void gettingSortedEstatesWhenEstatesDoNotNeedToBeDescendingOrderedShouldNotAskEstatesToRevertItsOrder()
+         throws CouldNotAccessDataException {
+      // Given
+      configureEstatesInMemory();
+      when(estatesSortingFactory.getStrategy(STRATEGY)).thenReturn(estateSortingStrategy);
+
+      // When
+      estateFetcher.getSortedEstates(STRATEGY, false);
+
+      // Then
+      verify(estates, never()).reverseShownEstates();
    }
 
    private void configureEstatesInMemory() throws CouldNotAccessDataException {

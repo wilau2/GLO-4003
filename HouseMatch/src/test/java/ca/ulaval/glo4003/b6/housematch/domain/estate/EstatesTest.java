@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
@@ -175,5 +176,18 @@ public class EstatesTest {
 
       // Then
       assertNotSame(listEstates, estates.retreiveListOfEstate());
+   }
+
+   @Test
+   public void whenAskingEstatesToReverseItsShownEstatesShouldReverseTheListOfShownEstates() {
+      // Given no changes
+
+      // When
+      estates.reverseShownEstates();
+      List<Estate> reversedShownEstates = estates.retreiveListOfEstate();
+
+      // Then
+      Collections.reverse(reversedShownEstates);
+      assertEquals(listEstates, reversedShownEstates);
    }
 }

@@ -22,15 +22,21 @@ public class EstateTest {
 
    private static final String TYPE = "TYPE";
 
-   private static final ArrayList<Integer> PRICE_HISTORY = new ArrayList<Integer>();
-
    private static final boolean BOUGHT = false;
+
+   private static final int MIN_PRICE = 10;
+
+   private static final int MAX_PRICE = 100;
+
+   private static final Integer PRICE_BETWEEN_MAX_AND_MIN = 50;
 
    @Mock
    private Address address;
 
    @Mock
    private Description description;
+
+   private ArrayList<Integer> priceHistory;
 
    private Estate estate;
 
@@ -50,8 +56,8 @@ public class EstateTest {
 
       dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
       dateModified = LocalDateTime.of(2000, 12, 12, 12, 12);
-
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, BOUGHT,
+      priceHistory = new ArrayList<>();
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, priceHistory, BOUGHT,
             dateOfPurchase, dateModified);
 
    }
@@ -235,7 +241,7 @@ public class EstateTest {
          throws EstateAlreadyBoughtException {
       // Given
       LocalDateTime dateOfPurchaseLastYear = LocalDateTime.now().minusYears(1).minusNanos(1);
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, true,
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, priceHistory, true,
             dateOfPurchaseLastYear, dateModified);
 
       // When
@@ -249,7 +255,7 @@ public class EstateTest {
    public void askingIfEstateHasBeenSoldInThePastYearWhenEstateHasBeenBoughtInTheLastYearShouldReturnTrue() {
       // Given
       LocalDateTime dateOfPurchaseLastYear = LocalDateTime.now().minusYears(1).plusSeconds(1);
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, true,
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, priceHistory, true,
             dateOfPurchaseLastYear, dateModified);
 
       // When
@@ -257,5 +263,65 @@ public class EstateTest {
 
       // Then
       assertTrue(hasBeenBoughtInLastYear);
+   }
+
+   @Test
+   public void askingIfEstatePriceIsBetweenValueWhenEstateIsBelowMinValueShouldReturnFalse() {
+      // Given
+      estate.editPrice(MIN_PRICE - 1);
+
+      // When
+      boolean priceBetween = estate.isPriceBetween(MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertFalse(priceBetween);
+   }
+
+   @Test
+   public void askingIfEstatePriceIsBetweenValueWhenEstatePriceIsEqualToMinValueShouldReturnTrue() {
+      // Given
+      estate.editPrice(MIN_PRICE);
+
+      // When
+      boolean priceBetween = estate.isPriceBetween(MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertTrue(priceBetween);
+   }
+
+   @Test
+   public void askingIfEstatePriceIsBetweenValuesWhenEstatePriceIsEqualToMaxValueShouldReturnTrue() {
+      // Given
+      estate.editPrice(MAX_PRICE);
+
+      // When
+      boolean priceBetween = estate.isPriceBetween(MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertTrue(priceBetween);
+   }
+
+   @Test
+   public void askingIfEstatePriceIsBetweenValuesWhenPriceOfEstateIsAboveMaxValueShouldReturnFalse() {
+      // Given
+      estate.editPrice(MAX_PRICE + 1);
+
+      // When
+      boolean priceBetween = estate.isPriceBetween(MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertFalse(priceBetween);
+   }
+
+   @Test
+   public void askingIfEstatePriceIsBetweenValuesWhenEstatePriceIsBetweenShouldReturnTrue() {
+      // Given
+      estate.editPrice(PRICE_BETWEEN_MAX_AND_MIN);
+
+      // When
+      boolean priceBetween = estate.isPriceBetween(MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertTrue(priceBetween);
    }
 }
