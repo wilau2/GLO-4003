@@ -1,7 +1,12 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.eq;
+
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -17,6 +22,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.EstateFilter;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.InconsistentFilterParamaterException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstatesSortingStrategy;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -79,58 +86,6 @@ public class EstatesTest {
    }
 
    @Test
-   public void whenEstatesSortByPriceAscendantShouldReturnListSortAscendant() {
-      // Given
-
-      // When
-      estates.sortByLowestToHighestPrice();
-
-      // Then
-      assertEquals(MIN_PRICE, estates.retreiveListOfEstate().get(0).getPrice().intValue());
-      assertEquals(MID_PRICE, estates.retreiveListOfEstate().get(1).getPrice().intValue());
-      assertEquals(MAX_PRICE, estates.retreiveListOfEstate().get(2).getPrice().intValue());
-   }
-
-   @Test
-   public void whenEstatesSortByPriceDescendantShouldReturnListSortDescendant() {
-      // Given
-
-      // When
-      estates.sortByHighestToLowestPrice();
-
-      // Then
-      assertEquals(MAX_PRICE, estates.retreiveListOfEstate().get(0).getPrice().intValue());
-      assertEquals(MID_PRICE, estates.retreiveListOfEstate().get(1).getPrice().intValue());
-      assertEquals(MIN_PRICE, estates.retreiveListOfEstate().get(2).getPrice().intValue());
-   }
-
-   @Test
-   public void whenEstatesSortByDateAscendantShouldReturnListSortAscendant() {
-      // Given
-
-      // When
-      estates.sortByOldestToNewestDate();
-
-      // Then
-      assertEquals(MIN_DATE, estates.retreiveListOfEstate().get(0).getDateRegistered());
-      assertEquals(MID_DATE, estates.retreiveListOfEstate().get(1).getDateRegistered());
-      assertEquals(MAX_DATE, estates.retreiveListOfEstate().get(2).getDateRegistered());
-   }
-
-   @Test
-   public void whenEstatesSortByDateDescendantShouldReturnListSortDescendant() {
-      // Given
-
-      // When
-      estates.sortByNewestToOldestDate();
-
-      // Then
-      assertEquals(MAX_DATE, estates.retreiveListOfEstate().get(0).getDateRegistered());
-      assertEquals(MID_DATE, estates.retreiveListOfEstate().get(1).getDateRegistered());
-      assertEquals(MIN_DATE, estates.retreiveListOfEstate().get(2).getDateRegistered());
-   }
-
-   @Test
    public void whenEstatesIsNotEmptyShouldReturnRightSizeOfEstates() {
       // Given
 
@@ -155,23 +110,70 @@ public class EstatesTest {
 
    @Test
    public void whenSortingEstatesShouldCallEstatesSortingStrategyMethod() {
-      // Given
+      // Given no changes
 
       // When
       estates.sortByStrategy(estateSortingStrategy);
 
       // Then
-      verify(estateSortingStrategy, times(1)).sort(listEstates);
+      verify(estateSortingStrategy, times(1)).sort(anyListOf(Estate.class));
+   }
+
+   @Test
+   public void whenSortingEstatesShouldCallEstatesSortingStrategyMethodOnShownEstates() {
+      // Given no changes
+      listEstates.remove(0);
+
+      // When
+      estates.sortByStrategy(estateSortingStrategy);
+
+      // Then
+      verify(estateSortingStrategy, never()).sort(listEstates);
    }
 
    @Test
    public void whenFilteringEstatesShouldCallEstatesFilterMethod() throws InconsistentFilterParamaterException {
-      // Given
+      // Given no changes
 
       // When
       estates.filterEstates(estateFilter, MIN_PRICE, MAX_PRICE);
 
       // Then
-      verify(estateFilter, times(1)).filter(listEstates, MIN_PRICE, MAX_PRICE);
+      verify(estateFilter, times(1)).filter(anyListOf(Estate.class), eq(MIN_PRICE), eq(MAX_PRICE));
+   }
+
+   @Test
+   public void whenFilteringEstatesShouldCallEstatesFilterMethodOnShownEstates()
+         throws InconsistentFilterParamaterException {
+      // Given
+      listEstates.remove(0);
+
+      // When
+      estates.filterEstates(estateFilter, MIN_PRICE, MAX_PRICE);
+
+      // Then
+      verify(estateFilter, never()).filter(listEstates, MIN_PRICE, MAX_PRICE);
+   }
+
+   @Test
+   public void whenGettingEstatesShouldReturnTheShownEstates() {
+      // Given
+
+      // When
+      List<Estate> retreiveListOfEstate = estates.retreiveListOfEstate();
+
+      // Then
+      assertNotSame(listEstates, retreiveListOfEstate);
+   }
+
+   @Test
+   public void whenUpdatingEstatesShouldCopyANewShownEstatesList() {
+      // Given
+
+      // When
+      estates.updateEstatesList(listEstates);
+
+      // Then
+      assertNotSame(listEstates, estates.retreiveListOfEstate());
    }
 }

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.domain.estate;
+package ca.ulaval.glo4003.b6.housematch.domain.estate.filters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.EstatePriceFilter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

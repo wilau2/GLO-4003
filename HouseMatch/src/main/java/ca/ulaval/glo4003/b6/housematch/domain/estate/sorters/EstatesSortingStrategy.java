@@ -6,5 +6,5 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 
 public interface EstatesSortingStrategy {
 
-   public List<Estate> sort(List<Estate> estates);
+   public void sort(List<Estate> estates);
 }

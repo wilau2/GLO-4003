@@ -8,7 +8,7 @@
 	<jsp:include page="_menu.jsp" />
 	<jsp:include page="_seller_side_menu.jsp" />
 	<div class="splash">
-		<form:form method="post" modelAttribute="estate"
+		<form:form method="post" modelAttribute="estate" 
 			class="pure-form pure-form-aligned">
 			<fieldset>
 				<legend>Add an estate to sell</legend>
