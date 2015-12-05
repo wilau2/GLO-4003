@@ -56,15 +56,26 @@
     <email>kid@kiddy.com</email>  
     <username>buyer</username> 
   </user>  
+  <user> 
+    <firstName>Brucee</firstName>  
+    <lastName>Leee</lastName>  
+    <password>123</password>  
+    <role>seller</role>  
+    <phoneNumber>123-123-1234</phoneNumber>  
+    <dateLastActivity>2015-12-05T15:20:27.547</dateLastActivity>  
+    <isActive>true</isActive>  
+    <email>bruce@lee.com</email>  
+    <username>seller</username> 
+  </user>  
   <user>
-    <firstName>Brucee</firstName>
-    <lastName>Leee</lastName>
+    <firstName>Antoine</firstName>
+    <lastName>Test</lastName>
     <password>123</password>
-    <role>seller</role>
-    <phoneNumber>123-123-1234</phoneNumber>
-    <dateLastActivity>2015-12-05T14:32:37.424</dateLastActivity>
+    <role>buyer</role>
+    <phoneNumber>41898899</phoneNumber>
+    <dateLastActivity>2015-12-05T15:24:40.665</dateLastActivity>
     <isActive>true</isActive>
-    <email>bruce@lee.com</email>
-    <username>seller</username>
+    <email>antoine.lefrancois.qc@gmail.com</email>
+    <username>antoine1234</username>
   </user>
 </users>

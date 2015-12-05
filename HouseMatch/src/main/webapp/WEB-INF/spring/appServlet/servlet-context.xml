@@ -129,7 +129,7 @@
     </beans:bean>
     <beans:bean
         id="sortingStrategyFactory"
-        class="ca.ulaval.glo4003.b6.housematch.domain.estate.SortingStrategyFactory"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.SortingStrategyFactory"
         scope="session" />
     <beans:bean
         id="estatesFetcher"
@@ -381,12 +381,13 @@
         class="ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService" />
 
     <beans:bean
-        id="mailBuilderFactory"
-        class="ca.ulaval.glo4003.b6.housematch.messaging.MailBuilderFactory" />
+        id="mailBuilder"
+        class="ca.ulaval.glo4003.b6.housematch.messaging.MailBuilder" />
 
     <beans:bean
-        id="mailSenderFactory"
-        class="ca.ulaval.glo4003.b6.housematch.messaging.MailSenderFactory" />
+        id="mailSender"
+        class="ca.ulaval.glo4003.b6.housematch.messaging.MailSender"
+        scope="session" />
 
     <beans:bean
         id="mailSenderObserver"
@@ -394,11 +395,11 @@
         scope="session"
     >
         <beans:constructor-arg
-            name="messageBuilderFactory"
-            ref="mailBuilderFactory" />
+            name="messageBuilder"
+            ref="mailBuilder" />
         <beans:constructor-arg
-            name="messageSenderFactory"
-            ref="mailSenderFactory" />
+            name="messageSender"
+            ref="mailSender" />
 
     </beans:bean>
 
