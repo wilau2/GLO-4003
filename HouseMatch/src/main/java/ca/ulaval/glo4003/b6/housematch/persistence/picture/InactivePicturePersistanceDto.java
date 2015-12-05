@@ -17,7 +17,7 @@ public class InactivePicturePersistanceDto implements PersistenceDto {
       attributes.put("uid", picture.getUid());
       attributes.put("name", picture.getName());
       attributes.put("address", picture.getAddress());
-      attributes.put("active", picture.getActive().toString());
+      attributes.put("active", picture.isActive().toString());
 
       this.attributes = attributes;
    }

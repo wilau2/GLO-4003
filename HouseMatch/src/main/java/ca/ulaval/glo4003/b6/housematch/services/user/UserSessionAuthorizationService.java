@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
-public class UserAuthorizationService {
+public class UserSessionAuthorizationService {
 
    public static final String LOGGED_IN_USER_ROLE = "loggedInUserRole";
 

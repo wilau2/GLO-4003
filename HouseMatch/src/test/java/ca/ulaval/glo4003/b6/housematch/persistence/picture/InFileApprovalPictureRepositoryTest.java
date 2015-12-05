@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.persistence.picture;
 
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -284,7 +283,7 @@ public class InFileApprovalPictureRepositoryTest {
    }
 
    private void configurePicture() {
-      given(picture.getActive()).willReturn(true);
+      given(picture.isActive()).willReturn(true);
       given(picture.getAddress()).willReturn(ADDRESS);
       given(picture.getName()).willReturn(NAME);
       given(picture.getUid()).willReturn(UID);

@@ -38,7 +38,18 @@ public class User {
    }
 
    public void updateContactInformation(ContactInformation newContactInformation) {
+
+      if (isEmailChanged(newContactInformation)) {
+         setActive(false);
+      }
       contactInformation.update(newContactInformation);
+
+   }
+
+   public boolean isEmailChanged(ContactInformation newContactInformation) {
+
+      return contactInformation.isEmailChanged(newContactInformation);
+
    }
 
    public String getUsername() {

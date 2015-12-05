@@ -244,7 +244,7 @@ public class EstateTest {
    @Test
    public void askingIfEstateHasBeenSoldInThePastYearWhenEstateHasBeenBoughtInTheLastYearShouldReturnTrue() {
       // Given
-      LocalDateTime dateOfPurchaseLastYear = LocalDateTime.now().minusYears(1).plusNanos(1);
+      LocalDateTime dateOfPurchaseLastYear = LocalDateTime.now().minusYears(1).plusSeconds(1);
       estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, true,
             dateOfPurchaseLastYear);
 

@@ -4,9 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
-
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 
@@ -203,7 +202,21 @@ public class UserTest {
       user.updateContactInformation(contactInformationForUpdate);
 
       // Then
-      verify(contactInformation, times(1)).update(contactInformationForUpdate);
+      verify(contactInformation).update(contactInformationForUpdate);
+   }
+
+   @Test
+   public void givenNewEmailWhenUpdateContactInformationShouldSetActiveToFalse() {
+      // Given
+      configureUser();
+      user.setActive(true);
+      when(contactInformation.isEmailChanged(contactInformationForUpdate)).thenReturn(true);
+
+      // When
+      user.updateContactInformation(contactInformationForUpdate);
+
+      // Then
+      assertEquals(false, user.isActive());
    }
 
    private void configureAdminRole() {

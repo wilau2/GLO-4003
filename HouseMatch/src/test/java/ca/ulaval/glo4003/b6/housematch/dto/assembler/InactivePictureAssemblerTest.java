@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.dto.assembler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -45,7 +44,7 @@ public class InactivePictureAssemblerTest {
       Picture assembleInactivePicture = inactivePictureAssembler.assembleInactivePicture(pictureDto);
 
       // Then
-      assertTrue(assembleInactivePicture.getActive());
+      assertTrue(assembleInactivePicture.isActive());
       assertEquals(ADDRESS, assembleInactivePicture.getAddress());
       assertEquals(NAME, assembleInactivePicture.getName());
       assertEquals(UID, assembleInactivePicture.getUid());
@@ -75,7 +74,7 @@ public class InactivePictureAssemblerTest {
    }
 
    private void configurePicture() {
-      when(picture.getActive()).thenReturn(true);
+      when(picture.isActive()).thenReturn(true);
       when(picture.getAddress()).thenReturn(ADDRESS);
       when(picture.getName()).thenReturn(NAME);
       when(picture.getUid()).thenReturn(UID);

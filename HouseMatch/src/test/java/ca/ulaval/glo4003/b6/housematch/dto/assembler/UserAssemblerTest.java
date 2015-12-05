@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.b6.housematch.dto.assembler;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
@@ -43,7 +42,7 @@ public class UserAssemblerTest {
    private UserDto userDto;
 
    @Mock
-   private User userToConvert;
+   private User user;
 
    @Mock
    private ContactInformation contactInformation;
@@ -145,6 +144,33 @@ public class UserAssemblerTest {
 
       // Then
       assertEquals(PASSWORD, user.getPassword());
+   }
+
+   @Test
+   public void givenValidUserWhenAssembleUserDtoShouldReturnValidUserDto() {
+      // Given
+      configureValidUser();
+
+      // When
+      UserDto userDto = userAssembler.assembleUserDto(user);
+
+      // Then
+      assertEquals(FIRST_NAME, userDto.getContactInformationDto().getFirstName());
+      assertEquals(LAST_NAME, userDto.getContactInformationDto().getLastName());
+      assertEquals(EMAIL, userDto.getContactInformationDto().getEmail());
+      assertEquals(PHONE_NUMBER, userDto.getContactInformationDto().getPhoneNumber());
+      assertEquals(USERNAME, userDto.getUsername());
+   }
+
+   private void configureValidUser() {
+      given(user.getContactInformation()).willReturn(contactInformation);
+      given(contactInformation.getFirstName()).willReturn(FIRST_NAME);
+      given(contactInformation.getLastName()).willReturn(LAST_NAME);
+      given(contactInformation.getEmail()).willReturn(EMAIL);
+      given(contactInformation.getPhoneNumber()).willReturn(PHONE_NUMBER);
+      given(user.getUsername()).willReturn(USERNAME);
+      given(user.getPassword()).willReturn(PASSWORD);
+      given(user.getRole()).willReturn(role);
    }
 
    private void configureValidUserSignupDto() {

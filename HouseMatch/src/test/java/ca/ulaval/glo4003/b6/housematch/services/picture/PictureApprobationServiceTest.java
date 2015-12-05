@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.services.admin;
+package ca.ulaval.glo4003.b6.housematch.services.picture;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -20,6 +20,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Pictures;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.services.picture.PictureApprobationService;
 
 public class PictureApprobationServiceTest {
 
@@ -141,7 +142,7 @@ public class PictureApprobationServiceTest {
       // Given
 
       // When
-      pictureApprobationService.approuvePictures(pictureUids);
+      pictureApprobationService.approvePictures(pictureUids);
 
       // Then
       verify(approvalPictureRepository).getAllPictures();
@@ -169,7 +170,7 @@ public class PictureApprobationServiceTest {
       congigurePictueListWithOneElement();
 
       // When
-      pictureApprobationService.unapprouvePictures(pictureUids);
+      pictureApprobationService.unapprovePictures(pictureUids);
 
       // Then
       verify(approvalPictureRepository).deletePicture(UID);

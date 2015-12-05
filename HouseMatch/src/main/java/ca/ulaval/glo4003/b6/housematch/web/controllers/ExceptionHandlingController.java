@@ -120,5 +120,4 @@ public class ExceptionHandlingController {
       modelAndView.addObject("errorMessage", exceptionThrown.getMessage());
       return modelAndView;
    }
-
 }

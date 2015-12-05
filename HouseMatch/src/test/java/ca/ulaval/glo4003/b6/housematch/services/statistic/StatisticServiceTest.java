@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.services.statistic;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,8 +13,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserProcessor;
@@ -23,6 +22,8 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 
 public class StatisticServiceTest {
+
+   private static final Integer SIZE = 1;
 
    private StatisticService adminStatisticService;
 
@@ -39,7 +40,7 @@ public class StatisticServiceTest {
    private EstateRepository estateRepository;
 
    @Mock
-   private List<Estate> estates;
+   private Estates estates;
 
    @Mock
    private EstatesProcessor estateProcessor;
@@ -48,7 +49,7 @@ public class StatisticServiceTest {
    private List<String> uniqueSellersName;
 
    @Mock
-   private List<Estate> soldEstatesInLastYear;
+   private Estates soldEstatesInLastYear;
 
    @Before
    public void setup() throws CouldNotAccessDataException, DocumentException {
@@ -60,7 +61,8 @@ public class StatisticServiceTest {
 
       when(estateRepository.getAllEstates()).thenReturn(estates);
       when(estateProcessor.retrieveUniqueSellersName(estates)).thenReturn(uniqueSellersName);
-
+      when(estateProcessor.retrieveEstatesSoldLastYear(estates)).thenReturn(estates);
+      when(estates.retreiveNumberOfEstates()).thenReturn(SIZE);
    }
 
    @Test
@@ -158,7 +160,7 @@ public class StatisticServiceTest {
       // Given
       int expectedNumberOfEstaesSoldLastYear = 3;
       when(estateProcessor.retrieveEstatesSoldLastYear(estates)).thenReturn(soldEstatesInLastYear);
-      when(soldEstatesInLastYear.size()).thenReturn(expectedNumberOfEstaesSoldLastYear);
+      when(soldEstatesInLastYear.retreiveNumberOfEstates()).thenReturn(expectedNumberOfEstaesSoldLastYear);
 
       // When
       int numberOfEstatesSoldLastYear = adminStatisticService.getNumberOfEstatesSoldLastYear();

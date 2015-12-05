@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.statistic.StatisticService;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 
 @Controller
@@ -24,21 +24,21 @@ public class AdminStatisticController {
 
    private static final String ADMIN_ROLE = Role.ADMIN;
 
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userSessionAuthorizationService;
 
    private StatisticService adminStatisticService;
 
    @Inject
-   public AdminStatisticController(UserAuthorizationService userAuthorizationService,
+   public AdminStatisticController(UserSessionAuthorizationService userSessionAuthorizationService,
          StatisticService adminStatisticService) {
-      this.userAuthorizationService = userAuthorizationService;
+      this.userSessionAuthorizationService = userSessionAuthorizationService;
       this.adminStatisticService = adminStatisticService;
    }
 
    @RequestMapping(path = "/admin/statistic/number_active_buyers", method = RequestMethod.GET)
    public ModelAndView getNumberOfActiveBuyer(HttpServletRequest request)
          throws InvalidAccessException, CouldNotAccessDataException, DocumentException {
-      userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 
       int numberOfActiveBuyer = adminStatisticService.getNumberOfActiveBuyers();
 
@@ -51,7 +51,7 @@ public class AdminStatisticController {
    @RequestMapping(path = "/admin/statistic/number_active_sellers", method = RequestMethod.GET)
    public ModelAndView getNumberOfActiveSellers(HttpServletRequest request)
          throws InvalidAccessException, CouldNotAccessDataException {
-      userAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
+      userSessionAuthorizationService.verifySessionIsAllowed(request, ADMIN_ROLE);
 
       int numberOfActiveSeller = adminStatisticService.getNumberOfActiveSellers();
 

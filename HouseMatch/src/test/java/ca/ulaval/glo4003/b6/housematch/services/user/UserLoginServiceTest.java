@@ -37,7 +37,7 @@ public class UserLoginServiceTest {
    private UserRepository userRepository;
 
    @Mock
-   private UserAuthorizationService userAuthorizationService;
+   private UserSessionAuthorizationService userAuthorizationService;
 
    @InjectMocks
    private UserLoginService userLoginService;

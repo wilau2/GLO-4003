@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.services.statistic.StatisticService;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserAuthorizationService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 
 public class AnonymousDashboardControllerTest {
 
@@ -32,7 +32,7 @@ public class AnonymousDashboardControllerTest {
    private StatisticService statisticService;
 
    @Mock
-   private UserAuthorizationService userAuthorizationSerive;
+   private UserSessionAuthorizationService userAuthorizationSerive;
 
    @Before
    public void setup() {
