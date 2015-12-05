@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.dom4j.DocumentException;
@@ -21,6 +22,10 @@ public class EstatesProcessorTest {
    private static final String SECOND_SELLER = "SECOND_SELLER";
 
    private static final String FIRST_SELLER = "FIRST_SELLER";
+   
+   private static final String FIRST_ESTATE_TYPE = "FIRST_TYPE";
+   
+   private static final String SECOND_ESTATE_TYPE = "SECOND_TYPE";
 
    private EstatesProcessor estatesProcessor;
 
@@ -57,7 +62,7 @@ public class EstatesProcessorTest {
          estates.add(estate);
       }
    }
-
+   
    @Test
    public void askingForTheNumberOfUniqueSellerWhenMoreThanOneSellerEstateWithAnEstateShouldReturnNumberOfEstate()
          throws DocumentException, CouldNotAccessDataException {
@@ -142,5 +147,47 @@ public class EstatesProcessorTest {
 
       // Then
       assertEquals(wantedNumberOfEstates, estatesSoldLastYear.size());
+   }
+   
+   @Test
+   public void askingNumberOfEstatesInEachTypeWhenEstatesHaveOneTypeShouldReturnListWithOneType() {
+      // Given    
+      int wantedNumberOfType = 1;
+      int numberOfEstates = 3;
+      configureEstateInEstates(numberOfEstates);
+      when(estate.getType()).thenReturn(FIRST_ESTATE_TYPE,FIRST_ESTATE_TYPE,FIRST_ESTATE_TYPE);
+
+      // When
+      HashMap<String, Integer> numberEstatesInEachType = estatesProcessor.retrieveNumberEstatesInEachType(estates);
+
+      // Then
+      assertEquals(wantedNumberOfType, numberEstatesInEachType.size());
+   }
+   
+   @Test
+   public void askingNumberOfEstatesInEachTypeWhenEstatesHaveTwoTypeShouldReturnListWithTwoType() {
+      // Given
+      int wantedNumberOfType = 2;
+      int numberOfEstates = 3;
+      configureEstateInEstates(numberOfEstates);
+      when(estate.getType()).thenReturn(FIRST_ESTATE_TYPE,FIRST_ESTATE_TYPE,SECOND_ESTATE_TYPE);
+
+      // When
+      HashMap<String, Integer> numberEstatesInEachType = estatesProcessor.retrieveNumberEstatesInEachType(estates);
+
+      // Then
+      assertEquals(wantedNumberOfType, numberEstatesInEachType.size());
+   }
+   
+   @Test
+   public void askingNumberOfEstatesInEachTypeWhenThereIsNoEstatesShouldReturnMapWithNoElement() {
+      // Given
+      int wantedNumberOfType = 0;
+
+      // When
+      HashMap<String, Integer> numberEstatesInEachType = estatesProcessor.retrieveNumberEstatesInEachType(estates);
+
+      // Then
+      assertEquals(wantedNumberOfType, numberEstatesInEachType.size());
    }
 }
