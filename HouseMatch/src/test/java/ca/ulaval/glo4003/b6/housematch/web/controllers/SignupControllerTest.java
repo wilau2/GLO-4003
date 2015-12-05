@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -25,6 +26,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.user.XMLUserRepository;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserLoginService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSignupService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserActivationException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
@@ -60,6 +62,9 @@ public class SignupControllerTest {
 
    @Mock
    private User user;
+
+   @Mock
+   private UserSignupService userSignupService;
 
    @Before
    public void setup() {
@@ -105,7 +110,7 @@ public class SignupControllerTest {
 
       // Then
 
-      verify(userSignupCorruptionVerificator).validateSignup(userDto);
+      verify(userSignupService).signup(userDto);
    }
 
    @Test(expected = InvalidUserSignupFieldException.class)
@@ -113,7 +118,7 @@ public class SignupControllerTest {
          UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UsernameAlreadyExistsException,
          InvalidContactInformationFieldException, UserNotifyingException, UserActivationException {
       // Given
-      doThrow(new InvalidUserSignupFieldException(null)).when(userSignupCorruptionVerificator).validateSignup(userDto);
+      doThrow(new InvalidUserSignupFieldException(null)).when(userSignupService).signup(userDto);
 
       // When
       controller.signup(request, userDto);
@@ -127,7 +132,7 @@ public class SignupControllerTest {
          UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UsernameAlreadyExistsException,
          InvalidContactInformationFieldException, UserNotifyingException, UserActivationException {
       // Given
-      doThrow(new CouldNotAccessDataException(null, null)).when(userSignupCorruptionVerificator).validateSignup(userDto);
+      doThrow(new CouldNotAccessDataException(null, null)).when(userSignupService).signup(userDto);
 
       // When
       controller.signup(request, userDto);
@@ -141,7 +146,7 @@ public class SignupControllerTest {
          UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UsernameAlreadyExistsException,
          InvalidContactInformationFieldException, UserNotifyingException, UserActivationException {
       // Given
-      doThrow(new UsernameAlreadyExistsException(null)).when(userSignupCorruptionVerificator).validateSignup(userDto);
+      doThrow(new UsernameAlreadyExistsException(null)).when(userSignupService).signup(userDto);
 
       // When
       controller.signup(request, userDto);

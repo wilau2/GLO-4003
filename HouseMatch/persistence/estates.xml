@@ -3,28 +3,6 @@
 <estates> 
   <estate> 
     <seller>seller</seller>  
-    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
-    <price>50096</price>  
-    <bought>true</bought>  
-    <type>MULTIPLEX</type>  
-    <date_modified>2009-12-03T10:15:30</date_modified>  
-    <purchase_date>2015-11-25T16:02:07.362</purchase_date>  
-    <date_registered>2007-12-03T10:15:30</date_registered>  
-    <price_history>1016-1020-50000-50000-50096-</price_history>  
-    <description> 
-      <numberOfBedRooms>21</numberOfBedRooms>  
-      <municipalValuation>125000</municipalValuation>  
-      <dimensionsBuilding>4x42</dimensionsBuilding>  
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>1</numberOfRooms>  
-      <yearsOfConstruction>2002</yearsOfConstruction>  
-      <backyardFaces>FRONT</backyardFaces>  
-      <numberOfLevel>1</numberOfLevel>  
-      <numberOfBathrooms>1</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
     <address>0-40-Rue des mirtilles-Qc-Ca-G1b3fwaf</address>  
     <date_modified>2015-11-22T13:58:09.695</date_modified>  
     <type>CONDO</type>  
@@ -43,26 +21,6 @@
       <numberOfRooms>1</numberOfRooms>  
       <yearsOfConstruction>2000</yearsOfConstruction>  
       <backyardFaces>123</backyardFaces>  
-      <numberOfLevel>1</numberOfLevel>  
-      <numberOfBathrooms>1</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
-    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
-    <date_modified>2015-11-22T14:01:22.827</date_modified>  
-    <price>1000</price>  
-    <type>APPARTMENT</type>  
-    <date_registered>2007-12-03T10:15:30</date_registered>  
-    <price_history>1016-1020-50000-50000-</price_history>  
-    <description> 
-      <numberOfBedRooms>21</numberOfBedRooms>  
-      <municipalValuation>125000</municipalValuation>  
-      <dimensionsBuilding>6600x43</dimensionsBuilding>  
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>1</numberOfRooms>  
-      <yearsOfConstruction>2002</yearsOfConstruction>  
-      <backyardFaces>FRONTE</backyardFaces>  
       <numberOfLevel>1</numberOfLevel>  
       <numberOfBathrooms>1</numberOfBathrooms> 
     </description> 
@@ -153,25 +111,47 @@
       <numberOfBathrooms>0</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-500-Rue des patates-Rwandol-Afriqua-1232</address>  
+    <date_modified>2015-12-05T14:33:11.732</date_modified>  
+    <price>60000</price>  
+    <bought>false</bought>  
+    <type>CONDO</type>  
+    <date_registered>2015-11-26T10:42:55.427</date_registered>  
+    <price_history/>  
+    <description> 
+      <numberOfBedRooms>4</numberOfBedRooms>  
+      <municipalValuation>0</municipalValuation>  
+      <dimensionsBuilding>100x100</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>42</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>0</numberOfRooms>  
+      <yearsOfConstruction>0</yearsOfConstruction>  
+      <backyardFaces>South</backyardFaces>  
+      <numberOfLevel>0</numberOfLevel>  
+      <numberOfBathrooms>0</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-500-Rue des patates-Rwandol-Afriqua-1232</address>
-    <date_modified>2015-12-05T14:33:11.732</date_modified>
-    <price>60000</price>
-    <bought>false</bought>
-    <type>CONDO</type>
-    <date_registered>2015-11-26T10:42:55.427</date_registered>
-    <price_history></price_history>
+    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>
+    <date_modified>2015-12-05T17:04:46.908</date_modified>
+    <price>50112</price>
+    <bought>true</bought>
+    <type>MULTIPLEX</type>
+    <purchase_date>2015-11-25T16:02:07.362</purchase_date>
+    <date_registered>2007-12-03T10:15:30</date_registered>
+    <price_history>1016-1020-50000-50000-50096-50096-50104-</price_history>
     <description>
-      <numberOfBedRooms>4</numberOfBedRooms>
-      <municipalValuation>0</municipalValuation>
-      <dimensionsBuilding>100x100</dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>42</livingSpaceAreaSquareMeter>
-      <numberOfRooms>0</numberOfRooms>
-      <yearsOfConstruction>0</yearsOfConstruction>
-      <backyardFaces>South</backyardFaces>
-      <numberOfLevel>0</numberOfLevel>
-      <numberOfBathrooms>0</numberOfBathrooms>
+      <numberOfBedRooms>21</numberOfBedRooms>
+      <municipalValuation>125000</municipalValuation>
+      <dimensionsBuilding>4x42</dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
+      <numberOfRooms>1</numberOfRooms>
+      <yearsOfConstruction>2002</yearsOfConstruction>
+      <backyardFaces>FRONT</backyardFaces>
+      <numberOfLevel>4</numberOfLevel>
+      <numberOfBathrooms>1</numberOfBathrooms>
     </description>
   </estate>
 </estates>

@@ -8,13 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import ca.ulaval.glo4003.b6.housematch.anticorruption.user.UserSignupCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UsernameAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSignupService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserActivationException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
@@ -22,12 +22,12 @@ import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingExc
 @Controller
 public class SignupController {
 
-   private UserSignupCorruptionVerificator userSignupCorruptionVerificator;
+   private UserSignupService userSignupService;
 
    @Autowired
-   public SignupController(UserSignupCorruptionVerificator userSignupCorruptionVerificator) {
+   public SignupController(UserSignupService userSignupService) {
+      this.userSignupService = userSignupService;
 
-      this.userSignupCorruptionVerificator = userSignupCorruptionVerificator;
    }
 
    @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -35,7 +35,7 @@ public class SignupController {
          UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UsernameAlreadyExistsException,
          InvalidContactInformationFieldException, UserNotifyingException, UserActivationException {
 
-      userSignupCorruptionVerificator.validateSignup(userDto);
+      userSignupService.signup(userDto);
 
       return "redirect:/confirmation";
    }
