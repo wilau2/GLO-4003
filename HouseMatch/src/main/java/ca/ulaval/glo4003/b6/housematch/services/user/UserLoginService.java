@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.b6.housematch.services.user;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.UserLoginCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
@@ -18,16 +19,21 @@ public class UserLoginService {
 
    private UserSessionAuthorizationService userSessionAuthorizationService;
 
-   @Autowired
-   public UserLoginService(UserRepository userRepository, UserSessionAuthorizationService userSessionAuthorizationService) {
+   private UserLoginCorruptionVerificator userLoginCorruptionVerificator;
 
+   @Inject
+   public UserLoginService(UserLoginCorruptionVerificator userLoginCorruptionVerificator, UserRepository userRepository,
+         UserSessionAuthorizationService userSessionAuthorizationService) {
+      this.userLoginCorruptionVerificator = userLoginCorruptionVerificator;
       this.userRepository = userRepository;
       this.userSessionAuthorizationService = userSessionAuthorizationService;
 
    }
 
    public void login(HttpServletRequest request, UserDto userLoginDto)
-         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
+      userLoginCorruptionVerificator.validateUserLoginCorruption(userLoginDto);
 
       User user = userRepository.getUser(userLoginDto.getUsername());
       validatePassword(userLoginDto, user);

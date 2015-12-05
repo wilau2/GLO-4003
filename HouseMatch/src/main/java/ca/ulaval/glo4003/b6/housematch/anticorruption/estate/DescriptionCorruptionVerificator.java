@@ -1,33 +1,13 @@
 package ca.ulaval.glo4003.b6.housematch.anticorruption.estate;
 
-import javax.inject.Inject;
-
 import com.google.common.base.Strings;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
-import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
-import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
-import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 
 public class DescriptionCorruptionVerificator {
 
-   private EstatesService estateService;
-
-   @Inject
-   public DescriptionCorruptionVerificator(EstatesService estateService) {
-      this.estateService = estateService;
-   }
-
-   public void editDescription(String address, DescriptionDto descriptionDto) throws InvalidDescriptionFieldException,
-         InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException {
-      validateDescriptionCorruption(descriptionDto);
-      estateService.editDescription(address, descriptionDto);
-   }
-
-   private void validateDescriptionCorruption(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
+   public void validateDescriptionCorruption(DescriptionDto descriptionDto) throws InvalidDescriptionFieldException {
       validateNumberOfBedrooms(descriptionDto.getNumberOfBedRooms());
       validateNumberOfBathrooms(descriptionDto.getNumberOfBathrooms());
       validateNumberOfRooms(descriptionDto.getNumberOfRooms());

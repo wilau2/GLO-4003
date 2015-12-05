@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.UserSignupCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidContactInformationFieldException;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UsernameAlreadyExistsException;
@@ -21,16 +24,20 @@ public class UserSignupService {
 
    private List<UserObserver> observers;
 
+   private UserSignupCorruptionVerificator userSignupCorruptionVerificator;
+
    @Inject
-   public UserSignupService(UserAssemblerFactory userAssemblerFactory, UserRepository userRepository,
-         List<UserObserver> observers) {
+   public UserSignupService(UserSignupCorruptionVerificator userSignupCorruptionVerificator,
+         UserAssemblerFactory userAssemblerFactory, UserRepository userRepository, List<UserObserver> observers) {
+      this.userSignupCorruptionVerificator = userSignupCorruptionVerificator;
       this.userAssemblerFactory = userAssemblerFactory;
       this.userRepository = userRepository;
       this.observers = observers;
    }
 
-   public void signup(UserDto userSignupDto)
-         throws UsernameAlreadyExistsException, CouldNotAccessDataException, UserNotifyingException {
+   public void signup(UserDto userSignupDto) throws UsernameAlreadyExistsException, CouldNotAccessDataException,
+         UserNotifyingException, InvalidUserSignupFieldException, InvalidContactInformationFieldException {
+      userSignupCorruptionVerificator.validateSignup(userSignupDto);
 
       UserAssembler userAssembler = userAssemblerFactory.createUserAssembler();
       User newUser = userAssembler.assembleUser(userSignupDto);

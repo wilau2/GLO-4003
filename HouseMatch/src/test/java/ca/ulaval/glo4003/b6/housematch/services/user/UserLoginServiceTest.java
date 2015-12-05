@@ -14,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.UserLoginCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserLoginFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
@@ -39,14 +41,17 @@ public class UserLoginServiceTest {
    @Mock
    private UserSessionAuthorizationService userAuthorizationService;
 
-   @InjectMocks
-   private UserLoginService userLoginService;
-
    @Mock
    private HttpServletRequest request;
 
    @Mock
    private UserDto userDto;
+
+   @Mock
+   private UserLoginCorruptionVerificator userLoginCorruptionVerificator;
+
+   @InjectMocks
+   private UserLoginService userLoginService;
 
    @Before
    public void setup() throws UserNotFoundException, CouldNotAccessDataException {
@@ -61,7 +66,8 @@ public class UserLoginServiceTest {
 
    @Test
    public void givenValidUsernameWhenLoginShouldDelateGettingExistingUser()
-         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
       // Given
 
       // When
@@ -73,7 +79,8 @@ public class UserLoginServiceTest {
 
    @Test
    public void givenValidUsernameWhenLoginShouldDelateSessionAuthentification()
-         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
       // Given
 
       // When
@@ -85,7 +92,8 @@ public class UserLoginServiceTest {
 
    @Test
    public void givenValidScenarioWhenLoginShouldNotThrowException()
-         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
       // Given
 
       // When
@@ -96,7 +104,8 @@ public class UserLoginServiceTest {
 
    @Test
    public void givenValidScenarioWhenLoginUserShouldCallUserVerifyPassword()
-         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
       // Given no changes
 
       // When
@@ -108,7 +117,8 @@ public class UserLoginServiceTest {
 
    @Test(expected = InvalidPasswordException.class)
    public void givenInvalidPasswordWhenLoginShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
       // Given
       configureInvalidPassword();
 
@@ -121,7 +131,8 @@ public class UserLoginServiceTest {
 
    @Test(expected = CouldNotAccessDataException.class)
    public void givenInvalidDataAccesWhenLoginShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
       // Given
       doThrow(new CouldNotAccessDataException(null, null)).when(userRepository).getUser(USERNAME);
 
@@ -133,11 +144,12 @@ public class UserLoginServiceTest {
 
    @Test(expected = UserNotFoundException.class)
    public void givenNotExistingUserWhenLoginShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
       // Given
+      doThrow(new UserNotFoundException(null)).when(userRepository).getUser(USERNAME);
 
       // When
-      doThrow(new UserNotFoundException(null)).when(userRepository).getUser(USERNAME);
       userLoginService.login(request, userDto);
 
       // Then throws UserNotFoundException
@@ -145,7 +157,8 @@ public class UserLoginServiceTest {
 
    @Test(expected = UserActivationException.class)
    public void whenExistingUserIsNotActiveShouldThrowException()
-         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
       // Given
       configureUserIsNotValidate();
 
@@ -157,7 +170,8 @@ public class UserLoginServiceTest {
 
    @Test
    public void whenExistingUserIsActiveShouldUpdateTheUserDateOfLastActivity()
-         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
       // Given
       configureUserIsValidate();
 
@@ -167,6 +181,33 @@ public class UserLoginServiceTest {
       // Then
       verify(user, times(1)).updateLastActivity();
       verify(userRepository, times(1)).update(user);
+   }
+
+   @Test
+   public void whenExecutingLoginOfUserShouldCallUserLoginCorruptionVerificator()
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
+      // Given no changes
+
+      // When
+      userLoginService.login(request, userDto);
+
+      // Then
+      verify(userLoginCorruptionVerificator, times(1)).validateUserLoginCorruption(userDto);
+   }
+
+   @Test(expected = InvalidUserLoginFieldException.class)
+   public void executingLoginOfUserWhenUserLoginCorruptionVerifcatorThrowExceptionShouldThrowException()
+         throws UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException,
+         InvalidUserLoginFieldException {
+      // Given
+      doThrow(new InvalidUserLoginFieldException("")).when(userLoginCorruptionVerificator)
+            .validateUserLoginCorruption(userDto);
+
+      // When
+      userLoginService.login(request, userDto);
+
+      // Then an invalid user login field exception is thrown
    }
 
    private void configureValidPassword() {

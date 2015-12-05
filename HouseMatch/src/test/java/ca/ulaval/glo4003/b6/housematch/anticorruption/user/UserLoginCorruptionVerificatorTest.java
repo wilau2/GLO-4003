@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.b6.housematch.anticorruption.user;
 
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,17 +50,15 @@ public class UserLoginCorruptionVerificatorTest {
    }
 
    @Test
-   public void verificatingUserLoginCorruptionWhenUserLoginIsValidShouldCallServiceLogin()
+   public void verificatingUserLoginCorruptionWhenUserLoginIsValidShouldNotThrowException()
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessDataException,
          InvalidPasswordException, UserActivationException {
-
-      // Given
+      // Given no changes
 
       // When
-      userCorruptionVerificator.login(request, userDto);
-      // Then
-      verify(userLoginService).login(request, userDto);
+      userCorruptionVerificator.validateUserLoginCorruption(userDto);
 
+      // Then no exception is thrown
    }
 
    @Test(expected = InvalidUserLoginFieldException.class)
@@ -73,7 +70,7 @@ public class UserLoginCorruptionVerificatorTest {
       when(userDto.getUsername()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.login(request, userDto);
+      userCorruptionVerificator.validateUserLoginCorruption(userDto);
 
       // Then InvalidUserLoginFieldException is thrown
    }
@@ -87,7 +84,7 @@ public class UserLoginCorruptionVerificatorTest {
       when(userDto.getUsername()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.login(request, userDto);
+      userCorruptionVerificator.validateUserLoginCorruption(userDto);
 
       // Then InvalidUserLoginFieldException is thrown
    }
@@ -101,7 +98,7 @@ public class UserLoginCorruptionVerificatorTest {
       when(userDto.getPassword()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.login(request, userDto);
+      userCorruptionVerificator.validateUserLoginCorruption(userDto);
 
       // Then InvalidUserLoginFieldException is thrown
    }
@@ -115,7 +112,7 @@ public class UserLoginCorruptionVerificatorTest {
       when(userDto.getPassword()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.login(request, userDto);
+      userCorruptionVerificator.validateUserLoginCorruption(userDto);
 
       // Then InvalidUserLoginFieldException is thrown
    }

@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.anticorruption.user;
 
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -66,11 +67,12 @@ public class UserSignupCorruptionVerificatorTest {
          throws InvalidUserSignupFieldException, UsernameAlreadyExistsException, CouldNotAccessDataException,
          InvalidContactInformationFieldException, UserNotifyingException {
       // Given
+
       // When
-      userCorruptionVerificator.signup(userDto);
+      userCorruptionVerificator.validateSignup(userDto);
 
       // Then
-      verify(userSignupService).signup(userDto);
+      verify(userSignupService, never()).signup(userDto);
 
    }
 
@@ -82,7 +84,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getUsername()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.signup(userDto);
+      userCorruptionVerificator.validateSignup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -95,7 +97,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getUsername()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.signup(userDto);
+      userCorruptionVerificator.validateSignup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -108,7 +110,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getPassword()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.signup(userDto);
+      userCorruptionVerificator.validateSignup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -121,7 +123,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getPassword()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.signup(userDto);
+      userCorruptionVerificator.validateSignup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -134,7 +136,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getRole()).thenReturn(null);
 
       // When
-      userCorruptionVerificator.signup(userDto);
+      userCorruptionVerificator.validateSignup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }
@@ -147,7 +149,7 @@ public class UserSignupCorruptionVerificatorTest {
       when(userDto.getRole()).thenReturn(EMPTY_FIELD);
 
       // When
-      userCorruptionVerificator.signup(userDto);
+      userCorruptionVerificator.validateSignup(userDto);
 
       // Then an InvalidUserSignupFieldException is thrown
    }

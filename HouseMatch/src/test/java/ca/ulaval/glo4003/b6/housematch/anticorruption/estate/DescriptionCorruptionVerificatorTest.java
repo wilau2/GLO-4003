@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.anticorruption.estate;
 
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -78,10 +78,10 @@ public class DescriptionCorruptionVerificatorTest {
       // Given
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then
-      verify(estateService, times(1)).editDescription(ADDRESS, descriptionDto);
+      verify(estateService, never()).editDescription(ADDRESS, descriptionDto);
    }
 
    @Test(expected = InvalidDescriptionFieldException.class)
@@ -92,7 +92,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getNumberOfBedRooms()).thenReturn(null);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -105,7 +105,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getNumberOfBedRooms()).thenReturn(NEGATIVE_NUMBER);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -118,7 +118,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(null);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -131,7 +131,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getNumberOfBathrooms()).thenReturn(NEGATIVE_NUMBER);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -144,7 +144,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getNumberOfRooms()).thenReturn(null);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -157,7 +157,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getNumberOfRooms()).thenReturn(NEGATIVE_NUMBER);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -170,7 +170,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getNumberOfLevel()).thenReturn(null);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -183,7 +183,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getNumberOfLevel()).thenReturn(NEGATIVE_NUMBER);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -195,7 +195,7 @@ public class DescriptionCorruptionVerificatorTest {
       // Given
       when(descriptionDto.getYearOfConstruction()).thenReturn(null);
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -207,7 +207,7 @@ public class DescriptionCorruptionVerificatorTest {
       // Given
       when(descriptionDto.getYearOfConstruction()).thenReturn(NEGATIVE_NUMBER);
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -220,7 +220,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getBuildingDimension()).thenReturn(null);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -233,7 +233,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(null);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -246,7 +246,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getLivingSpaceAreaSquareMeter()).thenReturn(NEGATIVE_NUMBER);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -259,7 +259,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getMunicipalAssessment()).thenReturn(null);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -272,7 +272,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getMunicipalAssessment()).thenReturn(NEGATIVE_NUMBER);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }
@@ -285,7 +285,7 @@ public class DescriptionCorruptionVerificatorTest {
       when(descriptionDto.getBackyardOrientation()).thenReturn(null);
 
       // When
-      descriptionCorruptionVerificator.editDescription(ADDRESS, descriptionDto);
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
 
       // Then expected InvalidDescriptionFieldException
    }

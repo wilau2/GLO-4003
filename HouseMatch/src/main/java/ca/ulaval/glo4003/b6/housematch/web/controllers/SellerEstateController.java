@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator;
-import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.PictureCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
@@ -33,6 +32,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.PictureDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
@@ -45,10 +45,6 @@ public class SellerEstateController {
 
    private static final String EXPECTED_ROLE = Role.SELLER;
 
-   private EstateCorruptionVerificator estateCorruptionVerificator;
-
-   private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
-
    private PictureCorruptionVerificator pictureCorruptionVerificator;
 
    private UserSessionAuthorizationService userSessionAuthorizationService;
@@ -57,31 +53,33 @@ public class SellerEstateController {
 
    private EstatePicturesService estatePicturesService;
 
-   @Autowired
-   public SellerEstateController(EstateCorruptionVerificator estateCorruptionVerificator,
-         UserSessionAuthorizationService userSessionAuthorizationService, EstatesFetcher estatesFetcher,
-         DescriptionCorruptionVerificator descriptionCorruptionVerificator,
-         PictureCorruptionVerificator pictureCorruptionVerificator, EstatePicturesService estatePicturesService) {
+   private EstatesService estatesService;
 
-      this.estateCorruptionVerificator = estateCorruptionVerificator;
+   @Autowired
+   public SellerEstateController(UserSessionAuthorizationService userSessionAuthorizationService,
+         EstatesFetcher estatesFetcher, DescriptionCorruptionVerificator descriptionCorruptionVerificator,
+         PictureCorruptionVerificator pictureCorruptionVerificator, EstatePicturesService estatePicturesService,
+         EstatesService estatesService) {
+
       this.userSessionAuthorizationService = userSessionAuthorizationService;
       this.estatesFetcher = estatesFetcher;
-      this.descriptionCorruptionVerificator = descriptionCorruptionVerificator;
       this.pictureCorruptionVerificator = pictureCorruptionVerificator;
       this.estatePicturesService = estatePicturesService;
+      this.estatesService = estatesService;
    }
 
    @RequestMapping(value = "/seller/{userId}/estates/add", method = RequestMethod.POST)
    public String addEstate(HttpServletRequest request, EstateDto estateDto, @PathVariable("userId") String userId)
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException,
+         InvalidEstateException {
 
       userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
       estateDto.setSellerId(userId);
-      LocalDateTime now = LocalDateTime.now();
-      estateDto.setDateRegistered(now);
-      estateDto.setDateModified(now);
+      LocalDateTime currentTime = LocalDateTime.now();
+      estateDto.setDateRegistered(currentTime);
+      estateDto.setDateModified(currentTime);
 
-      estateCorruptionVerificator.addEstate(estateDto);
+      estatesService.addEstate(estateDto);
 
       return "redirect:/seller/" + userId + "/estates";
    }
@@ -135,7 +133,7 @@ public class SellerEstateController {
 
       userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      estateCorruptionVerificator.editEstate(address, estateEditDto);
+      estatesService.editEstate(address, estateEditDto);
 
       return "redirect:/seller/{userId}/estates/{address}";
    }
@@ -148,7 +146,7 @@ public class SellerEstateController {
 
       userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
-      descriptionCorruptionVerificator.editDescription(address, descriptionDto);
+      estatesService.editDescription(address, descriptionDto);
 
       return "redirect:/seller/{userId}/estates/{address}";
    }

@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
@@ -21,6 +22,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserLoginService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidPasswordException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserActivationException;
 
@@ -43,6 +45,9 @@ public class LoginControllerTest {
 
    @Mock
    private HttpServletRequest request;
+
+   @Mock
+   private UserLoginService userLoginService;
 
    private BindingAwareModelMap model;
 
@@ -89,7 +94,7 @@ public class LoginControllerTest {
       controller.login(request, userDto);
 
       // Then
-      verify(userCorruptionVerificatior).login(request, userDto);
+      verify(userLoginService).login(request, userDto);
    }
 
    @Test(expected = InvalidUserLoginFieldException.class)
@@ -97,7 +102,7 @@ public class LoginControllerTest {
          throws InvalidUserLoginFieldException, UserNotFoundException, CouldNotAccessDataException,
          InvalidPasswordException, UserActivationException {
       // Given
-      doThrow(new InvalidUserLoginFieldException(null)).when(userCorruptionVerificatior).login(request, userDto);
+      doThrow(new InvalidUserLoginFieldException(null)).when(userLoginService).login(request, userDto);
 
       // When
       controller.login(request, userDto);
@@ -109,7 +114,7 @@ public class LoginControllerTest {
    public void givenNotExistingUserPostRequestLogingShouldThrowException() throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
       // given
-      doThrow(new UserNotFoundException(null)).when(userCorruptionVerificatior).login(request, userDto);
+      doThrow(new UserNotFoundException(null)).when(userLoginService).login(request, userDto);
 
       // When
       controller.login(request, userDto);
@@ -120,8 +125,9 @@ public class LoginControllerTest {
    @Test(expected = InvalidPasswordException.class)
    public void givenInvalidPasswordPostRequestLogingShouldThrowException() throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+      // Given
+      doThrow(new InvalidPasswordException(null)).when(userLoginService).login(request, userDto);
 
-      doThrow(new InvalidPasswordException(null)).when(userCorruptionVerificatior).login(request, userDto);
       // When
       controller.login(request, userDto);
 
@@ -131,8 +137,9 @@ public class LoginControllerTest {
    @Test(expected = CouldNotAccessDataException.class)
    public void givenNoAccessToDataPostRequestLogingShouldThrowException() throws InvalidUserLoginFieldException,
          UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UserActivationException {
+      // Given
+      doThrow(new CouldNotAccessDataException(null, null)).when(userLoginService).login(request, userDto);
 
-      doThrow(new CouldNotAccessDataException(null, null)).when(userCorruptionVerificatior).login(request, userDto);
       // When
       controller.login(request, userDto);
 

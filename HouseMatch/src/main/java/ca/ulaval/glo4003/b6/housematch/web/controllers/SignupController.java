@@ -35,7 +35,7 @@ public class SignupController {
          UserNotFoundException, CouldNotAccessDataException, InvalidPasswordException, UsernameAlreadyExistsException,
          InvalidContactInformationFieldException, UserNotifyingException, UserActivationException {
 
-      userSignupCorruptionVerificator.signup(userDto);
+      userSignupCorruptionVerificator.validateSignup(userDto);
 
       return "redirect:/confirmation";
    }

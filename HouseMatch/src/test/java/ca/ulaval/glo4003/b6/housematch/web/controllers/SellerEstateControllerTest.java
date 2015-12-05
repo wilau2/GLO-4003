@@ -39,6 +39,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFact
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidDescriptionException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.PictureAlreadyExistsException;
@@ -102,6 +103,9 @@ public class SellerEstateControllerTest {
    @Mock
    private EstateAssemblerFactory estateAssemblerFactory;
 
+   @Mock
+   private EstatesService estatesService;
+
    @Before
    public void setup()
          throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException, InvalidAccessException {
@@ -132,20 +136,21 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void addingEstateFromControllerWhenEstateIsValidShouldCallEstateService()
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
+   public void addingEstateFromControllerWhenEstateIsValidShouldCallEstateService() throws InvalidEstateFieldException,
+         CouldNotAccessDataException, InvalidAccessException, InvalidEstateException {
       // Given no changes
 
       // When
       estateController.addEstate(request, estateDto, USER_ID);
 
       // Then
-      verify(estateCorruptionVerificator, times(1)).addEstate(estateDto);
+      verify(estatesService, times(1)).addEstate(estateDto);
    }
 
    @Test
    public void addingEstateFromControllerWhenEstateIsValidShouldReturnRedirectToString()
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
+         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException,
+         InvalidEstateException {
       // Given no changes
       String expectedRedirectTo = "redirect:/seller/" + USER_ID + "/estates";
 
@@ -157,10 +162,10 @@ public class SellerEstateControllerTest {
    }
 
    @Test(expected = InvalidEstateFieldException.class)
-   public void addingEstateWhenEstateIsInvalidAddressShouldThrowException()
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
+   public void addingEstateWhenEstateIsInvalidAddressShouldThrowException() throws InvalidEstateFieldException,
+         CouldNotAccessDataException, InvalidAccessException, InvalidEstateException {
       // Given
-      doThrow(new InvalidEstateFieldException("")).when(estateCorruptionVerificator).addEstate(estateDto);
+      doThrow(new InvalidEstateFieldException("")).when(estatesService).addEstate(estateDto);
 
       // When
       estateController.addEstate(null, estateDto, USER_ID);
@@ -180,8 +185,8 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenAddingAnEstateShouldSetSellerIdIntoModel()
-         throws InvalidEstateFieldException, CouldNotAccessDataException, InvalidAccessException {
+   public void whenAddingAnEstateShouldSetSellerIdIntoModel() throws InvalidEstateFieldException,
+         CouldNotAccessDataException, InvalidAccessException, InvalidEstateException {
       // Given no changes
 
       // When
@@ -250,7 +255,7 @@ public class SellerEstateControllerTest {
       estateController.editDescription(ADDRESS, request, descriptionDto);
 
       // Then
-      verify(descriptionCorruptionVerificator, times(1)).editDescription(ADDRESS, descriptionDto);
+      verify(estatesService, times(1)).editDescription(ADDRESS, descriptionDto);
    }
 
    @Test
@@ -267,8 +272,9 @@ public class SellerEstateControllerTest {
    }
 
    @Test
-   public void whenAddingPictureShouldVerifyAuthorization() throws InvalidAccessException, CouldNotAccessDataException,
-         InvalidEstateFieldException, PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
+   public void whenAddingPictureShouldVerifyAuthorization()
+         throws InvalidAccessException, CouldNotAccessDataException, InvalidEstateFieldException,
+         PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given no changes
 
       // When
@@ -338,7 +344,7 @@ public class SellerEstateControllerTest {
       estateController.editEstate(ADDRESS, request, estateEditDto);
 
       // Then
-      verify(estateCorruptionVerificator, times(1)).editEstate(ADDRESS, estateEditDto);
+      verify(estatesService, times(1)).editEstate(ADDRESS, estateEditDto);
    }
 
    @Test
@@ -365,7 +371,7 @@ public class SellerEstateControllerTest {
       estateController.editDescription(ADDRESS, request, descriptionDto);
 
       // Then
-      verify(descriptionCorruptionVerificator, times(1)).editDescription(ADDRESS, descriptionDto);
+      verify(estatesService, times(1)).editDescription(ADDRESS, descriptionDto);
    }
 
    @Test
