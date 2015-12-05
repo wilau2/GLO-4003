@@ -68,6 +68,7 @@ public class EstatesService {
 
       Estate estate = estateRepository.getEstateByAddress(address);
       estate.editDescription(description, changeVerificator);
+
       estateRepository.updateEstate(estate);
    }
 

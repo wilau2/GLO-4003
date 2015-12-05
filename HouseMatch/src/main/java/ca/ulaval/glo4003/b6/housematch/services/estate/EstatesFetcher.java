@@ -16,6 +16,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.WrongFilterTypeException;
 
 public class EstatesFetcher {
 

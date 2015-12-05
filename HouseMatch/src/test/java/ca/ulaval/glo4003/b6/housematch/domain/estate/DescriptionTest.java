@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import static org.mockito.Matchers.any;
@@ -109,5 +110,25 @@ public class DescriptionTest {
 
       // Then
       assertTrue(changeSignificant);
+   }
+
+   @Test
+   public void whenCreatingAnEmptyDescriptionShouldInitializeAllFields() {
+      // Given no changes
+      Integer expectedInitializedInteger = 0;
+
+      // When
+      description = new Description();
+
+      // Then
+      assertTrue(description.getBackyardOrientation().isEmpty());
+      assertTrue(description.getBuildingDimensions().isEmpty());
+      assertEquals(expectedInitializedInteger, description.getLivingSpaceAreaSquareMeter());
+      assertEquals(expectedInitializedInteger, description.getMunicipalAssessment());
+      assertEquals(expectedInitializedInteger, description.getNumberOfBathrooms());
+      assertEquals(expectedInitializedInteger, description.getNumberOfBedRooms());
+      assertEquals(expectedInitializedInteger, description.getNumberOfLevel());
+      assertEquals(expectedInitializedInteger, description.getNumberOfRooms());
+      assertEquals(expectedInitializedInteger, description.getYearOfConstruction());
    }
 }

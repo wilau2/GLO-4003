@@ -203,11 +203,4 @@ public class XMLEstateRepository implements EstateRepository {
       return FileEditor.readXMLFile(XML_DIRECTORY_PATH);
    }
 
-   @Override
-   public void updateEstateModifiedDate(String address) throws CouldNotAccessDataException, EstateNotFoundException {
-      Estate estate = getEstateByAddress(address);
-      estate.udateModifiedDate();
-      updateEstate(estate);
-   }
-
 }

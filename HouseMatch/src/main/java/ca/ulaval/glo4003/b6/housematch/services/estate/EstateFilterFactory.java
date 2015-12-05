@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 
 import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.EstateFilter;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.EstatesPriceFilter;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.WrongFilterTypeException;
 
 public class EstateFilterFactory {
 
