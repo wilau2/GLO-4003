@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.WrongFilterTyp
 
 public class EstateFilterFactory {
 
-   private String PRICE_FILTER = "PRICE";
+   private static final String PRICE_FILTER = "PRICE";
 
    public EstateFilter getFilter(String filter) throws WrongFilterTypeException {
       verifyValidityOfFilter(filter);

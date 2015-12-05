@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.domain.estate;
+package ca.ulaval.glo4003.b6.housematch.services.estate;
 
 import static org.junit.Assert.assertTrue;
 
@@ -10,7 +10,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.DateRegistredSortin
 import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.DefaultSortingStrategy;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstatesSortingStrategy;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.PriceSortingStrategy;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.SortingStrategyFactory;
+import ca.ulaval.glo4003.b6.housematch.services.estate.SortingStrategyFactory;
 
 public class SortingStrategyFactoryTest {
 

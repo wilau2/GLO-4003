@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.b6.housematch.domain.estate;
+package ca.ulaval.glo4003.b6.housematch.services.estate;
 
 import com.google.common.base.Strings;
 

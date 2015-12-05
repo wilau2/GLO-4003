@@ -20,7 +20,6 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.SortingStrategyFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.EstateFilter;
