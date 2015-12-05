@@ -77,7 +77,7 @@ public class Estate {
 
    public void editDescription(Description description, ChangeVerificator changeVerificator) {
       if (this.description.isChangeSignificant(description, changeVerificator)) {
-         this.udateModifiedDate();
+         this.updateModifiedDate();
       }
       this.description = description;
    }
@@ -113,18 +113,18 @@ public class Estate {
 
    public void editType(String newType) {
       this.type = newType;
-      udateModifiedDate();
+      updateModifiedDate();
    }
 
    public void editPrice(Integer newPrice) {
       if (this.price.intValue() != newPrice.intValue()) {
          this.priceHistory.add(this.price);
          this.price = newPrice;
-         udateModifiedDate();
+         updateModifiedDate();
       }
    }
 
-   public void udateModifiedDate() {
+   public void updateModifiedDate() {
       dateModified = LocalDateTime.now();
    }
 
