@@ -75,8 +75,8 @@ public class Estate {
       return false;
    }
 
-   public void editDescription(Description description) {
-      if (this.description.isChangeSignificant(description)) {
+   public void editDescription(Description description, ChangeVerificator changeVerificator) {
+      if (this.description.isChangeSignificant(description, changeVerificator)) {
          this.udateModifiedDate();
       }
       this.description = description;

@@ -50,7 +50,9 @@
     <beans:bean
         id="estateValidator"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.EstateValidator" />
-
+    <beans:bean
+        id="changeVerificator"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.FieldChangeVerificator" />
     <beans:bean
         id="estateAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory" />
@@ -111,6 +113,9 @@
         <beans:constructor-arg
             name="estateRepository"
             ref="estateRepository" />
+        <beans:constructor-arg
+            name="changeVerificator"
+            ref="changeVerificator" />
     </beans:bean>
 
     <beans:bean

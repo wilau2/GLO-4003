@@ -2,7 +2,10 @@ package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
+
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,6 +51,9 @@ public class EstateTest {
 
    @Mock
    private Description newDescription;
+
+   @Mock
+   private ChangeVerificator changeVerificator;
 
    @Before
    public void setup() {
@@ -219,10 +225,34 @@ public class EstateTest {
       // Given no changes
 
       // When
-      estate.editDescription(newDescription);
+      estate.editDescription(newDescription, changeVerificator);
 
       // Then
-      assertEquals(estate.getDescription(), newDescription);
+      assertEquals(newDescription, estate.getDescription());
+   }
+
+   @Test
+   public void editingDescriptionWhenUpdatedDescriptionIsNotChangedEnoughShouldNotUpdateDateOfLastModification() {
+      // Given no changes
+      when(description.isChangeSignificant(newDescription, changeVerificator)).thenReturn(false);
+
+      // When
+      estate.editDescription(newDescription, changeVerificator);
+
+      // Then
+      assertEquals(estate.getDateModified(), dateModified);
+   }
+
+   @Test
+   public void editingDescriptionWhenUpdatedDescriptionIsChangedEnoughShouldUpdateDateOfLastModification() {
+      // Given no changes
+      when(description.isChangeSignificant(newDescription, changeVerificator)).thenReturn(true);
+
+      // When
+      estate.editDescription(newDescription, changeVerificator);
+
+      // Then
+      assertNotSame(estate.getDateModified(), dateModified);
    }
 
    @Test

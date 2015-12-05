@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.services.estate;
 
 import javax.inject.Inject;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.ChangeVerificator;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
@@ -24,13 +25,16 @@ public class EstatesService {
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
+   private ChangeVerificator changeVerificator;
+
    @Inject
    public EstatesService(EstateValidator estateValidator, EstateAssemblerFactory estateAssemblerFactory,
-         EstateRepository estateRepository) {
+         EstateRepository estateRepository, ChangeVerificator changeVerificator) {
 
       this.estateValidator = estateValidator;
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepository = estateRepository;
+      this.changeVerificator = changeVerificator;
    }
 
    public void addEstate(EstateDto estateDto) throws InvalidEstateException, CouldNotAccessDataException {
@@ -63,7 +67,7 @@ public class EstatesService {
       Description description = estateAssembler.assembleDescription(descriptionDto);
 
       Estate estate = estateRepository.getEstateByAddress(address);
-      estate.editDescription(description);
+      estate.editDescription(description, changeVerificator);
       estateRepository.updateEstate(estate);
    }
 

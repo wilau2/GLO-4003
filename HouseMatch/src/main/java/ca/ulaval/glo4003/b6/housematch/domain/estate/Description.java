@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
-import org.apache.commons.lang.StringUtils;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.ChangeIsSignificantException;
 
 public class Description {
+
+   private static final double PERCENTAGE_OF_ACCEPTABLE_CHANGE = 25.00;
 
    private Integer numberOfBedRooms;
 
@@ -14,11 +16,11 @@ public class Description {
 
    private Integer yearOfConstruction;
 
-   private String buildingDimensions;
-
    private Integer livingSpaceAreaSquareMeter;
 
    private Integer municipalAssessment;
+
+   private String buildingDimensions;
 
    private String backyardOrientation;
 
@@ -85,37 +87,34 @@ public class Description {
       return backyardOrientation;
    }
 
-   public boolean isChangeSignificant(Description description) {
-      
-      boolean result = false;
-      
-      if(this.buildingDimensions.length() == 0 || this.backyardOrientation.length() == 0){
+   public boolean isChangeSignificant(Description updatedDescription, ChangeVerificator changeVerificator) {
+
+      try {
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, buildingDimensions,
+               updatedDescription.buildingDimensions);
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, backyardOrientation,
+               updatedDescription.backyardOrientation);
+
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, livingSpaceAreaSquareMeter,
+               updatedDescription.getLivingSpaceAreaSquareMeter());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, municipalAssessment,
+               updatedDescription.getMunicipalAssessment());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, numberOfBathrooms,
+               updatedDescription.getNumberOfBathrooms());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, numberOfBedRooms,
+               updatedDescription.getNumberOfBedRooms());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, numberOfLevel,
+               updatedDescription.getNumberOfLevel());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, numberOfRooms,
+               updatedDescription.getNumberOfRooms());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, yearOfConstruction,
+               updatedDescription.getYearOfConstruction());
+
+      } catch (ChangeIsSignificantException e) {
          return true;
       }
-      
-      double differenceBuildingDimensions = StringUtils.getLevenshteinDistance(this.buildingDimensions, description.getBuildingDimensions()) / this.buildingDimensions.length() * 100;
-      double differencebackyardOrientation = StringUtils.getLevenshteinDistance(this.backyardOrientation, description.getBackyardOrientation()) / this.backyardOrientation.length() * 100;
-      
-      if( getDifferencePercentage(this.livingSpaceAreaSquareMeter, description.getLivingSpaceAreaSquareMeter()) > 25.00 ||
-            getDifferencePercentage(this.getMunicipalAssessment(), description.getMunicipalAssessment()) > 25.00 ||
-            getDifferencePercentage(this.getNumberOfBathrooms(), description.getNumberOfBathrooms()) > 25.00 ||
-            getDifferencePercentage(this.getNumberOfBedRooms(), description.getNumberOfBedRooms()) > 25.00 ||
-            getDifferencePercentage(this.getNumberOfLevel(), description.getNumberOfLevel()) > 25.00 ||
-            getDifferencePercentage(this.getNumberOfRooms(), description.getNumberOfRooms()) > 25.00 ||
-            getDifferencePercentage(this.getYearOfConstruction(), description.getYearOfConstruction()) > 25.00 ||
-            differencebackyardOrientation > 25.00 ||
-            differenceBuildingDimensions > 25.00)
-         {
-            result = true;
-         }
-      
-      return result;
+      return false;
+
    }
-   
-   public double getDifferencePercentage(int numberOne, int numberTwo){
-      if (numberOne == 0){
-         return 100;
-      }
-      return Math.abs((numberOne-numberTwo)/numberOne * 100);
-   }
+
 }

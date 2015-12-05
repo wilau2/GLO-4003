@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.ChangeVerificator;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
@@ -76,6 +77,9 @@ public class EstatesServiceTest {
    @Mock
    private AddressDto addressDto;
 
+   @Mock
+   private ChangeVerificator changeVerificator;
+
    private EstatesService estatesService;
 
    @Before
@@ -93,7 +97,7 @@ public class EstatesServiceTest {
       when(estateEditDto.getType()).thenReturn(TYPE);
       when(estateEditDto.getPrice()).thenReturn(PRICE);
 
-      estatesService = new EstatesService(estateValidator, estateAssemblerFactory, estateRepository);
+      estatesService = new EstatesService(estateValidator, estateAssemblerFactory, estateRepository, changeVerificator);
    }
 
    @Test
@@ -153,6 +157,19 @@ public class EstatesServiceTest {
       estatesService.editDescription(ADDRESS, descriptionDto);
       // then
       verify(estateAssembler).assembleDescription(descriptionDto);
+   }
+
+   @Test
+   public void whenEditingDescriptionShouldCallUpdateDescriptionOnEstate()
+         throws CouldNotAccessDataException, EstateNotFoundException {
+      // Given
+      when(estateAssembler.assembleDescription(descriptionDto)).thenReturn(description);
+
+      // When
+      estatesService.editDescription(ADDRESS, descriptionDto);
+
+      // Then
+      verify(estate, times(1)).editDescription(description, changeVerificator);
    }
 
    private void configureDescriptionTests() {

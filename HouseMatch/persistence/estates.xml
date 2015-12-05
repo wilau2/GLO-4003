@@ -25,26 +25,6 @@
   </estate>  
   <estate> 
     <seller>seller</seller>  
-    <address>0-500-Rue des patates-Rwandol-Afriqua-1232</address>  
-    <price>60000</price>  
-    <type>CONDO</type>  
-    <date_registered>2015-11-26T10:42:55.427</date_registered>  
-    <date_modified>2015-11-26T10:42:55.427</date_modified>  
-    <price_history/>  
-    <description> 
-      <numberOfBedRooms>0</numberOfBedRooms>  
-      <municipalValuation>0</municipalValuation>  
-      <dimensionsBuilding/>  
-      <livingSpaceAreaSquareMeter>42</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>0</numberOfRooms>  
-      <yearsOfConstruction>0</yearsOfConstruction>  
-      <backyardFaces>South</backyardFaces>  
-      <numberOfLevel>0</numberOfLevel>  
-      <numberOfBathrooms>0</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
-    <seller>seller</seller>  
     <address>0-40-Rue des mirtilles-Qc-Ca-G1b3fwaf</address>  
     <date_modified>2015-11-22T13:58:09.695</date_modified>  
     <type>CONDO</type>  
@@ -151,24 +131,45 @@
       <numberOfBathrooms>0</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-340-Rue des Bisous-Glo-Gloland-134</address>  
+    <date_modified>2010-12-03T10:15:30</date_modified>  
+    <price>1000</price>  
+    <bought>true</bought>  
+    <type>APPARTMENT</type>  
+    <purchase_date>2015-12-03T23:38:51.089</purchase_date>  
+    <date_registered>2015-11-18T17:52:05.790</date_registered>  
+    <price_history/>  
+    <description> 
+      <numberOfBedRooms>0</numberOfBedRooms>  
+      <municipalValuation>0</municipalValuation>  
+      <dimensionsBuilding/>  
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>0</numberOfRooms>  
+      <yearsOfConstruction>0</yearsOfConstruction>  
+      <backyardFaces/>  
+      <numberOfLevel>0</numberOfLevel>  
+      <numberOfBathrooms>0</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
     <seller>seller</seller>
-    <address>0-340-Rue des Bisous-Glo-Gloland-134</address>
-    <date_modified>2010-12-03T10:15:30</date_modified>
-    <price>1000</price>
-    <bought>true</bought>
-    <type>APPARTMENT</type>
-    <purchase_date>2015-12-03T23:38:51.089</purchase_date>
-    <date_registered>2015-11-18T17:52:05.790</date_registered>
+    <address>0-500-Rue des patates-Rwandol-Afriqua-1232</address>
+    <date_modified>2015-12-05T14:33:11.732</date_modified>
+    <price>60000</price>
+    <bought>false</bought>
+    <type>CONDO</type>
+    <date_registered>2015-11-26T10:42:55.427</date_registered>
     <price_history></price_history>
     <description>
-      <numberOfBedRooms>0</numberOfBedRooms>
+      <numberOfBedRooms>4</numberOfBedRooms>
       <municipalValuation>0</municipalValuation>
-      <dimensionsBuilding></dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
+      <dimensionsBuilding>100x100</dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>42</livingSpaceAreaSquareMeter>
       <numberOfRooms>0</numberOfRooms>
       <yearsOfConstruction>0</yearsOfConstruction>
-      <backyardFaces></backyardFaces>
+      <backyardFaces>South</backyardFaces>
       <numberOfLevel>0</numberOfLevel>
       <numberOfBathrooms>0</numberOfBathrooms>
     </description>
