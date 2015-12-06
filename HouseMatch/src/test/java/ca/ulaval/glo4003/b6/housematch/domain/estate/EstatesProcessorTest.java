@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.b6.housematch.domain.estate;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,9 +18,11 @@ import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessData
 
 public class EstatesProcessorTest {
 
-   private static final String SECOND_SELLER = "SECOND_SELLER";
-
    private static final String FIRST_SELLER = "FIRST_SELLER";
+   
+   private static final String FIRST_ESTATE_TYPE = "FIRST_TYPE";
+   
+   private static final String SECOND_ESTATE_TYPE = "SECOND_TYPE";
 
    private static final String SELLER_NAME = "seller";
 
@@ -88,6 +91,24 @@ public class EstatesProcessorTest {
       when(estate.getSeller()).thenReturn(SELLER_NAME, FIRST_SELLER, SELLER_NAME);
       when(estate.isFromSeller(SELLER_NAME)).thenReturn(true);
       when(estate.hasBeenBoughtInLastYear()).thenReturn(true);
+
+   }
+   
+   private void configureThreeEstateWithSameType() {
+      when(listEstates.iterator()).thenReturn(iterator);
+      when(iterator.hasNext()).thenReturn(true, true, true, false);
+      when(iterator.next()).thenReturn(estate);
+      when(estate.getType()).thenReturn(FIRST_ESTATE_TYPE, FIRST_ESTATE_TYPE, FIRST_ESTATE_TYPE);
+      configureEstates();
+
+   }
+   
+   private void configureThreeEstateWithDifferentType() {
+      when(listEstates.iterator()).thenReturn(iterator);
+      when(iterator.hasNext()).thenReturn(true, true, true, false);
+      when(iterator.next()).thenReturn(estate);
+      when(estate.getType()).thenReturn(FIRST_ESTATE_TYPE, FIRST_ESTATE_TYPE, SECOND_ESTATE_TYPE);
+      configureEstates();
 
    }
 
@@ -209,5 +230,44 @@ public class EstatesProcessorTest {
 
       // Then
       assertEquals(0, sellerEstates.retreiveListOfEstate().size());
+   }
+   
+   @Test
+   public void askingNumberOfEstatesInEachTypeWhenEstatesHaveOneTypeShouldReturnListWithOneType() {
+      // Given    
+      int wantedNumberOfType = 1;
+      configureThreeEstateWithSameType();
+
+      // When
+      HashMap<String, Integer> numberEstatesInEachType = estatesProcessor.retrieveNumberEstatesInEachType(estates);
+
+      // Then
+      assertEquals(wantedNumberOfType, numberEstatesInEachType.size());
+   }
+   
+   @Test
+   public void askingNumberOfEstatesInEachTypeWhenEstatesHaveTwoTypeShouldReturnListWithTwoType() {
+      // Given
+      int wantedNumberOfType = 2;
+      configureThreeEstateWithDifferentType();
+      
+
+      // When
+      HashMap<String, Integer> numberEstatesInEachType = estatesProcessor.retrieveNumberEstatesInEachType(estates);
+
+      // Then
+      assertEquals(wantedNumberOfType, numberEstatesInEachType.size());
+   }
+   
+   @Test
+   public void askingNumberOfEstatesInEachTypeWhenThereIsNoEstatesShouldReturnMapWithNoElement() {
+      // Given
+      int wantedNumberOfType = 0;
+
+      // When
+      HashMap<String, Integer> numberEstatesInEachType = estatesProcessor.retrieveNumberEstatesInEachType(estates);
+
+      // Then
+      assertEquals(wantedNumberOfType, numberEstatesInEachType.size());
    }
 }

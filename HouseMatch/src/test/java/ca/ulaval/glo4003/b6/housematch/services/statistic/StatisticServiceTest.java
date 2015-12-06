@@ -168,4 +168,28 @@ public class StatisticServiceTest {
       // Then
       assertEquals(expectedNumberOfEstaesSoldLastYear, numberOfEstatesSoldLastYear);
    }
+   
+   @Test
+   public void whenAskingForNumberOfDifferentCategoryOfPropertiesShouldFetchAllEstatesInRepository()
+         throws CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      adminStatisticService.getNumberOfDifferentCategoryOfProperties();
+
+      // Then
+      verify(estateRepository, times(1)).getAllEstates();
+   }
+   
+   @Test
+   public void whenAskingForNumberOfDifferentCategoryOfPropertiesShouldCallEstatesProcessorMethod()
+         throws CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      adminStatisticService.getNumberOfDifferentCategoryOfProperties();
+
+      // Then
+      verify(estateProcessor, times(1)).retrieveNumberEstatesInEachType(estates);
+   }
 }
