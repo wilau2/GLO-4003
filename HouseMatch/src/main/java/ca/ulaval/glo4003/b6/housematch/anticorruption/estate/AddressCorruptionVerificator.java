@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.anticorruption.estate;
 
+import com.google.common.base.Strings;
+
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.AddressFieldInvalidException;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 
@@ -9,7 +11,7 @@ public class AddressCorruptionVerificator {
 
    public void validate(AddressDto addressDto) throws AddressFieldInvalidException {
       String street = addressDto.getStreet();
-      if (street == null || street.isEmpty()) {
+      if (Strings.isNullOrEmpty(street)) {
          throw new AddressFieldInvalidException("Street name is empty");
       }
       Integer civicNumber = addressDto.getCivicNumber();
@@ -18,18 +20,20 @@ public class AddressCorruptionVerificator {
       }
 
       String country = addressDto.getCountry();
-      if (country == null || country.isEmpty()) {
+      if (Strings.isNullOrEmpty(country)) {
          throw new AddressFieldInvalidException("Country name is empty");
       }
 
       String postalCode = addressDto.getPostalCode();
-      if (postalCode == null || postalCode.isEmpty()) {
+      if (Strings.isNullOrEmpty(postalCode)) {
          throw new AddressFieldInvalidException("Postal code is empty");
       }
+
       String state = addressDto.getState();
-      if (state == null || state.isEmpty()) {
+      if (Strings.isNullOrEmpty(state)) {
          throw new AddressFieldInvalidException("State name is empty");
       }
+
       Integer appartment = addressDto.getAppartment();
       if (appartment == null) {
          addressDto.setAppartment(DEFAULT_APPARTMENT);

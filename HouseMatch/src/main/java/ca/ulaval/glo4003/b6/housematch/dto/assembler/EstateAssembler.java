@@ -32,11 +32,12 @@ public class EstateAssembler {
       LocalDateTime dateOfPurchase = estateDto.getDateOfPurchase();
 
       LocalDateTime dateRegistered = estateDto.getDateRegistered();
+      LocalDateTime dateModified = estateDto.getDateModified();
       Description description = descriptionAssembler.assembleDescription(estateDto.getDescriptionDto());
       ArrayList<Integer> priceHistory = estateDto.getPriceHistory();
 
       Estate estate = new Estate(type, address, price, seller, description, dateRegistered, priceHistory, bought,
-            dateOfPurchase);
+            dateOfPurchase, dateModified);
 
       return estate;
    }
@@ -49,13 +50,14 @@ public class EstateAssembler {
       boolean hasBeenBought = estate.hasBeenBought();
 
       LocalDateTime dateRegistered = estate.getDateRegistered();
+      LocalDateTime dateModified = estate.getDateModified();
       DescriptionDto descriptionDto = descriptionAssembler.assembleDescriptionDto(estate.getDescription());
 
       ArrayList<Integer> priceHistory = estate.getPriceHistory();
 
       LocalDateTime dateOfPurchase = estate.getDateOfPurchase();
       EstateDto estateDto = new EstateDto(type, address, price, sellerId, dateRegistered, descriptionDto, priceHistory,
-            hasBeenBought, dateOfPurchase);
+            hasBeenBought, dateOfPurchase, dateModified);
 
       return estateDto;
    }

@@ -19,6 +19,8 @@ public class EstateDto {
 
    private LocalDateTime dateRegistered;
 
+   private LocalDateTime dateModified;
+
    private boolean bought;
 
    private LocalDateTime dateOfPurchase;
@@ -27,22 +29,26 @@ public class EstateDto {
       this.address = new AddressDto();
    }
 
-   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered) {
+   public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered,
+         LocalDateTime dateModified) {
       this.type = type;
       this.address = address;
       this.price = price;
       this.sellerId = sellerId;
       this.dateRegistered = dateRegistered;
+      this.dateModified = dateModified;
    }
 
    public EstateDto(String type, AddressDto address, Integer price, String sellerId, LocalDateTime dateRegistered,
-         DescriptionDto descriptionDto, ArrayList<Integer> priceHistory, boolean bought, LocalDateTime dateOfPurchase) {
+         DescriptionDto descriptionDto, ArrayList<Integer> priceHistory, boolean bought, LocalDateTime dateOfPurchase,
+         LocalDateTime dateModified) {
 
       this.type = type;
       this.address = address;
       this.price = price;
       this.sellerId = sellerId;
       this.dateRegistered = dateRegistered;
+      this.dateModified = dateModified;
       this.descriptionDto = descriptionDto;
       this.priceHistory = priceHistory;
       this.bought = bought;
@@ -108,6 +114,14 @@ public class EstateDto {
 
    public void setPriceHistory(ArrayList<Integer> priceHistory) {
       this.priceHistory = priceHistory;
+   }
+
+   public LocalDateTime getDateModified() {
+      return this.dateModified;
+   }
+
+   public void setDateModified(LocalDateTime dateModified) {
+      this.dateModified = dateModified;
    }
 
    public boolean isBought() {

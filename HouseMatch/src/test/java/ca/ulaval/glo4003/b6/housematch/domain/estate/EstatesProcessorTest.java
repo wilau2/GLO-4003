@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;

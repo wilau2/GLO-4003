@@ -20,6 +20,8 @@ public class Estate {
 
    private LocalDateTime dateRegistered;
 
+   private LocalDateTime dateModified;
+
    private ArrayList<Integer> priceHistory;
 
    private boolean bought;
@@ -27,19 +29,18 @@ public class Estate {
    private LocalDateTime dateOfPurchase;
 
    public Estate(String type, Address address, Integer price, String seller, Description description,
-         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory, boolean bought, LocalDateTime dateOfPurchase) {
+         LocalDateTime dateRegistered, ArrayList<Integer> priceHistory, boolean bought, LocalDateTime dateOfPurchase,
+         LocalDateTime dateModified) {
 
       this.type = type;
       this.address = address;
       this.price = price;
       this.seller = seller;
       this.description = description;
-
       this.dateRegistered = dateRegistered;
-
+      this.dateModified = dateModified;
       this.priceHistory = priceHistory;
       this.bought = bought;
-
       this.dateOfPurchase = dateOfPurchase;
    }
 
@@ -74,7 +75,10 @@ public class Estate {
       return false;
    }
 
-   public void editDescription(Description description) {
+   public void editDescription(Description description, ChangeVerificator changeVerificator) {
+      if (this.description.isChangeSignificant(description, changeVerificator)) {
+         this.updateModifiedDate();
+      }
       this.description = description;
    }
 
@@ -82,17 +86,14 @@ public class Estate {
       return dateRegistered;
    }
 
+   public LocalDateTime getDateModified() {
+      return this.dateModified;
+   }
+
    public static Comparator<Estate> EstatePriceAscendantComparator = new Comparator<Estate>() {
 
       public int compare(Estate estate1, Estate estate2) {
          return estate1.getPrice().compareTo(estate2.getPrice());
-      }
-   };
-
-   public static Comparator<Estate> EstatePriceDescendantComparator = new Comparator<Estate>() {
-
-      public int compare(Estate estate1, Estate estate2) {
-         return estate2.getPrice().compareTo(estate1.getPrice());
       }
    };
 
@@ -103,22 +104,28 @@ public class Estate {
       }
    };
 
-   public static Comparator<Estate> EstateDateDescendantComparator = new Comparator<Estate>() {
+   public static Comparator<Estate> EstateDateModifiedAscendantComparator = new Comparator<Estate>() {
 
       public int compare(Estate estate1, Estate estate2) {
-         return estate2.getDateRegistered().compareTo(estate1.getDateRegistered());
+         return estate1.getDateModified().compareTo(estate2.getDateModified());
       }
    };
 
    public void editType(String newType) {
       this.type = newType;
+      updateModifiedDate();
    }
 
    public void editPrice(Integer newPrice) {
       if (this.price.intValue() != newPrice.intValue()) {
          this.priceHistory.add(this.price);
          this.price = newPrice;
+         updateModifiedDate();
       }
+   }
+
+   public void updateModifiedDate() {
+      dateModified = LocalDateTime.now();
    }
 
    public void buy() throws EstateAlreadyBoughtException {
@@ -142,6 +149,13 @@ public class Estate {
          LocalDateTime lastYearDate = LocalDateTime.now().minusYears(1);
 
          return dateOfPurchase.isAfter(lastYearDate);
+      }
+      return false;
+   }
+
+   public boolean isPriceBetween(int minValue, int maxValue) {
+      if (price.intValue() >= minValue && price.intValue() <= maxValue) {
+         return true;
       }
       return false;
    }

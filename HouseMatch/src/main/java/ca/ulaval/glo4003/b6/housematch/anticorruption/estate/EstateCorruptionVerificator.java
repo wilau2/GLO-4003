@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.b6.housematch.anticorruption.estate;
 
 import javax.inject.Inject;
 
+import com.google.common.base.Strings;
+
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.AddressFieldInvalidException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
@@ -59,7 +61,7 @@ public class EstateCorruptionVerificator {
    }
 
    private void validateSeller(String seller) throws InvalidEstateFieldException {
-      if (seller == null || seller.isEmpty()) {
+      if (Strings.isNullOrEmpty(seller)) {
          throw new InvalidEstateFieldException("Seller is invalid");
       }
    }
@@ -71,7 +73,7 @@ public class EstateCorruptionVerificator {
    }
 
    private void validateType(String type) throws InvalidEstateFieldException {
-      if (type == null || type.isEmpty()) {
+      if (Strings.isNullOrEmpty(type)) {
          throw new InvalidEstateFieldException("The selected type is empty");
       }
    }

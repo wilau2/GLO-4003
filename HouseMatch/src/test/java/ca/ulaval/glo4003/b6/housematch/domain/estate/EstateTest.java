@@ -2,7 +2,10 @@ package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
+
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,9 +25,13 @@ public class EstateTest {
 
    private static final String TYPE = "TYPE";
 
-   private static final ArrayList<Integer> PRICE_HISTORY = new ArrayList<Integer>();
-
    private static final boolean BOUGHT = false;
+
+   private static final int MIN_PRICE = 10;
+
+   private static final int MAX_PRICE = 100;
+
+   private static final Integer PRICE_BETWEEN_MAX_AND_MIN = 50;
 
    @Mock
    private Address address;
@@ -32,14 +39,21 @@ public class EstateTest {
    @Mock
    private Description description;
 
+   private ArrayList<Integer> priceHistory;
+
    private Estate estate;
 
    private LocalDateTime dateRegistered;
+
+   private LocalDateTime dateModified;
 
    private LocalDateTime dateOfPurchase;
 
    @Mock
    private Description newDescription;
+
+   @Mock
+   private ChangeVerificator changeVerificator;
 
    @Before
    public void setup() {
@@ -47,9 +61,11 @@ public class EstateTest {
       MockitoAnnotations.initMocks(this);
 
       dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
+      dateModified = LocalDateTime.of(2000, 12, 12, 12, 12);
+      priceHistory = new ArrayList<>();
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, priceHistory, BOUGHT,
+            dateOfPurchase, dateModified);
 
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, BOUGHT,
-            dateOfPurchase);
    }
 
    @Test
@@ -209,10 +225,34 @@ public class EstateTest {
       // Given no changes
 
       // When
-      estate.editDescription(newDescription);
+      estate.editDescription(newDescription, changeVerificator);
 
       // Then
-      assertEquals(estate.getDescription(), newDescription);
+      assertEquals(newDescription, estate.getDescription());
+   }
+
+   @Test
+   public void editingDescriptionWhenUpdatedDescriptionIsNotChangedEnoughShouldNotUpdateDateOfLastModification() {
+      // Given no changes
+      when(description.isChangeSignificant(newDescription, changeVerificator)).thenReturn(false);
+
+      // When
+      estate.editDescription(newDescription, changeVerificator);
+
+      // Then
+      assertEquals(estate.getDateModified(), dateModified);
+   }
+
+   @Test
+   public void editingDescriptionWhenUpdatedDescriptionIsChangedEnoughShouldUpdateDateOfLastModification() {
+      // Given no changes
+      when(description.isChangeSignificant(newDescription, changeVerificator)).thenReturn(true);
+
+      // When
+      estate.editDescription(newDescription, changeVerificator);
+
+      // Then
+      assertNotSame(estate.getDateModified(), dateModified);
    }
 
    @Test
@@ -231,8 +271,8 @@ public class EstateTest {
          throws EstateAlreadyBoughtException {
       // Given
       LocalDateTime dateOfPurchaseLastYear = LocalDateTime.now().minusYears(1).minusNanos(1);
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, true,
-            dateOfPurchaseLastYear);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, priceHistory, true,
+            dateOfPurchaseLastYear, dateModified);
 
       // When
       boolean hasBeenBoughtInLastYear = estate.hasBeenBoughtInLastYear();
@@ -245,13 +285,73 @@ public class EstateTest {
    public void askingIfEstateHasBeenSoldInThePastYearWhenEstateHasBeenBoughtInTheLastYearShouldReturnTrue() {
       // Given
       LocalDateTime dateOfPurchaseLastYear = LocalDateTime.now().minusYears(1).plusSeconds(1);
-      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, PRICE_HISTORY, true,
-            dateOfPurchaseLastYear);
+      estate = new Estate(TYPE, address, PRICE, SELLER_NAME, description, dateRegistered, priceHistory, true,
+            dateOfPurchaseLastYear, dateModified);
 
       // When
       boolean hasBeenBoughtInLastYear = estate.hasBeenBoughtInLastYear();
 
       // Then
       assertTrue(hasBeenBoughtInLastYear);
+   }
+
+   @Test
+   public void askingIfEstatePriceIsBetweenValueWhenEstateIsBelowMinValueShouldReturnFalse() {
+      // Given
+      estate.editPrice(MIN_PRICE - 1);
+
+      // When
+      boolean priceBetween = estate.isPriceBetween(MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertFalse(priceBetween);
+   }
+
+   @Test
+   public void askingIfEstatePriceIsBetweenValueWhenEstatePriceIsEqualToMinValueShouldReturnTrue() {
+      // Given
+      estate.editPrice(MIN_PRICE);
+
+      // When
+      boolean priceBetween = estate.isPriceBetween(MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertTrue(priceBetween);
+   }
+
+   @Test
+   public void askingIfEstatePriceIsBetweenValuesWhenEstatePriceIsEqualToMaxValueShouldReturnTrue() {
+      // Given
+      estate.editPrice(MAX_PRICE);
+
+      // When
+      boolean priceBetween = estate.isPriceBetween(MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertTrue(priceBetween);
+   }
+
+   @Test
+   public void askingIfEstatePriceIsBetweenValuesWhenPriceOfEstateIsAboveMaxValueShouldReturnFalse() {
+      // Given
+      estate.editPrice(MAX_PRICE + 1);
+
+      // When
+      boolean priceBetween = estate.isPriceBetween(MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertFalse(priceBetween);
+   }
+
+   @Test
+   public void askingIfEstatePriceIsBetweenValuesWhenEstatePriceIsBetweenShouldReturnTrue() {
+      // Given
+      estate.editPrice(PRICE_BETWEEN_MAX_AND_MIN);
+
+      // When
+      boolean priceBetween = estate.isPriceBetween(MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertTrue(priceBetween);
    }
 }

@@ -31,6 +31,8 @@ public class EstateElementConverter {
 
    private static final String DATE_REGISTERED = "date_registered";
 
+   private static final String DATE_MODIFIED = "date_modified";
+
    private DescriptionElementConverter descriptionElementAssembler;
 
    public EstateElementConverter(DescriptionElementConverter descriptionElementAssembler) {
@@ -60,6 +62,9 @@ public class EstateElementConverter {
       LocalDateTime dateRegistered = LocalDateTime.parse(element.elementText(DATE_REGISTERED));
       estateDto.setDateRegistered(dateRegistered);
 
+      String dateOfLastModification = element.elementText(DATE_MODIFIED);
+      setDateOfLastModification(estateDto, dateOfLastModification);
+
       Boolean bought = Boolean.parseBoolean(element.elementText(BOUGHT));
       estateDto.setBought(bought);
 
@@ -67,6 +72,14 @@ public class EstateElementConverter {
       setDateOfPurchaseToEstateDto(estateDto, purchaseDateFromElement);
 
       return estateDto;
+   }
+
+   private void setDateOfLastModification(EstateDto estateDto, String dateModified) {
+      // TODO Auto-generated method stub
+      if (dateModified != null) {
+         LocalDateTime dateOfPurchase = LocalDateTime.parse(dateModified);
+         estateDto.setDateModified(dateOfPurchase);
+      }
    }
 
    private void setDateOfPurchaseToEstateDto(EstateDto estateDto, String purchaseDateFromElement) {
@@ -131,6 +144,7 @@ public class EstateElementConverter {
       attributes.put(PRICE, estate.getPrice().toString());
       attributes.put(TYPE, estate.getType());
       attributes.put(DATE_REGISTERED, estate.getDateRegistered().toString());
+      attributes.put(DATE_MODIFIED, estate.getDateModified().toString());
       attributes.put(ADDRESS, estate.getAddress().toString());
       attributes.put(PRICE_HISTORY, constructStringFromPriceHistory(estate));
       attributes.put(BOUGHT, estate.hasBeenBought().toString());
@@ -163,6 +177,9 @@ public class EstateElementConverter {
 
       LocalDateTime dateRegistered = LocalDateTime.parse(attributes.get(DATE_REGISTERED));
       estateDto.setDateRegistered(dateRegistered);
+
+      String dateModifiedFromAttributes = attributes.get(DATE_MODIFIED);
+      setDateOfLastModification(estateDto, dateModifiedFromAttributes);
 
       Boolean bought = Boolean.parseBoolean(attributes.get(BOUGHT));
       estateDto.setBought(bought);

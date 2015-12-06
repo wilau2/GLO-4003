@@ -36,6 +36,8 @@ public class BuyerSearchEstatesControllerTest {
 
    private static final String EXPECTED_ROLE = "buyer";
 
+   private static final String STRATEGY = "SORT_STRATEGY";
+
    private BuyerSearchEstatesController buyerSearchEstatesController;
 
    private List<EstateDto> expectedEstates;
@@ -76,11 +78,12 @@ public class BuyerSearchEstatesControllerTest {
 
    private void configureEstatesFetcher() throws CouldNotAccessDataException, EstateNotFoundException {
 
-      expectedEstates = new ArrayList<>();
+      expectedEstates = new ArrayList<EstateDto>();
       when(estatesFetcherService.getAllEstates()).thenReturn(expectedEstates);
 
       when(estatesFetcherService.getEstateByAddress(ADDRESS)).thenReturn(expectedReturnedEstate);
 
+      when(estatesFetcherService.getSortedEstates(STRATEGY, false)).thenReturn(listOfEstatesOrdered);
    }
 
    @Test
@@ -249,66 +252,29 @@ public class BuyerSearchEstatesControllerTest {
    }
 
    @Test
-   public void whenGettingEstatesWithDateAscendantShouldCallEstateFetcher()
-         throws CouldNotAccessDataException, InvalidAccessException {
-      // Given no changes
-
-      // When
-      buyerSearchEstatesController.searchAllEstatesDateAscendant(request);
-
-      // Then
-      verify(estatesFetcherService, times(1)).getDateOrderedAscendantEstates();
-   }
-
-   @Test
-   public void whenGettingEstatesWithDateDescendantShouldCallEstateFetcher()
-         throws CouldNotAccessDataException, InvalidAccessException {
-      // Given no changes
-
-      // When
-      buyerSearchEstatesController.searchAllEstatesDateDescendant(request);
-
-      // Then
-      verify(estatesFetcherService, times(1)).getDateOrderedDescendantEstates();
-   }
-
-   @Test
-   public void whenGettingEstatesWithPriceDescendantShouldCallEstateFetcher()
-         throws CouldNotAccessDataException, InvalidAccessException {
-      // Given no changes
-
-      // When
-      buyerSearchEstatesController.searchAllEstatesPriceDescendant(request);
-
-      // Then
-      verify(estatesFetcherService, times(1)).getPriceOrderedDescendantEstates();
-   }
-
-   @Test
-   public void whenGettingEstatesWithPriceAscendantShouldCallEstateFetcher()
-         throws CouldNotAccessDataException, InvalidAccessException {
-      // Given no changes
-
-      // When
-      buyerSearchEstatesController.searchAllEstatesPriceAscendant(request);
-
-      // Then
-      verify(estatesFetcherService, times(1)).getPriceOrderedAscendantEstates();
-   }
-
-   @Test
    public void whenGettingEstatesWithPriceAscendantShouldReturnCorrectModelAndView()
          throws CouldNotAccessDataException, InvalidAccessException {
       // Given
       String expectedViewName = "buyer_search";
-      when(estatesFetcherService.getPriceOrderedAscendantEstates()).thenReturn(listOfEstatesOrdered);
 
       // When
-      ModelAndView modelAndView = buyerSearchEstatesController.searchAllEstatesPriceAscendant(request);
+      ModelAndView modelAndView = buyerSearchEstatesController.searchAllEstatesSort(request, STRATEGY, false);
 
       // Then
       assertEquals(expectedViewName, modelAndView.getViewName());
       assertEquals(listOfEstatesOrdered, modelAndView.getModel().get("estates"));
+   }
+
+   @Test
+   public void whenGettingSortedEstateShouldCallEstatesFetcherMethod()
+         throws CouldNotAccessDataException, InvalidAccessException {
+      // Given no changes
+
+      // When
+      buyerSearchEstatesController.searchAllEstatesSort(request, STRATEGY, true);
+
+      // Then
+      verify(estatesFetcherService, times(1)).getSortedEstates(STRATEGY, true);
    }
 
 }

@@ -3,9 +3,11 @@ package ca.ulaval.glo4003.b6.housematch.persistence.estate;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -55,8 +57,6 @@ public class XMLEstateRepositoryTest {
    private static final String XML_FILE_PATH = "persistence/estates.xml";
 
    private static final String USER_ID = "USER_ID";
-
-   private static final String SELLER_NAME = "SELLERs";
 
    @Mock
    private Element element;
@@ -392,12 +392,6 @@ public class XMLEstateRepositoryTest {
       when(xmlFileEditor.returnAttributesOfElementWithCorrespondingValue(usedDocument, PATH_TO_ADDRESS,
             VALID_ADDRESS.toString())).thenReturn(attributes);
 
-   }
-
-   private void configureGetEstatesFromSeller() {
-      configureGetAllEstate();
-
-      when(estate.isFromSeller(SELLER_NAME)).thenReturn(true);
    }
 
    private void configureGetAllEstate() {

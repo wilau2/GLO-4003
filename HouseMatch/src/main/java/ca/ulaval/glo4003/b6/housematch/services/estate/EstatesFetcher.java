@@ -6,12 +6,17 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.SortingStrategyFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.EstateFilter;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.InconsistentFilterParamaterException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstatesSortingStrategy;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.WrongFilterTypeException;
 
 public class EstatesFetcher {
 
@@ -23,15 +28,23 @@ public class EstatesFetcher {
 
    private EstateAssemblerFactory estateAssemblerFactory;
 
+   private EstateFilterFactory estateFilterFactory;
+
+   private SortingStrategyFactory sortingStrategyFactory;
+
    public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepository estateRepository,
-         EstatesProcessor estatesProcessor) {
+         EstatesProcessor estatesProcessor, SortingStrategyFactory sortingStrategyFactory,
+         EstateFilterFactory estateFilterFactory) {
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepository = estateRepository;
       this.estatesProcessor = estatesProcessor;
+      this.sortingStrategyFactory = sortingStrategyFactory;
+      this.estateFilterFactory = estateFilterFactory;
    }
 
    public Estates getInSessionMemoryEstates() {
       return inSessionMemoryEstates;
+
    }
 
    public List<EstateDto> getEstatesBySeller(String sellerName)
@@ -71,47 +84,27 @@ public class EstatesFetcher {
 
    }
 
-   public List<EstateDto> getPriceOrderedAscendantEstates() {
+   public List<EstateDto> getSortedEstates(String strategy, boolean descending) {
+      EstatesSortingStrategy sortingStrategy = sortingStrategyFactory.getStrategy(strategy);
 
-      inSessionMemoryEstates.sortByLowestToHighestPrice();
+      inSessionMemoryEstates.sortByStrategy(sortingStrategy);
+      if (descending) {
+         inSessionMemoryEstates.reverseShownEstates();
+      }
 
-      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
-      List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
+      EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
-      return estatesDto;
-
+      return estateAssembler.assembleEstatesDto(inSessionMemoryEstates);
    }
 
-   public List<EstateDto> getPriceOrderedDescendantEstates() {
+   public List<EstateDto> filter(String price, int minPrice, int maxPrice)
+         throws WrongFilterTypeException, InconsistentFilterParamaterException {
+      EstateFilter estateFilter = estateFilterFactory.getFilter(price);
 
-      inSessionMemoryEstates.sortByHighestToLowestPrice();
-
-      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
-      List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
-
-      return estatesDto;
-
-   }
-
-   public List<EstateDto> getDateOrderedAscendantEstates() {
-
-      inSessionMemoryEstates.sortByOldestToNewestDate();
+      inSessionMemoryEstates.filterEstates(estateFilter, minPrice, maxPrice);
 
       EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
-      List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
-
-      return estatesDto;
-
-   }
-
-   public List<EstateDto> getDateOrderedDescendantEstates() {
-
-      inSessionMemoryEstates.sortByNewestToOldestDate();
-
-      EstateAssembler createEstateAssembler = estateAssemblerFactory.createEstateAssembler();
-      List<EstateDto> estatesDto = createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
-
-      return estatesDto;
+      return createEstateAssembler.assembleEstatesDto(inSessionMemoryEstates);
 
    }
 

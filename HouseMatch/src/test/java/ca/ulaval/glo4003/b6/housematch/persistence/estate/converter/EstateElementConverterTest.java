@@ -26,6 +26,8 @@ import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 
 public class EstateElementConverterTest {
 
+   private static final String DATE_MODIFIED_KEY = "date_modified";
+
    private static final String BOUGHT_KEY = "bought";
 
    private static final String ADDRESS_KEY = "address";
@@ -70,6 +72,8 @@ public class EstateElementConverterTest {
 
    private LocalDateTime dateRegistered;
 
+   private LocalDateTime dateModified;
+
    @Mock
    private Element element;
 
@@ -87,6 +91,7 @@ public class EstateElementConverterTest {
       MockitoAnnotations.initMocks(this);
 
       dateRegistered = LocalDateTime.of(2000, 12, 12, 12, 12);
+      dateModified = LocalDateTime.of(2000, 12, 12, 12, 12);
 
       configureElement();
 
@@ -101,6 +106,7 @@ public class EstateElementConverterTest {
       when(attributes.get(SELLER_KEY)).thenReturn(USER_ID);
       when(attributes.get(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
       when(attributes.get(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString());
+      when(attributes.get(DATE_MODIFIED_KEY)).thenReturn(dateModified.toString());
       when(attributes.get(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
       when(attributes.get(BOUGHT_KEY)).thenReturn("true");
       when(attributes.get(PURCHASE_DATE_TIME_KEY)).thenReturn(PURCHASE_DATE_TIME.toString());
@@ -112,9 +118,12 @@ public class EstateElementConverterTest {
       when(estate.getType()).thenReturn(TYPE);
       when(estate.getAddress()).thenReturn(ADDRESS);
       when(estate.getDateRegistered()).thenReturn(dateRegistered);
+      when(estate.getDateModified()).thenReturn(dateModified);
       when(estate.getPriceHistory()).thenReturn(PRICE_HISTORY);
+
       when(estate.hasBeenBought()).thenReturn(true);
       when(estate.getDateOfPurchase()).thenReturn(PURCHASE_DATE_TIME);
+
    }
 
    private void configureElement() {
@@ -122,12 +131,13 @@ public class EstateElementConverterTest {
       when(element.elementText(PRICE_KEY)).thenReturn(PRICE.toString());
       when(element.elementText(SELLER_KEY)).thenReturn(USER_ID);
       when(element.elementText(ADDRESS_KEY)).thenReturn(ADDRESS.toString());
-
       when(element.elementText(DATE_REGISTERED_KEY)).thenReturn(dateRegistered.toString());
-
+      when(element.elementText(DATE_MODIFIED_KEY)).thenReturn(dateModified.toString());
       when(element.elementText(PRICE_HISTORY_KEY)).thenReturn(PRICE_HISTORY_STRING);
+
       when(element.elementText(BOUGHT_KEY)).thenReturn(Boolean.TRUE.toString());
       when(element.elementText(PURCHASE_DATE_TIME_KEY)).thenReturn(PURCHASE_DATE_TIME.toString());
+
    }
 
    @Test
@@ -275,4 +285,29 @@ public class EstateElementConverterTest {
       assertFalse(estateAttributes.containsKey(PURCHASE_DATE_TIME_KEY));
    }
 
+   @Test
+   public void assemblingEstateDtoFromElementWhenFieldDateOfLastModificationDoesNotExistShouldSetFieldToNull()
+         throws ParseException {
+      // Given
+      when(element.elementText(DATE_MODIFIED_KEY)).thenReturn(null);
+
+      // When
+      EstateDto estateDto = estateElementAssembler.convertToDto(element);
+
+      // Then
+      assertNull(estateDto.getDateModified());
+   }
+
+   @Test
+   public void assemblingEstateDtoFromAttributesWhenFieldDateModifiedDoesNotExistsShouldSetFieldToNull()
+         throws ParseException {
+      // Given
+      when(attributes.get(DATE_MODIFIED_KEY)).thenReturn(null);
+
+      // When
+      EstateDto estateDto = estateElementAssembler.convertAttributesToDto(attributes);
+
+      // Then
+      assertNull(estateDto.getDateModified());
+   }
 }

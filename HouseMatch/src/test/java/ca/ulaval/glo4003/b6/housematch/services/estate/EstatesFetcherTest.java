@@ -1,6 +1,9 @@
 package ca.ulaval.glo4003.b6.housematch.services.estate;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -17,20 +20,35 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstateRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estates;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.EstatesProcessor;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.SortingStrategyFactory;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.SellerNotFoundException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.EstateFilter;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.filters.InconsistentFilterParamaterException;
+import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstatesSortingStrategy;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.EstateAssembler;
 import ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.WrongFilterTypeException;
 
 public class EstatesFetcherTest {
 
-   private static final int FIRST = 0;
+   private static final String STRATEGY = "STRATEGY";
 
    private static final String SELLER_NAME = "SELLER";
 
    private static final String ADDRESS = "ADDRESS";
+
+   private static final int MIN_PRICE = 1000;
+
+   private static final int MAX_PRICE = 10000;
+
+   private static final String PRICE = "PRICE";
+
+   private static final String WRONG_TYPE = "really_wrong_type";
+
+   private static final String MESSAGE = "bad_parameter";
 
    @Mock
    private List<String> listNames;
@@ -54,6 +72,12 @@ public class EstatesFetcherTest {
    private EstateDto estateDto;
 
    @Mock
+   private EstateFilterFactory estateFilterFactory;
+
+   @Mock
+   private EstateFilter estateFilter;
+
+   @Mock
    EstatesProcessor estatesProcessor;
 
    @InjectMocks
@@ -62,13 +86,26 @@ public class EstatesFetcherTest {
    @Mock
    private List<EstateDto> estatesDto;
 
+   @Mock
+   private SortingStrategyFactory estatesSortingFactory;
+
+   @Mock
+   private EstatesSortingStrategy estateSortingStrategy;
+
    @Before
-   public void setup() throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException {
+   public void setup() throws SellerNotFoundException, CouldNotAccessDataException, EstateNotFoundException,
+         WrongFilterTypeException, InconsistentFilterParamaterException {
       MockitoAnnotations.initMocks(this);
+
       configureEstateRepository();
       configureEstateProcessor();
       configureEstateAssembler();
       configureFetchingEstateByAddress();
+
+      configureEstateFilter();
+
+      estateFetcher = new EstatesFetcher(estateAssemblerFactory, estateRepository, estatesProcessor,
+            estatesSortingFactory, estateFilterFactory);
 
    }
 
@@ -76,6 +113,7 @@ public class EstatesFetcherTest {
       when(estatesProcessor.retrieveEstatesBySellerName(estates, SELLER_NAME)).thenReturn(estates);
       when(estatesProcessor.retrieveEstatesSoldLastYear(estates)).thenReturn(estates);
       when(estatesProcessor.retrieveUniqueSellersName(estates)).thenReturn(listNames);
+
    }
 
    private void configureFetchingEstateByAddress() throws EstateNotFoundException, CouldNotAccessDataException {
@@ -91,6 +129,11 @@ public class EstatesFetcherTest {
 
    private void configureEstateRepository() throws SellerNotFoundException, CouldNotAccessDataException {
       when(estateRepository.getAllEstates()).thenReturn(estates);
+   }
+
+   private void configureEstateFilter() throws WrongFilterTypeException, InconsistentFilterParamaterException {
+      when(estateFilterFactory.getFilter(PRICE)).thenReturn(estateFilter);
+
    }
 
    @Test
@@ -243,199 +286,127 @@ public class EstatesFetcherTest {
    }
 
    @Test
-   public void givenValidEstatesWhenGetPriceOrderedAscendantEstatesShouldDelegateSortingToEstate()
-         throws SellerNotFoundException, CouldNotAccessDataException {
+
+   public void whenFilterWithPriceParameterShouldReturnEstatesNonNull()
+         throws WrongFilterTypeException, InconsistentFilterParamaterException, CouldNotAccessDataException {
       // Given
+      configureEstatesInMemory();
 
       // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getPriceOrderedAscendantEstates();
+      List<EstateDto> estates = estateFetcher.filter(PRICE, MIN_PRICE, MAX_PRICE);
 
       // Then
-      verify(estates).sortByLowestToHighestPrice();
+      assertTrue(estates != null);
+   }
+
+   @Test(expected = WrongFilterTypeException.class)
+   public void whenFilterWithWrongTypeParameterShouldThrowWrongFilterTypeException()
+         throws WrongFilterTypeException, InconsistentFilterParamaterException, CouldNotAccessDataException {
+
+      // Given
+      configureEstatesInMemory();
+      when(estateFilterFactory.getFilter(WRONG_TYPE)).thenThrow(new WrongFilterTypeException(MESSAGE));
+
+      // When
+
+      estateFetcher.filter(WRONG_TYPE, MIN_PRICE, MAX_PRICE);
+      // Then an Wrong filter type exception is thrown
    }
 
    @Test
-   public void givenValidAssemblerFactoryWhenGetPriceOrderedAscendantEstatesShouldDelegateCreatingAssembler()
-         throws SellerNotFoundException, CouldNotAccessDataException {
+   public void whenFilterWithPriceParameterShouldReturnEstatesWithValue()
+         throws WrongFilterTypeException, InconsistentFilterParamaterException, CouldNotAccessDataException {
       // Given
+      configureEstatesInMemory();
+
       // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getPriceOrderedAscendantEstates();
+      List<EstateDto> returnedEstatesDto = estateFetcher.filter(PRICE, MIN_PRICE, MAX_PRICE);
+
+      // Then
+      assertEquals(estatesDto, returnedEstatesDto);
+   }
+
+   @Test
+   public void whenFilteringEstatesShouldCallEstatesWithGivenFilter()
+         throws WrongFilterTypeException, InconsistentFilterParamaterException, CouldNotAccessDataException {
+      // Given
+      configureEstatesInMemory();
+
+      // When
+      estateFetcher.filter(PRICE, MIN_PRICE, MAX_PRICE);
+
+      // Then
+      verify(estates, times(1)).filterEstates(estateFilter, MIN_PRICE, MAX_PRICE);
+   }
+
+   @Test
+   public void whenGettingEstatesOrderedShouldCallEstateStrategyFactory() throws CouldNotAccessDataException {
+      // Given no changes
+      configureEstatesInMemory();
+
+      // When
+      estateFetcher.getSortedEstates(STRATEGY, false);
+
+      // Then
+      verify(estatesSortingFactory, times(1)).getStrategy(STRATEGY);
+   }
+
+   @Test
+   public void whenGettingEstatesOrderedShouldCallEstatesSortWithSortingStrategy() throws CouldNotAccessDataException {
+      // Given
+      configureEstatesInMemory();
+      when(estatesSortingFactory.getStrategy(STRATEGY)).thenReturn(estateSortingStrategy);
+
+      // When
+      estateFetcher.getSortedEstates(STRATEGY, false);
+
+      // Then
+      verify(estates, times(1)).sortByStrategy(estateSortingStrategy);
+   }
+
+   @Test
+   public void whenGettingSortedEstatesShouldCallAssemblerFactory() throws CouldNotAccessDataException {
+      // Given
+      configureEstatesInMemory();
+      when(estatesSortingFactory.getStrategy(STRATEGY)).thenReturn(estateSortingStrategy);
+
+      // When
+      estateFetcher.getSortedEstates(STRATEGY, false);
 
       // Then
       verify(estateAssemblerFactory, times(2)).createEstateAssembler();
    }
 
    @Test
-   public void givenValidAssemblerWhenGetPriceOrderedAscendantEstatesShouldDelegateAssembling()
-         throws SellerNotFoundException, CouldNotAccessDataException {
+   public void gettingSortedEstatesWhenEstatesNeedToBeOrderedDescendingShouldAskEstatesToRevertItsOrder()
+         throws CouldNotAccessDataException {
       // Given
+      configureEstatesInMemory();
+      when(estatesSortingFactory.getStrategy(STRATEGY)).thenReturn(estateSortingStrategy);
+
       // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getPriceOrderedAscendantEstates();
+      estateFetcher.getSortedEstates(STRATEGY, true);
 
       // Then
-      verify(estateAssembler, times(2)).assembleEstatesDto(estates);
+      verify(estates, times(1)).reverseShownEstates();
    }
 
    @Test
-   public void whenGetPriceOrderedAscendantEstatesShouldReturnListOfEstateDto()
-         throws SellerNotFoundException, CouldNotAccessDataException {
+   public void gettingSortedEstatesWhenEstatesDoNotNeedToBeDescendingOrderedShouldNotAskEstatesToRevertItsOrder()
+         throws CouldNotAccessDataException {
       // Given
+      configureEstatesInMemory();
+      when(estatesSortingFactory.getStrategy(STRATEGY)).thenReturn(estateSortingStrategy);
+
       // When
-      estateFetcher.getAllEstates();
-      List<EstateDto> rep = estateFetcher.getPriceOrderedAscendantEstates();
+      estateFetcher.getSortedEstates(STRATEGY, false);
 
       // Then
-      assertEquals(estatesDto, rep);
+      verify(estates, never()).reverseShownEstates();
    }
 
-   @Test
-   public void givenValidEstatesWhenGetPriceOrderedDescendantEstatesShouldDelegateSortingToEstate()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-
-      // When
+   private void configureEstatesInMemory() throws CouldNotAccessDataException {
       estateFetcher.getAllEstates();
-      estateFetcher.getPriceOrderedDescendantEstates();
-
-      // Then
-      verify(estates).sortByHighestToLowestPrice();
-   }
-
-   @Test
-   public void givenValidAssemblerFactoryWhenGetPriceOrderedDescendantEstatesShouldDelegateCreatingAssembler()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getPriceOrderedDescendantEstates();
-
-      // Then
-      verify(estateAssemblerFactory, times(2)).createEstateAssembler();
-   }
-
-   @Test
-   public void givenValidAssemblerWhenGetPriceOrderedDescendantEstatesShouldDelegateAssembling()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getPriceOrderedDescendantEstates();
-
-      // Then
-      verify(estateAssembler, times(2)).assembleEstatesDto(estates);
-   }
-
-   @Test
-   public void whenGetPriceOrderedDescendantEstatesShouldReturnListOfEstateDto()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      // When
-      estateFetcher.getAllEstates();
-      List<EstateDto> rep = estateFetcher.getPriceOrderedDescendantEstates();
-
-      // Then
-      assertEquals(estatesDto, rep);
-   }
-
-   @Test
-   public void givenValidEstatesWhenGetDateOrderedAscendantEstatesShouldDelegateSortingToEstate()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-
-      // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getDateOrderedAscendantEstates();
-
-      // Then
-      verify(estates).sortByOldestToNewestDate();
-   }
-
-   @Test
-   public void givenValidAssemblerFactoryWhenGetDateOrderedAscendantEstatesShouldDelegateCreatingAssembler()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getDateOrderedAscendantEstates();
-
-      // Then
-      verify(estateAssemblerFactory, times(2)).createEstateAssembler();
-   }
-
-   @Test
-   public void givenValidAssemblerWhenGetDateOrderedAscendantEstatesShouldDelegateAssembling()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getDateOrderedAscendantEstates();
-
-      // Then
-      verify(estateAssembler, times(2)).assembleEstatesDto(estates);
-   }
-
-   @Test
-   public void whenGetDateOrderedAscendantEstatesShouldReturnListOfEstateDto()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      // When
-      estateFetcher.getAllEstates();
-      List<EstateDto> rep = estateFetcher.getDateOrderedAscendantEstates();
-
-      // Then
-      assertEquals(estatesDto, rep);
-   }
-
-   @Test
-   public void givenValidEstatesWhenGetDateOrderedDescendantEstatesShouldDelegateSortingToEstate()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-
-      // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getDateOrderedDescendantEstates();
-
-      // Then
-      verify(estates).sortByNewestToOldestDate();
-   }
-
-   @Test
-   public void givenValidAssemblerFactoryWhenGetDateOrderedDescendantEstatesShouldDelegateCreatingAssembler()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getDateOrderedDescendantEstates();
-
-      // Then
-      verify(estateAssemblerFactory, times(2)).createEstateAssembler();
-   }
-
-   @Test
-   public void givenValidAssemblerWhenGetDateOrderedDescendantEstatesShouldDelegateAssembling()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      // When
-      estateFetcher.getAllEstates();
-      estateFetcher.getDateOrderedDescendantEstates();
-
-      // Then
-      verify(estateAssembler, times(2)).assembleEstatesDto(estates);
-   }
-
-   @Test
-   public void whenGetDateOrderedDescendantEstatesShouldReturnListOfEstateDto()
-         throws SellerNotFoundException, CouldNotAccessDataException {
-      // Given
-      // When
-      estateFetcher.getAllEstates();
-      List<EstateDto> rep = estateFetcher.getDateOrderedDescendantEstates();
-
-      // Then
-      assertEquals(estatesDto, rep);
    }
 
 }

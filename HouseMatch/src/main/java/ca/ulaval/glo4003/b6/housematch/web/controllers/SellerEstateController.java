@@ -77,7 +77,9 @@ public class SellerEstateController {
 
       userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
       estateDto.setSellerId(userId);
-      estateDto.setDateRegistered(LocalDateTime.now());
+      LocalDateTime now = LocalDateTime.now();
+      estateDto.setDateRegistered(now);
+      estateDto.setDateModified(now);
 
       estateCorruptionVerificator.addEstate(estateDto);
 
@@ -155,7 +157,7 @@ public class SellerEstateController {
    public String addPicture(@PathVariable("address") String address, @RequestParam("name") final String name,
          @RequestParam("file") MultipartFile file, HttpServletRequest request)
                throws CouldNotAccessDataException, InvalidAccessException, InvalidEstateFieldException,
-               PictureAlreadyExistsException, UUIDAlreadyExistsException {
+               PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
 
       userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 

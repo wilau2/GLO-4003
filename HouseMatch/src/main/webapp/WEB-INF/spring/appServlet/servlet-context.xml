@@ -50,7 +50,9 @@
     <beans:bean
         id="estateValidator"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.validators.EstateValidator" />
-
+    <beans:bean
+        id="changeVerificator"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.FieldChangeVerificator" />
     <beans:bean
         id="estateAssemblerFactory"
         class="ca.ulaval.glo4003.b6.housematch.dto.assembler.factory.EstateAssemblerFactory" />
@@ -72,6 +74,12 @@
         class="ca.ulaval.glo4003.b6.housematch.persistence.estate.EstatePersistenceDtoFactory" />
 
     <beans:bean
+        id="estateFilterFactory"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.EstateFilterFactory"
+        scope="session" />
+
+
+    <beans:bean
         id="estateRepository"
         class="ca.ulaval.glo4003.b6.housematch.persistence.estate.XMLEstateRepository"
         scope="session"
@@ -90,6 +98,7 @@
             ref="fileEditorId" />
     </beans:bean>
 
+
     <beans:bean
         id="estateService"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService"
@@ -104,6 +113,9 @@
         <beans:constructor-arg
             name="estateRepository"
             ref="estateRepository" />
+        <beans:constructor-arg
+            name="changeVerificator"
+            ref="changeVerificator" />
     </beans:bean>
 
     <beans:bean
@@ -115,7 +127,10 @@
             name="estateService"
             ref="estateService" />
     </beans:bean>
-
+    <beans:bean
+        id="sortingStrategyFactory"
+        class="ca.ulaval.glo4003.b6.housematch.domain.estate.SortingStrategyFactory"
+        scope="session" />
     <beans:bean
         id="estatesFetcher"
         class="ca.ulaval.glo4003.b6.housematch.services.estate.EstatesFetcher"
@@ -127,9 +142,16 @@
         <beans:constructor-arg
             name="estateAssemblerFactory"
             ref="estateAssemblerFactory" />
+
         <beans:constructor-arg
             name="estatesProcessor"
             ref="estatesProcessor" />
+        <beans:constructor-arg
+            name="sortingStrategyFactory"
+            ref="sortingStrategyFactory" />
+        <beans:constructor-arg
+            name="estateFilterFactory"
+            ref="estateFilterFactory" />
     </beans:bean>
 
     <beans:bean
@@ -140,7 +162,8 @@
 
     <beans:bean
         id="albumFactory"
-        class="ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumFactory">
+        class="ca.ulaval.glo4003.b6.housematch.domain.picture.AlbumFactory"
+    >
     </beans:bean>
 
     <beans:bean
@@ -593,7 +616,7 @@
             ref="userSessionAuthorizationService" />
 
     </beans:bean>
-    
+
     <beans:bean
         id="homeController"
         scope="session"
@@ -603,7 +626,7 @@
             name="userSessionAuthorizationService"
             ref="userSessionAuthorizationService" />
     </beans:bean>
-    
+
     <beans:bean
         id="anonymousDashboardController"
         scope="session"

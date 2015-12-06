@@ -1,6 +1,10 @@
 package ca.ulaval.glo4003.b6.housematch.domain.estate;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.ChangeIsSignificantException;
+
 public class Description {
+
+   private static final double PERCENTAGE_OF_ACCEPTABLE_CHANGE = 25.00;
 
    private Integer numberOfBedRooms;
 
@@ -12,11 +16,11 @@ public class Description {
 
    private Integer yearOfConstruction;
 
-   private String buildingDimensions;
-
    private Integer livingSpaceAreaSquareMeter;
 
    private Integer municipalAssessment;
+
+   private String buildingDimensions;
 
    private String backyardOrientation;
 
@@ -82,4 +86,35 @@ public class Description {
    public String getBackyardOrientation() {
       return backyardOrientation;
    }
+
+   public boolean isChangeSignificant(Description updatedDescription, ChangeVerificator changeVerificator) {
+
+      try {
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, buildingDimensions,
+               updatedDescription.buildingDimensions);
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, backyardOrientation,
+               updatedDescription.backyardOrientation);
+
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, livingSpaceAreaSquareMeter,
+               updatedDescription.getLivingSpaceAreaSquareMeter());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, municipalAssessment,
+               updatedDescription.getMunicipalAssessment());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, numberOfBathrooms,
+               updatedDescription.getNumberOfBathrooms());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, numberOfBedRooms,
+               updatedDescription.getNumberOfBedRooms());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, numberOfLevel,
+               updatedDescription.getNumberOfLevel());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, numberOfRooms,
+               updatedDescription.getNumberOfRooms());
+         changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, yearOfConstruction,
+               updatedDescription.getYearOfConstruction());
+
+      } catch (ChangeIsSignificantException e) {
+         return true;
+      }
+      return false;
+
+   }
+
 }

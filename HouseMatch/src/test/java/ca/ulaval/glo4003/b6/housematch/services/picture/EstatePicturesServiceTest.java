@@ -34,7 +34,7 @@ public class EstatePicturesServiceTest {
    private PictureRepository pictureRepository;
 
    @Mock
-   private AlbumFactory albumPictureFactory;
+   private AlbumFactory albumFactory;
 
    @Mock
    private Album album;
@@ -62,7 +62,7 @@ public class EstatePicturesServiceTest {
       configurePictures();
       configureAlbumFactory();
 
-      estatesPicturesService = new EstatePicturesService(pictureRepository, albumPictureFactory,
+      estatesPicturesService = new EstatePicturesService(pictureRepository, albumFactory,
             approvalPictureRepository);
    }
 
@@ -75,7 +75,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.getPublicPicturesOfEstate(ADDRESS);
 
       // Then
-      verify(albumPictureFactory, times(1)).createAlbum(names, ADDRESS);;
+      verify(albumFactory, times(1)).createAlbum(names, ADDRESS);;
    }
 
    @Test
@@ -115,20 +115,21 @@ public class EstatePicturesServiceTest {
    }
 
    @Test
-   public void addingAPictureShouldCallAlbumPictureRepository()
-         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
+   public void addingAPictureShouldCallAlbumPictureRepository() throws CouldNotAccessDataException,
+         PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given no changes
 
       // When
       estatesPicturesService.addPicture(ADDRESS, PICTURENAME, pictureFile);
 
       // Then
-      verify(albumPictureFactory, times(1)).createAlbum(ADDRESS);;
+      verify(albumFactory, times(1)).createAlbum(ADDRESS);;
    }
 
    @Test
-   public void addingAPictureShouldCallAddPictureFromRepository()
-         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
+   public void addingAPictureShouldCallAddPictureFromRepository() throws CouldNotAccessDataException,
+         PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
+
       // Given no changes
 
       // When
@@ -139,8 +140,8 @@ public class EstatePicturesServiceTest {
    }
 
    @Test(expected = PictureAlreadyExistsException.class)
-   public void addingAPictureShouldThrowExceptionIfPicturesAlreadyExists()
-         throws CouldNotAccessDataException, PictureAlreadyExistsException, UUIDAlreadyExistsException {
+   public void addingAPictureShouldThrowExceptionIfPicturesAlreadyExists() throws CouldNotAccessDataException,
+         PictureAlreadyExistsException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given an album with existingPicture
       configureAlbumWithExistingPicture();
 
@@ -171,7 +172,7 @@ public class EstatePicturesServiceTest {
       estatesPicturesService.getPicture(ADDRESS, PICTURENAME);
 
       // Then
-      verify(albumPictureFactory, times(1)).createAlbum(ADDRESS);;
+      verify(albumFactory, times(1)).createAlbum(ADDRESS);;
    }
 
    @Test
@@ -187,7 +188,7 @@ public class EstatePicturesServiceTest {
    }
 
    private void configurePictureRepository() {
-      when(albumPictureFactory.createAlbum(ADDRESS)).thenReturn(album);
+      when(albumFactory.createAlbum(ADDRESS)).thenReturn(album);
    }
 
    private void configureAlbumWithExistingPicture() {
@@ -197,7 +198,7 @@ public class EstatePicturesServiceTest {
    }
 
    private void configureAlbumFactory() {
-      when(albumPictureFactory.createAlbum(names, ADDRESS)).thenReturn(album);
+      when(albumFactory.createAlbum(names, ADDRESS)).thenReturn(album);
    }
 
    private void configurePictures() {

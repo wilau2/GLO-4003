@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.b6.housematch.anticorruption.estate;
 
 import javax.inject.Inject;
 
+import com.google.common.base.Strings;
+
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.DescriptionDto;
@@ -39,7 +41,7 @@ public class DescriptionCorruptionVerificator {
    }
 
    private void backyardOrientation(String backyardOrientation) throws InvalidDescriptionFieldException {
-      if (backyardOrientation == null) {
+      if (Strings.isNullOrEmpty(backyardOrientation)) {
          throw new InvalidDescriptionFieldException("The entered backyard orientation is not valid");
       }
    }
@@ -57,7 +59,7 @@ public class DescriptionCorruptionVerificator {
    }
 
    private void validateBuildingDimensions(String buildingDimension) throws InvalidDescriptionFieldException {
-      if (buildingDimension == null) {
+      if (Strings.isNullOrEmpty(buildingDimension)) {
          throw new InvalidDescriptionFieldException("The entered building dimension is not valid");
       }
    }
