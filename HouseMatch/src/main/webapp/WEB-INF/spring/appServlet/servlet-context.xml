@@ -502,7 +502,7 @@
     >
         <beans:constructor-arg
             name="userSignupService"
-            ref="userSignupServices" />
+            ref="userSignupService" />
     </beans:bean>
 
     <beans:bean

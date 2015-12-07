@@ -27,7 +27,7 @@ public class UserSignupService {
    private UserSignupCorruptionVerificator userSignupCorruptionVerificator;
 
    @Inject
-   UserSignupService(UserSignupCorruptionVerificator userSignupCorruptionVerificator,
+   public UserSignupService(UserSignupCorruptionVerificator userSignupCorruptionVerificator,
          UserAssemblerFactory userAssemblerFactory, UserRepository userRepository, List<UserObserver> observers) {
       this.userSignupCorruptionVerificator = userSignupCorruptionVerificator;
       this.userAssemblerFactory = userAssemblerFactory;

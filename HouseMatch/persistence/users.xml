@@ -57,25 +57,36 @@
     <username>seller</username> 
   </user>  
   <user> 
-    <firstName>Kid</firstName>  
+    <firstName>Ding</firstName>  
+    <lastName>Dong</lastName>  
+    <password>123</password>  
+    <role>admin</role>  
+    <phoneNumber>123-456-7899</phoneNumber>  
+    <dateLastActivity>2015-12-07T16:55:36.056</dateLastActivity>  
+    <isActive>true</isActive>  
+    <email>ding@dong.com</email>  
+    <username>admin</username> 
+  </user>  
+  <user> 
+    <firstName>Kide</firstName>  
     <lastName>Kiddy</lastName>  
     <password>123</password>  
     <role>buyer</role>  
     <phoneNumber>123-456-7899</phoneNumber>  
-    <dateLastActivity>2015-12-07T16:54:44.387</dateLastActivity>  
+    <dateLastActivity>2015-12-07T17:40:15.196</dateLastActivity>  
     <isActive>true</isActive>  
     <email>kid@kiddy.com</email>  
     <username>buyer</username> 
   </user>  
   <user>
-    <firstName>Ding</firstName>
-    <lastName>Dong</lastName>
+    <firstName>Tom</firstName>
+    <lastName>Tom</lastName>
     <password>123</password>
-    <role>admin</role>
-    <phoneNumber>123-456-7899</phoneNumber>
-    <dateLastActivity>2015-12-07T16:55:36.056</dateLastActivity>
+    <role>seller</role>
+    <phoneNumber>54132143</phoneNumber>
+    <dateLastActivity>2015-12-07T17:46:17.851</dateLastActivity>
     <isActive>true</isActive>
-    <email>ding@dong.com</email>
-    <username>admin</username>
+    <email>antoine.lefrancois.qc@gmail.com</email>
+    <username>antoine.lefrancois.qc@gmail.com</username>
   </user>
 </users>

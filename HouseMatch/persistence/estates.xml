@@ -132,26 +132,47 @@
       <numberOfBathrooms>0</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>seller</seller>  
+    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>  
+    <date_modified>2015-12-05T17:04:46.908</date_modified>  
+    <price>50112</price>  
+    <bought>true</bought>  
+    <type>MULTIPLEX</type>  
+    <purchase_date>2015-11-25T16:02:07.362</purchase_date>  
+    <date_registered>2007-12-03T10:15:30</date_registered>  
+    <price_history>1016-1020-50000-50000-50096-50096-50104-</price_history>  
+    <description> 
+      <numberOfBedRooms>21</numberOfBedRooms>  
+      <municipalValuation>125000</municipalValuation>  
+      <dimensionsBuilding>4x42</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>1</numberOfRooms>  
+      <yearsOfConstruction>2002</yearsOfConstruction>  
+      <backyardFaces>FRONT</backyardFaces>  
+      <numberOfLevel>4</numberOfLevel>  
+      <numberOfBathrooms>1</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
-    <seller>seller</seller>
-    <address>0-123412345-Rue des Bisous-Awesomo-AAAAHHH-Patate</address>
-    <date_modified>2015-12-05T17:04:46.908</date_modified>
-    <price>50112</price>
-    <bought>true</bought>
-    <type>MULTIPLEX</type>
-    <purchase_date>2015-11-25T16:02:07.362</purchase_date>
-    <date_registered>2007-12-03T10:15:30</date_registered>
-    <price_history>1016-1020-50000-50000-50096-50096-50104-</price_history>
+    <seller>antoine.lefrancois.qc@gmail.com</seller>
+    <address>0-19-Rue des patates-Canada-Canadae-1234</address>
+    <date_modified>2015-12-07T17:47:33.698</date_modified>
+    <price>3719</price>
+    <bought>false</bought>
+    <type>APPARTMENT</type>
+    <date_registered>2015-12-07T17:47:01.803</date_registered>
+    <price_history>3600-</price_history>
     <description>
-      <numberOfBedRooms>21</numberOfBedRooms>
-      <municipalValuation>125000</municipalValuation>
-      <dimensionsBuilding>4x42</dimensionsBuilding>
-      <livingSpaceAreaSquareMeter>222</livingSpaceAreaSquareMeter>
-      <numberOfRooms>1</numberOfRooms>
-      <yearsOfConstruction>2002</yearsOfConstruction>
-      <backyardFaces>FRONT</backyardFaces>
-      <numberOfLevel>4</numberOfLevel>
-      <numberOfBathrooms>1</numberOfBathrooms>
+      <numberOfBedRooms>0</numberOfBedRooms>
+      <municipalValuation>0</municipalValuation>
+      <dimensionsBuilding>fewafa</dimensionsBuilding>
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
+      <numberOfRooms>0</numberOfRooms>
+      <yearsOfConstruction>0</yearsOfConstruction>
+      <backyardFaces>North West</backyardFaces>
+      <numberOfLevel>0</numberOfLevel>
+      <numberOfBathrooms>0</numberOfBathrooms>
     </description>
   </estate>
 </estates>
