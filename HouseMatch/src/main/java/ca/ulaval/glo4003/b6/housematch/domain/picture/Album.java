@@ -12,7 +12,7 @@ public class Album {
 
    private List<String> activePictureNames;
 
-   public Album(String estateAddress, List<String> activePictureNames) {
+   Album(String estateAddress, List<String> activePictureNames) {
       this.estateAddress = estateAddress;
       this.activePictureNames = activePictureNames;
    }

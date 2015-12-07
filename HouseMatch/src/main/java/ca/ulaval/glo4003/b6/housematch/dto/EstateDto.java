@@ -108,10 +108,6 @@ public class EstateDto {
       return this.dateRegistered;
    }
 
-   public boolean isEarlyer(EstateDto estate) {
-      return this.dateRegistered.isBefore(estate.getDateRegistered());
-   }
-
    public void setPriceHistory(ArrayList<Integer> priceHistory) {
       this.priceHistory = priceHistory;
    }

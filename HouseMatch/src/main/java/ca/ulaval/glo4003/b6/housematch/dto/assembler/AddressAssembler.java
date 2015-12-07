@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 
 public class AddressAssembler {
 
-   public AddressDto assembleAddressDto(Address address) {
+   AddressDto assembleAddressDto(Address address) {
       AddressDto addressDto = new AddressDto();
 
       addressDto.setAppartment(address.getAppartment());
@@ -18,7 +18,7 @@ public class AddressAssembler {
       return addressDto;
    }
 
-   public Address assembleAddress(AddressDto addressDto) {
+   Address assembleAddress(AddressDto addressDto) {
       Integer appartment = addressDto.getAppartment();
       Integer civiNumber = addressDto.getCivicNumber();
       String street = addressDto.getStreet();

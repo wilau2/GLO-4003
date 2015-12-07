@@ -4,7 +4,7 @@ public class UUIDAlreadyExistsException extends Exception {
 
    private static final long serialVersionUID = 1L;
 
-   public UUIDAlreadyExistsException(String message) {
+   UUIDAlreadyExistsException(String message) {
       super(message);
    }
 

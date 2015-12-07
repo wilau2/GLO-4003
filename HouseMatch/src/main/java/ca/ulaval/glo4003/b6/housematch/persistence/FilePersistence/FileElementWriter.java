@@ -9,10 +9,9 @@ import org.dom4j.Node;
 
 import ca.ulaval.glo4003.b6.housematch.persistence.PersistenceDto;
 
-public class FileElementWriter {
+class FileElementWriter {
 
-   public void deleteExistingElementWithCorrespondingValue(Document existingDocument, String pathToValue,
-         String wantedValue) {
+   void deleteExistingElementWithCorrespondingValue(Document existingDocument, String pathToValue, String wantedValue) {
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {
          if (node.getStringValue().equals(wantedValue)) {
@@ -21,7 +20,7 @@ public class FileElementWriter {
       }
    }
 
-   public void addNewElementToDocument(Document existingDocument, PersistenceDto receivedDto) {
+   void addNewElementToDocument(Document existingDocument, PersistenceDto receivedDto) {
       Element rootElement = existingDocument.getRootElement();
       Element newElement = rootElement.addElement(receivedDto.getElementName());
 
@@ -30,8 +29,8 @@ public class FileElementWriter {
       }
    }
 
-   public void addNewNestedElementToDocumentFromParentPath(Document existingDocument,
-         PersistenceDto receivedDto, String wantedValue, String wantedValueName, String parentElementPath) {
+   void addNewNestedElementToDocumentFromParentPath(Document existingDocument, PersistenceDto receivedDto,
+         String wantedValue, String wantedValueName, String parentElementPath) {
 
       Element parentElement = getParentByValue(existingDocument, wantedValue, wantedValueName, parentElementPath);
       Element newElement = parentElement.addElement(receivedDto.getElementName());
@@ -55,7 +54,7 @@ public class FileElementWriter {
       return element;
    }
 
-   public void replaceElement(Document existingDocument, String pathToValue, String matchingElement,
+   void replaceElement(Document existingDocument, String pathToValue, String matchingElement,
          String matchingElementName, PersistenceDto receivedDto) {
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {

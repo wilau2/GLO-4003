@@ -12,10 +12,9 @@ import org.dom4j.Node;
 
 import ca.ulaval.glo4003.b6.housematch.persistence.PersistenceDto;
 
-public class FileElementReader {
+class FileElementReader {
 
-   public boolean elementWithCorrespondingValueExists(Document existingDocument, String pathToValue,
-         String wantedValue) {
+   boolean elementWithCorrespondingValueExists(Document existingDocument, String pathToValue, String wantedValue) {
       List<Node> list = existingDocument.selectNodes(pathToValue);
       for (Node node : list) {
          if (node.getStringValue().equals(wantedValue)) {
@@ -25,7 +24,7 @@ public class FileElementReader {
       return false;
    }
 
-   public boolean elementWithCorrespondingValuesExists(Document existingDocument, String pathToValues,
+   boolean elementWithCorrespondingValuesExists(Document existingDocument, String pathToValues,
          PersistenceDto receivedDto) {
       List<Node> list = existingDocument.selectNodes(pathToValues);
       Collection<String> attributesValues = receivedDto.getAttributes().values();
@@ -45,7 +44,7 @@ public class FileElementReader {
       return false;
    }
 
-   public HashMap<String, String> returnAttributesOfElementWithCorrespondingValue(Document existingDocument,
+   HashMap<String, String> returnAttributesOfElementWithCorrespondingValue(Document existingDocument,
          String pathToValue, String wantedValue) {
 
       List<Node> list = existingDocument.selectNodes(pathToValue);
@@ -70,7 +69,7 @@ public class FileElementReader {
       return attributes;
    }
 
-   public List<Element> getAllElementsFromDocument(Document usedDocument, String pathToElement) {
+   List<Element> getAllElementsFromDocument(Document usedDocument, String pathToElement) {
 
       List<Node> nodes = usedDocument.selectNodes(pathToElement);
       List<Element> elements = new ArrayList<Element>();
@@ -81,7 +80,7 @@ public class FileElementReader {
       return elements;
    }
 
-   public HashMap<String, String> returnChildAttributesOfElementWithCorrespondingValue(Document existingDocument,
+   HashMap<String, String> returnChildAttributesOfElementWithCorrespondingValue(Document existingDocument,
          String pathToValue, String wantedValue, String childValue) {
 
       List<Node> list = existingDocument.selectNodes(pathToValue);

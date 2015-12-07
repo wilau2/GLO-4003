@@ -39,7 +39,7 @@ public class Picture {
       return this.uid;
    }
 
-   public void activate() {
+   void activate() {
       this.active = true;
    }
 
@@ -47,7 +47,7 @@ public class Picture {
       return this.active;
    }
 
-   public boolean isFromEstate(String address) {
+   boolean isFromEstate(String address) {
       if (this.address.equals(address)) {
          return true;
       } else {
@@ -55,7 +55,7 @@ public class Picture {
       }
    }
 
-   public boolean isValidUid(String uid) {
+   boolean isValidUid(String uid) {
       if (this.uid.equals(uid)) {
          return true;
       } else {

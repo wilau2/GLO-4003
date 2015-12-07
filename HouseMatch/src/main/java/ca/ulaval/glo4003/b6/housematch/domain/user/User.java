@@ -80,7 +80,7 @@ public class User {
       this.dateOfLastActivity = dateOfLastActivity;
    }
 
-   public boolean wasActiveInTheLastSixMonths() {
+   boolean wasActiveInTheLastSixMonths() {
       if (active && isDateOfLastActivityLessThanSixMonthsAgo()) {
          return true;
       }

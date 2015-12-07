@@ -28,7 +28,7 @@ public class EstatePicturesService {
    private ApprovalPictureRepository approvalPictureRepository;
 
    @Inject
-   public EstatePicturesService(PictureRepository pictureRepository, AlbumFactory albumPictureFactory,
+   EstatePicturesService(PictureRepository pictureRepository, AlbumFactory albumPictureFactory,
          ApprovalPictureRepository approvalPictureRepository) {
 
       this.pictureRepository = pictureRepository;

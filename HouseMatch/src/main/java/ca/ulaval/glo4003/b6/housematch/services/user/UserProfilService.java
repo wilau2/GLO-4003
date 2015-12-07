@@ -26,7 +26,7 @@ public class UserProfilService {
    private ContactInformationCorruptionVerificator contactInformationCorruptionVerificator;
 
    @Inject
-   public UserProfilService(ContactInformationCorruptionVerificator contactInformationCorruptionVerificator,
+   UserProfilService(ContactInformationCorruptionVerificator contactInformationCorruptionVerificator,
          UserRepository userRepository, ContactInformationAssembler contactInformationAssembler,
          List<UserObserver> observers) {
       this.contactInformationCorruptionVerificator = contactInformationCorruptionVerificator;

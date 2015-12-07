@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Pictures {
 
-   List<Picture> pictures;
+   private List<Picture> pictures;
 
    public Pictures(List<Picture> pictures) {
       this.pictures = pictures;
@@ -66,7 +66,7 @@ public class Pictures {
       return activeEstatePicturesNames;
    }
 
-   public List<Picture> getPicturesFromUids(List<String> uids) {
+   List<Picture> getPicturesFromUids(List<String> uids) {
       List<Picture> picturesFromUids = new ArrayList<Picture>();
 
       for (Picture picture : pictures) {

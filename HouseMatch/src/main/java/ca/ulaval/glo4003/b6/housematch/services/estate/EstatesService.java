@@ -36,7 +36,7 @@ public class EstatesService {
    private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
 
    @Inject
-   public EstatesService(EstateCorruptionVerificator estateCorruptionVerificator,
+   EstatesService(EstateCorruptionVerificator estateCorruptionVerificator,
          DescriptionCorruptionVerificator descriptionCorruptionVerificator, EstateValidator estateValidator,
          EstateAssemblerFactory estateAssemblerFactory, EstateRepository estateRepository,
          ChangeVerificator changeVerificator) {

@@ -14,11 +14,11 @@ import ca.ulaval.glo4003.b6.housematch.persistence.PersistenceDto;
 
 public class FileEditor {
 
-   FileAccesser fileAccesser;
+   private FileAccesser fileAccesser;
 
-   FileElementReader elementReader;
+   private FileElementReader elementReader;
 
-   FileElementWriter elementWriter;
+   private FileElementWriter elementWriter;
 
    @Inject
    public FileEditor(FileAccesser fileAccesser, FileElementReader fileElementReader,
@@ -47,7 +47,7 @@ public class FileEditor {
       return elementReader.elementWithCorrespondingValueExists(existingDocument, pathToValue, wantedValue);
    }
 
-   public boolean elementWithCorrespondingValuesExists(Document existingDocument, String pathToValues,
+   boolean elementWithCorrespondingValuesExists(Document existingDocument, String pathToValues,
          PersistenceDto receivedDto) {
       return elementReader.elementWithCorrespondingValuesExists(existingDocument, pathToValues, receivedDto);
    }
@@ -82,7 +82,7 @@ public class FileEditor {
             wantedValueName, parentElementPath);
    }
 
-   public void replaceElement(Document existingDocument, String pathToValue, String matchingElement,
+   void replaceElement(Document existingDocument, String pathToValue, String matchingElement,
          String matchingElementName, PersistenceDto receivedDto) {
       elementWriter.replaceElement(existingDocument, pathToValue, matchingElement, matchingElementName, receivedDto);
    }

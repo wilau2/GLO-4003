@@ -87,7 +87,7 @@ public class Description {
       return backyardOrientation;
    }
 
-   public boolean isChangeSignificant(Description updatedDescription, ChangeVerificator changeVerificator) {
+   boolean isChangeSignificant(Description updatedDescription, ChangeVerificator changeVerificator) {
 
       try {
          changeVerificator.verifyingChangeLevel(PERCENTAGE_OF_ACCEPTABLE_CHANGE, buildingDimensions,

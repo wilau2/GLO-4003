@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.DefaultSortingStrat
 import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.EstatesSortingStrategy;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.sorters.PriceSortingStrategy;
 
-public class SortingStrategyFactory {
+class SortingStrategyFactory {
 
    private static final String DATE_REGISTRED = "dateRegistred";
 
@@ -16,7 +16,7 @@ public class SortingStrategyFactory {
 
    private static final String PRICE = "price";
 
-   public EstatesSortingStrategy getStrategy(String strategyName) {
+   EstatesSortingStrategy getStrategy(String strategyName) {
       if (Strings.isNullOrEmpty(strategyName)) {
          return new DefaultSortingStrategy();
       } else

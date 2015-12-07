@@ -10,9 +10,9 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-public class FileAccesser {
+class FileAccesser {
 
-   public Document readXMLFile(String pathToXMLFile) throws DocumentException {
+   Document readXMLFile(String pathToXMLFile) throws DocumentException {
       File xml = new File(pathToXMLFile);
 
       SAXReader reader = new SAXReader();
@@ -20,7 +20,7 @@ public class FileAccesser {
       return reader.read(xml);
    }
 
-   public void formatAndWriteDocument(Document existingDocument, String pathToXML) throws IOException {
+   void formatAndWriteDocument(Document existingDocument, String pathToXML) throws IOException {
       OutputFormat format = OutputFormat.createPrettyPrint();
 
       XMLWriter writer = new XMLWriter(new FileWriter(pathToXML), format);

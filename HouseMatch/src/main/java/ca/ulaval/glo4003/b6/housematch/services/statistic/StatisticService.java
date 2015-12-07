@@ -23,7 +23,7 @@ public class StatisticService {
 
    private EstateRepository estateRepository;
 
-   private EstatesProcessor estateProcessor;
+   EstatesProcessor estateProcessor;
 
    @Inject
    public StatisticService(UserRepository userRepository, UserProcessor userProcessor,
@@ -54,7 +54,7 @@ public class StatisticService {
 
       return estatesSoldLastYear.retreiveNumberOfEstates();
    }
-   
+
    public HashMap<String, Integer> getNumberOfDifferentCategoryOfProperties() throws CouldNotAccessDataException {
       Estates estates = estateRepository.getAllEstates();
 

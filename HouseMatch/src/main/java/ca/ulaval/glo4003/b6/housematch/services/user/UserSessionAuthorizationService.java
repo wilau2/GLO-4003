@@ -17,7 +17,7 @@ public class UserSessionAuthorizationService {
    private static final String INVALID_ACCESS_MESSAGE = "You don't have the access to do that, "
                                                         + "be a gentleman and stay in your field of work";
 
-   public HttpServletRequest setSessionUserAuthorisation(HttpServletRequest request, User user) {
+   HttpServletRequest setSessionUserAuthorisation(HttpServletRequest request, User user) {
 
       if (user.isAdmin()) {
          request.getSession().setAttribute(LOGGED_IN_USER_ROLE, Role.ADMIN);

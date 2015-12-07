@@ -12,7 +12,7 @@ public class InactivePictureAssembler {
       return inactivePicture;
    }
 
-   public InformationPictureDto assembleInactivePictureDto(Picture inactivePicture) {
+   InformationPictureDto assembleInactivePictureDto(Picture inactivePicture) {
 
       InformationPictureDto inactivePictureDto = new InformationPictureDto(inactivePicture.getUid(),
             inactivePicture.getAddress(), inactivePicture.getName(), inactivePicture.isActive().toString());

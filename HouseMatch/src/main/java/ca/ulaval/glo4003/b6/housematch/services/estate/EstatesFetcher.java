@@ -31,7 +31,7 @@ public class EstatesFetcher {
 
    private SortingStrategyFactory sortingStrategyFactory;
 
-   public EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepository estateRepository,
+   EstatesFetcher(EstateAssemblerFactory estateAssemblerFactory, EstateRepository estateRepository,
          EstatesProcessor estatesProcessor, SortingStrategyFactory sortingStrategyFactory,
          EstateFilterFactory estateFilterFactory) {
       this.estateAssemblerFactory = estateAssemblerFactory;
