@@ -10,6 +10,10 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.ChangeVerificator;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
@@ -80,6 +84,12 @@ public class EstatesServiceTest {
    @Mock
    private ChangeVerificator changeVerificator;
 
+   @Mock
+   private EstateCorruptionVerificator estateCorruptionVerificator;
+
+   @Mock
+   private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
+
    private EstatesService estatesService;
 
    @Before
@@ -97,12 +107,13 @@ public class EstatesServiceTest {
       when(estateEditDto.getType()).thenReturn(TYPE);
       when(estateEditDto.getPrice()).thenReturn(PRICE);
 
-      estatesService = new EstatesService(estateValidator, estateAssemblerFactory, estateRepository, changeVerificator);
+      estatesService = new EstatesService(estateCorruptionVerificator, descriptionCorruptionVerificator,
+            estateValidator, estateAssemblerFactory, estateRepository, changeVerificator);
    }
 
    @Test
    public void addingAnEstateWhenEstateIsValidShouldCallAddEstateAtRepository()
-         throws InvalidEstateException, CouldNotAccessDataException {
+         throws InvalidEstateException, CouldNotAccessDataException, InvalidEstateFieldException {
       // Given no changes
 
       // When
@@ -114,7 +125,7 @@ public class EstatesServiceTest {
 
    @Test
    public void whenAddingAnEstateShouldCallGetAssemblerFromAssemblerFactory()
-         throws InvalidEstateException, CouldNotAccessDataException {
+         throws InvalidEstateException, CouldNotAccessDataException, InvalidEstateFieldException {
       // Given no changes
 
       // When
@@ -126,7 +137,7 @@ public class EstatesServiceTest {
 
    @Test
    public void editingAnEstateWhenEstateIsValidShouldCallUpdateEstateAtRepository()
-         throws CouldNotAccessDataException, EstateNotFoundException {
+         throws CouldNotAccessDataException, EstateNotFoundException, InvalidEstateFieldException {
       // Given no changes
 
       // When
@@ -138,7 +149,7 @@ public class EstatesServiceTest {
 
    @Test(expected = InvalidEstateException.class)
    public void addingEstateWhenValidatingInvalidEstateShouldThrowException()
-         throws InvalidEstateException, CouldNotAccessDataException {
+         throws InvalidEstateException, CouldNotAccessDataException, InvalidEstateFieldException {
       // Given
       doThrow(new InvalidEstateException("")).when(estateValidator).validate(estateDto);
 
@@ -149,8 +160,9 @@ public class EstatesServiceTest {
    }
 
    @Test
-   public void whenAddingDescriptionShouldAssembleTheDescription() throws InvalidDescriptionException,
-         InvalidEstateException, CouldNotAccessDataException, EstateNotFoundException {
+   public void whenAddingDescriptionShouldAssembleTheDescription()
+         throws InvalidDescriptionException, InvalidEstateException, CouldNotAccessDataException,
+         EstateNotFoundException, InvalidDescriptionFieldException {
       // given no changes
 
       // when
@@ -161,7 +173,7 @@ public class EstatesServiceTest {
 
    @Test
    public void whenEditingDescriptionShouldCallUpdateDescriptionOnEstate()
-         throws CouldNotAccessDataException, EstateNotFoundException {
+         throws CouldNotAccessDataException, EstateNotFoundException, InvalidDescriptionFieldException {
       // Given
       when(estateAssembler.assembleDescription(descriptionDto)).thenReturn(description);
 
@@ -170,6 +182,31 @@ public class EstatesServiceTest {
 
       // Then
       verify(estate, times(1)).editDescription(description, changeVerificator);
+   }
+
+   @Test
+   public void wehnEditingDescriptionShouldCallDescriptionCorruptionVerificator()
+         throws CouldNotAccessDataException, EstateNotFoundException, InvalidDescriptionFieldException {
+      // Given no changes
+
+      // When
+      estatesService.editDescription(ADDRESS, descriptionDto);
+
+      // Then
+      verify(descriptionCorruptionVerificator, times(1)).validateDescriptionCorruption(descriptionDto);
+   }
+
+   @Test(expected = InvalidDescriptionFieldException.class)
+   public void editingDescriptionWhenCorruptionVerificatorThrowInvalidFieldExceptionShouldThrowInvalidFieldException()
+         throws CouldNotAccessDataException, EstateNotFoundException, InvalidDescriptionFieldException {
+      // Given
+      doThrow(new InvalidDescriptionFieldException("")).when(descriptionCorruptionVerificator)
+            .validateDescriptionCorruption(descriptionDto);
+
+      // When
+      estatesService.editDescription(ADDRESS, descriptionDto);
+
+      // Then an invalidDescriptionException is thrown
    }
 
    private void configureDescriptionTests() {
@@ -235,5 +272,55 @@ public class EstatesServiceTest {
 
       // Then
       verify(estate, times(1)).buy();
+   }
+
+   @Test
+   public void whenEditingEstateShouldCallEstateAntiCorruption()
+         throws InvalidEstateFieldException, EstateNotFoundException, CouldNotAccessDataException {
+      // Given no changes
+
+      // When
+      estatesService.editEstate(ADDRESS, estateEditDto);
+
+      // Then
+      verify(estateCorruptionVerificator, times(1)).validateEstateEditCorruption(estateEditDto);
+   }
+
+   @Test(expected = InvalidEstateFieldException.class)
+   public void editingEstateWhenCorruptionVerificatorThrowExceptionShouldThrowException()
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidEstateFieldException {
+      // Given
+      doThrow(new InvalidEstateFieldException("")).when(estateCorruptionVerificator)
+            .validateEstateEditCorruption(estateEditDto);
+
+      // When
+      estatesService.editEstate(ADDRESS, estateEditDto);
+
+      // Then an invalid estate field exception is thrown
+   }
+
+   @Test
+   public void whenAddingEstateShouldCallEstateAntiCorruptionVerificator()
+         throws InvalidEstateException, CouldNotAccessDataException, InvalidEstateFieldException {
+      // Given no changes
+
+      // When
+      estatesService.addEstate(estateDto);
+
+      // Then
+      verify(estateCorruptionVerificator, times(1)).validateEstateCorruption(estateDto);
+   }
+
+   @Test(expected = InvalidEstateFieldException.class)
+   public void addingEstateWhenCorruptionVerificatorThrowInvalidFieldExceptionShouldThrowException()
+         throws InvalidEstateException, CouldNotAccessDataException, InvalidEstateFieldException {
+      // Given
+      doThrow(new InvalidEstateFieldException("")).when(estateCorruptionVerificator)
+            .validateEstateCorruption(estateDto);
+
+      // When
+      estatesService.addEstate(estateDto);
+
+      // Then an invalid estate field exception is thrown
    }
 }

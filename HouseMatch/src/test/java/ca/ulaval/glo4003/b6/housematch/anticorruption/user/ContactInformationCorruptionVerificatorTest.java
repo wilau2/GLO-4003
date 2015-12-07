@@ -140,4 +140,15 @@ public class ContactInformationCorruptionVerificatorTest {
 
       // Then an InvalidUserSignupFieldException is thrown
    }
+
+   @Test
+   public void verificatingUserSignupCorruptionWhenUserIsValidShouldNotThrowException()
+         throws InvalidContactInformationFieldException {
+      // Given no changes
+
+      // When
+      contactInformationCorruptionVerificator.validateContactInformationCorruption(contactInformationDto);
+
+      // Then no exception is thrown
+   }
 }

@@ -2,6 +2,10 @@ package ca.ulaval.glo4003.b6.housematch.services.estate;
 
 import javax.inject.Inject;
 
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.DescriptionCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.EstateCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidDescriptionFieldException;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.ChangeVerificator;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Description;
 import ca.ulaval.glo4003.b6.housematch.domain.estate.Estate;
@@ -27,17 +31,29 @@ public class EstatesService {
 
    private ChangeVerificator changeVerificator;
 
-   @Inject
-   public EstatesService(EstateValidator estateValidator, EstateAssemblerFactory estateAssemblerFactory,
-         EstateRepository estateRepository, ChangeVerificator changeVerificator) {
+   private EstateCorruptionVerificator estateCorruptionVerificator;
 
+   private DescriptionCorruptionVerificator descriptionCorruptionVerificator;
+
+   @Inject
+   public EstatesService(EstateCorruptionVerificator estateCorruptionVerificator,
+         DescriptionCorruptionVerificator descriptionCorruptionVerificator, EstateValidator estateValidator,
+         EstateAssemblerFactory estateAssemblerFactory, EstateRepository estateRepository,
+         ChangeVerificator changeVerificator) {
+
+      this.estateCorruptionVerificator = estateCorruptionVerificator;
+      this.descriptionCorruptionVerificator = descriptionCorruptionVerificator;
       this.estateValidator = estateValidator;
       this.estateAssemblerFactory = estateAssemblerFactory;
       this.estateRepository = estateRepository;
       this.changeVerificator = changeVerificator;
    }
 
-   public void addEstate(EstateDto estateDto) throws InvalidEstateException, CouldNotAccessDataException {
+   public void addEstate(EstateDto estateDto)
+         throws InvalidEstateException, CouldNotAccessDataException, InvalidEstateFieldException {
+
+      estateCorruptionVerificator.validateEstateCorruption(estateDto);
+
       validateEstate(estateDto);
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
 
@@ -51,7 +67,9 @@ public class EstatesService {
    }
 
    public void editEstate(String address, EstateEditDto estateEditDto)
-         throws EstateNotFoundException, CouldNotAccessDataException {
+         throws EstateNotFoundException, CouldNotAccessDataException, InvalidEstateFieldException {
+      estateCorruptionVerificator.validateEstateEditCorruption(estateEditDto);
+
       Estate estate = estateRepository.getEstateByAddress(address);
 
       estate.editType(estateEditDto.getType());
@@ -61,8 +79,8 @@ public class EstatesService {
    }
 
    public void editDescription(String address, DescriptionDto descriptionDto)
-         throws CouldNotAccessDataException, EstateNotFoundException {
-
+         throws CouldNotAccessDataException, EstateNotFoundException, InvalidDescriptionFieldException {
+      descriptionCorruptionVerificator.validateDescriptionCorruption(descriptionDto);
       EstateAssembler estateAssembler = estateAssemblerFactory.createEstateAssembler();
       Description description = estateAssembler.assembleDescription(descriptionDto);
 

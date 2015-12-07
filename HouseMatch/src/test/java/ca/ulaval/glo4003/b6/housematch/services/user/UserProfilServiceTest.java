@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.b6.housematch.services.user;
 
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -15,6 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.ContactInformationCorruptionVerificator;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidContactInformationFieldException;
+import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.ContactInformation;
 import ca.ulaval.glo4003.b6.housematch.domain.user.User;
 import ca.ulaval.glo4003.b6.housematch.domain.user.UserRepository;
@@ -60,9 +64,13 @@ public class UserProfilServiceTest {
 
    private List<UserObserver> observers;
 
+   @Mock
+   private ContactInformationCorruptionVerificator contactInformationCorruptionVerificator;
+
    @Before
    public void setup() throws UserNotFoundException, CouldNotAccessDataException {
       MockitoAnnotations.initMocks(this);
+
       configureUserAssembler();
       configureUserRepository();
       configureUserDetailedDto();
@@ -71,7 +79,8 @@ public class UserProfilServiceTest {
       observers = new ArrayList<>();
       observers.add(userObserver);
 
-      userProfilService = new UserProfilService(userRepository, contactInformationAssembler, observers);
+      userProfilService = new UserProfilService(contactInformationCorruptionVerificator, userRepository,
+            contactInformationAssembler, observers);
    }
 
    private void configureContactInformation() {
@@ -100,8 +109,8 @@ public class UserProfilServiceTest {
    }
 
    @Test
-   public void givenValidUserDtoWhenUpdateThenShouldDelegateToUserRepository()
-         throws CouldNotAccessDataException, UserNotFoundException, UserNotifyingException {
+   public void givenValidUserDtoWhenUpdateThenShouldDelegateToUserRepository() throws CouldNotAccessDataException,
+         UserNotFoundException, UserNotifyingException, InvalidContactInformationFieldException {
       // Given
 
       // When
@@ -112,8 +121,8 @@ public class UserProfilServiceTest {
    }
 
    @Test
-   public void givenValidUserDtoWhenUpdateThenShouldDelegateAssembling()
-         throws CouldNotAccessDataException, UserNotFoundException, UserNotifyingException {
+   public void givenValidUserDtoWhenUpdateThenShouldDelegateAssembling() throws CouldNotAccessDataException,
+         UserNotFoundException, UserNotifyingException, InvalidContactInformationFieldException {
       // Given
 
       // When
@@ -124,8 +133,8 @@ public class UserProfilServiceTest {
    }
 
    @Test
-   public void givenValidUserDtoWithNewEmailShouldCallUpdateOnObserver()
-         throws UserNotifyingException, CouldNotAccessDataException, UserNotFoundException {
+   public void givenValidUserDtoWithNewEmailShouldCallUpdateOnObserver() throws UserNotifyingException,
+         CouldNotAccessDataException, UserNotFoundException, InvalidContactInformationFieldException {
       // Given
       configureUpdateWithNewEmail();
       when(user.isEmailChanged(contactInformationNewEmail)).thenReturn(true);
@@ -144,8 +153,8 @@ public class UserProfilServiceTest {
    }
 
    @Test(expected = CouldNotAccessDataException.class)
-   public void givenInvalidDataAccessWhenGettingUserShouldReturnException()
-         throws CouldNotAccessDataException, UserNotFoundException, UserNotifyingException {
+   public void givenInvalidDataAccessWhenGettingUserShouldReturnException() throws CouldNotAccessDataException,
+         UserNotFoundException, UserNotifyingException, InvalidContactInformationFieldException {
       // Given
       doThrow(new CouldNotAccessDataException("", null)).when(userRepository).getUser(USERNAME);
 
@@ -156,8 +165,8 @@ public class UserProfilServiceTest {
    }
 
    @Test(expected = UserNotFoundException.class)
-   public void givenUsernameWhenGettingUserShouldReturnException()
-         throws CouldNotAccessDataException, UserNotFoundException, UserNotifyingException {
+   public void givenUsernameWhenGettingUserShouldReturnException() throws CouldNotAccessDataException,
+         UserNotFoundException, UserNotifyingException, InvalidContactInformationFieldException {
       // Given
       doThrow(new UserNotFoundException("")).when(userRepository).getUser(USERNAME);
 
@@ -168,8 +177,8 @@ public class UserProfilServiceTest {
    }
 
    @Test(expected = CouldNotAccessDataException.class)
-   public void givenInvalidDataAccessWhenUpdatingUserShouldReturnException()
-         throws CouldNotAccessDataException, UserNotFoundException, UserNotifyingException {
+   public void givenInvalidDataAccessWhenUpdatingUserShouldReturnException() throws CouldNotAccessDataException,
+         UserNotFoundException, UserNotifyingException, InvalidContactInformationFieldException {
       // Given
       doThrow(new CouldNotAccessDataException("", null)).when(userRepository).update(user);
 
@@ -179,4 +188,30 @@ public class UserProfilServiceTest {
       // Then Throws exception
    }
 
+   @Test(expected = InvalidContactInformationFieldException.class)
+   public void givenValidUserDetailedDtoWhenUpdateContactInformationShouldNotThrowException()
+         throws CouldNotAccessDataException, UserNotFoundException, InvalidUserSignupFieldException,
+         InvalidContactInformationFieldException, UserNotifyingException {
+      // Given
+      doThrow(new InvalidContactInformationFieldException("")).when(contactInformationCorruptionVerificator)
+            .validateContactInformationCorruption(contactInformationDto);
+
+      // When
+      userProfilService.update(userDto);
+
+      // Then an invalid contact information field exception is thrown
+   }
+
+   @Test
+   public void givenValidUserDetailedDtoWhenUpdateContactInformationShouldDelageCorruptionValidation()
+         throws CouldNotAccessDataException, UserNotFoundException, InvalidUserSignupFieldException,
+         InvalidContactInformationFieldException, UserNotifyingException {
+      // Given no changes
+
+      // When
+      userProfilService.update(userDto);
+
+      // Then
+      verify(contactInformationCorruptionVerificator).validateContactInformationCorruption(contactInformationDto);
+   }
 }

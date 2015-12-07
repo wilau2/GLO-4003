@@ -18,18 +18,9 @@ import ca.ulaval.glo4003.b6.housematch.messaging.MailBuilder;
 import ca.ulaval.glo4003.b6.housematch.messaging.MailSender;
 import ca.ulaval.glo4003.b6.housematch.messaging.exceptions.MessageBuilderException;
 import ca.ulaval.glo4003.b6.housematch.messaging.exceptions.MessageCantBeSentException;
-import ca.ulaval.glo4003.b6.housematch.services.user.MailSenderObserver;
-import ca.ulaval.glo4003.b6.housematch.services.user.MessageBuilderFactory;
-import ca.ulaval.glo4003.b6.housematch.services.user.MessageSenderFactory;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
 
 public class MailSenderObserverTest {
-
-   @Mock
-   private MessageBuilderFactory messageBuilderFactory;
-
-   @Mock
-   private MessageSenderFactory messageSenderFactory;
 
    @InjectMocks
    private MailSenderObserver mailSenderObserver;
@@ -49,14 +40,8 @@ public class MailSenderObserverTest {
    @Before
    public void setup() throws MessageBuilderException {
       MockitoAnnotations.initMocks(this);
-      configureFactory();
+
       configureMessageBuilder();
-   }
-
-   private void configureFactory() {
-      given(messageBuilderFactory.newInstance()).willReturn(mailBuilder);
-      given(messageSenderFactory.newInstance()).willReturn(mailSender);
-
    }
 
    private void configureMessageBuilder() throws MessageBuilderException {

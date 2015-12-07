@@ -2,8 +2,10 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.eq;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,15 +20,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 
-import ca.ulaval.glo4003.b6.housematch.anticorruption.user.UserProfilCorruptionVerificator;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidContactInformationFieldException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.user.exceptions.InvalidUserSignupFieldException;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.domain.user.exceptions.UserNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.UserDto;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.UserFetcher;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserProfilService;
+import ca.ulaval.glo4003.b6.housematch.services.user.UserSessionAuthorizationService;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.InvalidAccessException;
 import ca.ulaval.glo4003.b6.housematch.services.user.exceptions.UserNotifyingException;
 
@@ -41,7 +43,7 @@ public class ProfilUserControllerTest {
    private UserSessionAuthorizationService userAuthorizationService;
 
    @Mock
-   private UserProfilCorruptionVerificator userProfilCorruptionVerificator;
+   private UserProfilService userProfilService;
 
    @Mock
    private UserFetcher userFetcher;
@@ -184,7 +186,7 @@ public class ProfilUserControllerTest {
       profilUserController.updateProfil(request, userDto);
 
       // Then
-      verify(userProfilCorruptionVerificator, times(1)).update(userDto);
+      verify(userProfilService, times(1)).update(userDto);
    }
 
    @Test

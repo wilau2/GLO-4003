@@ -6,56 +6,27 @@ import com.google.common.base.Strings;
 
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.AddressFieldInvalidException;
 import ca.ulaval.glo4003.b6.housematch.anticorruption.estate.exceptions.InvalidEstateFieldException;
-import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.dto.AddressDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateDto;
 import ca.ulaval.glo4003.b6.housematch.dto.EstateEditDto;
-import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
-import ca.ulaval.glo4003.b6.housematch.services.estate.EstatesService;
-import ca.ulaval.glo4003.b6.housematch.services.estate.exceptions.InvalidEstateException;
 
 public class EstateCorruptionVerificator {
-
-   private EstatesService estateService;
 
    private AddressCorruptionVerificator addressCorruptionVerificator;
 
    @Inject
-   public EstateCorruptionVerificator(EstatesService estateService,
-         AddressCorruptionVerificator addressCorruptionVerificator) {
-      this.estateService = estateService;
+   public EstateCorruptionVerificator(AddressCorruptionVerificator addressCorruptionVerificator) {
       this.addressCorruptionVerificator = addressCorruptionVerificator;
    }
 
-   public void addEstate(EstateDto estateDto) throws InvalidEstateFieldException, CouldNotAccessDataException {
-      validateEstateCorruption(estateDto);
-
-      try {
-         estateService.addEstate(estateDto);
-      } catch (InvalidEstateException e) {
-         throw new InvalidEstateFieldException(e.getMessage(), e);
-      }
-   }
-
-   public void editEstate(String address, EstateEditDto estateEditDto)
-         throws InvalidEstateFieldException, CouldNotAccessDataException, EstateNotFoundException {
-      validateEstateEditCorruption(estateEditDto);
-
-      try {
-         estateService.editEstate(address, estateEditDto);
-      } catch (EstateNotFoundException e) {
-         throw new EstateNotFoundException(e.getMessage(), e);
-      }
-   }
-
-   private void validateEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {
+   public void validateEstateCorruption(EstateDto estateDto) throws InvalidEstateFieldException {
       validateAddress(estateDto.getAddress());
       validateType(estateDto.getType());
       validatePrice(estateDto.getPrice());
       validateSeller(estateDto.getSeller());
    }
 
-   private void validateEstateEditCorruption(EstateEditDto estateEditDto) throws InvalidEstateFieldException {
+   public void validateEstateEditCorruption(EstateEditDto estateEditDto) throws InvalidEstateFieldException {
       validateType(estateEditDto.getType());
       validatePrice(estateEditDto.getPrice());
    }
