@@ -2,25 +2,28 @@ package ca.ulaval.glo4003.b6.housematch.services.picture;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.ApprovalPictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Pictures;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
-import ca.ulaval.glo4003.b6.housematch.services.picture.PictureApprobationService;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstateChangeObserver;
 
 public class PictureApprobationServiceTest {
 
@@ -36,7 +39,6 @@ public class PictureApprobationServiceTest {
    @Mock
    private PictureRepository pictureRepository;
 
-   @InjectMocks
    PictureApprobationService pictureApprobationService;
 
    @Mock
@@ -59,6 +61,12 @@ public class PictureApprobationServiceTest {
    @Mock
    private Iterator<Picture> iterator;
 
+   @Mock
+   private EstateChangeObserver estateChangeObserver;
+
+   @Mock
+   private List<EstateChangeObserver> listOfEstateObserver;
+
    @Before
    public void setup() throws CouldNotAccessDataException {
       MockitoAnnotations.initMocks(this);
@@ -66,6 +74,11 @@ public class PictureApprobationServiceTest {
       configurePictures();
       configurePictureRepository();
       configurePicture();
+
+      listOfEstateObserver = new ArrayList<>();
+
+      pictureApprobationService = new PictureApprobationService(approvalPictureRepository, pictureRepository,
+            listOfEstateObserver);
    }
 
    private void configureApprovalPictureRepository() throws CouldNotAccessDataException {
@@ -138,8 +151,9 @@ public class PictureApprobationServiceTest {
 
    @Test
    public void givenValidRepositoryWhenApprouvePicturesShouldDelegate()
-         throws CouldNotAccessDataException, UUIDAlreadyExistsException {
+         throws CouldNotAccessDataException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given
+      congigurePictueListWithOneElement();
 
       // When
       pictureApprobationService.approvePictures(pictureUids);
@@ -176,4 +190,26 @@ public class PictureApprobationServiceTest {
       verify(approvalPictureRepository).deletePicture(UID);
       verify(pictureRepository).deletePicture(NAME, ADDRESS);
    }
+
+   @Test
+   public void whenApprovingPictureShouldCallEstatesChangeObserver()
+         throws CouldNotAccessDataException, UUIDAlreadyExistsException, EstateNotFoundException {
+      // Given
+      int wantedNumberOfEstatesObserver = 1;
+      configureEstatesChangeObserver(wantedNumberOfEstatesObserver);
+      congigurePictueListWithOneElement();
+
+      // When
+      pictureApprobationService.approvePictures(pictureUids);
+
+      // Then
+      verify(estateChangeObserver, times(wantedNumberOfEstatesObserver)).notify(ADDRESS);
+   }
+
+   private void configureEstatesChangeObserver(int wantedNumberOfEstatesObserver) {
+      for (int i = 0; i < wantedNumberOfEstatesObserver; i++) {
+         listOfEstateObserver.add(estateChangeObserver);
+      }
+   }
+
 }

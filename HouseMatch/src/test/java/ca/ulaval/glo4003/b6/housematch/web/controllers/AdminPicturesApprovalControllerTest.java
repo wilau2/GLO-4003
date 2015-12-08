@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.b6.housematch.web.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.servlet.ModelAndView;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
@@ -144,8 +146,8 @@ public class AdminPicturesApprovalControllerTest {
    }
 
    @Test
-   public void whenApprouvingPicturesShouldRedirectToPendingApprovalPicturesPage()
-         throws CouldNotAccessDataException, InvalidAccessException, UUIDAlreadyExistsException {
+   public void whenApprouvingPicturesShouldRedirectToPendingApprovalPicturesPage() throws CouldNotAccessDataException,
+         InvalidAccessException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given
       String expectedRedirection = "redirect:/admin/pictures/";
 
@@ -158,8 +160,8 @@ public class AdminPicturesApprovalControllerTest {
    }
 
    @Test(expected = InvalidAccessException.class)
-   public void appouvingPicturesWhenUserIsUnauthorizedShouldThrowException()
-         throws InvalidAccessException, CouldNotAccessDataException, UUIDAlreadyExistsException {
+   public void appouvingPicturesWhenUserIsUnauthorizedShouldThrowException() throws InvalidAccessException,
+         CouldNotAccessDataException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given
       doThrow(new InvalidAccessException("")).when(userAuthorizationService).verifySessionIsAllowed(request,
             EXPECTED_ROLE);
@@ -171,8 +173,8 @@ public class AdminPicturesApprovalControllerTest {
    }
 
    @Test
-   public void whenApprouvingPicturesShouldCallInactivePicturesApprover()
-         throws CouldNotAccessDataException, InvalidAccessException, UUIDAlreadyExistsException {
+   public void whenApprouvingPicturesShouldCallInactivePicturesApprover() throws CouldNotAccessDataException,
+         InvalidAccessException, UUIDAlreadyExistsException, EstateNotFoundException {
       // Given
       when(inactivePictureDto.getUidsToList()).thenReturn(approvalPictureUids);
 
