@@ -26,28 +26,6 @@
     </description> 
   </estate>  
   <estate> 
-    <seller>myseller</seller>  
-    <address>0-1234-Rue des Bisous-PatateLand-Canada-Patate</address>  
-    <price>100000</price>  
-    <bought>false</bought>  
-    <type>MULTIPLEX</type>  
-    <date_registered>2015-11-18T18:09:09.588</date_registered>  
-    <date_modified>2015-12-03T13:55:57.025</date_modified>  
-    <price_history/>  
-    <description> 
-      <numberOfBedRooms>0</numberOfBedRooms>  
-      <municipalValuation>0</municipalValuation>  
-      <dimensionsBuilding/>  
-      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
-      <numberOfRooms>0</numberOfRooms>  
-      <yearsOfConstruction>0</yearsOfConstruction>  
-      <backyardFaces>46mille</backyardFaces>  
-      <backyardFaces/>  
-      <numberOfLevel>0</numberOfLevel>  
-      <numberOfBathrooms>0</numberOfBathrooms> 
-    </description> 
-  </estate>  
-  <estate> 
     <seller>seller</seller>  
     <address>0-2222-222-quebec-canada-g1l1s8</address>  
     <date_modified>2015-12-03T13:55:57.025</date_modified>  
@@ -154,23 +132,44 @@
       <numberOfBathrooms>1</numberOfBathrooms> 
     </description> 
   </estate>  
+  <estate> 
+    <seller>antoine.lefrancois.qc@gmail.com</seller>  
+    <address>0-19-Rue des patates-Canada-Canadae-1234</address>  
+    <date_modified>2015-12-07T17:47:33.698</date_modified>  
+    <price>3719</price>  
+    <bought>false</bought>  
+    <type>APPARTMENT</type>  
+    <date_registered>2015-12-07T17:47:01.803</date_registered>  
+    <price_history>3600-</price_history>  
+    <description> 
+      <numberOfBedRooms>0</numberOfBedRooms>  
+      <municipalValuation>0</municipalValuation>  
+      <dimensionsBuilding>fewafa</dimensionsBuilding>  
+      <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>  
+      <numberOfRooms>0</numberOfRooms>  
+      <yearsOfConstruction>0</yearsOfConstruction>  
+      <backyardFaces>North West</backyardFaces>  
+      <numberOfLevel>0</numberOfLevel>  
+      <numberOfBathrooms>0</numberOfBathrooms> 
+    </description> 
+  </estate>  
   <estate>
-    <seller>antoine.lefrancois.qc@gmail.com</seller>
-    <address>0-19-Rue des patates-Canada-Canadae-1234</address>
-    <date_modified>2015-12-07T17:47:33.698</date_modified>
-    <price>3719</price>
+    <seller>myseller</seller>
+    <address>0-1234-Rue des Bisous-PatateLand-Canada-Patate</address>
+    <date_modified>2015-12-08T10:56:55.296</date_modified>
+    <price>100000</price>
     <bought>false</bought>
-    <type>APPARTMENT</type>
-    <date_registered>2015-12-07T17:47:01.803</date_registered>
-    <price_history>3600-</price_history>
+    <type>MULTIPLEX</type>
+    <date_registered>2015-11-18T18:09:09.588</date_registered>
+    <price_history></price_history>
     <description>
       <numberOfBedRooms>0</numberOfBedRooms>
       <municipalValuation>0</municipalValuation>
-      <dimensionsBuilding>fewafa</dimensionsBuilding>
+      <dimensionsBuilding></dimensionsBuilding>
       <livingSpaceAreaSquareMeter>0</livingSpaceAreaSquareMeter>
       <numberOfRooms>0</numberOfRooms>
       <yearsOfConstruction>0</yearsOfConstruction>
-      <backyardFaces>North West</backyardFaces>
+      <backyardFaces></backyardFaces>
       <numberOfLevel>0</numberOfLevel>
       <numberOfBathrooms>0</numberOfBathrooms>
     </description>

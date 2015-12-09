@@ -159,6 +159,16 @@
     </beans:bean>
 
     <beans:bean
+        id="estateChangeModifiedDateObserver"
+        class="ca.ulaval.glo4003.b6.housematch.services.estate.EstateModifiedDateObserver"
+        scope="session"
+    >
+        <beans:constructor-arg
+            name="estateRepository"
+            ref="estateRepository" />
+    </beans:bean>
+
+    <beans:bean
         id="inFilePictureRepository"
         class="ca.ulaval.glo4003.b6.housematch.persistence.picture.InFilePictureRepository"
     >
@@ -297,6 +307,7 @@
     <beans:bean
         id="pictureApprobationService"
         class="ca.ulaval.glo4003.b6.housematch.services.picture.PictureApprobationService"
+        scope="session"
     >
         <beans:constructor-arg
             name="InactivePictureRepository"
@@ -304,6 +315,11 @@
         <beans:constructor-arg
             name="PictureRepository"
             ref="inFilePictureRepository" />
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:ref bean="estateChangeModifiedDateObserver" />
+            </beans:list>
+        </beans:constructor-arg>
     </beans:bean>
 
     <beans:bean

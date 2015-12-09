@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.user.Role;
 import ca.ulaval.glo4003.b6.housematch.dto.InformationPictureDto;
@@ -59,7 +60,8 @@ public class AdminPicturesApprovalController {
 
    @RequestMapping(value = "/admin/pictures", params = "approve", method = RequestMethod.POST)
    public String approveInactivesPictures(HttpServletRequest request, InformationPictureDto inactivePictureDto)
-         throws CouldNotAccessDataException, InvalidAccessException, UUIDAlreadyExistsException {
+         throws CouldNotAccessDataException, InvalidAccessException, UUIDAlreadyExistsException,
+         EstateNotFoundException {
       userSessionAuthorizationService.verifySessionIsAllowed(request, EXPECTED_ROLE);
 
       inactivePictureApprover.approvePictures(inactivePictureDto.getUidsToList());

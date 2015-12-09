@@ -4,12 +4,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import ca.ulaval.glo4003.b6.housematch.domain.estate.exceptions.EstateNotFoundException;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.ApprovalPictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Picture;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.b6.housematch.domain.picture.Pictures;
 import ca.ulaval.glo4003.b6.housematch.persistence.exceptions.CouldNotAccessDataException;
 import ca.ulaval.glo4003.b6.housematch.persistence.picture.UUIDAlreadyExistsException;
+import ca.ulaval.glo4003.b6.housematch.services.estate.EstateChangeObserver;
 
 public class PictureApprobationService {
 
@@ -17,11 +19,14 @@ public class PictureApprobationService {
 
    private PictureRepository pictureRepository;
 
+   private List<EstateChangeObserver> estatesObserver;
+
    @Inject
    public PictureApprobationService(ApprovalPictureRepository inactivePictureRepository,
-         PictureRepository pictureRepository) {
+         PictureRepository pictureRepository, List<EstateChangeObserver> estatesObserver) {
       this.approvalPictureRepository = inactivePictureRepository;
       this.pictureRepository = pictureRepository;
+      this.estatesObserver = estatesObserver;
    }
 
    public List<Picture> getAllInactivePictures() throws CouldNotAccessDataException {
@@ -38,11 +43,23 @@ public class PictureApprobationService {
    }
 
    public void approvePictures(List<String> approvalPictureUids)
-         throws CouldNotAccessDataException, UUIDAlreadyExistsException {
+         throws CouldNotAccessDataException, UUIDAlreadyExistsException, EstateNotFoundException {
       Pictures pictures = approvalPictureRepository.getAllPictures();
       List<Picture> activatedPictures = pictures.activatePicturesFromUids(approvalPictureUids);
 
       approvalPictureRepository.updatePictures(activatedPictures);
+
+      notifyEstatesChanged(activatedPictures);
+   }
+
+   private void notifyEstatesChanged(List<Picture> activatedPictures)
+         throws CouldNotAccessDataException, EstateNotFoundException {
+
+      for (Picture picture : activatedPictures) {
+         for (EstateChangeObserver estateChangeObserver : estatesObserver) {
+            estateChangeObserver.notify(picture.getAddress());
+         }
+      }
    }
 
    public void unapprovePictures(List<String> approvalPictureUids) throws CouldNotAccessDataException {
